@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifacts>
+    <artifact name="org.wso2.carbon.analytics.is" version="1.0.0" type="carbon/application">
+        <!-- Gadgets -->
+        <dependency artifact="GadgetCommons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="GadgetDateRangePicker" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="GadgetAreaChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="GadgetHorizontalBarChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="GadgetMessageTable" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="GadgetUserPreferences" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <!-- Dashboard Definition -->
+    </artifact>
+</artifacts>

@@ -1,0 +1,20 @@
+{
+  "id": "Date_Range_Picker",
+  "title": "Date Range Picker",
+  "type": "gadget",
+  "category": "Widgets",
+  "thumbnail": "store://gadget/Date_Range_Picker/index.png",
+  "data": {
+    "url": "store://gadget/Date_Range_Picker/index.xml"
+  },
+  "styles": {
+    "borders": false,
+    "title": false
+  },
+    "notify": {
+        "publisher": {
+            "type": "dateRange",
+            "description": "This notifies date ranges generated in Date Range Picker"
+        }
+    }
+}

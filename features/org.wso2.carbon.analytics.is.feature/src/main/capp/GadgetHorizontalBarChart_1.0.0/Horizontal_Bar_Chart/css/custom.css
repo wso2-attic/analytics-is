@@ -1,0 +1,72 @@
+.pagination {
+    margin: 0 0 10px;
+    height: 15px;
+    display: block;
+}
+
+.pagination ul > li > a, .pagination ul > li > span {
+    padding: 2px 6px;
+    line-height: 10px;
+    border: none;
+}
+
+.twitter-typeahead > pre {
+    display: none;
+}
+
+.typeahead.tt-hint {
+    margin-bottom: 0;
+}
+
+#autocomplete-search-box .typeahead{
+    vertical-align: middle !important;
+}
+
+span.twitter-typeahead {
+    margin: 0;
+    padding: 0;
+}
+
+.twitter-typeahead {
+    width: 80%;
+}
+
+input.typeahead.tt-input{
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+input.typeahead.tt-hint{
+    width: 100%;
+}
+
+#button-group {
+    float: right;
+    padding: 0px;
+    width: 20%;
+    display: table-row;
+}
+
+#add-filter {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    height: 20px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 12px
+}
+
+#remove-filter{
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    height: 20px;
+    width: 20px;
+    padding: 0px;
+    font-size: 12px;
+    text-align: center;
+    line-height: 12px;
+    display:none;
+}
