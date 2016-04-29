@@ -2,7 +2,7 @@
 <Module>
     <ModulePrefs title="Publisher" description="Publisher">
         <Require feature="pubsub-2"/>
-        <Require feature="dynamic-height"/>
+        <Require feature="dynamic-height"/>        
         <Require feature="setprefs"/>
     </ModulePrefs>
     <UserPref name="role" display_name="Gadet Role" required="true" />
@@ -37,24 +37,18 @@
         <body>
 
             <div class="row no-gutter">
-                <div class="col-6">
+                <div class="col-5">
                     <div id="canvas" style="height:90%;"></div>
                 </div>
                 <div class="col-2 stats-total add-padding-top-1x">
                     <h2 style="text-align: center;"><b>Total</b> login attempts <span id="title"></span></h2>
                     <h1 id="totalCount" style="text-align: center;"></h1>
+                    <div id="donutDiv"></div>
                 </div>
-                <div class="col-4 clearfix">
+                <div class="col-5 clearfix">
                     <div class="pull-right clearfix">
                         <div class="pull-left arc-chart">
-                            <div id="dChartTrue"></div>
-                            <div class="chart-label-count"><span id="successCount"></span> Requests</div>
-                            <div class="chart-label">Success Rate</div>
-                        </div>
-                        <div class="pull-left arc-chart">
-                            <div id="dChartFalse"></div>
-                            <div class="chart-label-count"><span id="failedCount"></span> Requests</div>
-                            <div class="chart-label">Failure Rate</div>
+                            <div id="mapDiv"></div>
                         </div>
                     </div>
                 </div>

@@ -8,12 +8,13 @@
 }
 
 .stats-total h1 {
-    font-size: 50px;
+    font-size: 40;
     margin-top: -11px;
 }
 
 .stats-total h2 {
-    font-size: 28px;
+    font-size: 18px;
+    margin-top: -5px;
 }
 
 .stats-breakdown h1 {
@@ -48,7 +49,7 @@ svg.marks .mark-group .background {
 
 .chart-breakdown {
     margin: 40px 0;
-    width: 100px;
+    width: 80px;
     text-align: center;
     color: #A9ABAF;
 }

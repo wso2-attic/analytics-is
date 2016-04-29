@@ -11,6 +11,7 @@ var charts = [{
     "chartConfig":{
         "x":"timeStamp",
         "maxLength":"3000",
+        "legend" : false,
         range:"true",
         "yTitle":"Authentication Attempts",
         "xTitle":"Time",
@@ -20,7 +21,7 @@ var charts = [{
             "top":30,
             "left":45,
             "bottom":38,
-            "right":100
+            "right":10
         },
         "charts":[
             {

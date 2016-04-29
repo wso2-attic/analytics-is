@@ -1106,7 +1106,10 @@ function getLineMark(config, metadata){
 
     dataTable.push(getTopoJson(config,this.metadata));
     predicates.push(getMapPredicates());
-    legends.push(getMapLegends(config,this.metadata));
+
+    if (config.legend) {
+        legends.push(getMapLegends(config,this.metadata));
+    }
 
     var cScale = {
         "name": "color",
