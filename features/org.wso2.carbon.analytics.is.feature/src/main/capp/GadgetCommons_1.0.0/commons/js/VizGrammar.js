@@ -30,7 +30,7 @@ var arc = function(dataTable, config) {
                                 {
                                   "type": "formula",
                                   "field": "percentage",
-                                  "expr": "datum."+this.metadata.names[config.x]+" / 360 * 100"
+                                  "expr": "datum."+this.metadata.names[config.x]+" "
                                 }];
       
       var scales =  []; 
@@ -47,12 +47,21 @@ var arc = function(dataTable, config) {
                     "range": config.colorScale
                       };
       scales.push(colorScale);
-      marks.push(getPieMark(config, this.metadata));
 
-      if (config.percentage) {
+
+      if (config.percentage && 
+        (config.mode == "pie" || config.mode == "donut")) {
         marks.push(getPieText(config, this.metadata));
+      } else if (config.percentage) {
+        dataTable.push(    
+            {
+          "name": "arc",
+          "values": [{"type": "YES"}]
+        });
+        marks.push(getPieMidText(config, this.metadata));;
       }
 
+      marks.push(getPieMark(config, this.metadata));
       
       var legendTitle = "Legend";
 
@@ -60,21 +69,10 @@ var arc = function(dataTable, config) {
           legendTitle = config.title;
       }
 
-      var legends = [
-                      {
-                      "fill": "color",
-                      "title": "Legend",
-                      "offset": 20,
-                      "properties": {
-                        "symbols": {
-                          "fillOpacity": {"value": 0.5},
-                          "stroke": {"value": "transparent"}
-                        }
-                      }
-                    }
-                    ];
-
-      this.spec.legends = legends;
+      if (this.config.legend) {
+         this.spec.legends = getLegend(this.config);
+      }
+      
       this.spec.width = config.width;
       this.spec.height = config.height;
       this.spec.data = dataTable;
@@ -116,7 +114,7 @@ arc.prototype.draw = function(div, callbacks) {
         }
     }
 
- 		vg.parse.spec(this.spec, viewUpdateFunction);
+    vg.parse.spec(this.spec, viewUpdateFunction);
 };
 
 arc.prototype.insert = function(data) {
@@ -157,9 +155,12 @@ arc.prototype.getSpec = function() {
 function getPieMark(config, metadata){
         var innerRadius;
         if (config.mode == "donut") { 
-          var innerRadius = config.width/5;
-        } else {
+          var innerRadius = config.width / 5 * ( 1 + config.innerRadius);
+        } else if (config.mode == "pie") {
           var innerRadius = 0;
+        } else {
+          config.innerRadius += 0.5;
+          var innerRadius = config.width / 5 * ( 1 + config.innerRadius);
         }
 
         var mark =  {
@@ -178,13 +179,42 @@ function getPieMark(config, metadata){
                         },
 
                         "hover": {
-                          "fillOpacity": {"value": 0.8}
+                          "fillOpacity": {"value": 0.8},
+                          "cursor": {"value": config.hoverCursor}
                         }
                       }
                     };
 
         return mark;
 };
+function getPieMidText(config, metadata){
+        var mark =      {
+                          "type": "text",
+                          "from": {"data": config.title},
+                          "properties": {
+                            "update": {
+                              "x": {"field": {"group": "width"}, "mult": 0.5},
+                              "y": {"field": {"group": "height"}, "mult": 0.5},
+                              "radius": { "value": 0},
+                              "theta": {"field": "layout_mid"},
+                              "fill": [
+                                      {
+                                        "test": "indata('arc', datum.EngineType, 'type')",
+                                        "scale": "color", "field": metadata.names[config.color]
+                                      },
+                                      {}
+                                    ],
+                              "align": {"value": "center"},
+                              "baseline": {"value": "middle"},
+                              "fontSize":{"value": config.width/9},
+                              "text": {"template": "{{datum.percentage | number:'.2f'}}%"}
+
+                             }
+                          }
+                        };
+        return mark;
+};
+
 
 function getPieText(config, metadata){
         var mark =      {
@@ -199,7 +229,7 @@ function getPieText(config, metadata){
                               "fill": {"value": "#000"},
                               "align": {"value": "center"},
                               "baseline": {"value": "middle"},
-                              "text": {"template": "{{datum.percentage | number:'.1f'}}%"}
+                              "text": {"template": "{{datum.percentage | number:'.2f'}}%"}
 
                             }
                           }
@@ -207,35 +237,20 @@ function getPieText(config, metadata){
 
         return mark;
 };
-
 ;
 var area = function(dataTable, config) {
-      this.metadata = dataTable[0].metadata;
-      var marks =[];
-      var signals = [];
-      this.spec = {};
+    this.metadata = dataTable[0].metadata;
+    var marks =[];
+    var signals = [];
+    this.spec = {};
 
-      config = checkConfig(config, this.metadata);
-      this.config = config;
-      dataTable[0].name= config.title;
+    config = checkConfig(config, this.metadata);
+    this.config = config;
+    dataTable[0].name= config.title;
 
-      var xScale = {
-                    "name": "x",
-                    "type": this.metadata.types[config.x],
-                    "range": "width",
-                    "zero": config.zero,
-                    "domain": {"data":  config.title, "field": this.metadata.names[config.x]}
-                    };
-
-      var yScale = {
-                "name": "y",
-                "type": this.metadata.types[config.y],
-                "range": "height",
-                "zero": "false",
-                "domain": {"data":  config.title, "field": this.metadata.names[config.y]}
-                };
-      
-      var scales =  [xScale, yScale];
+    var scales =  getXYScales(config, this.metadata);
+    //Make Y scale zero false as area should filled to minimum value
+    delete scales[1].zero;
 
     if (config.color != -1) {
 
@@ -257,28 +272,9 @@ var area = function(dataTable, config) {
             legendTitle = config.title;
         }
 
-        var legends = [
-            {
-                "fill": "color",
-                "title": "Legend",
-                "offset": 0,
-                "properties": {
-                    "symbols": {
-                        "stroke": {"value": "transparent"}
-                    },
-                    "title": {
-                        "fill": {"value": config.legendTitleColor},
-                        "fontSize": {"value": config.legendTitleFontSize}
-                    },
-                    "labels": {
-                        "fill": {"value": config.legendTextColor},
-                        "fontSize": {"value": config.ledgendTextFontSize}
-                    }
-                }
-            }
-        ];
-
-        this.spec.legends = legends;
+      if (this.config.legend) {
+         this.spec.legends = getLegend(this.config);
+      }
     }
 
 
@@ -448,19 +444,6 @@ var bar = function(dataTable, config) {
 
           scales.push(colorScale);
 
-              var legends = [
-                      {
-                      "fill": "color",
-                      "title": "Legend",
-                      "offset": 10,
-                      "properties": {
-                        "symbols": {
-                          "fillOpacity": {"value": 0.5},
-                          "stroke": {"value": "transparent"}
-                        }
-                      }
-                    }
-                    ];
 
 
           if (config.mode == "stack") {
@@ -485,7 +468,9 @@ var bar = function(dataTable, config) {
             yDomain = config.title;
         }
         
-        this.spec.legends = legends;
+        if (this.config.legend) {
+          this.spec.legends = getLegend(this.config);
+        }
       } else {
         yColumn = this.metadata.names[config.y];
         yDomain = config.title;
@@ -495,18 +480,22 @@ var bar = function(dataTable, config) {
               "name": "x",
               "type": "ordinal",
               "range": xRange,
-              "domain": {"data":  config.title, "field": this.metadata.names[config.x]}
+              "domain": config.xScaleDomain
               };
 
     if (config.mode == "group") {
         xScale.padding = 0.2;
       }
 
+      if (config.yScaleDomain.constructor !== Array) {
+          config.yScaleDomain = {"data": yDomain, "field": yColumn};
+      }
+
       var yScale = {
           "name": "y",
           "type": this.metadata.types[config.y],
           "range": yRange,
-          "domain": {"data": yDomain, "field": yColumn}
+          "domain": config.yScaleDomain
           };
 
 
@@ -527,6 +516,47 @@ var bar = function(dataTable, config) {
       if (config.range) {
          signals = getRangeSignals(config, signals);
          marks = getRangeMark(config, marks);
+      }
+
+      if (config.highlight == "single" || config.highlight == "multi") {
+
+        var multiTest;
+
+        if (config.highlight == "multi") {
+          multiTest = "!multi";
+        } else {
+          multiTest = "multi";
+        }
+
+
+        dataTable.push(   
+          {
+            "name": "selectedPoints",
+            "modify": [
+              {"type": "clear", "test": multiTest},
+              {"type": "toggle", "signal": "clickedPoint", "field": "id"}
+            ]
+          });
+
+          signals.push(    {
+              "name": "clickedPoint",
+              "init": 0,
+              "verbose": true,
+              "streams": [{"type": "click", "expr": "datum._id"}]
+            },
+            {
+              "name": "multi",
+              "init": false,
+              "verbose": true,
+              "streams": [{"type": "click", "expr": "datum._id"}]
+            });
+
+          marks[0].properties.update.fill = [
+            {
+              "test": "indata('selectedPoints', datum._id, 'id')",
+              "value": config.selectionColor
+            },marks[0].properties.update.fill
+          ];
       }
 
       this.spec.width = config.width;
@@ -653,13 +683,17 @@ bar.prototype.getSpec = function() {
   return this.spec;
 };
 
+bar.prototype.setSpec = function(spec) {
+  this.spec = spec;
+}
+
 
 function getBarMark(config, metadata){
   var markContent;
   if (config.orientation == "left") {
     markContent = {
                     "y": {"scale": "x", "field": metadata.names[config.x]},
-                    "height": {"scale": "x", "band": true, "offset": -1},
+                    "height": {"scale": "x", "band": true, "offset": calculateBarGap(config)},
                     "x": {"scale": "y", "field": metadata.names[config.y]},
                     "x2": {"scale": "y", "value": 0},
                     "fill": {"value": config.markColor},
@@ -668,7 +702,7 @@ function getBarMark(config, metadata){
   } else {
     markContent = {
                     "x": {"scale": "x", "field": metadata.names[config.x]},
-                    "width": {"scale": "x", "band": true, "offset": -1},
+                    "width": {"scale": "x", "band": true, "offset": calculateBarGap(config)},
                     "y": {"scale": "y", "field": metadata.names[config.y]},
                     "y2": {"scale": "y", "value": 0},
                     "fill": {"value": config.markColor},
@@ -682,7 +716,8 @@ function getBarMark(config, metadata){
                   "properties": {
                     "update": markContent,
                     "hover": {
-                      "fillOpacity": {"value": 0.5}
+                      "fillOpacity": {"value": 0.5},
+                      "cursor": {"value": config.hoverCursor}
                     }
                   }
               };
@@ -692,7 +727,6 @@ function getBarMark(config, metadata){
 }
 
 function getStackBarMark(config, metadata){
-
   var markContent;
   if (config.orientation == "left") {
     mark = {
@@ -709,18 +743,20 @@ function getStackBarMark(config, metadata){
         "properties": {
           "update": {
             "y": {"scale": "x", "field": metadata.names[config.x]},
-            "height": {"scale": "x", "band": true, "offset": -1},
+            "height": {"scale": "x", "band": true, "offset": calculateBarGap(config)},
             "x": {"scale": "y", "field": "layout_start"},
             "x2": {"scale": "y", "field": "layout_end"},
             "fill": {"scale": "color", "field": metadata.names[config.color]},
             "fillOpacity": {"value": 1}
           },
           "hover": {
-            "fillOpacity": {"value": 0.5}
+            "fillOpacity": {"value": 0.5},
+            "cursor": {"value": config.hoverCursor}
           }
         }
       };
   } else {
+
     mark = {
         "type": "rect",
         "from": {
@@ -735,14 +771,15 @@ function getStackBarMark(config, metadata){
         "properties": {
           "update": {
             "x": {"scale": "x", "field": metadata.names[config.x]},
-            "width": {"scale": "x", "band": true, "offset": -1},
+            "width": {"scale": "x", "band": true, "offset": calculateBarGap(config)},
             "y": {"scale": "y", "field": "layout_start"},
             "y2": {"scale": "y", "field": "layout_end"},
             "fill": {"scale": "color", "field": metadata.names[config.color]},
             "fillOpacity": {"value": 1}
           },
           "hover": {
-            "fillOpacity": {"value": 0.5}
+            "fillOpacity": {"value": 0.5},
+            "cursor": {"value": config.hoverCursor}
           }
         }
       };
@@ -791,7 +828,8 @@ function getGroupBarMark(config, metadata){
                   "fillOpacity": {"value": 1}
                 },
                 "hover": {
-                  "fillOpacity": {"value": 0.5}
+                  "fillOpacity": {"value": 0.5},
+                  "cursor": {"value": config.hoverCursor}
                 }
               }
             }
@@ -832,7 +870,8 @@ function getGroupBarMark(config, metadata){
                   "fillOpacity": {"value": 1}
                 },
                 "hover": {
-                  "fillOpacity": {"value": 0.5}
+                  "fillOpacity": {"value": 0.5},
+                  "cursor": {"value": config.hoverCursor}
                 }
               }
             }
@@ -842,7 +881,10 @@ function getGroupBarMark(config, metadata){
   return mark;
 }
 
-;var vizg = function(dataTable, config) {
+function calculateBarGap(config){
+  return  -config.barGap * (config.width/30);
+
+};var vizg = function(dataTable, config) {
 	dataTable = buildTable(dataTable); 
 	if (typeof config.charts !== "undefined" && config.charts.length == 1) {
 		//Set chart config properties for main
@@ -875,24 +917,8 @@ vizg.prototype.getSpec = function() {
       config = checkConfig(config, this.metadata);
       this.config = config;
       dataTable[0].name= config.title;
-
-      var xScale = {
-            "name": "x",
-            "type": this.metadata.types[config.x],
-            "range": "width",
-            "zero": config.zero,
-            "domain": {"data":  config.title, "field": this.metadata.names[config.x]}
-        };
-
-      var yScale = {
-            "name": "y",
-            "type": this.metadata.types[config.y],
-            "range": "height",
-            "zero": config.zero,
-            "domain": {"data":  config.title, "field": this.metadata.names[config.y]}
-        };
       
-      var scales =  [xScale, yScale];
+      var scales =  getXYScales(config, this.metadata);
 
       if (config.color != -1) {
 
@@ -922,34 +948,16 @@ vizg.prototype.getSpec = function() {
 
       if (config.color != -1) {
 
-      var legendTitle = "Legend";
+          var legendTitle = "Legend";
 
-      if (config.title != "table") {
-          legendTitle = config.title;
-      }
+          if (config.title != "table") {
+              legendTitle = config.title;
+          }
 
-      var legends = [
-                {
-                  "fill": "color",
-                  "title": "Legend",
-                  "offset": 0,
-                  "properties": {
-                        "symbols": {
-                            "stroke": {"value": "transparent"}
-                        },
-                        "title": {
-                            "fill": {"value": config.legendTitleColor},
-                            "fontSize": {"value": config.legendTitleFontSize}
-                        },
-                        "labels": {
-                            "fill": {"value": config.legendTextColor},
-                            "fontSize": {"value": config.ledgendTextFontSize}
-                          }
-                    }
-                }
-            ];
-
-            this.spec.legends = legends;
+          if (this.config.legend) {
+              this.spec.legends = getLegend(this.config);
+          }
+       
       }
       
       this.spec.width = config.width;
@@ -1006,6 +1014,7 @@ function getLineMark(config, metadata){
         var mark;
         if (config.color != -1) {
           mark =  {
+                  "name": "line-group",
                   "type": "group",
                   "from": {
                     "data":  config.title,
@@ -1023,7 +1032,8 @@ function getLineMark(config, metadata){
                           "strokeOpacity": {"value": 1}
                         },
                         "hover": {
-                          "strokeOpacity": {"value": 0.5}
+                          "strokeOpacity": {"value": 0.5},
+                          "cursor": {"value": config.hoverCursor}
                         }
                       }
                     }
@@ -1245,6 +1255,7 @@ function getMapMark(config, metadata){
             "properties": {
                 "enter": {"path": {"field": "layout_path"}},
                 "update": {
+                    "fillOpacity": {"value": 1},
                     "fill":{
                         "rule": [
                             {
@@ -1255,11 +1266,14 @@ function getMapMark(config, metadata){
                                 "scale": "color",
                                 "field": "zipped.v"
                             },
-                            {"value": "grey"}
+                            {"value": config.mapColor}
                         ]
                     }
                 },
-                "hover": {"fill": {"value": "#989898"}}
+                "hover": {
+                    "fillOpacity": {"value": 0.5},
+                    "cursor": {"value": config.hoverCursor}
+                }
             }
         },
         {
@@ -1439,22 +1453,6 @@ number.prototype.insert = function(data) {
     this.config = config;
     dataTable[0].name = config.title;
 
-    var xScale = {
-        "name": "x",
-        "type": this.metadata.types[config.x],
-        "range": "width",
-        "zero": config.zero,
-        "domain": {"data":  config.title, "field": this.metadata.names[config.x]}
-    };
-
-    var yScale = {
-        "name": "y",
-        "type": this.metadata.types[config.y],
-        "range": "height",
-        "zero": config.zero,
-        "domain": {"data":  config.title, "field": this.metadata.names[config.y]}
-    };
-
     var rScale = {
         "name": "size",
         "type": "linear",
@@ -1469,10 +1467,18 @@ number.prototype.insert = function(data) {
         "domain": {"data":  config.title, "field": this.metadata.names[config.color]}
     };
 
-    var scales =  [xScale, yScale, rScale, cScale];
+    var scales =  getXYScales(config, this.metadata);
+    scales.push(rScale);
+    scales.push(cScale);
+
     var axes =  getXYAxes(config, "x", "x", "y", "y");
 
     marks.push(getScatterMark(config, this.metadata));
+
+    if (this.config.legend 
+        && this.metadata.types[config.color] != "linear") {
+         this.spec.legends = getLegend(this.config);
+    }
 
     this.spec.width = config.width;
     this.spec.height = config.height;
@@ -1658,7 +1664,8 @@ function getScatterMark(config, metadata){
                     "fillOpacity": {"value": 1}
                 },
                 "hover": {
-                    "fillOpacity": {"value": 0.5}
+                    "fillOpacity": {"value": 0.5},
+                    "cursor": {"value": config.hoverCursor}
                 }
             }
 
@@ -1712,13 +1719,13 @@ table.prototype.draw = function(div) {
               .data(this.config.columnTitles)
           .enter()
               .append('th')
-              .text(function (d) { return d });
+              .html(function (d) { return d });
 
       table.append('tbody').attr("id", "tableChart-"+this.config.title);
       this.setupData(this.data, this.config);
 
       table.selectAll("thead th")
-      .text(function(column) {
+      .html(function(column) {
           return column.charAt(0).toUpperCase() + column.substr(1);
       });
   
@@ -1826,7 +1833,7 @@ table.prototype.setupData = function (dataset, config) {
     
 
     td.select('span')
-        .text(function(d) {
+        .html(function(d) {
             return d.value
         })
     //Remove data items when it hits maxLength 
@@ -1870,38 +1877,57 @@ function checkConfig(config, metadata){
 
     var defaults = {
         title: "table",
-        xTitle: config.x,
-        yTitle: config.y,
-        grid: true,
-        zero: false,
         mapType: -1,
         mode: "stack",
-        colorScale: "category10", //color hex array or string: category10, 10c, category20, category20b, category20c,
+        //color hex array or string: category10, 10c, category20, category20b, category20c
+        colorScale: "category10", 
         colorDomain: -1,
         maxLength: -1,
         markSize: 2,
         fillOpacity: 1,
-        renderer: "svg", //string: canvas or svg
+        innerRadius:0,
+        //string: canvas or svg
+        renderer: "svg", 
+        padding: {"top": 10, "left": 50, "bottom": 40, "right": 50},
+        dateFormat: "%x %X",
+        range:false,
+        rangeColor:"#222",
+        selectionColor:"#222",
+        barGap:1,
+        mapColor:"#888",
+        hoverCursor:"pointer",
+        rangeCursor:"grab",
+
+        //Tool Configs
+        tooltip: {"enabled":true, "color":"#e5f2ff", "type":"symbol"},
+
+        //Legend Configs
+        legend:true,
+        legendTitle: "Legend",
         legendTitleColor: "#222",
         legendTitleFontSize: 13,
         legendTextColor: "#888",
         ledgendTextFontSize: 12,
-        padding: {"top": 10, "left": 50, "bottom": 40, "right": 100},
-        hoverType: "symbol",
-        tooltip: {"enabled":true, "color":"#e5f2ff", "type":"symbol"},
-        dateFormat: "%x %X",
-        xTicks: 0,
-        yTicks: 0,
-        xFormat: "",
-        yFormat: "",
+
+        //Axes Configs
+        xTitle: config.x,
+        yTitle: config.y,
         xAxisAngle:false,
         yAxisAngle:false,
-
         axesColor:"#222",
         axesSize:1,
         axesFontSize:10,
         titleFontSize:12,
-        titleFontColor:"#222"
+        titleFontColor:"#222",
+        grid: true,
+        zero: false,
+        xTicks: 0,
+        yTicks: 0,
+        xFormat: "",
+        yFormat: "",
+
+        xScaleDomain: null,
+        yScaleDomain: null
 
 
     };
@@ -1920,9 +1946,17 @@ function checkConfig(config, metadata){
       config.markColor = config.colorScale[0];
     }
 
-	config.x = metadata.names.indexOf(config.x);
+	  config.x = metadata.names.indexOf(config.x);
     config.y = metadata.names.indexOf(config.y);
+    
+    if (config.xScaleDomain == null) {
+      config.xScaleDomain = {"data":  config.title, "field": metadata.names[config.x]};
+    }
 
+    if (config.yScaleDomain == null) {
+      config.yScaleDomain = {"data":  config.title, "field": metadata.names[config.y]};
+    }
+    
     return config;
 }
 
@@ -1958,7 +1992,8 @@ function getSymbolMark(config, metadata) {
       fill = {"value":config.markColor};
   }
 
-var  mark = {
+var mark = {
+      "name": "points-group",
       "type": "symbol",
       "from": {"data": config.title},
       "properties": {
@@ -1968,14 +2003,15 @@ var  mark = {
           "fill": fill,
           "size": {"value": config.markSize},
           "fillOpacity": {"value": config.fillOpacity}
+        }, 
+        "hover" : {
+          "cursor": {"value": config.hoverCursor}
         }
       }
     }
 
     return mark;
 }
-
-
 
 function getSignals(config, metadata){
 
@@ -2073,8 +2109,6 @@ function bindTooltip(div,markType,eventObj, config, metaData, keyList){
         }
     })
 };
-
-
 
 function createTooltip(div) {
    document.getElementById(div.replace("#", "")).innerHTML = document.getElementById(div.replace("#", "")).innerHTML 
@@ -2209,29 +2243,20 @@ function getXYAxes(config, xAxesType, xScale, yAxesType, yScale) {
                  }};
     
     if (config.xAxisAngle) {
-        xProp.labels = {
-                       "labels": {
-                          "fill": {"value": "orange"},
-                          "fontSize": {"value": 12},
-                          "angle": {"value": 45},
-                          "align": {"value": "left"},
-                          "baseline": {"value": "middle"}
-                       }
-                     };
+        xProp.labels.angle = {"value": 45};
+        xProp.labels.align = {"value": "left"};
+        xProp.labels.baseline = {"value": "middle"};
     }
 
     if (config.yAxisAngle) {
-        yProp =     {
-                       "labels": {
-                         "angle": {"value": 45},
-                         "align": {"value": "left"},
-                         "baseline": {"value": "middle"}
-                       }
-                     };
+        yProp.labels.angle = {"value": 45};
+        yProp.labels.align = {"value": "left"};
+        yProp.labels.baseline = {"value": "middle"};
     }
 
     var axes =  [
-      { "type": xAxesType, 
+      { 
+        "type": xAxesType, 
         "scale": xScale,
         "grid": config.grid, 
         "format" : config.xFormat, 
@@ -2251,6 +2276,26 @@ function getXYAxes(config, xAxesType, xScale, yAxesType, yScale) {
     ];
 
     return axes;
+}
+
+function getXYScales(config, metadata) {
+    var xScale = {
+        "name": "x",
+        "type": metadata.types[config.x],
+        "range": "width",
+        "zero": config.zero,
+        "domain": config.xScaleDomain
+    };
+
+  var yScale = {
+        "name": "y",
+        "type": metadata.types[config.y],
+        "range": "height",
+        "zero": config.zero,
+        "domain": config.yScaleDomain
+    };
+
+  return [xScale, yScale];
 }
 
 function getRangeSignals(config, signals) {
@@ -2274,13 +2319,13 @@ function getRangeSignals(config, signals) {
 }
 
 function getRangeMark(config, marks) {
-      marks.push( {
+      marks.push({
           "type": "rect",
           "properties":{
             "enter":{
               "y": {"value": 0},
               "height": {"value":config.height},
-              "fill": {"value": "black"},
+              "fill": {"value": config.rangeColor},
               "fillOpacity": {"value":0.3}
             },
             "update":{
@@ -2291,6 +2336,32 @@ function getRangeMark(config, marks) {
         });
 
      return marks;
+}
+
+function getLegend(config) {
+  var legends = [
+          {
+            "name": "legend",
+            "fill": "color",
+            "title": config.legendTitle,
+            "offset": 0,
+            "properties": {
+                  "symbols": {
+                      "stroke": {"value": "transparent"}
+                  },
+                  "title": {
+                      "fill": {"value": config.legendTitleColor},
+                      "fontSize": {"value": config.legendTitleFontSize}
+                  },
+                  "labels": {
+                      "fill": {"value": config.legendTextColor},
+                      "fontSize": {"value": config.ledgendTextFontSize}
+                    }
+              }
+          }
+      ];
+
+    return legends;
 }
 
 function drawChart(div, obj, callbacks) {
@@ -2310,6 +2381,7 @@ function drawChart(div, obj, callbacks) {
               var range_end;
               var callback = callbacks[i].callback;
                 if (obj.config.range) {
+                  document.getElementById(div.replace("#", "")).style.cursor="grab";
                   obj.view.onSignal("range_start", function(signalName, signalValue){
                   range_start = signalValue;
                   });
@@ -2328,3 +2400,69 @@ function drawChart(div, obj, callbacks) {
 
     vg.parse.spec(obj.spec, viewUpdateFunction);
 }
+;
+var stack = function(dataTable, config) {
+      this.barChart = new bar(dataTable, config);
+      this.metadata = this.barChart.metadata;
+
+      var spec = this.barChart.getSpec();
+
+      spec.axes = [spec.axes[0]];
+      spec.axes[0].grid = false;
+
+      spec.data.push(   
+                {
+                  "name": "selectedPoints",
+                  "modify": [
+                    {"type": "clear", "test": "!multi"},
+                    {"type": "toggle", "signal": "clickedPoint", "field": "id"}
+                  ]
+                });
+
+      spec.signals.push(    {
+                    "name": "clickedPoint",
+                    "init": 0,
+                    "verbose": true,
+                    "streams": [{"type": "click", "expr": "datum._id"}]
+                  },
+                  {
+                    "name": "multi",
+                    "init": false,
+                    "verbose": true,
+                    "streams": [{"type": "click", "expr": "datum._id"}]
+                  });
+
+      var textMark =  JSON.parse(JSON.stringify(spec.marks[0]));
+      textMark.type = "text";
+      textMark.properties.update.text = {"field" :spec.marks[0].properties.update.fill.field};
+      textMark.properties.update.x.offset = 10;
+      textMark.properties.update.y.offset = -5;
+      textMark.properties.update.fill = {"value": config.legendTitleColor};
+      delete textMark.properties.update.y2;
+      delete textMark.properties.hover;
+      spec.marks.push(textMark);
+
+      delete spec.marks[0].properties.hover;
+      spec.marks[0].properties.update.fill = [
+            {
+              "test": "indata('selectedPoints', datum._id, 'id')",
+              "value": config.selectionColor
+            },spec.marks[0].properties.update.fill
+          ];
+
+      this.barChart.setSpec(spec);
+
+};
+
+stack.prototype.draw = function(div, callbacks) {
+       this.barChart.draw(div, callbacks); 
+};
+
+stack.prototype.insert = function(data) {
+     this.barChart.insert(data); 
+};
+
+stack.prototype.getSpec = function() {
+  return  this.barChart.getSpec();
+};
+
