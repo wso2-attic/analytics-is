@@ -40,6 +40,7 @@ var ROLE_PER_ROLE_AUTHENTICATION_SUCCESS_COUNT = "roleAuthenticationSuccessCount
 var ROLE_PER_ROLE_AUTHENTICATION_FAILURE_COUNT = "roleAuthenticationFailureCount";
 var ROLE_PER_IDENTITY_PROVIDER_AUTHENTICATION_SUCCESS_COUNT = "identityProviderAuthenticationSuccessCount";
 var ROLE_PER_IDENTITY_PROVIDER_AUTHENTICATION_FAILURE_COUNT = "identityProviderAuthenticationFailureCount";
+var ROLE_PER_IDENTITY_PROVIDER_FIRST_LOGIN_COUNT = "serviceProviderAuthenticationFirstLoginSuccessCount";
 var ROLE_LATENCY = "latency";
 var ROLE_RATE = "rate";
 

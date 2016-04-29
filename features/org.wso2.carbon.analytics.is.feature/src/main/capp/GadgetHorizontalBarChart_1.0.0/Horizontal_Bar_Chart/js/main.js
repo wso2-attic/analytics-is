@@ -25,6 +25,8 @@ if (chartSuccess && chartFailure) {
     functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
     functionTypeFailure = gadgetUtil.getRequestType(page, chartFailure);
     filterType = gadgetUtil.getFilterType(page, chartSuccess);
+} else if (chartSuccess) {
+    functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
 }
 
 
@@ -83,7 +85,7 @@ $(function() {
         }
     }
 
-    oneChange();
+    onChange();
 });
 
 function successOnPaginationClicked(e,originalEvent,type,page){
@@ -119,7 +121,7 @@ gadgets.HubSettings.onConnect = function() {
     gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function(topic, data, subscriberData) {
         listnedTimeFromValue = parseInt(gadgetUtil.getURLParam("persistTimeFrom"));
         listnedTimeToValue = parseInt(gadgetUtil.getURLParam("persistTimeTo"));
-        oneChange();
+        onChange();
     });
 
     gadgets.Hub.subscribe(TOPIC_SUB_USERPREF, function(topic, data, subscriberData) {
@@ -153,7 +155,7 @@ gadgets.HubSettings.onConnect = function() {
                 }
             }
             if(!alreadySelected){
-                oneChange();
+                onChange();
             }
         }
     });
@@ -200,7 +202,7 @@ gadgets.HubSettings.onConnect = function() {
                 }
             }
             if(!alreadySelected){
-                oneChange();
+                onChange();
             }
         }else {
             $('#add-filter').show();
@@ -208,7 +210,7 @@ gadgets.HubSettings.onConnect = function() {
             $('#remove-filter').hide();
             var $input = $("#autocomplete-search-box .typeahead");
             $input.val('');
-            oneChange();
+            onChange();
         }
     });
 };
@@ -239,7 +241,7 @@ function addUserPrefsToGlobalArray(topic,mode,value){
 
 }
 
-function oneChange() {
+function onChange() {
 
     gadgetUtil.fetchData(CONTEXT, {
         type: functionTypeSuccess,
@@ -261,15 +263,20 @@ function successOnData(response) {
         }else{
             maxSuccessRcordValue = 0;
         }
+        if (chartFailure) {
+            gadgetUtil.fetchData(CONTEXT, {
+                type: functionTypeFailure,
+                timeFrom: listnedTimeFromValue,
+                timeTo: listnedTimeToValue,
+                listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+                start: 0,
+                count: 10
+            }, failureOnData, failureOnError);
+        } else {
+            $(".failureChart").remove();
+            drawChartSuccess();
 
-        gadgetUtil.fetchData(CONTEXT, {
-            type: functionTypeFailure,
-            timeFrom: listnedTimeFromValue,
-            timeTo: listnedTimeToValue,
-            listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-            start:0,
-            count:10
-        }, failureOnData, failureOnError);
+        }
 
     } catch (e) {
         //$('#canvas').html(gadgetUtil.getErrorText(e));

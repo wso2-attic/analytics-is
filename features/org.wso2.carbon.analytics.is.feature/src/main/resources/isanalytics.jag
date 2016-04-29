@@ -36,6 +36,7 @@
     var TYPE_SERVICE_PROVIDER_LIST = 13;
     var TYPE_IDENTITY_PROVIDER_LIST = 14;
     var TYPE_ROLE_LIST = 15;
+    var TYPE_PER_SERVICE_PROVIDER_FIRST_LOGIN_SUCCESS = 16;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -117,8 +118,6 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                log.info("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-                log.info(listnedAdditionalUserPrefs);
 
                 var overallAuthSuccessCount = 0;
                 var overallAuthFailureCount = 0;
@@ -879,6 +878,57 @@
                         });
                     }
                 }
+                break;
+            }
+            case TYPE_PER_SERVICE_PROVIDER_FIRST_LOGIN_SUCCESS :
+            {
+                result = [];
+                dataPointsArray = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if (timeUnit == "SECOND") {
+                    timeUnit = "MINUTE";
+                }
+
+
+                var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
+                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                query = stringify({
+                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "isFirstLoginCount : true AND startingTime : [" + timeFrom + " TO " + timeTo + "]" + additionalParameters, //search query, optional
+                    scoreFunction: "authSuccessCount", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        dataPointsArray.push({
+                            "serviceprovider": key,
+                            "authSuccessCount": obj[key]
+                                             });
+                    }
+                }
+                result.push(dataPointsArray);
+                result.push(categoryCount);
                 break;
             }
             default:
