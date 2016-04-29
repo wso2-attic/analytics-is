@@ -235,54 +235,61 @@ function loadStats(data){
 //draw donuts
     var dataT = [{
         "metadata": {
-            "names": ["rpm", "torque", "horsepower", "EngineType"],
-            "types": ["linear", "linear", "ordinal", "ordinal"]
+            "names": ["Rate", "Status"],
+            "types": ["linear", "ordinal"]
         },
         "data": [
-            [0, parseFloat(successPct), 12, "YES"],
-            [0, parseFloat(failedPct), 12, "NO"]
-        ]
-    }];
-
-    var dataF = [{
-        "metadata": {
-            "names": ["rpm", "torque", "horsepower", "EngineType"],
-            "types": ["linear", "linear", "ordinal", "ordinal"]
-        },
-        "data": [
-            [0, parseFloat(failedPct), 12, "YES"],
-            [0, parseFloat(successPct), 12, "NO"]
+            [parseFloat(success), "Success"],
+            [parseFloat(failed), "Failure"]
         ]
     }];
 
     var configT = {
-        charts: [{ type: "arc", x: "torque", color: "EngineType" }],
+        charts: [{ type: "arc", x: "Rate", color: "Status", mode:"donut" }],
         innerRadius: 0.3,
-        tooltip: { "enabled": false },
-        padding: { top:0, right:0, bottom:0, left:0 },
-        legend: false,
+        padding: { top:0, right:70, bottom:0, left:10 },
+        legend: true,
         percentage: true,
-        colorScale: [successColor(), "#353B48"],
-        width: 220,
-        height: 220
+        colorScale: [successColor(), failColor()],
+        width: 260,
+        height: 160
     }
 
-    var configF = {
-        charts: [{ type: "arc", x: "torque", color: "EngineType" }],
-        innerRadius: 0.3,
-        tooltip: { "enabled": false },
-        padding: { top:0, right:0, bottom:0, left:0 },
-        legend: false,
-        percentage: true,
-        colorScale: [failColor(), "#353B48"],
-        width: 220,
-        height: 220
-    }
     var chartT = new vizg(dataT, configT);
-    chartT.draw("#dChartTrue");
+    chartT.draw("#donutDiv");
 
-    var chartF = new vizg(dataF, configF);
-    chartF.draw("#dChartFalse");
+    var worldData =  [
+        {
+            "metadata" : {
+                "names" : ["Country","Logins"],
+                "types" : ["ordinal", "linear"]
+            },
+            "data": [
+
+                ["China",200], ["Germany",75], 
+                ["USA",127], ["Canada",15]
+            ]
+        }
+    ];
+
+
+    var configWorld = {
+        type: "map",
+        x : "Country",
+        legend : false,
+        padding: { top:0, right:50, bottom:00, left:10 },
+        renderer : "canvas",
+        charts : [{type: "map",  y : "Logins", mapType : "world"}],
+        width: 380,
+        height: 250,
+        colorScale:["#ffe6cc","#ff9933"]
+    };
+
+    configWorld.helperUrl = "../../portal/templates/geojson/countryInfo.json";
+    configWorld.geoCodesUrl = "../../portal/templates/geojson/world.json";
+    var worldChart = new vizg(worldData, configWorld);
+    worldChart.draw("#mapDiv");
+
 }
 
 document.body.onmouseup = function() {

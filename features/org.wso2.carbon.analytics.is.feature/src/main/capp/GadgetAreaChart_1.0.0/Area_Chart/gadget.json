@@ -25,5 +25,5 @@
             "type": "dateRange",
             "description": "This notifies date ranges generated in Slider"
         }
-    }
+}
 }
