@@ -9,6 +9,11 @@ var globalUniqueArray = [];
 var successGlobalPage = 1;
 var failureGlobalPage = 1;
 var suggestionsList = [];
+var maxSuccessRcordValue;
+var maxFailureRcordValue;
+var successDataObj;
+var failureDataObj;
+var commonScaleDomain;
 
 var qs = gadgetUtil.getQueryString();
 var page = gadgetUtil.getCurrentPageName();
@@ -236,7 +241,6 @@ function addUserPrefsToGlobalArray(topic,mode,value){
 
 function oneChange() {
 
-
     gadgetUtil.fetchData(CONTEXT, {
         type: functionTypeSuccess,
         timeFrom: listnedTimeFromValue,
@@ -245,80 +249,28 @@ function oneChange() {
         start:0,
         count:10
     }, successOnData, successOnError);
-
-    gadgetUtil.fetchData(CONTEXT, {
-        type: functionTypeFailure,
-        timeFrom: listnedTimeFromValue,
-        timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-        start:0,
-        count:10
-    }, failureOnData, failureOnError);
 };
 
 
 function successOnData(response) {
     try {
-        var data = response.message;
+        successDataObj = response.message;
 
-        var allDataCount = data[1];
-        var totalPages = parseInt(allDataCount / 10);
-
-        if(allDataCount != 0) {
-
-            if (allDataCount % 10 != 0) {
-                totalPages += 1;
-            }
-
-            var options = {
-                currentPage: successGlobalPage,
-                totalPages: totalPages,
-                onPageClicked: successOnPaginationClicked,
-                alignment: 'right',
-                shouldShowPage: function (type, page, current) {
-                    switch (type) {
-                        case "first":
-                        case "last":
-                        case "page":
-                            return false;
-                        case "prev":
-                            if (current > 1) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        case "next":
-                            if (totalPages > 1) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                    }
-                },
-                itemTexts: function (type, page, current) {
-                    switch (type) {
-                        case "prev":
-                            return "Prev";
-                        case "next":
-                            return "Next";
-                    }
-                }
-            };
-
-
-            $('#idSuccessPaginate').bootstrapPaginator(options);
-
+        if(successDataObj[0].length > 0){
+            maxSuccessRcordValue = successDataObj[0][0].authSuccessCount;
+        }else{
+            maxSuccessRcordValue = 0;
         }
 
-        //perform necessary transformation on input data
-        chartSuccess.schema[0].data = chartSuccess.processData(data[0]);
-        //finally draw the chart on the given canvas
-        chartSuccess.chartConfig.width = $("#canvasSuccess").width();
-        chartSuccess.chartConfig.height = $("#canvasSuccess").height();
+        gadgetUtil.fetchData(CONTEXT, {
+            type: functionTypeFailure,
+            timeFrom: listnedTimeFromValue,
+            timeTo: listnedTimeToValue,
+            listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
+            start:0,
+            count:10
+        }, failureOnData, failureOnError);
 
-        var vg = new vizg(chartSuccess.schema, chartSuccess.chartConfig);
-        $("#canvasSuccess").empty();
-        vg.draw("#canvasSuccess",[{type:"click", callback:typeSuccessCallbackmethod}]);
     } catch (e) {
         //$('#canvas').html(gadgetUtil.getErrorText(e));
     }
@@ -331,67 +283,26 @@ function successOnError(msg) {
 
 function failureOnData(response) {
     try {
-        var data = response.message;
+        failureDataObj = response.message;
 
-        var allDataCount = data[1];
-        var totalPages = parseInt(allDataCount / 10);
-
-        if(allDataCount != 0){
-
-            if(allDataCount % 10 != 0){
-                totalPages += 1;
-            }
-
-            var options = {
-                currentPage: failureGlobalPage,
-                totalPages: totalPages,
-                onPageClicked: failureOnPaginationClicked,
-                alignment:'right',
-                shouldShowPage:function(type, page, current){
-                    switch(type)
-                    {
-                        case "first":
-                        case "last":
-                        case "page":
-                            return false;
-                        case "prev":
-                            if(current > 1){
-                                return true;
-                            }else{
-                                return false;
-                            }
-                        case "next":
-                            if(totalPages > 1){
-                                return true;
-                            }else{
-                                return false;
-                            }
-                    }
-                },
-                itemTexts: function (type, page, current) {
-                    switch (type) {
-                        case "prev":
-                            return "Prev";
-                        case "next":
-                            return "Next";
-                    }
-                }
-            };
-
-            $('#idFailurePaginate').bootstrapPaginator(options);
+        if(failureDataObj[0].length > 0){
+            maxFailureRcordValue = failureDataObj[0][0].authFailiureCount;
+        }else{
+            maxFailureRcordValue = 0;
         }
 
+        if(maxSuccessRcordValue > maxFailureRcordValue){
+            commonScaleDomain = maxSuccessRcordValue;
+        }else{
+            commonScaleDomain = maxFailureRcordValue;
+        }
 
+        chartSuccess.chartConfig.yScaleDomain = [0,commonScaleDomain];
+        chartFailure.chartConfig.yScaleDomain = [0,commonScaleDomain];
 
-        //perform necessary transformation on input data
-        chartFailure.schema[0].data = chartFailure.processData(data[0]);
-        //finally draw the chart on the given canvas
-        chartFailure.chartConfig.width = $("#canvasFailure").width() - 10;
-        chartFailure.chartConfig.height = $("#canvasFailure").height();
+        drawChartSuccess();
+        drawChartFailure();
 
-        var vg = new vizg(chartFailure.schema, chartFailure.chartConfig);
-        $("#canvasFailure").empty();
-        vg.draw("#canvasFailure",[{type:"click", callback:typeFailureCallbackmethod}]);
     } catch (e) {
         //$('#canvas').html(gadgetUtil.getErrorText(e));
     }
@@ -401,6 +312,135 @@ function failureOnError(msg) {
     $("#canvasFailure").html(gadgetUtil.getErrorText(msg));
 };
 
+
+function drawChartSuccess(){
+
+    var allDataCount = successDataObj[1];
+    var totalPages = parseInt(allDataCount / 10);
+
+    if(allDataCount != 0) {
+
+        if (allDataCount % 10 != 0) {
+            totalPages += 1;
+        }
+
+        var options = {
+            currentPage: successGlobalPage,
+            totalPages: totalPages,
+            onPageClicked: successOnPaginationClicked,
+            alignment: 'right',
+            shouldShowPage: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                    case "last":
+                    case "page":
+                        return false;
+                    case "prev":
+                        if (current > 1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    case "next":
+                        if (totalPages > 1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                }
+            },
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "prev":
+                        return "Prev";
+                    case "next":
+                        return "Next";
+                }
+            }
+        };
+
+
+        $('#idSuccessPaginate').bootstrapPaginator(options);
+
+    }
+
+    //perform necessary transformation on input data
+    chartSuccess.schema[0].data = chartSuccess.processData(successDataObj[0]);
+    //finally draw the chart on the given canvas
+    chartSuccess.chartConfig.width = $("#canvasSuccess").width();
+    chartSuccess.chartConfig.height = $("#canvasSuccess").height();
+
+    var vg = new vizg(chartSuccess.schema, chartSuccess.chartConfig);
+    $("#canvasSuccess").empty();
+    vg.draw("#canvasSuccess",[{type:"click", callback:typeSuccessCallbackmethod}]);
+
+
+}
+
+
+function drawChartFailure(){
+
+    var allDataCount = failureDataObj[1];
+
+    var totalPages = parseInt(allDataCount / 10);
+
+    if(allDataCount != 0){
+
+        if(allDataCount % 10 != 0){
+            totalPages += 1;
+        }
+
+        var options = {
+            currentPage: failureGlobalPage,
+            totalPages: totalPages,
+            onPageClicked: failureOnPaginationClicked,
+            alignment:'right',
+            shouldShowPage:function(type, page, current){
+                switch(type)
+                {
+                    case "first":
+                    case "last":
+                    case "page":
+                        return false;
+                    case "prev":
+                        if(current > 1){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    case "next":
+                        if(totalPages > 1){
+                            return true;
+                        }else{
+                            return false;
+                        }
+                }
+            },
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "prev":
+                        return "Prev";
+                    case "next":
+                        return "Next";
+                }
+            }
+        };
+
+        $('#idFailurePaginate').bootstrapPaginator(options);
+    }
+
+
+
+    //perform necessary transformation on input data
+    chartFailure.schema[0].data = chartFailure.processData(failureDataObj[0]);
+    //finally draw the chart on the given canvas
+    chartFailure.chartConfig.width = $("#canvasFailure").width() - 10;
+    chartFailure.chartConfig.height = $("#canvasFailure").height();
+
+    var vg = new vizg(chartFailure.schema, chartFailure.chartConfig);
+    $("#canvasFailure").empty();
+    vg.draw("#canvasFailure",[{type:"click", callback:typeFailureCallbackmethod}]);
+}
 
 var typeSuccessCallbackmethod = function(event, item) {
 
@@ -562,8 +602,6 @@ $(document).ready(function() {
 var substringMatcher = function() {
 
     return function findMatches(q, cb) {
-        listnedTimeFromValue = gadgetUtil.timeFrom();
-        listnedTimeToValue = gadgetUtil.timeTo();
 
         switch (filterType) {
             case 12: {
