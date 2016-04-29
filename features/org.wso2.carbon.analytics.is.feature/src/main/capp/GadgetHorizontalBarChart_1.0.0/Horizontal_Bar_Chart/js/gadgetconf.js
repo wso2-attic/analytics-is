@@ -276,5 +276,39 @@ var charts = [{
             });
             return result;
         }
+    },{
+        name: ROLE_PER_IDENTITY_PROVIDER_FIRST_LOGIN_COUNT,
+        columns: ["authSuccessCount", "serviceprovider"],
+        schema: [{
+                     "metadata": {
+                         "names": ["authSuccessCount", "serviceprovider"],
+                         "types": ["linear","ordinal"]
+                     },
+                     "data": []
+                 }],
+        "chartConfig":
+        {
+            "x":"serviceprovider",
+            "yTitle":"successfulAttempts",
+            "maxLength":"3000",
+            "barGap":0.5,
+            "colorScale":["#5CB85C"],
+            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
+        types: [
+            { name: TYPE_LANDING, type: 16 }
+        ],
+        mode: "FIRST_TIME_SERVICEPROVIDER",
+        colorCode: "SUCCESS",
+        processData: function(data) {
+            var result = [];
+            data.forEach(function(row, i) {
+                var authSuccessCount = row['authSuccessCount'];
+                var serviceprovider = row["serviceprovider"];
+
+                result.push([authSuccessCount, serviceprovider]);
+            });
+            return result;
+        }
     }
 ];
