@@ -119,8 +119,8 @@ function failureOnPaginationClicked(e,originalEvent,type,page){
 gadgets.HubSettings.onConnect = function() {
 
     gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function(topic, data, subscriberData) {
-        listnedTimeFromValue = parseInt(gadgetUtil.getURLParam("persistTimeFrom"));
-        listnedTimeToValue = parseInt(gadgetUtil.getURLParam("persistTimeTo"));
+        listnedTimeFromValue = data.timeFrom;
+        listnedTimeToValue = data.timeTo;
         onChange();
     });
 
@@ -251,6 +251,15 @@ function onChange() {
         start:0,
         count:10
     }, successOnData, successOnError);
+
+    gadgetUtil.fetchData(CONTEXT, {
+        type: filterType,
+        timeFrom: listnedTimeFromValue,
+        timeTo: listnedTimeToValue,
+        listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
+        start:0,
+        count:10
+    }, processSuggestionsList, successOnError);
 };
 
 
@@ -592,18 +601,6 @@ $(document).ready(function() {
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
 
     });
-
-    listnedTimeFromValue = gadgetUtil.timeFrom();
-    listnedTimeToValue = gadgetUtil.timeTo();
-    gadgetUtil.fetchData(CONTEXT, {
-        type: filterType,
-        timeFrom: listnedTimeFromValue,
-        timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-        start:0,
-        count:10
-    }, processSuggestionsList, successOnError);
-
 });
 
 var substringMatcher = function() {
@@ -631,9 +628,6 @@ var substringMatcher = function() {
                 listnedAdditionalUserPrefs = "";
             }
         }
-
-        listnedTimeFromValue = parseInt(gadgetUtil.getURLParam("persistTimeFrom"));
-        listnedTimeToValue = parseInt(gadgetUtil.getURLParam("persistTimeTo"));
 
         gadgetUtil.fetchData(CONTEXT, {
             type: filterType,
@@ -671,7 +665,6 @@ function processSuggestionsList(response) {
     try {
         var data = response.message;
         suggestionsList = [];
-        //alert(JSON.stringify(response));
 
         for (var i=0; i < data.length; i++) {
             for (var key in data[i]) {
@@ -682,5 +675,3 @@ function processSuggestionsList(response) {
         //$('#canvas').html(gadgetUtil.getErrorText(e));
     }
 };
-
-
