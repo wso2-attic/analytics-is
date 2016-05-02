@@ -23,6 +23,7 @@ var DASHBOARD_NAME = "securityanalytics";
 var BASE_URL = "/portal/dashboards/" + DASHBOARD_NAME + "/";
 
 var TYPE_LANDING = "landing";
+var TYPE_RESIDENT_IDP = "residentidp";
 var TYPE_PROXY = "proxy";
 var TYPE_API = "api";
 var TYPE_SEQUENCE = "sequence";
@@ -41,6 +42,8 @@ var ROLE_PER_ROLE_AUTHENTICATION_FAILURE_COUNT = "roleAuthenticationFailureCount
 var ROLE_PER_IDENTITY_PROVIDER_AUTHENTICATION_SUCCESS_COUNT = "identityProviderAuthenticationSuccessCount";
 var ROLE_PER_IDENTITY_PROVIDER_AUTHENTICATION_FAILURE_COUNT = "identityProviderAuthenticationFailureCount";
 var ROLE_PER_IDENTITY_PROVIDER_FIRST_LOGIN_COUNT = "serviceProviderAuthenticationFirstLoginSuccessCount";
+var ROLE_PER_USERSTORE_AUTHENTICATION_SUCCESS_COUNT = "userstoreAuthenticationSuccessCount";
+var ROLE_PER_USERSTORE_AUTHENTICATION_FAILURE_COUNT = "userstoreAuthenticationFailureCount";
 var ROLE_LATENCY = "latency";
 var ROLE_RATE = "rate";
 

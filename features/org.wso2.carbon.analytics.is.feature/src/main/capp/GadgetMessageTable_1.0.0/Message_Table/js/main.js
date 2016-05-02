@@ -37,8 +37,9 @@ $(function() {
         }
     }
 
-    oTable = $('#tblMessages').DataTable({
-        dom: '<"dataTablesTop"' +
+    if(page.name == TYPE_LANDING) {
+        oTable = $('#tblMessages').DataTable({
+            dom: '<"dataTablesTop"' +
             'f' +
             '<"dataTables_toolbar">' +
             '>' +
@@ -46,29 +47,65 @@ $(function() {
             '<"dataTablesBottom"' +
             'lip' +
             '>',
-        "processing": true,
-        "serverSide": true,
-        "searching": false,
-        "columns" : [
-            { title: "User Name" },
-            { title: "Service Provider" },
-            { title: "Identity Provider" },
-            { title: "Roles" },
-            { title: "Ip" },
-            { title: "Authentication Success" },
-            { title: "Timestamp" }
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "columns" : [
+                { title: "User Name" },
+                { title: "Service Provider" },
+                { title: "Identity Provider" },
+                { title: "Roles" },
+                { title: "Ip" },
+                { title: "Authentication Success" },
+                { title: "Timestamp" }
 
-        ],
-        "ajax": {
-            "url" : CONTEXT,
-            "data" : function (d) {
-                d.type = page.type;
-                d.timeFrom = parseInt(listnedTimeFromValue);
-                d.timeTo = parseInt(listnedTimeToValue);
-                d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
+            ],
+            "ajax": {
+                "url" : CONTEXT,
+                "data" : function (d) {
+                    d.type = page.type;
+                    d.timeFrom = parseInt(listnedTimeFromValue);
+                    d.timeTo = parseInt(listnedTimeToValue);
+                    d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
+                }
             }
-        }
-    });
+        });
+    } else if(page.name == TYPE_RESIDENT_IDP) {
+        oTable = $('#tblMessages').DataTable({
+            dom: '<"dataTablesTop"' +
+            'f' +
+            '<"dataTables_toolbar">' +
+            '>' +
+            'rt' +
+            '<"dataTablesBottom"' +
+            'lip' +
+            '>',
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "columns" : [
+                { title: "User Name" },
+                { title: "Service Provider" },
+                { title: "Userstore" },
+                { title: "Roles" },
+                { title: "Ip" },
+                { title: "Authentication Success" },
+                { title: "Timestamp" }
+
+            ],
+            "ajax": {
+                "url" : CONTEXT,
+                "data" : function (d) {
+                    d.type = page.type;
+                    d.timeFrom = parseInt(listnedTimeFromValue);
+                    d.timeTo = parseInt(listnedTimeToValue);
+                    d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
+                }
+            }
+        });
+    }
+
+
 
     $('#tblMessages tbody').on('click', 'tr', function() {
         var id = $(this).find("td:first").html(); 
@@ -124,6 +161,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "USERSTORE"){
+                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -166,6 +205,8 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
             listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
             listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+        }else if(globalUniqueArray[i][2] == "USERSTORE"){
+            listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
         }
     }
 

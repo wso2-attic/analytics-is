@@ -93,3 +93,16 @@ svg.marks .mark-group .background {
 body.drak .chart-label {
     color: #ECEEF3;
 }
+
+#back {
+    display: none;
+    float: right;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width:20px;
+    height:20px;
+    padding: 0px;
+    margin: 0px;
+    background:#ffffff url("../images/back-icon.png") no-repeat 1px;
+}

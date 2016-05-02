@@ -37,6 +37,10 @@
     var TYPE_IDENTITY_PROVIDER_LIST = 14;
     var TYPE_ROLE_LIST = 15;
     var TYPE_PER_SERVICE_PROVIDER_FIRST_LOGIN_SUCCESS = 16;
+    var TYPE_USERSTORE_LIST = 17;
+    var TYPE_PER_USERSTORE_AUTH_SUCCESS = 18;
+    var TYPE_PER_USERSTORE_AUTH_FAILURE = 19;
+    var TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP = 20;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -931,6 +935,213 @@
                 result.push(categoryCount);
                 break;
             }
+            case TYPE_USERSTORE_LIST: {
+                result = [];
+                dataPointsArray = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if(timeUnit == "SECOND"){
+                    timeUnit = "MINUTE";
+                }
+
+                var tableName = "IS-USERSTORE-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+                var additionalParameters = "";
+
+                if(listnedAdditionalUserPrefs != ""){
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                query = stringify({
+                    fieldName : "userstore", //field which is indexed as a FACET
+                    categoryPath : [], //Path being drilled down, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    start:start,
+                    count:length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        result.push({
+                            "userstore": key
+                        });
+                    }
+                }
+                break;
+            }
+            case TYPE_PER_USERSTORE_AUTH_SUCCESS:
+            {
+                result = [];
+                dataPointsArray = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if(timeUnit == "SECOND"){
+                    timeUnit = "MINUTE";
+                }
+
+                var tableName = "IS-USERSTORE-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+                var additionalParameters = "";
+
+                if(listnedAdditionalUserPrefs != ""){
+                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                query = stringify({
+                    fieldName : "userstore", //field which is indexed as a FACET
+                    categoryPath : [], //Path being drilled down, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    scoreFunction : "authSuccessCount", //score function
+                    start:start,
+                    count:length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        dataPointsArray.push({
+                            "userstore": key,
+                            "authSuccessCount": obj[key]
+                        });
+                    }
+                }
+                result.push(dataPointsArray);
+                result.push(categoryCount);
+                break;
+            }
+            case TYPE_PER_USERSTORE_AUTH_FAILURE:
+            {
+                result = [];
+                dataPointsArray = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if(timeUnit == "SECOND"){
+                    timeUnit = "MINUTE";
+                }
+
+                var tableName = "IS-USERSTORE-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+                var additionalParameters = "";
+
+                if(listnedAdditionalUserPrefs != ""){
+                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                query = stringify({
+                    fieldName : "userstore", //field which is indexed as a FACET
+                    categoryPath : [], //Path being drilled down, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    scoreFunction : "authFailiureCount", //score function
+                    start:start,
+                    count:length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        dataPointsArray.push({
+                            "userstore": key,
+                            "authFailiureCount": obj[key]
+                        });
+                    }
+                }
+                result.push(dataPointsArray);
+                result.push(categoryCount);
+                break;
+            }
+            case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
+            {
+                var result = {};
+                var data = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("length"));
+                var draw = request.getParameter("draw");
+                var userQuery = request.getParameter("search[value]");
+                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
+
+                var additionalParameters = "";
+                if(listnedAdditionalUserPrefs != ""){
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var query = stringify({
+                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters,
+                    "start": start,
+                    "count": length
+                });
+
+                var resp = connector.search(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var count = connector.searchCount(loggedInUser, tableName, query);
+                var limit = count.getMessage();
+
+                var columns = ["userName", "serviceprovider", "userstore", "rolesCommaSeperated"
+                    ,"remoteIp","authenticationSuccess","timestamp"];
+
+                for (i = 0; i < dataPoints.length; i++) {
+                    var temp = [];
+
+                    for (j = 0; j < columns.length; j++) {
+                        var column = columns[j];
+                        if (dataPoints[i] != null) {
+                            var value = dataPoints[i]["values"][column];
+                            if (column == "timestamp") {
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else {
+                                temp.push(value);
+                            }
+                        }
+                    }
+                    data.push(temp);
+                }
+
+                result["draw"] = draw;
+                result["data"] = data;
+
+                if (dataPoints.length < length) {
+                    limit = start + length;
+                }
+                result["recordsFiltered"] = limit;
+                result["recordsTotal"] = limit;
+                break;
+            }
             default:
             {
                 result = '{ "status": "Failed", "message": "Unidentified operation" }';
@@ -942,7 +1153,7 @@
                 log.debug("value of result: " + result);
             }
             var finalResult;
-            if (type == TYPE_AUTHENTICATION_DATA_TABLE) {
+            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP) {
                 finalResult = result;
             }else{
                 finalResult = {

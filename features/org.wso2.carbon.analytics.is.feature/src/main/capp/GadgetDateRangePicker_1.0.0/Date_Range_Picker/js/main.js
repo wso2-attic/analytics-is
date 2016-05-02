@@ -3,6 +3,7 @@ var href = parent.window.location.href,
     resolveURI = parent.ues.global.dashboard.id == hrefLastSegment ? '../' : '../../';
 
 var TOPIC = "publisher";
+var TOPIC_DATE_RANGE = "subscriber";
 
 $(function() {
     var dateLabel = $('#reportrange .btn-label');
@@ -116,3 +117,15 @@ $(window).load(function() {
     $(thisParentWrapper).closest('.ues-component-box').addClass('widget form-control-widget');
     $('body').addClass('widget');
 });
+
+gadgets.HubSettings.onConnect = function() {
+
+    gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function (topic, data, subscriberData) {
+        var listnedTimeFromValue = parseInt(gadgetUtil.getURLParam("persistTimeFrom"));
+        var listnedTimeToValue = parseInt(gadgetUtil.getURLParam("persistTimeTo"));
+        $("#date-select button").removeClass("active");
+        $('#btnCustomRange').addClass("active");
+        var dateLabel = $('#reportrange .btn-label');
+        dateLabel.html(moment(listnedTimeFromValue).format('MMMM D, YYYY hh:mm A') + ' - ' + moment(listnedTimeToValue).format('MMMM D, YYYY hh:mm A'));
+    });
+}

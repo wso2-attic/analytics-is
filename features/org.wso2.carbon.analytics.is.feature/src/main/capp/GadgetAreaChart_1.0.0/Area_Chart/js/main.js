@@ -8,6 +8,7 @@ var listnedAdditionalUserPrefs = "";
 var globalUniqueArray = [];
 var rangeStart;
 var rangeEnd;
+var rangeHistoryArray = [];
 
 var page = gadgetUtil.getCurrentPageName();
 var qs = gadgetUtil.getQueryString();
@@ -64,6 +65,7 @@ gadgets.HubSettings.onConnect = function() {
         listnedTimeFromValue = data.timeFrom;
         listnedTimeToValue = data.timeTo;
         onDataChanged();
+        $("#back").hide();
     });
 
     gadgets.Hub.subscribe(TOPIC_USERNAME, function(topic, data, subscriberData) {
@@ -297,15 +299,24 @@ document.body.onmouseup = function() {
     // div.innerHTML = "<p> Start : " + rangeStart + "</p>" + "<p> End : " + rangeEnd + "</p>";
 
     if((rangeStart) && (rangeEnd) && (rangeStart.toString() !== rangeEnd.toString())){
-        listnedTimeFromValue = new Date(rangeStart).getTime();
-        listnedTimeToValue = new Date(rangeEnd).getTime();
-        onDataChanged();
-        var message = {
-            timeFrom: listnedTimeFromValue,
-            timeTo: listnedTimeToValue,
-            timeUnit: "Custom"
-        };
-        gadgets.Hub.publish(TOPIC_SLIDER, message);
+        
+        if(!$(event.target).is('#back')){
 
+            var timeFromValue = JSON.parse(JSON.stringify(listnedTimeFromValue));
+            var timeToValue = JSON.parse(JSON.stringify(listnedTimeToValue));
+            var timeRange = [timeFromValue, timeToValue];
+            rangeHistoryArray.push(timeRange);
+            $("#back").show();
+
+            listnedTimeFromValue = new Date(rangeStart).getTime();
+            listnedTimeToValue = new Date(rangeEnd).getTime();
+            onDataChanged();
+            var message = {
+                timeFrom: listnedTimeFromValue,
+                timeTo: listnedTimeToValue,
+                timeUnit: "Custom"
+            };
+            gadgets.Hub.publish(TOPIC_SLIDER, message);
+        }
     }
 }
