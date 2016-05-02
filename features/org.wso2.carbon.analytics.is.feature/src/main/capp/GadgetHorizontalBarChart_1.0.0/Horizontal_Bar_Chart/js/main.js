@@ -32,6 +32,44 @@ if (chartSuccess && chartFailure) {
 
 $(function() {
 
+    $('#autocomplete-search-box .typeahead').typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 1
+        },
+        {
+            local: suggestionsList,
+            source: substringMatcher(suggestionsList)
+        });
+
+    $("#remove-filter").off().click(function (event) {
+        var $input = $("#autocomplete-search-box .typeahead");
+        $input.val('');
+        $(this).hide();
+        $('#add-filter').show();
+        $('#autocomplete-search-box .typeahead').prop('disabled', false);
+        var message = {
+            userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
+            mode: chartFailure.mode,
+            colorCode:chartFailure.colorCode
+        };
+        gadgets.Hub.publish("publisherFilterDeletion", message);
+    });
+
+    $("#add-filter").off().click(function (event) {
+        $('#remove-filter').show();
+        $(this).hide();
+        $('#autocomplete-search-box .typeahead').prop('disabled', true);
+        var message = {
+            userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
+            mode: chartSuccess.mode,
+            colorCode:chartSuccess.colorCode
+        };
+        gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
+
+    });
+
+
     if (!chartSuccess && chartFailure) {
         $("#canvasSuccess").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
         $("#canvasFailure").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
@@ -568,46 +606,6 @@ var typeFailureCallbackmethod = function(event, item) {
         $('#remove-filter').show();
     }
 };
-
-$(document).ready(function() {
-
-    $('#autocomplete-search-box .typeahead').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            local: suggestionsList,
-            source: substringMatcher(suggestionsList)
-        });
-
-    $("#remove-filter").off().click(function (event) {
-        var $input = $("#autocomplete-search-box .typeahead");
-        $input.val('');
-        $(this).hide();
-        $('#add-filter').show();
-        $('#autocomplete-search-box .typeahead').prop('disabled', false);
-        var message = {
-            userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
-            mode: chartFailure.mode,
-            colorCode:chartFailure.colorCode
-        };
-        gadgets.Hub.publish("publisherFilterDeletion", message);
-    });
-
-    $("#add-filter").off().click(function (event) {
-        $('#remove-filter').show();
-        $(this).hide();
-        $('#autocomplete-search-box .typeahead').prop('disabled', true);
-        var message = {
-            userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
-            mode: chartSuccess.mode,
-            colorCode:chartSuccess.colorCode
-        };
-        gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
-
-    });
-});
 
 var substringMatcher = function() {
 
