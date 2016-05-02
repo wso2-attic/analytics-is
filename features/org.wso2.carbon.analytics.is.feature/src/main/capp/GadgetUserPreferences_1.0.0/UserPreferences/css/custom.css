@@ -1,0 +1,40 @@
+.tag-content {
+    word-wrap: break-word;
+    line-height: 30px;
+    display: block;
+    margin: 0;
+    padding: 5px 10px;
+}
+
+.tag-content > li {
+    padding: 3px 8px;
+    line-height: 19px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid #E4E3E3;
+    font-size: 12px;
+    display: inline-block;
+    list-style: none;
+    margin: 3px;
+}
+
+.tag-content > li:first-child {
+    margin-left: 0;
+}
+
+.tag-content > li:last-child {
+    margin-right: 0;
+}
+
+.tag-content > li > .icon {
+    font-size: 8px;
+    padding: 2px;
+}
+.tag-content > li > .icon:hover {
+    background-color: #C9E4FF;
+}
+
+.tag-content > li.active {
+    background-color: #C9E4FF;
+    border: 1px solid #C9E4FF;
+}
