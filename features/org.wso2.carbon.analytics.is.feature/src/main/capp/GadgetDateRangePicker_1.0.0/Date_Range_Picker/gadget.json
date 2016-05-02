@@ -11,10 +11,16 @@
     "borders": false,
     "title": false
   },
-    "notify": {
-        "publisher": {
-            "type": "dateRange",
-            "description": "This notifies date ranges generated in Date Range Picker"
-        }
+  "listen": {
+    "subscriber": {
+      "type": "dateRange",
+      "description": "Used to listen to Any message of type state"
     }
+  },
+  "notify": {
+      "publisher": {
+          "type": "dateRange",
+          "description": "This notifies date ranges generated in Date Range Picker"
+      }
+  }
 }

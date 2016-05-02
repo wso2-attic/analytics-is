@@ -77,6 +77,8 @@ $(function() {
                                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "IDENTITYPROVIDER"){
                                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+historyParamVal.split("_")[0]+"\"";
+                            }else if(key == "USERSTORE"){
+                                listnedAdditionalUserPrefs+= " AND _userstore:\""+historyParamVal.split("_")[0]+"\"";
                             }
                         }
                     }
@@ -142,6 +144,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "USERSTORE"){
+                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -187,6 +191,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "USERSTORE"){
+                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -622,6 +628,10 @@ var substringMatcher = function() {
             }
             case 15: {
                 listnedAdditionalUserPrefs= " AND role:"+ q +"*";
+                break;
+            }
+            case 16: {
+                listnedAdditionalUserPrefs= " AND userstore:"+ q +"*";
                 break;
             }
             default : {

@@ -32,7 +32,8 @@ var charts = [{
         ]
     },
     types: [
-        { name: TYPE_LANDING, type: 1 }
+        { name: TYPE_LANDING, type: 1 },
+        { name: TYPE_RESIDENT_IDP, type: 1 }
     ],
     processData: function(data) {
         var result = [];
