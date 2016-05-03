@@ -1,0 +1,92 @@
+{
+    "name": "authentication-analytics-stream",
+    "version": "1.0.0",
+    "nickName": "",
+    "description": "",
+    "payloadData": [
+        {
+            "name": "eventId",
+            "type": "STRING"
+        },
+        {
+            "name": "timestamp",
+            "type": "STRING"
+        },
+        {
+            "name": "authenticationSuccess",
+            "type": "BOOL"
+        },
+        {
+            "name": "userName",
+            "type": "STRING"
+        },
+        {
+            "name": "userStoreDomain",
+            "type": "STRING"
+        },
+        {
+            "name": "tetantDomain",
+            "type": "STRING"
+        },
+        {
+            "name": "remoteIp",
+            "type": "STRING"
+        },
+        {
+            "name": "region",
+            "type": "STRING"
+        },
+        {
+            "name": "inboundAuthType",
+            "type": "STRING"
+        },
+        {
+            "name": "serviceprovider",
+            "type": "STRING"
+        },
+        {
+            "name": "remembermeEnabled",
+            "type": "BOOL"
+        },
+        {
+            "name": "forceAuthEnabled",
+            "type": "BOOL"
+        },
+        {
+            "name": "passiveAuthEnabled",
+            "type": "BOOL"
+        },
+        {
+            "name": "rolesCommaSeperated",
+            "type": "STRING"
+        },
+        {
+            "name": "role",
+            "type": "STRING"
+        },
+        {
+            "name": "authenticationStep",
+            "type": "STRING"
+        },
+        {
+            "name": "identityProvider",
+            "type": "STRING"
+        },
+        {
+            "name": "authStepSuccess",
+            "type": "BOOL"
+        },
+        {
+            "name": "stepAuthenticator",
+            "type": "STRING"
+        },
+        {
+            "name": "isFirstLogin",
+            "type": "BOOL"
+        },
+        {
+            "name": "IsFederated",
+            "type": "BOOL"
+        }
+    ]
+}
