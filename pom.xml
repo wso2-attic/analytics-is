@@ -1,11 +1,11 @@
 <!-- ~ Copyright (c) 2005-2015, WSO2 Inc. (http://www.wso2.org) All Rights
-	Reserved. ~ ~ WSO2 Inc. licenses this file to you under the Apache License,
-	~ Version 2.0 (the "License"); you may not use this file except ~ in compliance
-	with the License. ~ You may obtain a copy of the License at ~ ~ http://www.apache.org/licenses/LICENSE-2.0
-	~ ~ Unless required by applicable law or agreed to in writing, ~ software
-	distributed under the License is distributed on an ~ "AS IS" BASIS, WITHOUT
-	WARRANTIES OR CONDITIONS OF ANY ~ KIND, either express or implied. See the
-	License for the ~ specific language governing permissions and limitations
+	Reserved. ~ ~ WSO2 Inc. licenses this file to you under the Apache License, 
+	~ Version 2.0 (the "License"); you may not use this file except ~ in compliance 
+	with the License. ~ You may obtain a copy of the License at ~ ~ http://www.apache.org/licenses/LICENSE-2.0 
+	~ ~ Unless required by applicable law or agreed to in writing, ~ software 
+	distributed under the License is distributed on an ~ "AS IS" BASIS, WITHOUT 
+	WARRANTIES OR CONDITIONS OF ANY ~ KIND, either express or implied. See the 
+	License for the ~ specific language governing permissions and limitations 
 	~ under the License. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -18,8 +18,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wso2.carbon.analytics.esb</groupId>
-    <artifactId>wso2analytics-esb-parent</artifactId>
+    <groupId>org.wso2.carbon.analytics.is</groupId>
+    <artifactId>wso2analytics-is-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
@@ -31,9 +31,15 @@
     </licenses>
 
     <modules>
-
+        <!--<module>components</module>-->
         <module>features</module>
-
+        <module>product/org.wso2.das4is.multitenancy.dashboard.ui</module>
+        <module>product/org.wso2.cep.storm.dependencies</module>
+        <module>product/styles</module>
+        <module>product/features</module>
+        <module>product/p2-profile-gen</module>
+        <module>product/distribution</module>
+        <module>product/integration</module>
     </modules>
 
     <dependencyManagement>
@@ -100,32 +106,32 @@
                 <version>2.0.0.v200706191603</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.esb</groupId>
-                <artifactId>org.wso2.das4esb.styles</artifactId>
-                <version>${esb.analytics.version}</version>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.das4is.styles</artifactId>
+                <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.esb</groupId>
-                <artifactId>org.wso2.das4esb.multitenancy.styles</artifactId>
-                <version>${esb.analytics.version}</version>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.das4is.multitenancy.styles</artifactId>
+                <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.esb</groupId>
-                <artifactId>org.wso2.das4esb.multitenancy.dashboard.ui</artifactId>
-                <version>${esb.analytics.version}</version>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.das4is.multitenancy.dashboard.ui</artifactId>
+                <version>${is.analytics.version}</version>
             </dependency>
             <!-- ************************ END - Vanilla carbon server + DAS style ************* -->
 
             <!-- START - Integration test dependencies -->
             <dependency>
-                <groupId>org.wso2.carbon.analytics.esb</groupId>
-                <artifactId>org.wso2.das4esb.integration.common.utils</artifactId>
-                <version>${esb.analytics.version}</version>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.das4is.integration.common.utils</artifactId>
+                <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.esb</groupId>
-                <artifactId>org.wso2.das4esb.integration.common.clients</artifactId>
-                <version>${esb.analytics.version}</version>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.das4is.integration.common.clients</artifactId>
+                <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.commons</groupId>
@@ -414,9 +420,9 @@
     </dependencyManagement>
 
     <scm>
-        <url>https://github.com/wso2/analytics-esb.git</url>
-        <developerConnection>scm:git:https://github.com/wso2/analytics-esb.git</developerConnection>
-        <connection>scm:git:https://github.com/wso2/analytics-esb.git</connection>
+        <url>https://github.com/wso2/analytics-is.git</url>
+        <developerConnection>scm:git:https://github.com/wso2/analytics-is.git</developerConnection>
+        <connection>scm:git:https://github.com/wso2/analytics-is.git</connection>
         <tag>HEAD</tag>
     </scm>
 
@@ -449,7 +455,7 @@
     </profiles>
 
     <properties>
-        <esb.analytics.version>1.0.0-SNAPSHOT</esb.analytics.version>
+        <is.analytics.version>1.0.0-SNAPSHOT</is.analytics.version>
 
         <carbon.kernel.version>4.4.3</carbon.kernel.version>
         <carbon.analytics.version>1.0.6-SNAPSHOT</carbon.analytics.version>

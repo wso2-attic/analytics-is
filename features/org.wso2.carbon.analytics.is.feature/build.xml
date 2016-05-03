@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="create-sample-capps" default="zip" basedir=".">
+
+    <property name="project-name" value="${ant.project.name}"/>
+    <property name="res-dir" value="src/main/resources"/>
+    <property name="target-dir" value="target"/>
+    <property name="jaggery-api-dir" value="src/main/jaggeryapi"/>
+
+    <property name="ANALYTICS_IS_dir" value="src/main/capp"/>
+    <property name="ANALYTICS_IS_capp" value="org_wso2_carbon_analytics_is-1.0.0"/>
+
+    <target name="clean">
+        <delete dir="${target-dir}"/>
+    </target>
+
+    <target name="pre-configure">
+        <mkdir dir="${target-dir}"/>
+	<copy file="${jaggery-api-dir}/isanalytics.jag" todir="${res-dir}"/>
+    </target>
+
+    <target name="zip" depends="clean,pre-configure">
+        <zip destfile="${res-dir}/${ANALYTICS_IS_capp}.car">
+          <zipfileset dir="${ANALYTICS_IS_dir}"/>
+        </zip>
+    </target>
+
+</project>
+
