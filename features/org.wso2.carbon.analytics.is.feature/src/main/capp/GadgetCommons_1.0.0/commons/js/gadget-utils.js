@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /**
- * This Javascript module groups utility methods that are being used by all the gadgets in the Security analytics dashboard
+ * This Javascript module groups utility methods that are being used by all the gadgets in the ESB analytics dashboard
  */
 
 var CONTEXT = "/portal/apis/isanalytics";
@@ -59,8 +59,10 @@ var INBOUND_ENDPOINT_PAGE_URL = BASE_URL + TYPE_INBOUND_ENDPOINT;
 var MEDIATOR_PAGE_URL = BASE_URL + TYPE_MEDIATOR;
 var MESSAGE_PAGE_URL = BASE_URL + TYPE_MESSAGE;
 
+var PARENT_WINDOW = window.parent.document;
+
 function GadgetUtil() {
-    var DEFAULT_START_TIME = new Date(moment().subtract(1, 'hours')).getTime();
+    var DEFAULT_START_TIME = new Date(moment().subtract(29, 'days')).getTime();
     var DEFAULT_END_TIME = new Date(moment()).getTime();
 
     this.getQueryString = function() {
@@ -137,9 +139,6 @@ function GadgetUtil() {
         } else {
             pageName = lastSegment.substr(0, lastSegment.indexOf('?'));
         }
-        if(!pageName || pageName === DASHBOARD_NAME) {
-            pageName = TYPE_LANDING;
-        }
         return this.getGadgetConfig(pageName);
     };
 
@@ -162,7 +161,6 @@ function GadgetUtil() {
     };
 
     this.fetchData = function(context, params, callback, error) {
-
         var url = "?";
         for (var param in params) {
             url = url + param + "=" + params[param] + "&";
@@ -170,7 +168,6 @@ function GadgetUtil() {
         console.log("++ AJAX TO: " + context + url);
         $.ajax({
             url: context + url,
-            async: false,
             type: "GET",
             success: function(data) {
                 callback(data);
@@ -183,31 +180,58 @@ function GadgetUtil() {
 
     this.getDefaultText = function() {
         return '<div class="status-message">'+
-                '<div class="message message-info">'+
-                    '<h4><i class="icon fw fw-info"></i>No content to display</h4>'+
-                    '<p>Please select a date range to view stats.</p>'+
-                '</div>'+
+            '<div class="message message-info">'+
+            '<h4><i class="icon fw fw-info"></i>No content to display</h4>'+
+            '<p>Please select a date range to view stats.</p>'+
+            '</div>'+
             '</div>';
     };
 
     this.getEmptyRecordsText = function() {
         return '<div class="status-message">'+
-                '<div class="message message-info">'+
-                    '<h4><i class="icon fw fw-info"></i>No records found</h4>'+
-                    '<p>Please select a date range to view stats.</p>'+
-                '</div>'+
+            '<div class="message message-info">'+
+            '<h4><i class="icon fw fw-info"></i>No records found</h4>'+
+            '<p>Please select a date range to view stats.</p>'+
+            '</div>'+
             '</div>';
-    }
+    };
 
     this.getErrorText = function(msg) {
-        console.log(msg);
         return '<div class="status-message">'+
-                '<div class="message message-danger">'+
-                    '<h4><i class="icon fw fw-info"></i>Error</h4>'+
-                    '<p>An error occured while attempting to display this gadget. Error message is: ' + msg.status + ' - ' + msg.statusText + '</p>'+
-                '</div>'+
+            '<div class="message message-danger">'+
+            '<h4><i class="icon fw fw-info"></i>Error</h4>'+
+            '<p>An error occured while attempting to display this gadget. Error message is: ' + msg.status + ' - ' + msg.statusText + '</p>'+
+            '</div>'+
             '</div>';
-    }
+    };
+
+    this.getCookie = function(cname) {
+        var name = cname + "=";
+        var ca = parent.document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1);
+            if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+        }
+        return "";
+    };
+
+    this.getGadgetWrapper = function(){
+        return $('#' + gadgets.rpc.RPC_ID, PARENT_WINDOW).closest('.gadget-body');
+    };
+
+    this.getGadgetParentWrapper = function(){
+        return $('#' + gadgets.rpc.RPC_ID, PARENT_WINDOW).closest('.ues-component-box');
+    };
+
+    this.getView = function(){
+        if( $('#' + gadgets.rpc.RPC_ID, PARENT_WINDOW).closest('.ues-component-box').hasClass('ues-component-fullview') ){
+            return 'maximized';
+        }
+        else{
+            return 'minimized';
+        }
+    };
 
     this.updateURLParam = function(key, value) {
         if (typeof (history.pushState) === "undefined") {
@@ -284,3 +308,28 @@ function GadgetUtil() {
 }
 
 var gadgetUtil = new GadgetUtil();
+
+// Light/Dark Theme Switcher
+$(document).ready(function() {
+
+    $(gadgetUtil.getGadgetWrapper()).addClass('loading');
+
+    if((gadgetUtil.getCookie('dashboardTheme') == 'dark') || gadgetUtil.getCookie('dashboardTheme') == ''){
+        $('body').addClass('dark');
+    }
+    else{
+        $('body').removeClass('dark');
+    }
+
+    if(typeof $.fn.nanoScroller == 'function'){
+        $(".nano").nanoScroller();
+    }
+
+});
+
+var readyInterval = setInterval(function() {
+    if (document.readyState == "complete") {
+        $(gadgetUtil.getGadgetWrapper()).removeClass('loading');
+        clearInterval(readyInterval);
+    }
+}, 100);
