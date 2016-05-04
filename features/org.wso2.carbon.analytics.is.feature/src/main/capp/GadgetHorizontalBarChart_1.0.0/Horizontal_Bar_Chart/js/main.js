@@ -76,6 +76,12 @@ $(function() {
         return;
     }
 
+    if(page == TYPE_RESIDENT_IDP) {
+        listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
+    } else {
+        listnedAdditionalUserPrefs = "";
+    }
+
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
 
     if(historyParmExist == null){
@@ -116,7 +122,7 @@ $(function() {
                             }else if(key == "IDENTITYPROVIDER"){
                                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "USERSTORE"){
-                                listnedAdditionalUserPrefs+= " AND _userstore:\""+historyParamVal.split("_")[0]+"\"";
+                                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+historyParamVal.split("_")[0]+"\"";
                             }
                         }
                     }
@@ -170,7 +176,11 @@ gadgets.HubSettings.onConnect = function() {
 
         addUserPrefsToGlobalArray(topic,data.mode,data.userPrefValue);
 
-        listnedAdditionalUserPrefs = "";
+        if(page == TYPE_RESIDENT_IDP) {
+            listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
+        } else {
+            listnedAdditionalUserPrefs = "";
+        }
 
         for(i=0;i<globalUniqueArray.length;i++){
 
@@ -183,7 +193,7 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -218,7 +228,11 @@ gadgets.HubSettings.onConnect = function() {
 
         gadgetUtil.removeURLParam(data.category);
 
-        listnedAdditionalUserPrefs = "";
+        if(page == TYPE_RESIDENT_IDP) {
+            listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
+        } else {
+            listnedAdditionalUserPrefs = "";
+        }
 
         for(i=0;i<globalUniqueArray.length;i++){
             if(globalUniqueArray[i][2] == "USERNAME"){
@@ -230,7 +244,7 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -629,12 +643,16 @@ var substringMatcher = function() {
                 break;
             }
             case 16: {
-                listnedAdditionalUserPrefs= " AND userstore:"+ q +"*";
+                listnedAdditionalUserPrefs= " AND userStoreDomain:"+ q +"*";
                 break;
             }
             default : {
                 listnedAdditionalUserPrefs = "";
             }
+        }
+
+        if(page == TYPE_RESIDENT_IDP) {
+            listnedAdditionalUserPrefs += " AND _isFederated:\"false\"";
         }
 
         gadgetUtil.fetchData(CONTEXT, {

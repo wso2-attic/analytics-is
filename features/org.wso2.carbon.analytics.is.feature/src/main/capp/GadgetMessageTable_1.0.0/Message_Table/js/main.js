@@ -162,7 +162,7 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -206,7 +206,7 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
             listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "USERSTORE"){
-            listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
         }
     }
 
