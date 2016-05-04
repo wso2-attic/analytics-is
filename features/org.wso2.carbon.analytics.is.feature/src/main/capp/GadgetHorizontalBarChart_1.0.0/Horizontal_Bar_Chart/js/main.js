@@ -14,6 +14,7 @@ var maxFailureRcordValue;
 var successDataObj;
 var failureDataObj;
 var commonScaleDomain;
+var idpTypeFilter = "";
 
 var qs = gadgetUtil.getQueryString();
 var page = gadgetUtil.getCurrentPageName();
@@ -77,9 +78,9 @@ $(function() {
     }
 
     if(page == TYPE_RESIDENT_IDP) {
-        listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
+        idpTypeFilter = " AND _isFederated:\"false\"";
     } else {
-        listnedAdditionalUserPrefs = "";
+        idpTypeFilter = "";
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -142,6 +143,7 @@ function successOnPaginationClicked(e,originalEvent,type,page){
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
+        idpType:idpTypeFilter,
         start:(page - 1) * 10,
         count:10
     }, successOnData, successOnError);
@@ -156,6 +158,7 @@ function failureOnPaginationClicked(e,originalEvent,type,page){
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
+        idpType:idpTypeFilter,
         start:(page - 1) * 10,
         count:10
     }, failureOnData, failureOnError);
@@ -176,11 +179,7 @@ gadgets.HubSettings.onConnect = function() {
 
         addUserPrefsToGlobalArray(topic,data.mode,data.userPrefValue);
 
-        if(page == TYPE_RESIDENT_IDP) {
-            listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
-        } else {
-            listnedAdditionalUserPrefs = "";
-        }
+        listnedAdditionalUserPrefs = "";
 
         for(i=0;i<globalUniqueArray.length;i++){
 
@@ -195,6 +194,12 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
                 listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
+        }
+
+        if(page == TYPE_RESIDENT_IDP) {
+            idpTypeFilter = " AND _isFederated:\"false\"";
+        } else {
+            idpTypeFilter = "";
         }
 
         if(instanceType != data.mode){
@@ -228,11 +233,7 @@ gadgets.HubSettings.onConnect = function() {
 
         gadgetUtil.removeURLParam(data.category);
 
-        if(page == TYPE_RESIDENT_IDP) {
-            listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
-        } else {
-            listnedAdditionalUserPrefs = "";
-        }
+        listnedAdditionalUserPrefs = "";
 
         for(i=0;i<globalUniqueArray.length;i++){
             if(globalUniqueArray[i][2] == "USERNAME"){
@@ -246,6 +247,12 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
                 listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
+        }
+
+        if(page == TYPE_RESIDENT_IDP) {
+            idpTypeFilter = " AND _isFederated:\"false\"";
+        } else {
+            idpTypeFilter = "";
         }
 
         var instanceType = chartSuccess.mode;
@@ -306,6 +313,7 @@ function onChange() {
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
+        idpType:idpTypeFilter,
         start:0,
         count:10
     }, successOnData, successOnError);
@@ -315,6 +323,7 @@ function onChange() {
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
+        idpType:idpTypeFilter,
         start:0,
         count:10
     }, processSuggestionsList, successOnError);
@@ -336,6 +345,7 @@ function successOnData(response) {
                 timeFrom: listnedTimeFromValue,
                 timeTo: listnedTimeToValue,
                 listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+                idpType:idpTypeFilter,
                 start: 0,
                 count: 10
             }, failureOnData, failureOnError);
@@ -652,7 +662,9 @@ var substringMatcher = function() {
         }
 
         if(page == TYPE_RESIDENT_IDP) {
-            listnedAdditionalUserPrefs += " AND _isFederated:\"false\"";
+            idpTypeFilter = " AND _isFederated:\"false\"";
+        } else {
+            idpTypeFilter = "";
         }
 
         gadgetUtil.fetchData(CONTEXT, {
@@ -660,6 +672,7 @@ var substringMatcher = function() {
             timeFrom: listnedTimeFromValue,
             timeTo: listnedTimeToValue,
             listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
+            idpType:idpTypeFilter,
             start:0,
             count:10
         }, processSuggestionsList, successOnError);

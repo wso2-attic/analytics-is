@@ -109,6 +109,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if(timeUnit == "SECOND"){
@@ -121,7 +122,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
-
+                if(idpType != "") {
+                    additionalParameters += idpType;
+                }
 
                 var overallAuthSuccessCount = 0;
                 var overallAuthFailureCount = 0;
@@ -165,6 +168,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -182,6 +186,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -218,6 +225,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -235,6 +243,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -272,6 +283,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -290,6 +302,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -327,6 +342,7 @@
                     var timeFrom = request.getParameter("timeFrom");
                     var timeTo = request.getParameter("timeTo");
                     var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                    var idpType = request.getParameter("idpType");
                     var start = parseInt(request.getParameter("start"));
                     var length = parseInt(request.getParameter("count"));
 
@@ -343,6 +359,9 @@
                     if(listnedAdditionalUserPrefs != ""){
                         tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                         additionalParameters = listnedAdditionalUserPrefs;
+                    }
+                    if(idpType != "") {
+                        additionalParameters += idpType;
                     }
 
                     query = stringify({
@@ -377,6 +396,7 @@
                     var timeFrom = request.getParameter("timeFrom");
                     var timeTo = request.getParameter("timeTo");
                     var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                    var idpType = request.getParameter("idpType");
                     var start = parseInt(request.getParameter("start"));
                     var length = parseInt(request.getParameter("count"));
 
@@ -392,6 +412,9 @@
 
                     if(listnedAdditionalUserPrefs != ""){
                         additionalParameters = listnedAdditionalUserPrefs;
+                    }
+                    if(idpType != "") {
+                        additionalParameters += idpType;
                     }
 
                     query = stringify({
@@ -426,6 +449,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -441,6 +465,9 @@
 
                 if(listnedAdditionalUserPrefs != ""){
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -476,6 +503,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -492,6 +520,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -527,6 +558,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -547,6 +579,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -582,12 +617,16 @@
                     var timeFrom = request.getParameter("timeFrom");
                     var timeTo = request.getParameter("timeTo");
                     var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                    var idpType = request.getParameter("idpType");
                     var timeRanges = timeRangeUtil.getDateTimeRanges(timeFrom, timeTo);
 
                     var additionalParameters = "";
 
                     if(listnedAdditionalUserPrefs != ""){
                         additionalParameters = listnedAdditionalUserPrefs;
+                    }
+                    if(idpType != "") {
+                        additionalParameters += idpType;
                     }
 
                     var searchParams = [];
@@ -649,6 +688,7 @@
                 var draw = request.getParameter("draw");
                 var userQuery = request.getParameter("search[value]");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
@@ -656,6 +696,9 @@
 
                 if(listnedAdditionalUserPrefs != ""){
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
@@ -710,6 +753,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -726,6 +770,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -757,6 +804,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -772,6 +820,9 @@
 
                 if(listnedAdditionalUserPrefs != ""){
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -802,6 +853,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -818,6 +870,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -847,6 +902,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -863,6 +919,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -893,6 +952,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -909,6 +969,9 @@
                 if (listnedAdditionalUserPrefs != "") {
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -943,6 +1006,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -958,6 +1022,9 @@
 
                 if(listnedAdditionalUserPrefs != ""){
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -989,6 +1056,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -1005,6 +1073,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -1040,6 +1111,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -1056,6 +1128,9 @@
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
@@ -1095,11 +1170,15 @@
                 var draw = request.getParameter("draw");
                 var userQuery = request.getParameter("search[value]");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
 
                 var additionalParameters = "";
                 if(listnedAdditionalUserPrefs != ""){
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 var query = stringify({
@@ -1151,6 +1230,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -1167,6 +1247,9 @@
                 if (listnedAdditionalUserPrefs != "") {
                     tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
+                }
+                if(idpType != "") {
+                    additionalParameters += idpType;
                 }
 
                 query = stringify({
