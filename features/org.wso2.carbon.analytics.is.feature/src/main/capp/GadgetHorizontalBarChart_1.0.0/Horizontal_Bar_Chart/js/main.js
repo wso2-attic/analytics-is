@@ -116,7 +116,7 @@ $(function() {
                             }else if(key == "IDENTITYPROVIDER"){
                                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "USERSTORE"){
-                                listnedAdditionalUserPrefs+= " AND _userstore:\""+historyParamVal.split("_")[0]+"\"";
+                                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+historyParamVal.split("_")[0]+"\"";
                             }
                         }
                     }
@@ -183,7 +183,7 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -230,7 +230,7 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND _userstore:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -629,7 +629,7 @@ var substringMatcher = function() {
                 break;
             }
             case 16: {
-                listnedAdditionalUserPrefs= " AND userstore:"+ q +"*";
+                listnedAdditionalUserPrefs= " AND userStoreDomain:"+ q +"*";
                 break;
             }
             default : {

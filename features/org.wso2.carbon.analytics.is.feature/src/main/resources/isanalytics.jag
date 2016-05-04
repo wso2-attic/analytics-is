@@ -961,7 +961,7 @@
                 }
 
                 query = stringify({
-                    fieldName : "userstore", //field which is indexed as a FACET
+                    fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
                     query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
                     start:start,
@@ -1008,7 +1008,7 @@
                 }
 
                 query = stringify({
-                    fieldName : "userstore", //field which is indexed as a FACET
+                    fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
                     query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
                     scoreFunction : "authSuccessCount", //score function
@@ -1059,7 +1059,7 @@
                 }
 
                 query = stringify({
-                    fieldName : "userstore", //field which is indexed as a FACET
+                    fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
                     query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
                     scoreFunction : "authFailiureCount", //score function
@@ -1113,7 +1113,7 @@
                 var count = connector.searchCount(loggedInUser, tableName, query);
                 var limit = count.getMessage();
 
-                var columns = ["userName", "serviceprovider", "userstore", "rolesCommaSeperated"
+                var columns = ["userName", "serviceprovider", "userStoreDomain", "rolesCommaSeperated"
                     ,"remoteIp","authenticationSuccess","timestamp"];
 
                 for (i = 0; i < dataPoints.length; i++) {
