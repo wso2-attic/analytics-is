@@ -76,6 +76,12 @@ $(function() {
         return;
     }
 
+    if(page == TYPE_RESIDENT_IDP) {
+        listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
+    } else {
+        listnedAdditionalUserPrefs = "";
+    }
+
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
 
     if(historyParmExist == null){
@@ -170,7 +176,11 @@ gadgets.HubSettings.onConnect = function() {
 
         addUserPrefsToGlobalArray(topic,data.mode,data.userPrefValue);
 
-        listnedAdditionalUserPrefs = "";
+        if(page == TYPE_RESIDENT_IDP) {
+            listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
+        } else {
+            listnedAdditionalUserPrefs = "";
+        }
 
         for(i=0;i<globalUniqueArray.length;i++){
 
@@ -218,7 +228,11 @@ gadgets.HubSettings.onConnect = function() {
 
         gadgetUtil.removeURLParam(data.category);
 
-        listnedAdditionalUserPrefs = "";
+        if(page == TYPE_RESIDENT_IDP) {
+            listnedAdditionalUserPrefs = " AND _isFederated:\"false\"";
+        } else {
+            listnedAdditionalUserPrefs = "";
+        }
 
         for(i=0;i<globalUniqueArray.length;i++){
             if(globalUniqueArray[i][2] == "USERNAME"){
@@ -635,6 +649,10 @@ var substringMatcher = function() {
             default : {
                 listnedAdditionalUserPrefs = "";
             }
+        }
+
+        if(page == TYPE_RESIDENT_IDP) {
+            listnedAdditionalUserPrefs += " AND _isFederated:\"false\"";
         }
 
         gadgetUtil.fetchData(CONTEXT, {
