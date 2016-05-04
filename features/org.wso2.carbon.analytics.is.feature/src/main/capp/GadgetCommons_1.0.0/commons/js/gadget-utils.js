@@ -19,7 +19,7 @@
  */
 
 var CONTEXT = "/portal/apis/isanalytics";
-var DASHBOARD_NAME = "securityanalytics";
+var DASHBOARD_NAME = "security-analytics";
 var BASE_URL = "/portal/dashboards/" + DASHBOARD_NAME + "/";
 
 var TYPE_LANDING = "landing";
@@ -51,13 +51,7 @@ var PARAM_ID = "id";
 var PARAM_TYPE = "type";
 var PARAM_GADGET_ROLE = "role";
 
-var PROXY_PAGE_URL = BASE_URL + TYPE_PROXY;
-var API_PAGE_URL = BASE_URL + TYPE_API;
-var SEQUENCE_PAGE_URL = BASE_URL + TYPE_SEQUENCE;
-var ENDPOINT_PAGE_URL = BASE_URL + TYPE_ENDPOINT;
-var INBOUND_ENDPOINT_PAGE_URL = BASE_URL + TYPE_INBOUND_ENDPOINT;
-var MEDIATOR_PAGE_URL = BASE_URL + TYPE_MEDIATOR;
-var MESSAGE_PAGE_URL = BASE_URL + TYPE_MESSAGE;
+var RESIDENT_IDP_PAGE_URL = BASE_URL + TYPE_RESIDENT_IDP;
 
 var PARENT_WINDOW = window.parent.document;
 
