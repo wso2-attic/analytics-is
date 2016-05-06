@@ -109,6 +109,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if(timeUnit == "SECOND"){
@@ -122,6 +123,10 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
                 var overallAuthSuccessCount = 0;
                 var overallAuthFailureCount = 0;
@@ -129,7 +134,7 @@
                 query = stringify({
                     tableName: tableName,
                     groupByField: "facetStartTime",
-                    query: "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters,
+                    query: "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
                     aggregateFields: [
                         {
                             fields: ["authSuccessCount"],
@@ -165,6 +170,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -184,10 +190,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "userName", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authSuccessCount",
                     start:start,
                     count:length
@@ -218,6 +229,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -237,10 +249,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "userName", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authFailiureCount", //score function
                     start:start,
                     count:length
@@ -272,6 +289,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -292,10 +310,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "serviceprovider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authSuccessCount", //score function
                     start:start,
                     count:length
@@ -327,6 +350,7 @@
                     var timeFrom = request.getParameter("timeFrom");
                     var timeTo = request.getParameter("timeTo");
                     var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                    var idpType = request.getParameter("idpType");
                     var start = parseInt(request.getParameter("start"));
                     var length = parseInt(request.getParameter("count"));
 
@@ -345,10 +369,15 @@
                         additionalParameters = listnedAdditionalUserPrefs;
                     }
 
+                    var idpTypeFilter = "";
+                    if(idpType != "") {
+                        idpTypeFilter = idpType;
+                    }
+
                     query = stringify({
                         fieldName : "serviceprovider", //field which is indexed as a FACET
                         categoryPath : [], //Path being drilled down, optional
-                        query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                        query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                         scoreFunction : "authFailiureCount", //score function
                         start:start,
                         count:length
@@ -377,6 +406,7 @@
                     var timeFrom = request.getParameter("timeFrom");
                     var timeTo = request.getParameter("timeTo");
                     var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                    var idpType = request.getParameter("idpType");
                     var start = parseInt(request.getParameter("start"));
                     var length = parseInt(request.getParameter("count"));
 
@@ -394,10 +424,15 @@
                         additionalParameters = listnedAdditionalUserPrefs;
                     }
 
+                    var idpTypeFilter = "";
+                    if(idpType != "") {
+                        idpTypeFilter = idpType;
+                    }
+
                     query = stringify({
                         fieldName : "role", //field which is indexed as a FACET
                         categoryPath : [], //Path being drilled down, optional
-                        query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                        query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                         scoreFunction : "authSuccessCount", //score function
                         start:start,
                         count:length
@@ -426,6 +461,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -443,10 +479,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "role", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authFailiureCount", //score function
                     start:start,
                     count:length
@@ -476,6 +517,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -494,10 +536,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "identityProvider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authSuccessCount", //score function
                     start:start,
                     count:length
@@ -527,6 +574,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -549,10 +597,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "identityProvider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authFailiureCount", //score function
                     start:start,
                     count:length
@@ -582,12 +635,18 @@
                     var timeFrom = request.getParameter("timeFrom");
                     var timeTo = request.getParameter("timeTo");
                     var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                    var idpType = request.getParameter("idpType");
                     var timeRanges = timeRangeUtil.getDateTimeRanges(timeFrom, timeTo);
 
                     var additionalParameters = "";
 
                     if(listnedAdditionalUserPrefs != ""){
                         additionalParameters = listnedAdditionalUserPrefs;
+                    }
+
+                    var idpTypeFilter = "";
+                    if(idpType != "") {
+                        idpTypeFilter = idpType;
                     }
 
                     var searchParams = [];
@@ -617,7 +676,7 @@
                         var searchParam = {
                             tableName: "IS-AUTHENTICATION-STAT-PER-" + timeUnit,
                             groupByField: "facetStartTime",
-                            query: "startingTime : [" + timeRange.range[0] + " TO " + timeRange.range[1] + "]"+additionalParameters,
+                            query: "startingTime : [" + timeRange.range[0] + " TO " + timeRange.range[1] + "]"+idpTypeFilter+additionalParameters,
                             noOfRecords: 100000
                         };
                         searchParam.aggregateFields = aggregateFields;
@@ -649,6 +708,7 @@
                 var draw = request.getParameter("draw");
                 var userQuery = request.getParameter("search[value]");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
@@ -658,11 +718,16 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
                     ,"remoteIp","authenticationSuccess","timestamp"];
 
                 var query = stringify({
-                                          "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+ additionalParameters,
+                                          "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
                                           "start": start,
                                           "count": length,
                                           "sortBy" : [{
@@ -710,6 +775,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -728,10 +794,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "userName", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     start:start,
                     count:length
                 });
@@ -757,6 +828,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -774,10 +846,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "role", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     start:start,
                     count:length
                 });
@@ -802,6 +879,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -820,10 +898,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "identityProvider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     start:start,
                     count:length
                 });
@@ -847,6 +930,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -865,10 +949,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "serviceprovider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     start:start,
                     count:length
                 });
@@ -893,6 +982,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -911,10 +1001,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName: "serviceprovider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "isFirstLoginCount : true AND startingTime : [" + timeFrom + " TO " + timeTo + "]" + additionalParameters, //search query, optional
+                    query: "isFirstLoginCount : true AND startingTime : [" + timeFrom + " TO " + timeTo + "]" +idpTypeFilter+ additionalParameters, //search query, optional
                     scoreFunction: "authSuccessCount", //score function
                     start: start,
                     count: length
@@ -943,6 +1038,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -960,10 +1056,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     start:start,
                     count:length
                 });
@@ -989,6 +1090,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -1007,10 +1109,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authSuccessCount", //score function
                     start:start,
                     count:length
@@ -1040,6 +1147,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -1058,10 +1166,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                     fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters, //search query, optional
+                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     scoreFunction : "authFailiureCount", //score function
                     start:start,
                     count:length
@@ -1095,6 +1208,7 @@
                 var draw = request.getParameter("draw");
                 var userQuery = request.getParameter("search[value]");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
 
                 var additionalParameters = "";
@@ -1102,8 +1216,13 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 var query = stringify({
-                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters,
+                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
                     "start": start,
                     "count": length
                 });
@@ -1151,6 +1270,7 @@
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
@@ -1169,10 +1289,15 @@
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
                 query = stringify({
                                       fieldName: "serviceprovider", //field which is indexed as a FACET
                                       categoryPath: [], //Path being drilled down, optional
-                                      query: "isFirstLoginCount : true AND startingTime : [" + timeFrom + " TO " + timeTo + "]" + additionalParameters, //search query, optional
+                                      query: "isFirstLoginCount : true AND startingTime : [" + timeFrom + " TO " + timeTo + "]" +idpTypeFilter+additionalParameters, //search query, optional
                                       scoreFunction: "authSuccessCount", //score function
                                       start: start,
                                       count: length

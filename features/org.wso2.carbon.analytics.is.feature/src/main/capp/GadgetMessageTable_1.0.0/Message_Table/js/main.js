@@ -100,6 +100,7 @@ $(function() {
                     d.timeFrom = parseInt(listnedTimeFromValue);
                     d.timeTo = parseInt(listnedTimeToValue);
                     d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
+                    d.idpType = " AND _isFederated:\"false\"";
                 }
             }
         });

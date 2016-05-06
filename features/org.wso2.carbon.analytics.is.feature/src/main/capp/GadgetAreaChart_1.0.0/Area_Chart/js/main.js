@@ -9,6 +9,7 @@ var globalUniqueArray = [];
 var rangeStart;
 var rangeEnd;
 var rangeHistoryArray = [];
+var idpTypeFilter = "";
 
 var page = gadgetUtil.getCurrentPageName();
 var qs = gadgetUtil.getQueryString();
@@ -98,6 +99,12 @@ gadgets.HubSettings.onConnect = function() {
             }
         }
 
+        if(page == TYPE_RESIDENT_IDP) {
+            idpTypeFilter = " AND _isFederated:\"false\"";
+        } else {
+            idpTypeFilter = "";
+        }
+
         onDataChanged();
     });
 };
@@ -153,7 +160,8 @@ function onDataChanged() {
         type: type,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs
+        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        idpType:idpTypeFilter
     }, onData, onError);
 
 };
