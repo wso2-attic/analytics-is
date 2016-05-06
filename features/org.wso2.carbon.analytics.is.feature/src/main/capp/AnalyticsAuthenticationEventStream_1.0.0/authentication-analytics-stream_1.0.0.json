@@ -9,10 +9,6 @@
             "type": "STRING"
         },
         {
-            "name": "timestamp",
-            "type": "STRING"
-        },
-        {
             "name": "authenticationSuccess",
             "type": "BOOL"
         },
@@ -85,8 +81,12 @@
             "type": "BOOL"
         },
         {
-            "name": "IsFederated",
+            "name": "isFederated",
             "type": "BOOL"
+        },
+        {
+            "name": "_timestamp",
+            "type": "LONG"
         }
     ]
 }
