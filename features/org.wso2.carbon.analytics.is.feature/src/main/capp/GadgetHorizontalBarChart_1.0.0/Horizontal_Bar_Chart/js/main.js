@@ -28,6 +28,7 @@ if (chartSuccess && chartFailure) {
     filterType = gadgetUtil.getFilterType(page, chartSuccess);
 } else if (chartSuccess) {
     functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
+    filterType = gadgetUtil.getFilterType(page, chartSuccess);
 }
 
 
@@ -80,7 +81,7 @@ $(function() {
     if(page == TYPE_RESIDENT_IDP) {
         idpTypeFilter = " AND _isFederated:\"false\"";
     } else {
-        idpTypeFilter = "";
+        idpTypeFilter = " AND _isFederated:\"true\"";
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -196,12 +197,6 @@ gadgets.HubSettings.onConnect = function() {
             }
         }
 
-        if(page == TYPE_RESIDENT_IDP) {
-            idpTypeFilter = " AND _isFederated:\"false\"";
-        } else {
-            idpTypeFilter = "";
-        }
-
         if(instanceType != data.mode){
 
             var alreadySelected = false;
@@ -247,12 +242,6 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
                 listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
-        }
-
-        if(page == TYPE_RESIDENT_IDP) {
-            idpTypeFilter = " AND _isFederated:\"false\"";
-        } else {
-            idpTypeFilter = "";
         }
 
         var instanceType = chartSuccess.mode;
@@ -340,6 +329,8 @@ function successOnData(response) {
             maxSuccessRcordValue = 0;
         }
         if (chartFailure) {
+            $('#canvasSuccess').css({"height":"40%"});
+            $('#canvasFailure').css({"height":"40%"});
             gadgetUtil.fetchData(CONTEXT, {
                 type: functionTypeFailure,
                 timeFrom: listnedTimeFromValue,
@@ -351,6 +342,8 @@ function successOnData(response) {
             }, failureOnData, failureOnError);
         } else {
             $(".failureChart").remove();
+            $('#canvasSuccess').css({"height":"80%"});
+            $('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 
         }
@@ -659,12 +652,6 @@ var substringMatcher = function() {
             default : {
                 listnedAdditionalUserPrefs = "";
             }
-        }
-
-        if(page == TYPE_RESIDENT_IDP) {
-            idpTypeFilter = " AND _isFederated:\"false\"";
-        } else {
-            idpTypeFilter = "";
         }
 
         gadgetUtil.fetchData(CONTEXT, {

@@ -134,7 +134,7 @@
                 query = stringify({
                     tableName: tableName,
                     groupByField: "facetStartTime",
-                    query: "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
                     aggregateFields: [
                         {
                             fields: ["authSuccessCount"],
@@ -142,7 +142,7 @@
                             alias: "total_authSuccessCount"
                         },
                         {
-                            fields: ["authFailiureCount"],
+                            fields: ["authFailureCount"],
                             aggregate: "SUM",
                             alias: "total_authFailiureCount"
                         }
@@ -164,352 +164,358 @@
                 }
                 break;
             }case TYPE_PER_USER_AUTH_SUCCESS:
-            {
-                result = [];
-                dataPointsArray = [];
-                var timeFrom = request.getParameter("timeFrom");
-                var timeTo = request.getParameter("timeTo");
-                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-                var idpType = request.getParameter("idpType");
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("count"));
-
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
-                if(timeUnit == "SECOND"){
-                    timeUnit = "MINUTE";
-                }
-
-                var tableName = "IS-USER-AUTHENTICATION-STAT-PER-" + timeUnit;
-
-                var additionalParameters = "";
-
-                if(listnedAdditionalUserPrefs != ""){
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if(idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                query = stringify({
-                    fieldName : "userName", //field which is indexed as a FACET
-                    categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                    scoreFunction : "authSuccessCount",
-                    start:start,
-                    count:length
-                });
-
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
-
-                var dataPoints = JSON.parse(resp.getMessage());
-
-                var obj = dataPoints.categories;
-                var categoryCount = dataPoints.categoryCount;
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        dataPointsArray.push({
-                            "username": key,
-                            "authSuccessCount": obj[key]
-                        });
-                    }
-                }
-                result.push(dataPointsArray);
-                result.push(categoryCount);
-                break;
-            }case TYPE_PER_USER_AUTH_FAILURE:
-            {
-                result = [];
-                dataPointsArray = [];
-                var timeFrom = request.getParameter("timeFrom");
-                var timeTo = request.getParameter("timeTo");
-                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-                var idpType = request.getParameter("idpType");
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
-                if(timeUnit == "SECOND"){
-                    timeUnit = "MINUTE";
-                }
-
-                var tableName = "IS-USER-AUTHENTICATION-STAT-PER-" + timeUnit;
-
-                var additionalParameters = "";
-
-
-                if(listnedAdditionalUserPrefs != ""){
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if(idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                query = stringify({
-                    fieldName : "userName", //field which is indexed as a FACET
-                    categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                    scoreFunction : "authFailiureCount", //score function
-                    start:start,
-                    count:length
-                });
-
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
-                var categoryCount = dataPoints.categoryCount;
-
-
-
-                var obj = dataPoints.categories;
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        dataPointsArray.push({
-                            "username": key,
-                            "authFailiureCount": obj[key]
-                        });
-                    }
-                }
-                result.push(dataPointsArray);
-                result.push(categoryCount);
-                break;
-            }case TYPE_PER_SERVICE_PROVIDER_AUTH_SUCCESS:
-            {
-                result = [];
-                dataPointsArray = [];
-                var timeFrom = request.getParameter("timeFrom");
-                var timeTo = request.getParameter("timeTo");
-                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-                var idpType = request.getParameter("idpType");
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("count"));
-
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
-                if(timeUnit == "SECOND"){
-                    timeUnit = "MINUTE";
-                }
-
-
-                var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
-
-                var additionalParameters = "";
-
-                if(listnedAdditionalUserPrefs != ""){
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if(idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                query = stringify({
-                    fieldName : "serviceprovider", //field which is indexed as a FACET
-                    categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                    scoreFunction : "authSuccessCount", //score function
-                    start:start,
-                    count:length
-                });
-
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
-                var categoryCount = dataPoints.categoryCount;
-
-
-
-                var obj = dataPoints.categories;
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        dataPointsArray.push({
-                            "serviceprovider": key,
-                            "authSuccessCount": obj[key]
-                        });
-                    }
-                }
-                result.push(dataPointsArray);
-                result.push(categoryCount);
-                break;
-            }case TYPE_PER_SERVICE_PROVIDER_AUTH_FAILURE:
-                {
-                    result = [];
-                    dataPointsArray = [];
-                    var timeFrom = request.getParameter("timeFrom");
-                    var timeTo = request.getParameter("timeTo");
-                    var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-                    var idpType = request.getParameter("idpType");
-                    var start = parseInt(request.getParameter("start"));
-                    var length = parseInt(request.getParameter("count"));
-
-                    var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
-                    if(timeUnit == "SECOND"){
-                        timeUnit = "MINUTE";
-                    }
-
-                    var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
-
-                    var additionalParameters = "";
-
-                    if(listnedAdditionalUserPrefs != ""){
-                        tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
-                        additionalParameters = listnedAdditionalUserPrefs;
-                    }
-
-                    var idpTypeFilter = "";
-                    if(idpType != "") {
-                        idpTypeFilter = idpType;
-                    }
-
-                    query = stringify({
-                        fieldName : "serviceprovider", //field which is indexed as a FACET
-                        categoryPath : [], //Path being drilled down, optional
-                        query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                        scoreFunction : "authFailiureCount", //score function
-                        start:start,
-                        count:length
-                    });
-
-                    resp = connector.drillDownCategories(loggedInUser, tableName, query);
-                    var dataPoints = JSON.parse(resp.getMessage());
-                    var categoryCount = dataPoints.categoryCount;
-                    var obj = dataPoints.categories;
-
-                    for (var key in obj) {
-                        if (obj.hasOwnProperty(key)) {
-                            dataPointsArray.push({
-                                "serviceprovider": key,
-                                "authFailiureCount": obj[key]
-                            });
-                        }
-                    }
-                    result.push(dataPointsArray);
-                    result.push(categoryCount);
-                    break;
-            }case TYPE_PER_ROLE_AUTH_SUCCESS:
-                {
-                    result = [];
-                    dataPointsArray = [];
-                    var timeFrom = request.getParameter("timeFrom");
-                    var timeTo = request.getParameter("timeTo");
-                    var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-                    var idpType = request.getParameter("idpType");
-                    var start = parseInt(request.getParameter("start"));
-                    var length = parseInt(request.getParameter("count"));
-
-                    var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
-                    if(timeUnit == "SECOND"){
-                        timeUnit = "MINUTE";
-                    }
-
-                    var tableName = "IS-ROLE-AUTHENTICATION-STAT-PER-" + timeUnit;
-
-                    var additionalParameters = "";
-
-                    if(listnedAdditionalUserPrefs != ""){
-                        additionalParameters = listnedAdditionalUserPrefs;
-                    }
-
-                    var idpTypeFilter = "";
-                    if(idpType != "") {
-                        idpTypeFilter = idpType;
-                    }
-
-                    query = stringify({
-                        fieldName : "role", //field which is indexed as a FACET
-                        categoryPath : [], //Path being drilled down, optional
-                        query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                        scoreFunction : "authSuccessCount", //score function
-                        start:start,
-                        count:length
-                    });
-
-                    resp = connector.drillDownCategories(loggedInUser, tableName, query);
-                    var dataPoints = JSON.parse(resp.getMessage());
-                    var categoryCount = dataPoints.categoryCount;
-                    var obj = dataPoints.categories;
-
-                    for (var key in obj) {
-                        if (obj.hasOwnProperty(key)) {
-                            dataPointsArray.push({
-                                "role": key,
-                                "authSuccessCount": obj[key]
-                            });
-                        }
-                    }
-                    result.push(dataPointsArray);
-                    result.push(categoryCount);
-                    break;
-            }case TYPE_PER_ROLE_AUTH_FAILURE:
-            {
-                result = [];
-                dataPointsArray = [];
-                var timeFrom = request.getParameter("timeFrom");
-                var timeTo = request.getParameter("timeTo");
-                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-                var idpType = request.getParameter("idpType");
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
-                if(timeUnit == "SECOND"){
-                    timeUnit = "MINUTE";
-                }
-
-                var tableName = "IS-ROLE-AUTHENTICATION-STAT-PER-" + timeUnit;
-
-                var additionalParameters = "";
-
-                if(listnedAdditionalUserPrefs != ""){
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if(idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                query = stringify({
-                    fieldName : "role", //field which is indexed as a FACET
-                    categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                    scoreFunction : "authFailiureCount", //score function
-                    start:start,
-                    count:length
-                });
-
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
-                var categoryCount = dataPoints.categoryCount;
-                var obj = dataPoints.categories;
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        dataPointsArray.push({
-                            "role": key,
-                            "authFailiureCount": obj[key]
-                        });
-                    }
-                }
-                result.push(dataPointsArray);
-                result.push(categoryCount);
-                break;
+        {
+            result = [];
+            dataPointsArray = [];
+            var timeFrom = request.getParameter("timeFrom");
+            var timeTo = request.getParameter("timeTo");
+            var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+            var idpType = request.getParameter("idpType");
+            var start = parseInt(request.getParameter("start"));
+            var length = parseInt(request.getParameter("count"));
+
+
+            var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+            if(timeUnit == "SECOND"){
+                timeUnit = "MINUTE";
             }
+
+            var tableName = "IS-USER-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+            var additionalParameters = "";
+
+            if(listnedAdditionalUserPrefs != ""){
+                tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                additionalParameters = listnedAdditionalUserPrefs;
+            }
+
+            var idpTypeFilter = "";
+            if(idpType != "") {
+                idpTypeFilter = idpType;
+            }
+
+            query = stringify({
+                fieldName : "userName", //field which is indexed as a FACET
+                categoryPath : [], //Path being drilled down, optional
+                query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                //search query, optional
+                scoreFunction : "authSuccessCount",
+                start:start,
+                count:length
+            });
+
+            resp = connector.drillDownCategories(loggedInUser, tableName, query);
+
+            var dataPoints = JSON.parse(resp.getMessage());
+
+            var obj = dataPoints.categories;
+            var categoryCount = dataPoints.categoryCount;
+
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    dataPointsArray.push({
+                        "username": key,
+                        "authSuccessCount": obj[key]
+                    });
+                }
+            }
+            result.push(dataPointsArray);
+            result.push(categoryCount);
+            break;
+        }case TYPE_PER_USER_AUTH_FAILURE:
+        {
+            result = [];
+            dataPointsArray = [];
+            var timeFrom = request.getParameter("timeFrom");
+            var timeTo = request.getParameter("timeTo");
+            var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+            var idpType = request.getParameter("idpType");
+            var start = parseInt(request.getParameter("start"));
+            var length = parseInt(request.getParameter("count"));
+
+            var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+            if(timeUnit == "SECOND"){
+                timeUnit = "MINUTE";
+            }
+
+            var tableName = "IS-USER-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+            var additionalParameters = "";
+
+
+            if(listnedAdditionalUserPrefs != ""){
+                tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                additionalParameters = listnedAdditionalUserPrefs;
+            }
+
+            var idpTypeFilter = "";
+            if(idpType != "") {
+                idpTypeFilter = idpType;
+            }
+
+            query = stringify({
+                fieldName : "userName", //field which is indexed as a FACET
+                categoryPath : [], //Path being drilled down, optional
+                query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                //search query, optional
+                scoreFunction : "authFailureCount", //score function
+                start:start,
+                count:length
+            });
+
+            resp = connector.drillDownCategories(loggedInUser, tableName, query);
+            var dataPoints = JSON.parse(resp.getMessage());
+            var categoryCount = dataPoints.categoryCount;
+
+
+
+            var obj = dataPoints.categories;
+
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    dataPointsArray.push({
+                        "username": key,
+                        "authFailiureCount": obj[key]
+                    });
+                }
+            }
+            result.push(dataPointsArray);
+            result.push(categoryCount);
+            break;
+        }case TYPE_PER_SERVICE_PROVIDER_AUTH_SUCCESS:
+        {
+            result = [];
+            dataPointsArray = [];
+            var timeFrom = request.getParameter("timeFrom");
+            var timeTo = request.getParameter("timeTo");
+            var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+            var idpType = request.getParameter("idpType");
+            var start = parseInt(request.getParameter("start"));
+            var length = parseInt(request.getParameter("count"));
+
+
+            var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+            if(timeUnit == "SECOND"){
+                timeUnit = "MINUTE";
+            }
+
+
+            var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+            var additionalParameters = "";
+
+            if(listnedAdditionalUserPrefs != ""){
+                tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                additionalParameters = listnedAdditionalUserPrefs;
+            }
+
+            var idpTypeFilter = "";
+            if(idpType != "") {
+                idpTypeFilter = idpType;
+            }
+
+            query = stringify({
+                fieldName : "serviceprovider", //field which is indexed as a FACET
+                categoryPath : [], //Path being drilled down, optional
+                query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                //search query, optional
+                scoreFunction : "authSuccessCount", //score function
+                start:start,
+                count:length
+            });
+
+            resp = connector.drillDownCategories(loggedInUser, tableName, query);
+            var dataPoints = JSON.parse(resp.getMessage());
+            var categoryCount = dataPoints.categoryCount;
+
+
+
+            var obj = dataPoints.categories;
+
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    dataPointsArray.push({
+                        "serviceprovider": key,
+                        "authSuccessCount": obj[key]
+                    });
+                }
+            }
+            result.push(dataPointsArray);
+            result.push(categoryCount);
+            break;
+        }case TYPE_PER_SERVICE_PROVIDER_AUTH_FAILURE:
+        {
+            result = [];
+            dataPointsArray = [];
+            var timeFrom = request.getParameter("timeFrom");
+            var timeTo = request.getParameter("timeTo");
+            var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+            var idpType = request.getParameter("idpType");
+            var start = parseInt(request.getParameter("start"));
+            var length = parseInt(request.getParameter("count"));
+
+            var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+            if(timeUnit == "SECOND"){
+                timeUnit = "MINUTE";
+            }
+
+            var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+            var additionalParameters = "";
+
+            if(listnedAdditionalUserPrefs != ""){
+                tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                additionalParameters = listnedAdditionalUserPrefs;
+            }
+
+            var idpTypeFilter = "";
+            if(idpType != "") {
+                idpTypeFilter = idpType;
+            }
+
+            query = stringify({
+                fieldName : "serviceprovider", //field which is indexed as a FACET
+                categoryPath : [], //Path being drilled down, optional
+                query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                //search query, optional
+                scoreFunction : "authFailureCount", //score function
+                start:start,
+                count:length
+            });
+
+            resp = connector.drillDownCategories(loggedInUser, tableName, query);
+            var dataPoints = JSON.parse(resp.getMessage());
+            var categoryCount = dataPoints.categoryCount;
+            var obj = dataPoints.categories;
+
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    dataPointsArray.push({
+                        "serviceprovider": key,
+                        "authFailiureCount": obj[key]
+                    });
+                }
+            }
+            result.push(dataPointsArray);
+            result.push(categoryCount);
+            break;
+        }case TYPE_PER_ROLE_AUTH_SUCCESS:
+        {
+            result = [];
+            dataPointsArray = [];
+            var timeFrom = request.getParameter("timeFrom");
+            var timeTo = request.getParameter("timeTo");
+            var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+            var idpType = request.getParameter("idpType");
+            var start = parseInt(request.getParameter("start"));
+            var length = parseInt(request.getParameter("count"));
+
+            var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+            if(timeUnit == "SECOND"){
+                timeUnit = "MINUTE";
+            }
+
+            var tableName = "IS-ROLE-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+            var additionalParameters = "";
+
+            if(listnedAdditionalUserPrefs != ""){
+                additionalParameters = listnedAdditionalUserPrefs;
+            }
+
+            var idpTypeFilter = "";
+            if(idpType != "") {
+                idpTypeFilter = idpType;
+            }
+
+            query = stringify({
+                fieldName : "role", //field which is indexed as a FACET
+                categoryPath : [], //Path being drilled down, optional
+                query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                //search query, optional
+                scoreFunction : "authSuccessCount", //score function
+                start:start,
+                count:length
+            });
+
+            resp = connector.drillDownCategories(loggedInUser, tableName, query);
+            var dataPoints = JSON.parse(resp.getMessage());
+            var categoryCount = dataPoints.categoryCount;
+            var obj = dataPoints.categories;
+
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    dataPointsArray.push({
+                        "role": key,
+                        "authSuccessCount": obj[key]
+                    });
+                }
+            }
+            result.push(dataPointsArray);
+            result.push(categoryCount);
+            break;
+        }case TYPE_PER_ROLE_AUTH_FAILURE:
+        {
+            result = [];
+            dataPointsArray = [];
+            var timeFrom = request.getParameter("timeFrom");
+            var timeTo = request.getParameter("timeTo");
+            var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+            var idpType = request.getParameter("idpType");
+            var start = parseInt(request.getParameter("start"));
+            var length = parseInt(request.getParameter("count"));
+
+            var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+            if(timeUnit == "SECOND"){
+                timeUnit = "MINUTE";
+            }
+
+            var tableName = "IS-ROLE-AUTHENTICATION-STAT-PER-" + timeUnit;
+
+            var additionalParameters = "";
+
+            if(listnedAdditionalUserPrefs != ""){
+                additionalParameters = listnedAdditionalUserPrefs;
+            }
+
+            var idpTypeFilter = "";
+            if(idpType != "") {
+                idpTypeFilter = idpType;
+            }
+
+            query = stringify({
+                fieldName : "role", //field which is indexed as a FACET
+                categoryPath : [], //Path being drilled down, optional
+                query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                //search query, optional
+                scoreFunction : "authFailureCount", //score function
+                start:start,
+                count:length
+            });
+
+            resp = connector.drillDownCategories(loggedInUser, tableName, query);
+            var dataPoints = JSON.parse(resp.getMessage());
+            var categoryCount = dataPoints.categoryCount;
+            var obj = dataPoints.categories;
+
+            for (var key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    dataPointsArray.push({
+                        "role": key,
+                        "authFailiureCount": obj[key]
+                    });
+                }
+            }
+            result.push(dataPointsArray);
+            result.push(categoryCount);
+            break;
+        }
             case TYPE_PER_IDENTITY_PROVIDER_AUTH_SUCCESS:
             {
                 result = [];
@@ -544,7 +550,8 @@
                 query = stringify({
                     fieldName : "identityProvider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
                     scoreFunction : "authSuccessCount", //score function
                     start:start,
                     count:length
@@ -605,8 +612,9 @@
                 query = stringify({
                     fieldName : "identityProvider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                    scoreFunction : "authFailiureCount", //score function
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction : "authFailureCount", //score function
                     start:start,
                     count:length
                 });
@@ -629,89 +637,15 @@
                 break;
             }
             case TYPE_OVERALL_AUTH_STATS:
-                {
-
-                    result = [];
-                    var timeFrom = request.getParameter("timeFrom");
-                    var timeTo = request.getParameter("timeTo");
-                    var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-                    var idpType = request.getParameter("idpType");
-                    var timeRanges = timeRangeUtil.getDateTimeRanges(timeFrom, timeTo);
-
-                    var additionalParameters = "";
-
-                    if(listnedAdditionalUserPrefs != ""){
-                        additionalParameters = listnedAdditionalUserPrefs;
-                    }
-
-                    var idpTypeFilter = "";
-                    if(idpType != "") {
-                        idpTypeFilter = idpType;
-                    }
-
-                    var searchParams = [];
-                    var authSuccessCount = {
-                        fields: ["authSuccessCount"],
-                        aggregate: "SUM",
-                        alias: "sum_auth_successes"
-                    };
-                    var authFailiureCount = {
-                        fields: ["authFailiureCount"],
-                        aggregate: "SUM",
-                        alias: "sum_auth_failures"
-                    };
-
-                    var aggregateFields = [];
-                    aggregateFields.push(authSuccessCount);
-                    aggregateFields.push(authFailiureCount);
-
-                    for (var i = 0; i < timeRanges.size(); i++) {
-                        timeRange = timeRanges.get(i);
-
-                        var timeUnit = timeRange.unit;
-
-                        if(timeUnit == "SECOND"){
-                            timeUnit = "MINUTE";
-                        }
-                        var searchParam = {
-                            tableName: "IS-AUTHENTICATION-STAT-PER-" + timeUnit,
-                            groupByField: "facetStartTime",
-                            query: "startingTime : [" + timeRange.range[0] + " TO " + timeRange.range[1] + "]"+idpTypeFilter+additionalParameters,
-                            noOfRecords: 100000
-                        };
-                        searchParam.aggregateFields = aggregateFields;
-                        searchParams.push(searchParam);
-                    }
-                    resp = connector.searchMultiTablesWithAggregates(loggedInUser, JSON.stringify(searchParams));
-                    var totalAuthSuccessCount = 0;
-                    var totalAuthFailiureCount = 0;
-                    var dataPoints = JSON.parse(resp.getMessage());
-                    for (var i = 0; i < dataPoints.length; i++) {
-                        var obj = dataPoints[i];
-                        for(var z = 0; z < obj.length; z++){
-                            totalAuthSuccessCount += obj[z].values.sum_auth_successes;
-                            totalAuthFailiureCount += obj[z].values.sum_auth_failures;
-                        }
-
-                    }
-                    result = {success: totalAuthSuccessCount, failed: totalAuthFailiureCount};
-                    break;
-                }
-            case TYPE_AUTHENTICATION_DATA_TABLE:
             {
-                var result = {};
-                var data = [];
+
+                result = [];
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("length"));
-                var draw = request.getParameter("draw");
-                var userQuery = request.getParameter("search[value]");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
                 var idpType = request.getParameter("idpType");
-                var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
-                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
-                var sortType = request.getParameter("order[0][dir]").toUpperCase();
+                var timeRanges = timeRangeUtil.getDateTimeRanges(timeFrom, timeTo);
+
                 var additionalParameters = "";
 
                 if(listnedAdditionalUserPrefs != ""){
@@ -723,22 +657,94 @@
                     idpTypeFilter = idpType;
                 }
 
-                var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
-                    ,"remoteIp","authenticationSuccess","timestamp"];
+                var searchParams = [];
+                var authSuccessCount = {
+                    fields: ["authSuccessCount"],
+                    aggregate: "SUM",
+                    alias: "sum_auth_successes"
+                };
+                var authFailiureCount = {
+                    fields: ["authFailureCount"],
+                    aggregate: "SUM",
+                    alias: "sum_auth_failures"
+                };
+
+                var aggregateFields = [];
+                aggregateFields.push(authSuccessCount);
+                aggregateFields.push(authFailiureCount);
+
+                for (var i = 0; i < timeRanges.size(); i++) {
+                    timeRange = timeRanges.get(i);
+
+                    var timeUnit = timeRange.unit;
+
+                    if(timeUnit == "SECOND"){
+                        timeUnit = "MINUTE";
+                    }
+                    var searchParam = {
+                        tableName: "IS-AUTHENTICATION-STAT-PER-" + timeUnit,
+                        groupByField: "facetStartTime",
+                        query: "_timestamp : [" + timeRange.range[0] + " TO " + timeRange.range[1] + "]"
+                                + idpTypeFilter + additionalParameters,
+                        noOfRecords: 100000
+                    };
+                    searchParam.aggregateFields = aggregateFields;
+                    searchParams.push(searchParam);
+                }
+                resp = connector.searchMultiTablesWithAggregates(loggedInUser, JSON.stringify(searchParams));
+                var totalAuthSuccessCount = 0;
+                var totalAuthFailiureCount = 0;
+                var dataPoints = JSON.parse(resp.getMessage());
+                for (var i = 0; i < dataPoints.length; i++) {
+                    var obj = dataPoints[i];
+                    for(var z = 0; z < obj.length; z++){
+                        totalAuthSuccessCount += obj[z].values.sum_auth_successes;
+                        totalAuthFailiureCount += obj[z].values.sum_auth_failures;
+                    }
+
+                }
+                result = {success: totalAuthSuccessCount, failed: totalAuthFailiureCount};
+                break;
+            }
+            case TYPE_AUTHENTICATION_DATA_TABLE:
+            {
+                var result = {};
+                var data = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("length"));
+                var draw = request.getParameter("draw");
+                var idpType = request.getParameter("idpType");
+                var userQuery = request.getParameter("search[value]");
+                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
+
+                var additionalParameters = "";
+
+                if(listnedAdditionalUserPrefs != ""){
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
 
                 var query = stringify({
-                                          "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
-                                          "start": start,
-                                          "count": length,
-                                          "sortBy" : [{
-                                                          "field" : columns[sortByColumnNo],
-                                                          "sortType" : sortType
-                                                      }]
-                                      });
+                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+ additionalParameters,
+                    "start": start,
+                    "count": length
+                });
+
                 var resp = connector.search(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var count = connector.searchCount(loggedInUser, tableName, query);
                 var limit = count.getMessage();
+
+                var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
+                    ,"remoteIp","authenticationSuccess","timestamp"];
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
@@ -802,7 +808,8 @@
                 query = stringify({
                     fieldName : "userName", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
                     start:start,
                     count:length
                 });
@@ -854,7 +861,8 @@
                 query = stringify({
                     fieldName : "role", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
                     start:start,
                     count:length
                 });
@@ -906,7 +914,8 @@
                 query = stringify({
                     fieldName : "identityProvider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
                     start:start,
                     count:length
                 });
@@ -957,7 +966,8 @@
                 query = stringify({
                     fieldName : "serviceprovider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
                     start:start,
                     count:length
                 });
@@ -992,7 +1002,6 @@
                     timeUnit = "MINUTE";
                 }
 
-
                 var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
                 var additionalParameters = "";
 
@@ -1009,14 +1018,17 @@
                 query = stringify({
                     fieldName: "serviceprovider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "isFirstLoginCount : true AND startingTime : [" + timeFrom + " TO " + timeTo + "]" +idpTypeFilter+ additionalParameters, //search query, optional
+                    query: "isFirstLoginCount : true AND _timestamp : [" + timeFrom + " TO " + timeTo + "]" +idpTypeFilter+ additionalParameters, //search query, optional
                     scoreFunction: "authSuccessCount", //score function
                     start: start,
                     count: length
                 });
 
+
+
                 resp = connector.drillDownCategories(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
+
                 var categoryCount = dataPoints.categoryCount;
                 var obj = dataPoints.categories;
 
@@ -1025,7 +1037,7 @@
                         dataPointsArray.push({
                             "serviceprovider": key,
                             "authSuccessCount": obj[key]
-                                             });
+                        });
                     }
                 }
                 result.push(dataPointsArray);
@@ -1064,7 +1076,7 @@
                 query = stringify({
                     fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
                     start:start,
                     count:length
                 });
@@ -1117,7 +1129,8 @@
                 query = stringify({
                     fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
                     scoreFunction : "authSuccessCount", //score function
                     start:start,
                     count:length
@@ -1174,8 +1187,9 @@
                 query = stringify({
                     fieldName : "userStoreDomain", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startingTime : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters, //search query, optional
-                    scoreFunction : "authFailiureCount", //score function
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction : "authFailureCount", //score function
                     start:start,
                     count:length
                 });
@@ -1222,7 +1236,7 @@
                 }
 
                 var query = stringify({
-                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
+                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters,
                     "start": start,
                     "count": length
                 });
@@ -1295,13 +1309,13 @@
                 }
 
                 query = stringify({
-                                      fieldName: "serviceprovider", //field which is indexed as a FACET
-                                      categoryPath: [], //Path being drilled down, optional
-                                      query: "isFirstLoginCount : true AND startingTime : [" + timeFrom + " TO " + timeTo + "]" +idpTypeFilter+additionalParameters, //search query, optional
-                                      scoreFunction: "authSuccessCount", //score function
-                                      start: start,
-                                      count: length
-                                  });
+                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "isFirstLoginCount : true AND _timestamp : [" + timeFrom + " TO " + timeTo + "]" +idpTypeFilter+additionalParameters, //search query, optional
+                    scoreFunction: "authSuccessCount", //score function
+                    start: start,
+                    count: length
+                });
 
                 resp = connector.drillDownCategories(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
@@ -1311,9 +1325,9 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         dataPointsArray.push({
-                                                 "serviceprovider": key,
-                                                 "authSuccessCount": obj[key]
-                                             });
+                            "serviceprovider": key,
+                            "authSuccessCount": obj[key]
+                        });
                     }
                 }
                 result.push(dataPointsArray);
@@ -1331,7 +1345,7 @@
                 log.debug("value of result: " + result);
             }
             var finalResult;
-            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP) {
+            if (type == TYPE_AUTHENTICATION_DATA_TABLE) {
                 finalResult = result;
             }else{
                 finalResult = {
