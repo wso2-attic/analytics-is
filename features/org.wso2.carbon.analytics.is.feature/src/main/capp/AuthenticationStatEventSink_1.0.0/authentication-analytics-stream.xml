@@ -9,13 +9,6 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>timestamp</Name>
-            <EnableIndexing>false</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
             <Name>authenticationSuccess</Name>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
@@ -142,7 +135,7 @@
             <Type>BOOLEAN</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>IsFederated</Name>
+            <Name>isFederated</Name>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -150,7 +143,7 @@
         </ColumnDefinition>
     </TableSchema>
     <Source>
-        <StreamId>authenticationAnalyticsStream:1.0.0</StreamId>
+        <StreamId>authentication-analytics-stream:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
     <RecordStoreName>EVENT_STORE</RecordStoreName>

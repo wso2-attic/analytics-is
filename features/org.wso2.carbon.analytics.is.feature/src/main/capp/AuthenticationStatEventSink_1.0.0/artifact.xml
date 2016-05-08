@@ -19,5 +19,5 @@
   -->
 
 <artifact name="AuthenticationStatEventSink" version="1.0.0" type="analytics/eventstore" serverRole="DataAnalyticsServer">
-    <file>authenticationAnalyticsStream.xml</file>
+    <file>authentication-analytics-stream.xml</file>
 </artifact>
