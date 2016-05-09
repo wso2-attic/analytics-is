@@ -39,15 +39,15 @@
               <script src="../commons/js/typeahead.bundle.js"></script>
 
             </head>
-            <body>
+            <body class="bkWrapColor">
 
                 <div class="successChart">
-                    <div id="canvasSuccess" style="height:40%;width:400px"></div>
+                    <div id="canvasSuccess" style="width:400px"></div>
                     <div id="idSuccessPaginate"></div>
                 </div>
 
                 <div class="failureChart">
-                    <div id="canvasFailure" style="height:40%;width:400px"></div>
+                    <div id="canvasFailure" style="width:400px"></div>
                     <div id="idFailurePaginate"></div>
                 </div>
 
