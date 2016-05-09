@@ -757,11 +757,12 @@
                     for (j = 0; j < columns.length; j++) {
                         var column = columns[j];
                         if (dataPoints[i] != null) {
-                            var value = dataPoints[i]["values"][column];
                             if (column == "_timestamp") {
+                                var value = dataPoints[i]["timestamp"];
                                 var date = new Date(value);
                                 temp.push(date.toLocaleString());
                             } else {
+                                var value = dataPoints[i]["values"][column];
                                 temp.push(value);
                             }
                         }
@@ -1265,11 +1266,12 @@
                     for (j = 0; j < columns.length; j++) {
                         var column = columns[j];
                         if (dataPoints[i] != null) {
-                            var value = dataPoints[i]["values"][column];
                             if (column == "_timestamp") {
+                                var value = dataPoints[i]["timestamp"];
                                 var date = new Date(value);
                                 temp.push(date.toLocaleString());
                             } else {
+                                var value = dataPoints[i]["values"][column];
                                 temp.push(value);
                             }
                         }
