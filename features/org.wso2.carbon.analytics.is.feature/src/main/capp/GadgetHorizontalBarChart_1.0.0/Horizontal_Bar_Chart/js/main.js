@@ -78,10 +78,17 @@ $(function() {
         return;
     }
 
+    $( ".residentIdp").empty();
+
     if(page == TYPE_RESIDENT_IDP) {
         idpTypeFilter = " AND _isFederated:\"false\"";
     } else {
         idpTypeFilter = " AND _isFederated:\"true\"";
+
+        var instanceType = chartSuccess.mode;
+        if(instanceType == "IDENTITYPROVIDER"){
+            $( ".residentIdp").append( "<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>" );
+        }
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -135,6 +142,12 @@ $(function() {
 
     onChange();
 });
+
+
+function onResidentIdpClick() {
+    var targetUrl = RESIDENT_IDP_PAGE_URL;
+    parent.window.location = targetUrl;
+};
 
 function successOnPaginationClicked(e,originalEvent,type,page){
     successGlobalPage = page;
