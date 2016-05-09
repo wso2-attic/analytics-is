@@ -89,18 +89,18 @@ gadgets.HubSettings.onConnect = function() {
 
         for(i=0;i<globalUniqueArray.length;i++){
             if(globalUniqueArray[i][2] == "USERNAME"){
-                listnedAdditionalUserPrefs+= " AND _userName:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND _serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "ROLE"){
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
         if(page == TYPE_RESIDENT_IDP) {
-            idpTypeFilter = " AND _isFederated:\"false\"";
+            idpTypeFilter = " AND isFederated:\"false\"";
         } else {
             idpTypeFilter = "";
         }
@@ -138,13 +138,13 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
 
     for(i=0;i<globalUniqueArray.length;i++){
         if(globalUniqueArray[i][2] == "USERNAME"){
-            listnedAdditionalUserPrefs+= " AND _userName:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-            listnedAdditionalUserPrefs+= " AND _serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "ROLE"){
             listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-            listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
         }
     }
 }
