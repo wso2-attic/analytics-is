@@ -708,6 +708,9 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
+
+                var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
+                    ,"remoteIp","authenticationSuccess","_timestamp"];
                 var result = {};
                 var data = [];
                 var timeFrom = request.getParameter("timeFrom");
@@ -718,6 +721,8 @@
                 var idpType = request.getParameter("idpType");
                 var userQuery = request.getParameter("search[value]");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
 
                 var additionalParameters = "";
@@ -731,11 +736,14 @@
                     idpTypeFilter = idpType;
                 }
 
-
                 var query = stringify({
-                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+ additionalParameters,
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ additionalParameters,
                     "start": start,
-                    "count": length
+                    "count": length,
+                    "sortBy" : [{
+                           "field" : columns[sortByColumnNo],
+                           "sortType" : sortType
+                    }]
                 });
 
                 var resp = connector.search(loggedInUser, tableName, query);
@@ -743,20 +751,18 @@
                 var count = connector.searchCount(loggedInUser, tableName, query);
                 var limit = count.getMessage();
 
-                var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
-                    ,"remoteIp","authenticationSuccess","timestamp"];
-
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
 
                     for (j = 0; j < columns.length; j++) {
                         var column = columns[j];
                         if (dataPoints[i] != null) {
-                            var value = dataPoints[i]["values"][column];
-                            if (column == "timestamp") {
+                            if (column == "_timestamp") {
+                                var value = dataPoints[i]["timestamp"];
                                 var date = new Date(value);
                                 temp.push(date.toLocaleString());
                             } else {
+                                var value = dataPoints[i]["values"][column];
                                 temp.push(value);
                             }
                         }
@@ -1213,6 +1219,8 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
+                var columns = ["userName", "serviceprovider", "userStoreDomain", "rolesCommaSeperated"
+                    ,"remoteIp","authenticationSuccess","_timestamp"];
                 var result = {};
                 var data = [];
                 var timeFrom = request.getParameter("timeFrom");
@@ -1223,6 +1231,8 @@
                 var userQuery = request.getParameter("search[value]");
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
                 var idpType = request.getParameter("idpType");
+                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
 
                 var additionalParameters = "";
@@ -1236,9 +1246,13 @@
                 }
 
                 var query = stringify({
-                    "query": "timestamp : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters,
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters,
                     "start": start,
-                    "count": length
+                    "count": length,
+                    "sortBy" : [{
+                        "field" : columns[sortByColumnNo],
+                        "sortType" : sortType
+                    }]
                 });
 
                 var resp = connector.search(loggedInUser, tableName, query);
@@ -1246,20 +1260,18 @@
                 var count = connector.searchCount(loggedInUser, tableName, query);
                 var limit = count.getMessage();
 
-                var columns = ["userName", "serviceprovider", "userStoreDomain", "rolesCommaSeperated"
-                    ,"remoteIp","authenticationSuccess","timestamp"];
-
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
 
                     for (j = 0; j < columns.length; j++) {
                         var column = columns[j];
                         if (dataPoints[i] != null) {
-                            var value = dataPoints[i]["values"][column];
-                            if (column == "timestamp") {
+                            if (column == "_timestamp") {
+                                var value = dataPoints[i]["timestamp"];
                                 var date = new Date(value);
                                 temp.push(date.toLocaleString());
                             } else {
+                                var value = dataPoints[i]["values"][column];
                                 temp.push(value);
                             }
                         }

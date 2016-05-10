@@ -8,7 +8,7 @@ var configs = [{
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "authenticationSuccess", label: "Authentication Success", type: "ordinal" },
-            { name: "timestamp", label: "Timestamp", type: "ordinal" }
+            { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     },
     {
@@ -21,7 +21,7 @@ var configs = [{
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "authenticationSuccess", label: "Authentication Success", type: "ordinal" },
-            { name: "timestamp", label: "Timestamp", type: "ordinal" }
+            { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     }
 ];

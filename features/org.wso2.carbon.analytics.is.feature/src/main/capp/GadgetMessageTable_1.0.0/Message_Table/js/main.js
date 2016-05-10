@@ -100,7 +100,7 @@ $(function() {
                     d.timeFrom = parseInt(listnedTimeFromValue);
                     d.timeTo = parseInt(listnedTimeToValue);
                     d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
-                    d.idpType = " AND _isFederated:\"false\"";
+                    d.idpType = " AND isFederated:\"false\"";
                 }
             }
         });
@@ -155,15 +155,15 @@ gadgets.HubSettings.onConnect = function() {
 
         for(i=0;i<globalUniqueArray.length;i++){
             if(globalUniqueArray[i][2] == "USERNAME"){
-                listnedAdditionalUserPrefs+= " AND _userName:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND _serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "ROLE"){
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -199,15 +199,15 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
 
     for(i=0;i<globalUniqueArray.length;i++){
         if(globalUniqueArray[i][2] == "USERNAME"){
-            listnedAdditionalUserPrefs+= " AND _userName:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-            listnedAdditionalUserPrefs+= " AND _serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "ROLE"){
             listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-            listnedAdditionalUserPrefs+= " AND _identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "USERSTORE"){
-            listnedAdditionalUserPrefs+= " AND _userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
         }
     }
 
