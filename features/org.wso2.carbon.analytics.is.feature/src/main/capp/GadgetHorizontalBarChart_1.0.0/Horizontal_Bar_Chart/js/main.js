@@ -132,6 +132,8 @@ $(function() {
                                 listnedAdditionalUserPrefs+= " AND identityProvider:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "USERSTORE"){
                                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+historyParamVal.split("_")[0]+"\"";
+                            }else if(key == "FIRST_TIME_SERVICEPROVIDER"){
+                                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+historyParamVal.split("_")[0]+"\"";
                             }
                         }
                     }
@@ -207,6 +209,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
+                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -254,6 +258,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
+                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
