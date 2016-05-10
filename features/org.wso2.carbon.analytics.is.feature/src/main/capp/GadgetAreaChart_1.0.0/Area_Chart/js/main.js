@@ -57,6 +57,26 @@ $(function() {
     }
 
     onDataChanged();
+
+    $("#back").off().click(function (event) {
+        if(rangeHistoryArray.length > 0) {
+            var timeRange = rangeHistoryArray[rangeHistoryArray.length - 1];
+            rangeHistoryArray.splice(rangeHistoryArray.length - 1, 1);
+            listnedTimeFromValue = timeRange[0];
+            listnedTimeToValue = timeRange[1];
+            var message = {
+                timeFrom: listnedTimeFromValue,
+                timeTo: listnedTimeToValue,
+                timeUnit: "Custom"
+            };
+            gadgets.Hub.publish(TOPIC_SLIDER, message);
+            onDataChanged();
+
+            if(rangeHistoryArray.length == 0) {
+                $(this).hide();
+            }
+        }
+    });
 });
 
 gadgets.HubSettings.onConnect = function() {
