@@ -134,7 +134,7 @@
                 query = stringify({
                     tableName: tableName,
                     groupByField: "facetStartTime",
-                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+idpTypeFilter+additionalParameters,
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
                     aggregateFields: [
                         {
                             fields: ["authSuccessCount"],
@@ -148,6 +148,7 @@
                         }
                     ]
                 });
+
                 resp = connector.searchWithAggregates(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
 
@@ -301,7 +302,6 @@
             if(timeUnit == "SECOND"){
                 timeUnit = "MINUTE";
             }
-
 
             var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
 
@@ -737,17 +737,19 @@
                 }
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ additionalParameters,
+                    "query": "timestampValue : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter +
+                            additionalParameters,
                     "start": start,
                     "count": length,
                     "sortBy" : [{
-                           "field" : columns[sortByColumnNo],
-                           "sortType" : sortType
+                        "field" : columns[sortByColumnNo],
+                        "sortType" : sortType
                     }]
                 });
 
                 var resp = connector.search(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
+
                 var count = connector.searchCount(loggedInUser, tableName, query);
                 var limit = count.getMessage();
 
@@ -1246,7 +1248,7 @@
                 }
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+additionalParameters,
+                    "query": "timestampValue : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
                     "start": start,
                     "count": length,
                     "sortBy" : [{
@@ -1323,7 +1325,8 @@
                 query = stringify({
                     fieldName: "serviceprovider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "isFirstLoginCount : true AND _timestamp : [" + timeFrom + " TO " + timeTo + "]" +idpTypeFilter+additionalParameters, //search query, optional
+                    query: "isFirstLoginCount : true AND _timestamp : [" + timeFrom + " TO " + timeTo + "]" +
+                            idpTypeFilter + additionalParameters, //search query, optional
                     scoreFunction: "authSuccessCount", //score function
                     start: start,
                     count: length
@@ -1357,7 +1360,7 @@
                 log.debug("value of result: " + result);
             }
             var finalResult;
-            if (type == TYPE_AUTHENTICATION_DATA_TABLE) {
+            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP) {
                 finalResult = result;
             }else{
                 finalResult = {

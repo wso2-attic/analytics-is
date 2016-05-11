@@ -133,6 +133,9 @@ function GadgetUtil() {
         } else {
             pageName = lastSegment.substr(0, lastSegment.indexOf('?'));
         }
+        if(!pageName || pageName === DASHBOARD_NAME) {
+            pageName = TYPE_LANDING;
+        }
         return this.getGadgetConfig(pageName);
     };
 

@@ -28,9 +28,15 @@ $(function() {
         $("#canvas").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
         return;
     }
-    if (page != TYPE_LANDING && qs[PARAM_ID] == null) {
+    if (page != TYPE_LANDING && page != TYPE_RESIDENT_IDP && qs[PARAM_ID] == null) {
         $("#canvas").html(gadgetUtil.getDefaultText());
         return;
+    }
+
+    if(page == TYPE_RESIDENT_IDP) {
+        idpTypeFilter = " AND isFederated:\"false\"";
+    } else {
+        idpTypeFilter = " AND isFederated:\"true\"";
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -119,12 +125,6 @@ gadgets.HubSettings.onConnect = function() {
             }
         }
 
-        if(page == TYPE_RESIDENT_IDP) {
-            idpTypeFilter = " AND isFederated:\"false\"";
-        } else {
-            idpTypeFilter = "";
-        }
-
         onDataChanged();
     });
 };
@@ -191,9 +191,9 @@ function onData(response) {
     try {
         var data = response.message;
         /*if (data.length == 0) {
-            $('#canvas').html(gadgetUtil.getEmptyRecordsText());
-            return;
-        }*/
+         $('#canvas').html(gadgetUtil.getEmptyRecordsText());
+         return;
+         }*/
         //sort the timestamps
         data.sort(function(a, b) {
             return a.timestamp - b.timestamp;
@@ -202,8 +202,6 @@ function onData(response) {
         //perform necessary transformation on input data
 
         var allData = chart.processData(data);
-        console.log(allData);
-
         var message = {
             success: allData[1],
             failed: allData[2]
@@ -296,7 +294,7 @@ function loadStats(data){
             },
             "data": [
 
-                ["China",200], ["Germany",75], 
+                ["China",200], ["Germany",75],
                 ["USA",127], ["Canada",15]
             ]
         }
@@ -327,7 +325,7 @@ document.body.onmouseup = function() {
     // div.innerHTML = "<p> Start : " + rangeStart + "</p>" + "<p> End : " + rangeEnd + "</p>";
 
     if((rangeStart) && (rangeEnd) && (rangeStart.toString() !== rangeEnd.toString())){
-        
+
         if(!$(event.target).is('#back')){
 
             var timeFromValue = JSON.parse(JSON.stringify(listnedTimeFromValue));
