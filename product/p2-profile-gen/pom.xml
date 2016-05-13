@@ -89,6 +89,15 @@
                             <publishArtifacts>true</publishArtifacts>
                             <publishArtifactRepository>true</publishArtifactRepository>
                             <featureArtifacts>
+                                <!-- START - Shared analytics Features -->
+
+                                <featureArtifactDef>
+                                    org.wso2.carbon.analytics.shared:org.wso2.analytics.shared.util.feature:${carbon.analytics.shared.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.analytics.shared:org.wso2.carbon.analytics.shared.spark.util.feature:${carbon.analytics.shared.version}
+                                </featureArtifactDef>
+
                                 <!-- START - Analytics Features -->
                                 <featureArtifactDef>
                                     org.wso2.carbon.analytics:org.wso2.carbon.analytics.core.feature:${carbon.analytics.version}
@@ -361,6 +370,15 @@
                             </destination>
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
+                                <!-- START - Analytics Shared Features -->
+                                <feature>
+                                    <id>org.wso2.analytics.shared.util.feature.group</id>
+                                    <version>${carbon.analytics.shared.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.analytics.shared.spark.util.feature.group</id>
+                                    <version>${carbon.analytics.shared.version}</version>
+                                </feature>
                                 <!-- START - Analytics Features -->
                                 <feature>
                                     <id>org.wso2.carbon.analytics.core.feature.group</id>
