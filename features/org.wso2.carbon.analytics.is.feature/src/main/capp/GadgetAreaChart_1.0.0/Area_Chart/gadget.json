@@ -1,0 +1,29 @@
+{
+    "id": "Area_Chart",
+    "title": "Area Chart",
+    "type": "gadget",
+    "thumbnail": "store://gadget/usa-business-revenue/index.png",
+    "data": {
+        "url": "store://gadget/Area_Chart/index.xml"
+    },
+    "listen": {
+        "subscriber": {
+            "type": "dateRange",
+            "description": "Used to listen to Any message of type state"
+        },
+        "subscriberUser": {
+            "type": "selectedUser",
+            "description": "Used to listen to Any message of type state"
+        },
+        "subscriberUserPrefDeletion": {
+            "type": "deletedUserPref",
+            "description": "Used to listen to Any message of type state"
+        }
+    },
+    "notify": {
+        "publisherSliderDateRange": {
+            "type": "dateRange",
+            "description": "This notifies date ranges generated in Slider"
+        }
+}
+}
