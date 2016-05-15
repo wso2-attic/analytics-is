@@ -40,13 +40,13 @@ $(function() {
     if(page.name == TYPE_LANDING) {
         oTable = $('#tblMessages').DataTable({
             dom: '<"dataTablesTop"' +
-            'f' +
-            '<"dataTables_toolbar">' +
-            '>' +
-            'rt' +
-            '<"dataTablesBottom"' +
-            'lip' +
-            '>',
+                'f' +
+                '<"dataTables_toolbar">' +
+                '>' +
+                'rt' +
+                '<"dataTablesBottom"' +
+                'lip' +
+                '>',
             "processing": true,
             "serverSide": true,
             "searching": false,
@@ -67,19 +67,20 @@ $(function() {
                     d.timeFrom = parseInt(listnedTimeFromValue);
                     d.timeTo = parseInt(listnedTimeToValue);
                     d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
+                    d.idpType = " AND isFederated:\"true\"";
                 }
             }
         });
     } else if(page.name == TYPE_RESIDENT_IDP) {
         oTable = $('#tblMessages').DataTable({
             dom: '<"dataTablesTop"' +
-            'f' +
-            '<"dataTables_toolbar">' +
-            '>' +
-            'rt' +
-            '<"dataTablesBottom"' +
-            'lip' +
-            '>',
+                'f' +
+                '<"dataTables_toolbar">' +
+                '>' +
+                'rt' +
+                '<"dataTablesBottom"' +
+                'lip' +
+                '>',
             "processing": true,
             "serverSide": true,
             "searching": false,
@@ -109,7 +110,7 @@ $(function() {
 
 
     $('#tblMessages tbody').on('click', 'tr', function() {
-        var id = $(this).find("td:first").html(); 
+        var id = $(this).find("td:first").html();
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
         } else {
@@ -117,8 +118,8 @@ $(function() {
             $(this).addClass('selected');
         }
         /*if( timeUnit == null) {
-            timeUnit = qs.timeUnit;
-        }*/
+         timeUnit = qs.timeUnit;
+         }*/
         // var targetUrl = MESSAGE_PAGE_URL + "?" + PARAM_ID + "=" + id + "&timeFrom=" + timeFrom + "&timeTo=" + timeTo + "&timeUnit=" + timeUnit;;
         var targetUrl = MESSAGE_PAGE_URL + "?" + PARAM_ID + "=" + id;
         parent.window.location = targetUrl;
