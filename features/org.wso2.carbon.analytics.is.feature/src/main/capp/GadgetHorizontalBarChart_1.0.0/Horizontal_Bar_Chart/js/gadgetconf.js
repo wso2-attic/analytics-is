@@ -9,15 +9,15 @@ var charts = [{
         "data": []
     }],
     "chartConfig":
-        {
-            "x":"username",
-            "yTitle":"successfulAttempts",
-            "maxLength":"3000",
-            "barGap":0.5,
-            highlight : "multi",
-            "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
-            "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
+    {
+        "x":"username",
+        "yTitle":"successfulAttempts",
+        "maxLength":"3000",
+        "barGap":0.5,
+        "highlight" : "single",
+        "colorScale":["#5CB85C"],
+        "padding":{"top":0,"left":100,"bottom":0,"right":55},
+        "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 2, filter:12 },
         { name: TYPE_RESIDENT_IDP, type: 2, filter:12 }
@@ -49,8 +49,9 @@ var charts = [{
         "x":"username",
         "maxLength":"3000",
         "yTitle":"failureAttempts",
+        "highlight" : "single",
         "barGap":0.5,
-        "padding":{"top":30,"left":100,"bottom":38,"right":55},
+        "padding":{"top":0,"left":100,"bottom":0,"right":55},
         "colorScale":["#D9534F"],
         "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
     types: [
@@ -84,9 +85,10 @@ var charts = [{
         "x":"serviceprovider",
         "yTitle":"successfulAttempts",
         "maxLength":"3000",
+        "highlight" : "single",
         "barGap":0.5,
         "colorScale":["#5CB85C"],
-        "padding":{"top":30,"left":100,"bottom":38,"right":55},
+        "padding":{"top":0,"left":100,"bottom":0,"right":55},
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 4, filter:13 },
@@ -120,9 +122,10 @@ var charts = [{
             "x":"role",
             "maxLength":"3000",
             "yTitle":"successfulAttempts",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 6, filter:15 },
@@ -156,9 +159,10 @@ var charts = [{
             "x":"serviceprovider",
             "maxLength":"3000",
             "yTitle":"failureAttempts",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#D9534F"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 5, filter:13 },
@@ -192,9 +196,10 @@ var charts = [{
             "x":"role",
             "maxLength":"3000",
             "yTitle":"failureAttempts",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#D9534F"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 7, filter:15 },
@@ -228,9 +233,10 @@ var charts = [{
             "x":"identityProvider",
             "maxLength":"3000",
             "yTitle":"successfulAttempts",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 9, filter:14 }
@@ -263,9 +269,10 @@ var charts = [{
             "x":"identityProvider",
             "maxLength":"3000",
             "yTitle":"failureAttempts",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#D9534F"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 10, filter:14 }
@@ -286,20 +293,21 @@ var charts = [{
         name: ROLE_PER_IDENTITY_PROVIDER_FIRST_LOGIN_COUNT,
         columns: ["authSuccessCount", "serviceprovider"],
         schema: [{
-                     "metadata": {
-                         "names": ["authSuccessCount", "serviceprovider"],
-                         "types": ["linear","ordinal"]
-                     },
-                     "data": []
-                 }],
+            "metadata": {
+                "names": ["authSuccessCount", "serviceprovider"],
+                "types": ["linear","ordinal"]
+            },
+            "data": []
+        }],
         "chartConfig":
         {
             "x":"serviceprovider",
             "yTitle":"successfulAttempts",
             "maxLength":"3000",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 16, filter:14 }
@@ -332,9 +340,10 @@ var charts = [{
             "x":"userstore",
             "maxLength":"3000",
             "yTitle":"successfulAttempts",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_RESIDENT_IDP, type: 18, filter:17 }
@@ -367,9 +376,10 @@ var charts = [{
             "x":"userstore",
             "maxLength":"3000",
             "yTitle":"failureAttempts",
+            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#D9534F"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_RESIDENT_IDP, type: 19, filter:17 }

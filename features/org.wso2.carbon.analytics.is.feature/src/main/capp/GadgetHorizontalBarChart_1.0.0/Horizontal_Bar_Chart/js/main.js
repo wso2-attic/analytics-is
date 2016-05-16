@@ -348,8 +348,8 @@ function successOnData(response) {
             maxSuccessRcordValue = 0;
         }
         if (chartFailure) {
-            $('#canvasSuccess').css({"height":"40%"});
-            $('#canvasFailure').css({"height":"40%"});
+            $('#canvasSuccess').css({"height":"35%"});
+            $('#canvasFailure').css({"height":"35%"});
             gadgetUtil.fetchData(CONTEXT, {
                 type: functionTypeFailure,
                 timeFrom: listnedTimeFromValue,
