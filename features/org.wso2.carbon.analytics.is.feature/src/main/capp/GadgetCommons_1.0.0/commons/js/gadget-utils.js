@@ -162,7 +162,6 @@ function GadgetUtil() {
         for (var param in params) {
             url = url + param + "=" + params[param] + "&";
         }
-        console.log("++ AJAX TO: " + context + url);
         $.ajax({
             url: context + url,
             type: "GET",
@@ -241,8 +240,6 @@ function GadgetUtil() {
             urlParams = this.getURLParams(),
             values = [],
             unfiltered = "?filtered=false";
-
-        console.log(urlParams);
 
         if (Object.prototype.toString.call( value ) === '[object Array]') {
             values = value;
