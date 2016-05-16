@@ -216,15 +216,43 @@ gadgets.HubSettings.onConnect = function() {
 
         if(instanceType != data.mode){
 
-            var alreadySelected = false;
-            for(i=0;i<globalUniqueArray.length;i++){
-                if(globalUniqueArray[i][2] == instanceType){
-                    alreadySelected = true;
-                    break;
+            if(instanceType == "SERVICEPROVIDER" || instanceType == "FIRST_TIME_SERVICEPROVIDER"){
+
+                if(instanceType == "SERVICEPROVIDER" && data.mode != "FIRST_TIME_SERVICEPROVIDER"){
+                    var alreadySelected = false;
+                    for(i=0;i<globalUniqueArray.length;i++){
+                        if(globalUniqueArray[i][2] == instanceType){
+                            alreadySelected = true;
+                            break;
+                        }
+                    }
+                    if(!alreadySelected){
+                        onChange();
+                    }
+                }else if(instanceType == "FIRST_TIME_SERVICEPROVIDER" && data.mode != "SERVICEPROVIDER"){
+                    var alreadySelected = false;
+                    for(i=0;i<globalUniqueArray.length;i++){
+                        if(globalUniqueArray[i][2] == instanceType){
+                            alreadySelected = true;
+                            break;
+                        }
+                    }
+                    if(!alreadySelected){
+                        onChange();
+                    }
+
                 }
-            }
-            if(!alreadySelected){
-                onChange();
+            }else{
+                var alreadySelected = false;
+                for(i=0;i<globalUniqueArray.length;i++){
+                    if(globalUniqueArray[i][2] == instanceType){
+                        alreadySelected = true;
+                        break;
+                    }
+                }
+                if(!alreadySelected){
+                    onChange();
+                }
             }
         }
     });
