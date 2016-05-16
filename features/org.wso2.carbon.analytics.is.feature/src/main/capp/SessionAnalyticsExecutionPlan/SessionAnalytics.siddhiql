@@ -1,0 +1,37 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('SessionAnalyticsExecutionPlan')
+
+/* Enter a unique description for ExecutionPlan */
+-- @Plan:description('ExecutionPlan')
+
+/* define streams/tables and write queries here ... */
+
+
+@Import('session-analytics-stream:1.0.0')
+define stream sessionStream (sessionId string, action int, userName string, tenantDomain string, _timestamp long);
+
+@Export('session-stat-per-minute:1.0.0')
+define stream sessionStatPerMinute (bucketId long, bucketStart long, bucketEnd long, activeSessionCount int, newSessionCount int, terminatedSessionCount int);
+
+define table sumHolderTable(id string, sums int);
+
+@from(eventtable = 'analytics.table', table.name = 'BUCKET_WINDOW_TABLE', indices = 'bucket , new, terminated, net')
+define table bucketWindowTableStream (bucketId long, newSessionCount int, terminatedSessionCount int, net int);
+
+from sessionStream#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
+select (_timestamp - _timestamp%60000) as bucketId, cast(sum(action), 'int') as newSessionCount, cast(sum(1 - action), 'int') as terminatedSessionCount, cast(2*sum(action)-count(), 'int') as net, 'netval' as id
+insert into bucketStream;
+
+from bucketStream#window.length(1)
+select bucketId, newSessionCount, terminatedSessionCount, net
+insert into bucketWindowTableStream;
+
+from bucketStream#window.length(1) as s left outer join sumHolderTable as t
+on s.id == t.id
+select s.bucketId, s.bucketId as bucketStart, (s.bucketId + 60000) as bucketEnd, (s.net  + ifThenElse(t.sums is null, 0, t.sums) ) as activeSessionCount, s.newSessionCount, s.terminatedSessionCount
+insert into sessionStatPerMinute;
+
+from sessionStatPerMinute#window.length(1)
+select 'netval' as id, activeSessionCount as sums
+insert overwrite sumHolderTable
+	on  id == sumHolderTable.id;

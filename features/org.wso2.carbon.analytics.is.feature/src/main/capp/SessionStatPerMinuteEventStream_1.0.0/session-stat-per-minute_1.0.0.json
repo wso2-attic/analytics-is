@@ -1,0 +1,32 @@
+{
+    "name": "session-stat-per-minute",
+    "version": "1.0.0",
+    "nickName": "",
+    "description": "",
+    "payloadData": [
+        {
+            "name": "bucketId",
+            "type": "LONG"
+        },
+        {
+            "name": "bucketStart",
+            "type": "LONG"
+        },
+        {
+            "name": "bucketEnd",
+            "type": "LONG"
+        },
+        {
+            "name": "activeSessionCount",
+            "type": "INT"
+        },
+        {
+            "name": "newSessionCount",
+            "type": "INT"
+        },
+        {
+            "name": "terminatedSessionCount",
+            "type": "INT"
+        }
+    ]
+}
