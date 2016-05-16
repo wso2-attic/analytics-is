@@ -5,6 +5,10 @@
     "description": "",
     "payloadData": [
         {
+            "name": "contextId",
+            "type": "STRING"
+        },
+        {
             "name": "eventId",
             "type": "STRING"
         },
