@@ -396,5 +396,110 @@ var charts = [{
             });
             return result;
         }
+    },
+    {
+        name: ROLE_TOP_LONGEST_SESSIONS,
+        columns: ["duration", "username"],
+        schema: [{
+            "metadata": {
+                "names": ["duration", "username"],
+                "types": ["linear","ordinal"]
+            },
+            "data": []
+        }],
+        "chartConfig":
+        {
+            "x":"username",
+            "maxLength":"3000",
+            "yTitle":"duration",
+            "barGap":0.5,
+            "colorScale":["#D9534F"],
+            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
+        types: [
+            { name: TYPE_SESSIONS, type: 21, filter:12 }
+        ],
+        mode: "TOP_LONGEST_SESSIONS",
+        colorCode: "SUCCESS",
+        processData: function(data) {
+            var result = [];
+            data.forEach(function(row, i) {
+                var duration = row['duration'];
+                var username = row['username'];
+                result.push([duration, username]);
+            });
+            return result;
+        }
+    },
+    {
+        name: ROLE_PER_USER_AVERAGE_SESSION_DURATION,
+        columns: ["duration", "username"],
+        schema: [{
+            "metadata": {
+                "names": ["duration", "username"],
+                "types": ["linear","ordinal"]
+            },
+            "data": []
+        }],
+        "chartConfig":
+        {
+            "x":"username",
+            "maxLength":"3000",
+            "yTitle":"duration",
+            "barGap":0.5,
+            "colorScale":["#D9534F"],
+            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
+        types: [
+            { name: TYPE_SESSIONS, type: 22, filter:12 }
+        ],
+        mode: "SESSION_DURATION",
+        colorCode: "SUCCESS",
+        processData: function(data) {
+            var result = [];
+            data.forEach(function(row, i) {
+                var duration = row['duration'];
+                var username = row['username'];
+
+                result.push([duration, username]);
+            });
+            return result;
+        }
+    },
+    {
+        name: ROLE_SESSION_COUNT_OVER_TIME,
+        columns: ["sessionCount", "timestamp"],
+        schema: [{
+            "metadata": {
+                "names": ["sessionCount", "timestamp"],
+                "types": ["linear","time"]
+            },
+            "data": []
+        }],
+        "chartConfig":
+        {
+            "x":"timestamp",
+            "maxLength":"3000",
+            "yTitle":"Session Count",
+            "xTitle":"Time",
+            "barGap":0.5,
+            "colorScale":["#D9534F"],
+            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "charts":[{type: "bar",  y : "sessionCount"}]},
+        types: [
+            { name: TYPE_SESSIONS, type: 23, filter:12 }
+        ],
+        mode: "SESSION_COUNT_OVER_TIME",
+        colorCode: "SUCCESS",
+        processData: function(data) {
+            var result = [];
+            data.forEach(function(row, i) {
+                var sessionCount = row['sessionCount'];
+                var timestamp = row['timestamp'];
+
+                result.push([sessionCount, timestamp]);
+            });
+            return result;
+        }
     }
 ];
