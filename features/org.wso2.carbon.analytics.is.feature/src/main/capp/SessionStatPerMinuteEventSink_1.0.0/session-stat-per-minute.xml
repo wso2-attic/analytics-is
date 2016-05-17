@@ -31,7 +31,7 @@
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
+            <Type>LONG</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>newSessionCount</Name>
@@ -39,7 +39,7 @@
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
+            <Type>LONG</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>terminatedSessionCount</Name>
@@ -47,7 +47,7 @@
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
+            <Type>LONG</Type>
         </ColumnDefinition>
     </TableSchema>
     <Source>

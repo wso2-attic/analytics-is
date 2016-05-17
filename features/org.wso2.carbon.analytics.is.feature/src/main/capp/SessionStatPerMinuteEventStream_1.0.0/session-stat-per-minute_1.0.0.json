@@ -18,15 +18,15 @@
         },
         {
             "name": "activeSessionCount",
-            "type": "INT"
+            "type": "LONG"
         },
         {
             "name": "newSessionCount",
-            "type": "INT"
+            "type": "LONG"
         },
         {
             "name": "terminatedSessionCount",
-            "type": "INT"
+            "type": "LONG"
         }
     ]
 }
