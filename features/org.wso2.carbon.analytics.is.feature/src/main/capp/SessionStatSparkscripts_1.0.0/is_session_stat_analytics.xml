@@ -6,7 +6,7 @@
 
         CREATE TEMPORARY TABLE isRawSessionAnalytics USING CarbonAnalytics OPTIONS (tableName "Is-Session-Info", schema "sessionId STRING -i, startTime LONG -i, endTime LONG -i, isActive INT -i, duration INT -i, userName FACET -i, tenantDomain STRING -i, _timestamp LONG", primaryKeys "sessionId", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isSessionAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "SESSION-STAT-PER-MINUTE");
+        CREATE TEMPORARY TABLE isSessionAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "IS-SESSION-STAT-PER-MINUTE");
 
         CREATE TEMPORARY TABLE isSessionAnalyticsPerHour USING CarbonAnalytics OPTIONS (tableName "Is-Session-Stat-per-Hour", schema "bucketId LONG -i, bucketStart LONG -i, bucketEnd LONG -i, activeSessionCount INT -i, newSessionCount INT -i, terminatedSessionCount INT -i", primaryKeys "bucketId, bucketStart, bucketEnd", incrementalParams "isSessionAnalyticsPerHour, 3600", mergeSchema "false");
 

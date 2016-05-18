@@ -10,7 +10,7 @@
 @Import('session-analytics-stream:1.0.0')
 define stream sessionStream (sessionId string, action int, userName string, tenantDomain string, _timestamp long);
 
-@Export('session-stat-per-minute:1.0.0')
+@Export('is-session-stat-per-minute:1.0.0')
 define stream sessionStatPerMinute (bucketId long, bucketStart long, bucketEnd long, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
 
 define table sumHolderTable(id string, sums long);

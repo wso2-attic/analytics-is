@@ -417,7 +417,7 @@ var charts = [{
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
-            { name: TYPE_SESSIONS, type: 21, filter:12 }
+            { name: TYPE_SESSIONS, type: 21, filter:24 }
         ],
         mode: "TOP_LONGEST_SESSIONS",
         colorCode: "SUCCESS",
@@ -451,7 +451,7 @@ var charts = [{
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
-            { name: TYPE_SESSIONS, type: 22, filter:12 }
+            { name: TYPE_SESSIONS, type: 22, filter:24 }
         ],
         mode: "SESSION_DURATION",
         colorCode: "SUCCESS",
@@ -487,7 +487,7 @@ var charts = [{
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "sessionCount"}]},
         types: [
-            { name: TYPE_SESSIONS, type: 23, filter:12 }
+            { name: TYPE_SESSIONS, type: 23 }
         ],
         mode: "SESSION_COUNT_OVER_TIME",
         colorCode: "SUCCESS",
