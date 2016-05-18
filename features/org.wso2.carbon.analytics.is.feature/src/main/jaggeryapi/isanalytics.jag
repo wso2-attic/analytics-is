@@ -1370,14 +1370,14 @@
                 }
 
                 // table is the user timely aggregate table
-                var tableName = "IS-SESSION-STAT-AGGREGATE";
+                var tableName = "IS-SESSION-INFO";
 
                 query = stringify({
-                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query : "startTime : [" + timeFrom + " TO " + timeTo + "] AND endTime : [" + timeFrom + " TO " + timeTo + "]",
                     start:start,
                     count:length,
                     "sortBy" : [{
-                        "field" : "longestSession",
+                        "field" : "duration",
                         "sortType" : "DESC"
                     }]
                 });
@@ -1390,7 +1390,7 @@
                     var temp = [];
                     if (dataPoints[i] != null) {
                         var username = dataPoints[i]["values"]["userName"];
-                        var duration = dataPoints[i]["values"]["longestSession"];
+                        var duration = dataPoints[i]["values"]["duration"];
                         data.push({
                             "username": username,
                             "duration": duration
@@ -1418,19 +1418,23 @@
                 }
 
                 // table is the user timely aggregate table
-                var tableName = "IS-SESSION-STAT-AGGREGATE";
+                var tableName = "IS-SESSION-INFO";
 
                 query = stringify({
                     tableName: tableName,
                     groupByField: "userName",
-                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query : "startTime : [" + timeFrom + " TO " + timeTo + "] AND endTime : [" + timeFrom + " TO " + timeTo + "]",
                     aggregateFields: [
                         {
-                            fields: ["averageSession"],
+                            fields: ["duration"],
                             aggregate: "AVG",
                             alias: "averageSession"
                         }
-                    ]
+                    ],
+                    "sortBy" : [{
+                        "field" : "averageSession",
+                        "sortType" : "DESC"
+                    }]
                 });
 
                 resp = connector.searchWithAggregates(loggedInUser, tableName, query);
