@@ -44,6 +44,7 @@
     var TYPE_TOP_LONGEST_SESSIONS = 21;
     var TYPE_AVERAGE_SESSION_DURATION = 22;
     var TYPE_SESSION_COUNT_OVER_TIME = 23;
+    var TYPE_SESSION_USERNAME_LIST = 24;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -1369,14 +1370,14 @@
                 }
 
                 // table is the user timely aggregate table
-                var tableName = "SESSION-STAT-PER-" + timeUnit;
+                var tableName = "IS-SESSION-STAT-AGGREGATE";
 
                 query = stringify({
                     query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
                     start:start,
                     count:length,
                     "sortBy" : [{
-                        "field" : "longest",
+                        "field" : "longestSession",
                         "sortType" : "DESC"
                     }]
                 });
@@ -1388,8 +1389,8 @@
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
                     if (dataPoints[i] != null) {
-                        var username = dataPoints[i]["values"]["username"];
-                        var duration = dataPoints[i]["values"]["longest"];
+                        var username = dataPoints[i]["values"]["userName"];
+                        var duration = dataPoints[i]["values"]["longestSession"];
                         data.push({
                             "username": username,
                             "duration": duration
@@ -1417,27 +1418,30 @@
                 }
 
                 // table is the user timely aggregate table
-                var tableName = "SESSION-STAT-PER-" + timeUnit;
+                var tableName = "IS-SESSION-STAT-AGGREGATE";
 
                 query = stringify({
+                    tableName: tableName,
+                    groupByField: "userName",
                     query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
-                    start:start,
-                    count:length,
-                    "sortBy" : [{
-                        "field" : "average",
-                        "sortType" : "DESC"
-                    }]
+                    aggregateFields: [
+                        {
+                            fields: ["averageSession"],
+                            aggregate: "AVG",
+                            alias: "averageSession"
+                        }
+                    ]
                 });
 
-                resp = connector.search(loggedInUser, tableName, query);
+                resp = connector.searchWithAggregates(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
-                var count = connector.searchCount(loggedInUser, tableName, query);
+                var count = dataPoints.length;
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
                     if (dataPoints[i] != null) {
-                        var username = dataPoints[i]["values"]["username"];
-                        var duration = dataPoints[i]["values"]["average"];
+                        var username = dataPoints[i]["values"]["userName"];
+                        var duration = dataPoints[i]["values"]["averageSession"];
                         data.push({
                             "username": username,
                             "duration": duration
@@ -1462,9 +1466,11 @@
 
                 if(timeUnit == "SECOND"){
                     timeUnit = "MINUTE";
+                } else if (timeUnit == "DAY" || timeUnit == "MONTH" || timeUnit == "YEAR") {
+                    timeUnit = "HOUR";
                 }
 
-                var tableName = "SESSION-STAT-PER-" + timeUnit;
+                var tableName = "IS-SESSION-STAT-PER-" + timeUnit;
 
                 query = stringify({
                     query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
@@ -1490,6 +1496,41 @@
                 result.push(data);
                 result.push(count);
 
+                break;
+            }
+            case TYPE_SESSION_USERNAME_LIST:
+            {
+                result = [];
+                dataPointsArray = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var tableName = "IS-SESSION-STAT-AGGREGATE";
+
+                query = stringify({
+                    fieldName : "userName", //field which is indexed as a FACET
+                    categoryPath : [], //Path being drilled down, optional
+                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    //search query, optional
+                    start:start,
+                    count:length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        result.push({
+                            "userName": key
+                        });
+                    }
+                }
                 break;
             }
             default:
