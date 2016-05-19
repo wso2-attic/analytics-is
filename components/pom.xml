@@ -27,7 +27,7 @@
     <artifactId>analytics-is-components</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>org.wso2.carbon.analytics.is</module>
+        <module>/org.wso2.carbon.analytics.is</module>
     </modules>
 
 

@@ -121,6 +121,11 @@
                 <artifactId>org.wso2.das4is.multitenancy.dashboard.ui</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.carbon.analytics.is</artifactId>
+                <version>${is.analytics.version}</version>
+            </dependency>
             <!-- ************************ END - Vanilla carbon server + DAS style ************* -->
 
             <!-- START - Integration test dependencies -->
