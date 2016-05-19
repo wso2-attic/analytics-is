@@ -411,7 +411,8 @@ var charts = [{
         {
             "x":"username",
             "maxLength":"3000",
-            "yTitle":"duration",
+            "yTitle":"Duration",
+            "xTitle":"Username",
             "barGap":0.5,
             "colorScale":["#D9534F"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
@@ -445,7 +446,8 @@ var charts = [{
         {
             "x":"username",
             "maxLength":"3000",
-            "yTitle":"duration",
+            "yTitle":"Duration",
+            "xTitle":"Username",
             "barGap":0.5,
             "colorScale":["#D9534F"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
@@ -468,20 +470,20 @@ var charts = [{
     },
     {
         name: ROLE_SESSION_COUNT_OVER_TIME,
-        columns: ["sessionCount", "timestamp"],
+        columns: ["sessionCount", "duration"],
         schema: [{
             "metadata": {
-                "names": ["sessionCount", "timestamp"],
-                "types": ["linear","time"]
+                "names": ["sessionCount", "duration"],
+                "types": ["linear","ordinal"]
             },
             "data": []
         }],
         "chartConfig":
         {
-            "x":"timestamp",
+            "x":"duration",
             "maxLength":"3000",
             "yTitle":"Session Count",
-            "xTitle":"Time",
+            "xTitle":"Duration",
             "barGap":0.5,
             "colorScale":["#D9534F"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
@@ -495,7 +497,7 @@ var charts = [{
             var result = [];
             data.forEach(function(row, i) {
                 var sessionCount = row['sessionCount'];
-                var timestamp = row['timestamp'];
+                var timestamp = row['duration'];
 
                 result.push([sessionCount, timestamp]);
             });
