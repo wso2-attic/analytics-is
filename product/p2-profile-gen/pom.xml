@@ -97,6 +97,9 @@
                                 <featureArtifactDef>
                                     org.wso2.carbon.analytics.shared:org.wso2.carbon.analytics.shared.spark.util.feature:${carbon.analytics.shared.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.analytics.shared:org.wso2.carbon.analytics.shared.geolocation.udf.feature:${carbon.analytics.shared.version}
+                                </featureArtifactDef>
 
                                 <!-- START - Analytics Features -->
                                 <featureArtifactDef>
@@ -377,6 +380,10 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.analytics.shared.spark.util.feature.group</id>
+                                    <version>${carbon.analytics.shared.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.analytics.shared.geolocation.udf.feature.group</id>
                                     <version>${carbon.analytics.shared.version}</version>
                                 </feature>
                                 <!-- START - Analytics Features -->

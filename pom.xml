@@ -40,6 +40,7 @@
         <module>product/p2-profile-gen</module>
         <module>product/distribution</module>
         <module>product/integration</module>
+        <module>components</module>
     </modules>
 
     <dependencyManagement>
@@ -118,6 +119,11 @@
             <dependency>
                 <groupId>org.wso2.carbon.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.multitenancy.dashboard.ui</artifactId>
+                <version>${is.analytics.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.carbon.analytics.is</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
             <!-- ************************ END - Vanilla carbon server + DAS style ************* -->
