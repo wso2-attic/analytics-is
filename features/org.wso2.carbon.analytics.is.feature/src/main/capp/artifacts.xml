@@ -13,6 +13,7 @@
         <dependency artifact="AnalyticsAuthenticationEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatPerMinuteEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AnalyticsUserRegionEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AuthenticationStatEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
