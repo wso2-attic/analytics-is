@@ -1377,7 +1377,7 @@
 
                 resp = connector.search(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
-                var count = connector.searchCount(loggedInUser, tableName, query);
+                var count = connector.searchCount(loggedInUser, tableName, query).getMessage();
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
@@ -1418,11 +1418,7 @@
                             aggregate: "AVG",
                             alias: "averageSession"
                         }
-                    ],
-                    "sortBy" : [{
-                        "fieldName" : "averageSession",
-                        "sortType" : "DESC"
-                    }]
+                    ]
                 });
 
                 resp = connector.searchWithAggregates(loggedInUser, tableName, query);
@@ -1440,7 +1436,20 @@
                         });
                     }
                 }
-                result.push(data);
+
+                // sort average values
+                var insert = function(array, rightIndex, value) {
+                    for(var j = rightIndex; j > 0 && array[j-1]["duration"] < value["duration"]; j--) {
+                        array[j] = array[j-1];
+                    }
+                    array[j] = value;
+                };
+
+                for(var i = 0; i < data.length; i++){
+                    insert(data, i, data[i]);
+                }
+
+                result.push(data.slice(start, start+length));
                 result.push(count);
                 break;
             }
