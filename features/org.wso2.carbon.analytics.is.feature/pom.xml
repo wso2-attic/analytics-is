@@ -106,6 +106,9 @@
                             </adviceFile>
                             <bundles>
                                 <bundleDef>
+                                    org.wso2.orbit.joda-time:joda-time
+                                </bundleDef>
+                                <bundleDef>
                                     org.wso2.carbon.analytics.is:org.wso2.carbon.analytics.is:${is.analytics.version}
                                 </bundleDef>
                             </bundles>
