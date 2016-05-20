@@ -18,6 +18,8 @@
         <dependency artifact="SessionStatEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionAnalyticsExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
+        <dependency artifact="AnalyticsUserSessionEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
         <!-- Dashboard Definition -->
         <dependency artifact="DashboardAuthentication" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
     </artifact>
