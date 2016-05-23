@@ -39,7 +39,7 @@
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
+            <Type>LONG</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>userName</Name>
