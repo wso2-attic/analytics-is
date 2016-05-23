@@ -1382,7 +1382,7 @@
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
                     if (dataPoints[i] != null) {
-                        var index = i+1;
+                        var index = start + i + 1;
                         var username = dataPoints[i]["values"]["userName"];
                         var duration = dataPoints[i]["values"]["duration"];
                         data.push({
