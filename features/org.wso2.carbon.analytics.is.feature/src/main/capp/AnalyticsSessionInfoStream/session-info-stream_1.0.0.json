@@ -1,0 +1,40 @@
+{
+  "name": "session-info-stream",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "sessionId",
+      "type": "STRING"
+    },
+    {
+      "name": "startTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "terminationTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "endTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "duration",
+      "type": "LONG"
+    },
+    {
+      "name": "userName",
+      "type": "STRING"
+    },
+    {
+      "name": "isActive",
+      "type": "BOOL"
+    },
+    {
+      "name": "_timestamp",
+      "type": "LONG"
+    }
+  ]
+}

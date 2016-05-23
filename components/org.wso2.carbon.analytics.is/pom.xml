@@ -56,13 +56,15 @@
             <groupId>org.json.wso2</groupId>
             <artifactId>json</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.wso2.carbon.analytics.shared</groupId>
             <artifactId>org.wso2.carbon.analytics.shared.geolocation.udf</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

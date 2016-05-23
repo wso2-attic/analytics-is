@@ -1,27 +1,27 @@
 {
-    "name": "session-analytics-stream",
+    "name": "is-user-authentication-stat-per-minute",
     "version": "1.0.0",
     "nickName": "",
     "description": "",
     "payloadData": [
         {
-            "name": "sessionId",
-            "type": "STRING"
+            "name": "year",
+            "type": "INT"
         },
         {
-            "name": "startTimestamp",
-            "type": "LONG"
+            "name": "month",
+            "type": "INT"
         },
         {
-            "name": "renewTimestamp",
-            "type": "LONG"
+            "name": "day",
+            "type": "INT"
         },
         {
-            "name": "terminationTimestamp",
-            "type": "LONG"
+            "name": "hour",
+            "type": "INT"
         },
         {
-            "name": "action",
+            "name": "minute",
             "type": "INT"
         },
         {
@@ -29,19 +29,19 @@
             "type": "STRING"
         },
         {
-            "name": "userstoreDomain",
+            "name": "authSuccessCount",
+            "type": "LONG"
+        },
+        {
+            "name": "authFailureCount",
+            "type": "LONG"
+        },
+        {
+            "name": "facetStartTime",
             "type": "STRING"
         },
         {
-            "name": "IP",
-            "type": "STRING"
-        },
-        {
-            "name": "tenantDomain",
-            "type": "STRING"
-        },
-        {
-            "name": "rememberMeFlag",
+            "name": "isFederated",
             "type": "BOOL"
         },
         {
