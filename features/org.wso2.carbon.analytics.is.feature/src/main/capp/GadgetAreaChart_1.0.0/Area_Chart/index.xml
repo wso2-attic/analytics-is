@@ -2,7 +2,7 @@
 <Module>
     <ModulePrefs title="Publisher" description="Publisher">
         <Require feature="pubsub-2"/>
-        <Require feature="dynamic-height"/>        
+        <Require feature="dynamic-height"/>
         <Require feature="setprefs"/>
     </ModulePrefs>
     <UserPref name="role" display_name="Gadet Role" required="true" />
@@ -49,7 +49,9 @@
                 <div class="col-5 clearfix">
                     <div class="pull-right clearfix">
                         <div class="pull-left arc-chart">
-                            <div id="mapDiv"></div>
+                            <input type="checkbox" id="chkMap" onclick="checkMapType()">
+                            <div id="mapSuccessDiv"></div>
+                            <div id="mapFailDiv"></div>
                         </div>
                     </div>
                 </div>
