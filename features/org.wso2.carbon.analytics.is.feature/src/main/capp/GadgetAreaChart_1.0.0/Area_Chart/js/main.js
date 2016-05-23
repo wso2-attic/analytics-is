@@ -378,7 +378,7 @@ function loadMap(data) {
     configFailedWorld.helperUrl = "../../portal/templates/geojson/countryInfo.json";
     configFailedWorld.geoCodesUrl = "../../portal/templates/geojson/world.json";
     var worldFailedChart = new vizg(worldFailedData, configFailedWorld);
-    worldFailedChart.draw("#mapFailDiv",[{type:"click", callback:typeSuccessCallbackmethod}]);
+    worldFailedChart.draw("#mapFailDiv",[{type:"click", callback:mapCallBack}]);
 }
 
 document.body.onmouseup = function() {
