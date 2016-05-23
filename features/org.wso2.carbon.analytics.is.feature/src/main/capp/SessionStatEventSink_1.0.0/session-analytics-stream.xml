@@ -5,7 +5,7 @@
             <Name>sessionId</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
+            <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
