@@ -60,6 +60,11 @@
             <groupId>org.wso2.carbon.analytics.shared</groupId>
             <artifactId>org.wso2.carbon.analytics.shared.geolocation.udf</artifactId>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
