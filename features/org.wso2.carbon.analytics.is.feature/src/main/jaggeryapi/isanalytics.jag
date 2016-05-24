@@ -45,6 +45,7 @@
     var TYPE_AVERAGE_SESSION_DURATION = 22;
     var TYPE_SESSION_COUNT_OVER_TIME = 23;
     var TYPE_SESSION_USERNAME_LIST = 24;
+    var TYPE_PER_USER_REGION = 25;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -1353,6 +1354,60 @@
                 result.push(categoryCount);
                 break;
             }
+
+
+            case TYPE_PER_USER_REGION:
+            {
+                result = [];
+                dataPointsArray = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+                var idpType = request.getParameter("idpType");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if(timeUnit == "SECOND"){
+                    timeUnit = "MINUTE";
+                }
+
+                var tableName = "IS-USER-REGION-STAT-PER-" + timeUnit;
+
+                var additionalParameters = "";
+
+                if(listnedAdditionalUserPrefs != ""){
+                    tableName = "IS-USER-REGION-STAT-PER-" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if(idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                var query = stringify({
+                    query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    "start": start,
+                    "count": length
+                });
+
+                var resp = connector.search(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                for (var i = 0; i < dataPoints.length; i++) {
+                    result.push({
+                        "region": dataPoints[i].values.region,
+                        "authSuccessCount": dataPoints[i].values.authSuccessCount,
+                        "authFailureCount": dataPoints[i].values.authFailureCount,
+                    });
+                }
+
+                break;
+            }
+
+
             case TYPE_TOP_LONGEST_SESSIONS:
             {
                 result = [];
