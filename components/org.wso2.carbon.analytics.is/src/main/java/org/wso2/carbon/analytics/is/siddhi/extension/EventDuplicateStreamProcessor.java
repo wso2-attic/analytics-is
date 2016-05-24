@@ -22,6 +22,7 @@ import org.wso2.siddhi.core.event.ComplexEventChunk;
 import org.wso2.siddhi.core.event.stream.StreamEvent;
 import org.wso2.siddhi.core.event.stream.StreamEventCloner;
 import org.wso2.siddhi.core.event.stream.populater.ComplexEventPopulater;
+import org.wso2.siddhi.core.executor.ConstantExpressionExecutor;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.executor.VariableExpressionExecutor;
 import org.wso2.siddhi.core.query.processor.Processor;
@@ -35,6 +36,7 @@ import java.util.List;
 
 public class EventDuplicateStreamProcessor extends StreamProcessor {
     private VariableExpressionExecutor expressionExecutor;
+    private String delimiter = ",";
 
     @Override
     protected List<Attribute> init(AbstractDefinition inputDefinition,
@@ -57,9 +59,43 @@ public class EventDuplicateStreamProcessor extends StreamProcessor {
                                 " constant attribute "
                                 + attributeExpressionExecutors[0].getClass().getCanonicalName());
             }
+        } else if (attributeExpressionExecutors.length == 2) {
+
+            if (attributeExpressionExecutors[0] instanceof VariableExpressionExecutor) {
+                if (attributeExpressionExecutors[0].getReturnType() == Attribute.Type.STRING) {
+                    expressionExecutor = (VariableExpressionExecutor) attributeExpressionExecutors[0];
+
+                } else {
+                    throw new ExecutionPlanValidationException(" Event Duplicate stream Processor 1st parameter " +
+                            "attribute should be " + "String, but found " + attributeExpressionExecutors[0]
+                            .getReturnType());
+                }
+            } else {
+                throw new ExecutionPlanValidationException(
+                        "Event duplicate stream Processor 1st parameter needs to be dynamic variable but found a" +
+                                " constant attribute "
+                                + attributeExpressionExecutors[0].getClass().getCanonicalName());
+            }
+
+            if (attributeExpressionExecutors[1] instanceof ConstantExpressionExecutor) {
+
+                if (attributeExpressionExecutors[1].getReturnType() == Attribute.Type.STRING) {
+                    delimiter = (String) ((ConstantExpressionExecutor) attributeExpressionExecutors[1]).getValue();
+
+                } else {
+                    throw new ExecutionPlanValidationException("Event duplicate stream Processor 2nd parameter " +
+                            "attribute should be string, but found " + attributeExpressionExecutors[1].getReturnType());
+                }
+
+            } else {
+                throw new ExecutionPlanValidationException("Event duplicate stream Processor 2nd parameter needs to " +
+                        "be constant attribute but found a dynamic attribute " + attributeExpressionExecutors[1]
+                        .getClass().getCanonicalName());
+            }
+
         } else {
-            throw new ExecutionPlanValidationException("Event Duplicate stream Processor should only have one " +
-                    "parameter (<string> commaSeperatedRoles ), " +
+            throw new ExecutionPlanValidationException("Event Duplicate stream Processor should only have one/two " +
+                    "parameter (<string> rolesCommaSeperated (and <string> delimiter), " +
                     "but found " + attributeExpressionExecutors.length + " input attributes");
         }
 
@@ -77,7 +113,7 @@ public class EventDuplicateStreamProcessor extends StreamProcessor {
             while (streamEventChunk.hasNext()) {
                 StreamEvent streamEvent = streamEventChunk.next();
                 String rolesCommaSeperated = (String) expressionExecutor.execute(streamEvent);
-                String[] roles = rolesCommaSeperated.split(",");
+                String[] roles = rolesCommaSeperated.split(delimiter);
                 for (String role : roles) {
                     StreamEvent clonedEvent = streamEventCloner.copyStreamEvent(streamEvent);
                     complexEventPopulater.populateComplexEvent(clonedEvent, new Object[] { role });

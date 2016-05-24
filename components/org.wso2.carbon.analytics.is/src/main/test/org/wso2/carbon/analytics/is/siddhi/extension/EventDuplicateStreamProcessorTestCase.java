@@ -42,7 +42,7 @@ public class EventDuplicateStreamProcessorTestCase {
     }
 
     @Test
-    public void eventDuplicatorTest1() throws InterruptedException {
+    public void eventDuplicatorDefaultDelimiterTest1() throws InterruptedException {
 
         SiddhiManager siddhiManager = new SiddhiManager();
 
@@ -76,6 +76,49 @@ public class EventDuplicateStreamProcessorTestCase {
         executionPlanRuntime.start();
         inputHandler.send(new Object[]{"IBM,Damith,Mohan", 700f, 0});
         inputHandler.send(new Object[]{"WSO2,Test", 60.5f, 1});
+        Thread.sleep(4000);
+        Assert.assertEquals(5, inEventCount);
+        Assert.assertEquals(0, removeEventCount);
+        Assert.assertTrue(eventArrived);
+        executionPlanRuntime.shutdown();
+
+    }
+
+    @Test
+    public void eventDuplicatorSpecificDelimiterTest2() throws InterruptedException {
+
+        SiddhiManager siddhiManager = new SiddhiManager();
+
+        String cseEventStream = "" +
+                "define stream cseEventStream (symbol string, price float, volume int);";
+        String query = "" +
+                "@info(name = 'query1') " +
+                "from cseEventStream#isAnalytics:duplicator(symbol,\";\") " +
+                "select symbol,price,volume, role " +
+                "insert all events into outputStream ;";
+
+        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(cseEventStream + query);
+
+        executionPlanRuntime.addCallback("query1", new QueryCallback() {
+            @Override
+            public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
+                EventPrinter.print(timeStamp, inEvents, removeEvents);
+                if (inEvents != null) {
+                    inEventCount = inEventCount + inEvents.length;
+                }
+                if (removeEvents != null) {
+                    Assert.assertTrue("InEvents arrived before RemoveEvents", inEventCount > removeEventCount);
+                    removeEventCount = removeEventCount + removeEvents.length;
+                }
+                eventArrived = true;
+            }
+
+        });
+
+        InputHandler inputHandler = executionPlanRuntime.getInputHandler("cseEventStream");
+        executionPlanRuntime.start();
+        inputHandler.send(new Object[]{"IBM;Damith;Mohan", 700f, 0});
+        inputHandler.send(new Object[]{"WSO2;Test", 60.5f, 1});
         Thread.sleep(4000);
         Assert.assertEquals(5, inEventCount);
         Assert.assertEquals(0, removeEventCount);
