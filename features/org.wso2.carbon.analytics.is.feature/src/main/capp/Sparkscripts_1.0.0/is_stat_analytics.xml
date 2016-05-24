@@ -4,7 +4,7 @@
     <Script>
         CREATE TEMPORARY TABLE rawAnalyticsData USING CarbonAnalytics
         OPTIONS (tableName "AUTHENTICATION-ANALYTICS-STREAM",
-        schema "eventId STRING, _timestamp LONG, authenticationSuccess BOOLEAN,userName STRING,userStoreDomain STRING,tetantDomain STRING,remoteIp STRING,region STRING,inboundAuthType STRING,serviceprovider STRING,remembermeEnabled BOOLEAN,forceAuthEnabled BOOLEAN,passiveAuthEnabled BOOLEAN,rolesCommaSeperated STRING,role STRING,authenticationStep STRING,identityProvider STRING,authStepSuccess BOOLEAN,stepAuthenticator STRING, isFirstLogin BOOLEAN, isFederated BOOLEAN");
+        schema "contextId STRING,eventId STRING, authenticationSuccess BOOLEAN,userName STRING,userStoreDomain STRING,tetantDomain STRING,remoteIp STRING,region STRING,inboundAuthType STRING,serviceprovider STRING,remembermeEnabled BOOLEAN,forceAuthEnabled BOOLEAN,passiveAuthEnabled BOOLEAN,rolesCommaSeperated STRING,authenticationStep STRING,identityProvider STRING,authStepSuccess BOOLEAN,stepAuthenticator STRING, isFirstLogin BOOLEAN, isFederated BOOLEAN,_timestamp LONG");
 
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerMinute USING CarbonAnalytics

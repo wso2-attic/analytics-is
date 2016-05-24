@@ -7,7 +7,7 @@
 /* define streams/tables and write queries here ... */
 
 @Import('authentication-analytics-stream:1.0.0')
-define stream inStream (contextId string, eventId string, authenticationSuccess bool, userName string, userStoreDomain string, tetantDomain string, remoteIp string, region string, inboundAuthType string, serviceprovider string, remembermeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeperated string, role string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, isFederated bool, _timestamp long);
+define stream inStream (contextId string, eventId string, authenticationSuccess bool, userName string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceprovider string, remembermeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeperated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, isFederated bool, _timestamp long);
 
 @Export('is-authentication-stat-per-minute:1.0.0')
 define stream perMinAuthenticationStatStream (year int, month int, day int, hour int, minute int, userName string, rolesCommaSeperated string, serviceprovider string, identityProvider string, region string,userStoreDomain string, authSuccessCount long, authFailureCount long, facetStartTime string, isFederated bool, _timestamp long);
@@ -28,15 +28,14 @@ define stream perMinServiceProviderStream (year int, month int, day int, hour in
 define stream perMinUserStream (year int, month int, day int, hour int, minute int, userName string, authSuccessCount long, authFailureCount long, facetStartTime string, isFederated bool,_timestamp long);
 
 
-from inStream#window.timeBatch(5 sec)
-select contextId, eventId, authenticationSuccess, userName, userStoreDomain, tetantDomain, remoteIp, region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, role, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin, isFederated, _timestamp,count(eventId) as countVal
-group by eventId
-insert into uniqueEventsStream;
-
-
-from uniqueEventsStream
-select time:extract(_timestamp, 'year') as year, time:extract(_timestamp, 'month') as month, time:extract(_timestamp, 'day') as day, time:extract(_timestamp, 'hour') as hour, time:extract(_timestamp, 'minute') as minute, eventId,userName,userStoreDomain, tetantDomain, remoteIp, region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, role, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse(authenticationSuccess == false, 1, 0) as failureValue,ifThenElse(isFirstLogin == true, 1, 0) as firstLoginValue,isFederated,_timestamp
+from inStream
+select time:extract(_timestamp, 'year') as year, time:extract(_timestamp, 'month') as month, time:extract(_timestamp, 'day') as day, time:extract(_timestamp, 'hour') as hour, time:extract(_timestamp, 'minute') as minute, eventId,userName,userStoreDomain, tenantDomain, remoteIp, region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse(authenticationSuccess == false, 1, 0) as failureValue,ifThenElse(isFirstLogin == true, 1, 0) as firstLoginValue,isFederated,_timestamp
 insert into extractedStream;
+
+from inStream#isAnalytics:duplicator(rolesCommaSeperated)
+select time:extract(_timestamp, 'year') as year, time:extract(_timestamp, 'month') as month, time:extract(_timestamp, 'day') as day, time:extract(_timestamp, 'hour') as hour, time:extract(_timestamp, 'minute') as minute, eventId,userName,userStoreDomain, tenantDomain, remoteIp, region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, role,rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse(authenticationSuccess == false, 1, 0) as failureValue,ifThenElse(isFirstLogin == true, 1, 0) as firstLoginValue,isFederated,_timestamp
+insert into duplicatedExtractedStream;
+
 
 from extractedStream#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
 select year,month,day,hour,minute,userName,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,convert(time:timestampInMilliseconds(str:concat(convert(e1.year,'string'),"-",convert(e1.month,'string'),"-",convert(e1.day,'string')," ",convert(e1.hour,'string'),":",convert(e1.minute,'string'),":","00"),'yyyy-MM-dd HH:mm:ss'),'string') as facetStartTime,isFederated,time:timestampInMilliseconds(str:concat(convert(e1.year,'string'),"-",convert(e1.month,'string'),"-",convert(e1.day,'string')," ",convert(e1.hour,'string'),":",convert(e1.minute,'string'),":","00"),'yyyy-MM-dd HH:mm:ss') as _timestamp
@@ -69,7 +68,7 @@ select year,month,day,hour,minute,userName,rolesCommaSeperated,serviceprovider,i
 group by year,month,day,hour,minute,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,isFederated
 insert into perMinAuthenticationStatStream;
 
-from extractedStream#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
+from duplicatedExtractedStream#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
 select year,month,day,hour,minute,userName,role,serviceprovider,identityProvider,region,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,convert(time:timestampInMilliseconds(str:concat(convert(e1.year,'string'),"-",convert(e1.month,'string'),"-",convert(e1.day,'string')," ",convert(e1.hour,'string'),":",convert(e1.minute,'string'),":","00"),'yyyy-MM-dd HH:mm:ss'),'string') as facetStartTime,isFederated,time:timestampInMilliseconds(str:concat(convert(e1.year,'string'),"-",convert(e1.month,'string'),"-",convert(e1.day,'string')," ",convert(e1.hour,'string'),":",convert(e1.minute,'string'),":","00"),'yyyy-MM-dd HH:mm:ss') as _timestamp
 group by year,month,day,hour,minute,userName,role,serviceprovider,identityProvider,region,userStoreDomain,isFederated
 insert into perMinRoleStream;

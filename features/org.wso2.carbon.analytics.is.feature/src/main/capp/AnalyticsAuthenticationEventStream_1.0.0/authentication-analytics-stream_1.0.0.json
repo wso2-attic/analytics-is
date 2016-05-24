@@ -25,7 +25,7 @@
             "type": "STRING"
         },
         {
-            "name": "tetantDomain",
+            "name": "tenantDomain",
             "type": "STRING"
         },
         {
@@ -58,10 +58,6 @@
         },
         {
             "name": "rolesCommaSeperated",
-            "type": "STRING"
-        },
-        {
-            "name": "role",
             "type": "STRING"
         },
         {
