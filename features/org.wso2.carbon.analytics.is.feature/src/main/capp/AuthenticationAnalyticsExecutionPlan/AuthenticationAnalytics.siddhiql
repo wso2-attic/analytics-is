@@ -7,7 +7,7 @@
 /* define streams/tables and write queries here ... */
 
 @Import('authentication-analytics-stream:1.0.0')
-define stream inStream (contextId string, eventId string, authenticationSuccess bool, userName string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceprovider string, remembermeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeperated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, isFederated bool, _timestamp long);
+define stream inStream (contextId string, eventId string, authenticationSuccess bool, userName string, userStoreDomain string, tenantDomain string, remoteIp string, inboundAuthType string, serviceprovider string, remembermeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeperated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, isFederated bool, _timestamp long);
 
 @Export('is-user-region-stat-per-minute:1.0.0')
 define stream perMinRegionStream (year int, month int, day int, hour int, minute int, region string, authSuccessCount long, authFailureCount long, facetStartTime string, isFederated bool, _timestamp long);
@@ -75,6 +75,3 @@ from duplicatedExtractedStream#window.externalTimeBatch(_timestamp, 1 min, 0, 2 
 select year,month,day,hour,minute,isAnalytics:ipToCountry(remoteIp) as region, sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(time:timestampInMilliseconds(str:concat(convert(e1.year,'string'),"-",convert(e1.month,'string'),"-", convert(e1.day,'string')," ",convert(e1.hour,'string'),":",convert(e1.minute,'string'),":","00"),'yyyy-MM-dd HH:mm:ss'),'string') as facetStartTime, isFederated, time:timestampInMilliseconds(str:concat(convert(e1.year,'string'),"-",convert(e1.month,'string'),"-",convert(e1.day,'string')," ",convert(e1.hour,'string'),":",convert(e1.minute,'string'),":","00"),'yyyy-MM-dd HH:mm:ss') as _timestamp
 group by year,month,day,hour,minute,region,role,serviceprovider,identityProvider,region,userStoreDomain,isFederated
 insert into perMinRegionStream;
-
-
-
