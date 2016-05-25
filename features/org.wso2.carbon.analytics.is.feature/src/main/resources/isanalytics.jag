@@ -1377,7 +1377,6 @@
 
                 var additionalParameters = "";
 
-
                 if(listnedAdditionalUserPrefs != ""){
                     tableName = "IS-USER-REGION-STAT-PER-" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
@@ -1388,37 +1387,23 @@
                     idpTypeFilter = idpType;
                 }
 
-                query = stringify({
-                    fieldName : "region", //field which is indexed as a FACET
-                    categoryPath : [], //Path being drilled down, optional
+                var query = stringify({
                     query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
-                    //search query, optional
-                    scoreFunction : "authFailureCount", //score function
-                    start:start,
-                    count:length
+                    "start": start,
+                    "count": length
                 });
 
-
-                log.info(query);
-
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var resp = connector.search(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
-                var categoryCount = dataPoints.categoryCount;
 
-
-
-                var obj = dataPoints.categories;
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        dataPointsArray.push({
-                            "username": key,
-                            "authFailiureCount": obj[key]
-                        });
-                    }
+                for (var i = 0; i < dataPoints.length; i++) {
+                    result.push({
+                        "region": dataPoints[i].values.region,
+                        "authSuccessCount": dataPoints[i].values.authSuccessCount,
+                        "authFailureCount": dataPoints[i].values.authFailureCount,
+                    });
                 }
-                result.push(dataPointsArray);
-                result.push(categoryCount);
+
                 break;
             }
 
