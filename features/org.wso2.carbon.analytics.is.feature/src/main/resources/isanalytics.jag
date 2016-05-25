@@ -690,7 +690,7 @@
                         tableName: "IS-AUTHENTICATION-STAT-PER-" + timeUnit,
                         groupByField: "facetStartTime",
                         query: "_timestamp : [" + timeRange.range[0] + " TO " + timeRange.range[1] + "]"
-                                + idpTypeFilter + additionalParameters,
+                        + idpTypeFilter + additionalParameters,
                         noOfRecords: 100000
                     };
                     searchParam.aggregateFields = aggregateFields;
@@ -1331,7 +1331,7 @@
                     fieldName: "serviceprovider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "isFirstLoginCount : true AND _timestamp : [" + timeFrom + " TO " + timeTo + "]" +
-                            idpTypeFilter + additionalParameters, //search query, optional
+                    idpTypeFilter + additionalParameters, //search query, optional
                     scoreFunction: "authSuccessCount", //score function
                     start: start,
                     count: length
@@ -1417,15 +1417,22 @@
                 var timeTo = request.getParameter("timeTo");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
-                var tableName = "IS-SESSION-INFO";
+                if(timeUnit == "SECOND" || timeUnit == "MINUTE"){
+                    timeUnit = "HOUR";
+                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
+                    timeUnit = "DAY";
+                }
+
+                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
 
                 query = stringify({
-                    query : "startTime : [" + timeFrom + " TO " + timeTo + "] AND endTime : [" + timeFrom + " TO " + timeTo + "]",
+                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
                     start:start,
                     count:length,
                     "sortBy" : [{
-                        "field" : "duration",
+                        "field" : "longestSession",
                         "sortType" : "DESC"
                     }]
                 });
@@ -1439,7 +1446,7 @@
                     if (dataPoints[i] != null) {
                         var index = start + i + 1;
                         var username = dataPoints[i]["values"]["userName"];
-                        var duration = dataPoints[i]["values"]["duration"];
+                        var duration = dataPoints[i]["values"]["longestSession"];
                         data.push({
                             "username": username + " " + index,
                             "duration": duration/1000
@@ -1459,17 +1466,24 @@
                 var timeTo = request.getParameter("timeTo");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
-                var tableName = "IS-SESSION-INFO";
+                if(timeUnit == "SECOND" || timeUnit == "MINUTE"){
+                    timeUnit = "HOUR";
+                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
+                    timeUnit = "DAY";
+                }
+
+                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
 
                 query = stringify({
                     tableName: tableName,
                     groupByField: "userName",
                     aggregateLevel: 0,
-                    query : "startTime : [" + timeFrom + " TO " + timeTo + "] AND endTime : [" + timeFrom + " TO " + timeTo + "]",
+                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
                     aggregateFields: [
                         {
-                            fieldName: "duration",
+                            fieldName: "averageSession",
                             aggregate: "AVG",
                             alias: "averageSession"
                         }
@@ -1517,6 +1531,15 @@
                 var timeTo = request.getParameter("timeTo");
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if(timeUnit == "SECOND" || timeUnit == "MINUTE"){
+                    timeUnit = "HOUR";
+                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
+                    timeUnit = "DAY";
+                }
+
+                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
 
                 var fifteenMinutes = 15 * 60 * 1000;
                 var oneHour = 60 * 60 * 1000;
@@ -1524,75 +1547,24 @@
                 var twentyFourHours = 24 * 60 * 60 * 1000;
                 var maxDuration = Math.min((timeTo - timeFrom), 99999999);
 
-                var tableName = "IS-SESSION-INFO";
+                var timeRanges = [[0, fifteenMinutes], [fifteenMinutes, oneHour], [oneHour, twelveHours], [twelveHours, twentyFourHours], [twentyFourHours, maxDuration]];
+                var labels = ["< 15 mins", "< 1 hr", "< 12 hrs", "< 24 hrs", "> 24 hrs"]
 
-                var queryPrefix = "startTime : [" + timeFrom + " TO " + timeTo + "] AND endTime : [" + timeFrom + " TO " + timeTo + "]";
+                var queryPrefix = "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]";
 
-                // less than 15 mins
-                query = stringify({
-                    query : queryPrefix + " AND duration : [" + 0 + " TO " + fifteenMinutes + "]",
-                    start:start,
-                    count:length
-                });
+                for(var i=0; i<timeRanges.length; i++){
+                    query = stringify({
+                        query : queryPrefix + " AND averageSession : [" + timeRanges[i][0] + " TO " + timeRanges[i][1] + "]",
+                        start:start,
+                        count:length
+                    });
 
-                var count = connector.searchCount(loggedInUser, tableName, query).getMessage();
-                data.push({
-                    "duration": "< 15 mins",
-                    "sessionCount": count
-                });
-
-                // less than 1 hour
-                query = stringify({
-                    query : queryPrefix + " AND duration : [" + fifteenMinutes + " TO " + oneHour + "]",
-                    start:start,
-                    count:length
-                });
-
-                count = connector.searchCount(loggedInUser, tableName, query).getMessage();
-                data.push({
-                    "duration": "< 1 hr",
-                    "sessionCount": count
-                });
-
-                // less than 12 hours
-                query = stringify({
-                    query : queryPrefix + " AND duration : [" + oneHour + " TO " + twelveHours + "]",
-                    start:start,
-                    count:length
-                });
-
-                count = connector.searchCount(loggedInUser, tableName, query).getMessage();
-                data.push({
-                    "duration": "< 12 hrs",
-                    "sessionCount": count
-                });
-
-                // less than 24 hours
-                query = stringify({
-                    query : queryPrefix + " AND duration : [" + twelveHours + " TO " + twentyFourHours + "]",
-                    start:start,
-                    count:length
-                });
-
-                count = connector.searchCount(loggedInUser, tableName, query).getMessage();
-                data.push({
-                    "duration": "< 24 hrs",
-                    "sessionCount": count
-                });
-
-                // more than 24 hours
-                query = stringify({
-                    query : queryPrefix + " AND duration : [" + twentyFourHours + " TO " + maxDuration + "]",
-                    start:start,
-                    count:length
-                });
-
-                count = connector.searchCount(loggedInUser, tableName, query).getMessage();
-                data.push({
-                    "duration": "> 24 hrs",
-                    "sessionCount": count
-                });
-
+                    var count = connector.searchCount(loggedInUser, tableName, query).getMessage();
+                    data.push({
+                        "duration": labels[i],
+                        "sessionCount": count
+                    });
+                }
                 result.push(data);
                 result.push(5);
                 break;
@@ -1603,18 +1575,21 @@
                 dataPointsArray = [];
                 var timeFrom = request.getParameter("timeFrom");
                 var timeTo = request.getParameter("timeTo");
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("count"));
 
-                var tableName = "IS-SESSION-INFO";
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if(timeUnit == "SECOND" || timeUnit == "MINUTE"){
+                    timeUnit = "HOUR";
+                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
+                    timeUnit = "DAY";
+                }
+
+                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
 
                 query = stringify({
                     fieldName : "userName", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
-                    query : "startTime : [" + timeFrom + " TO " + timeTo + "] AND endTime : [" + timeFrom + " TO " + timeTo + "]",
-                    //search query, optional
-                    start:start,
-                    count:length
+                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
                 });
 
                 resp = connector.drillDownCategories(loggedInUser, tableName, query);
