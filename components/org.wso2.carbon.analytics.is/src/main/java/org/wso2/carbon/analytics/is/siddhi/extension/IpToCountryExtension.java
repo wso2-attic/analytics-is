@@ -60,7 +60,7 @@ public class IpToCountryExtension extends FunctionExecutor {
 
     @Override
     public Attribute.Type getReturnType() {
-        return Attribute.Type.LONG;
+        return Attribute.Type.STRING;
     }
 
     @Override
