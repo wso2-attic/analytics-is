@@ -2,10 +2,6 @@
 <Analytics>
     <Name>is_stat_analytics</Name>
     <Script>
-        CREATE TEMPORARY TABLE rawAnalyticsData USING CarbonAnalytics
-        OPTIONS (tableName "AUTHENTICATION-ANALYTICS-STREAM",
-        schema "contextId STRING,eventId STRING, authenticationSuccess BOOLEAN,userName STRING,userStoreDomain STRING,tetantDomain STRING,remoteIp STRING,region STRING,inboundAuthType STRING,serviceprovider STRING,remembermeEnabled BOOLEAN,forceAuthEnabled BOOLEAN,passiveAuthEnabled BOOLEAN,rolesCommaSeperated STRING,authenticationStep STRING,identityProvider STRING,authStepSuccess BOOLEAN,stepAuthenticator STRING, isFirstLogin BOOLEAN, isFederated BOOLEAN,_timestamp LONG");
-
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "Is-User-Authentication-Stat-per-Minute",
@@ -251,8 +247,6 @@
         INSERT INTO TABLE isAuthenticationAnalyticsPerYear SELECT year,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isAuthenticationAnalyticsPerMonth GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerMonth;
-
-        INSERT INTO TABLE isUniqueAuthenticationAnalytics SELECT DISTINCT userName,serviceprovider,identityProvider,rolesCommaSeperated,authenticationSuccess,remoteIp,userStoreDomain,tetantDomain as tenantDomain, cast(_timestamp as BIGINT) as timestampValue, isFederated FROM rawAnalyticsData;
 
         INSERT INTO TABLE isUserstoreAuthenticationAnalyticsPerHour SELECT year, month, day, hour, userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount), cast(getHourStartingTime(year, month, day, hour) as STRING) as facetStartTime, isFederated,getHourStartingTime(year, month, day, hour) as _timestamp  FROM isUserstoreAuthenticationAnalyticsPerMinute GROUP BY userStoreDomain, year, month, day, hour, isFederated;
 

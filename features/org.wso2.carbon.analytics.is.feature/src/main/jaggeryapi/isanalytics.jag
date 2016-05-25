@@ -728,7 +728,7 @@
                 var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
+                var tableName = "AUTHENTICATION-ANALYTICS-STREAM";
 
                 var additionalParameters = "";
 
@@ -742,7 +742,7 @@
                 }
 
                 var query = stringify({
-                    "query": "timestampValue : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter +
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter +
                             additionalParameters,
                     "start": start,
                     "count": length,
