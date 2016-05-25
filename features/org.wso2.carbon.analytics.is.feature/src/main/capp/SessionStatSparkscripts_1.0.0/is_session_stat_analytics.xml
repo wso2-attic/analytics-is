@@ -4,7 +4,7 @@
     <Script>
         CREATE TEMPORARY TABLE rawSessionData USING CarbonAnalytics OPTIONS (tableName "SESSION-ANALYTICS-STREAM",schema "sessionId STRING, action INT, userName STRING, tenantDomain STRING,_timestamp LONG" );
 
-        CREATE TEMPORARY TABLE isRawSessionAnalytics USING CarbonAnalytics OPTIONS (tableName "Is-Session-Info", schema "sessionId STRING -i -f, startTime LONG -sp, endTime LONG -sp, isActive INT -sp, duration INT -sp, userName STRING -i -f, tenantDomain STRING -i -f, _timestamp LONG", primaryKeys "sessionId", mergeSchema "false");
+        CREATE TEMPORARY TABLE isRawSessionAnalytics USING CarbonAnalytics OPTIONS (tableName "SESSION-INFO-STREAM");
 
         CREATE TEMPORARY TABLE isSessionAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "IS-SESSION-STAT-PER-MINUTE");
 
@@ -12,13 +12,17 @@
 
         CREATE TEMPORARY TABLE isSessionAnalyticsPerDay USING CarbonAnalytics OPTIONS (tableName "Is-Session-Stat-per-Day", schema "bucketId LONG -i, bucketStart LONG -i, bucketEnd LONG -i, activeSessionCount INT -i, newSessionCount INT -i, terminatedSessionCount INT -i", primaryKeys "bucketId, bucketStart, bucketEnd", incrementalParams "isSessionAnalyticsPerDay, 3600", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isSessionAnalyticsTimelyAggregate USING CarbonAnalytics OPTIONS (tableName "Is-Session-Stat-Aggregate", schema "bucketStart LONG -i, bucketEnd LONG -i, userName FACET -i, longestSession LONG -i, averageSession LONG -i", primaryKeys "bucketStart, bucketEnd, userName", incrementalParams "isSessionAnalyticsTimelyAggregate, 3600", mergeSchema "false");
+        CREATE TEMPORARY TABLE isSessionAnalyticsHourlyAggregate USING CarbonAnalytics OPTIONS (tableName "Is-Session-Stat-Aggregate-per-Hour", schema "bucketStart LONG -i, bucketEnd LONG -i, userName FACET -i, longestSession LONG -i, averageSession LONG -i", primaryKeys "bucketStart, bucketEnd, userName", incrementalParams "isSessionAnalyticsTimelyAggregate, 3600", mergeSchema "false");
 
-        INSERT INTO TABLE isRawSessionAnalytics SELECT A.sessionId, A._timestamp AS startTime, B._timestamp AS endTime, (CASE WHEN B._timestamp is NULL then 1 ELSE 0 END) AS isActive, (CASE WHEN B._timestamp is NULL then (now(0) - A._timestamp) ELSE (B._timestamp - A._timestamp) END ) AS duration, A.userName, A.tenantDomain, (CASE WHEN B._timestamp is NULL then cast(A._timestamp as BIGINT) ELSE cast(B._timestamp as BIGINT) END) AS _timestamp from (Select sessionId, action, userName, tenantDomain, _timestamp from rawSessionData where action = 1) A LEFT OUTER JOIN (Select sessionId, action, userName, tenantDomain, _timestamp from rawSessionData where action = 0) B on A.sessionId = B.sessionId;
+        CREATE TEMPORARY TABLE isSessionAnalyticsDailyAggregate USING CarbonAnalytics OPTIONS (tableName "Is-Session-Stat-Aggregate-per-Day", schema "bucketStart LONG -i, bucketEnd LONG -i, userName FACET -i, longestSession LONG -i, averageSession LONG -i", primaryKeys "bucketStart, bucketEnd, userName", incrementalParams "isSessionAnalyticsTimelyAggregate, 3600", mergeSchema "false");
 
         INSERT INTO TABLE isSessionAnalyticsPerHour SELECT (bucketStart - bucketStart%3600000) as bucketId, (bucketStart - bucketStart%3600000) as bucketStart, ((bucketStart - bucketStart%3600000) + 3600000)  as bucketEnd, last(activeSessionCount) as activeSessionCount, sum(newSessionCount) as newSessionCount, sum(terminatedSessionCount) as terminatedSessionCount from (select * from isSessionAnalyticsPerMinute order by bucketStart) temp group by (bucketStart - bucketStart%3600000) order by bucketStart;
 
         INSERT INTO TABLE isSessionAnalyticsPerDay SELECT (bucketStart - bucketStart%86400000) as bucketId, (bucketStart - bucketStart%86400000) as bucketStart, ((bucketStart - bucketStart%86400000) + 86400000)  as bucketEnd, last(activeSessionCount) as activeSessionCount, sum(newSessionCount) as newSessionCount, sum(terminatedSessionCount) as terminatedSessionCount from (select * from isSessionAnalyticsPerHour order by bucketStart) temp group by (bucketStart - bucketStart%86400000) order by bucketStart;
+
+        INSERT INTO TABLE isSessionAnalyticsHourlyAggregate SELECT (startTimestamp - startTimestamp%3600000) as bucketStart, ((startTimestamp - startTimestamp%3600000) + 3600000)  as bucketEnd, userName, max(duration) as longestSession, avg(duration) as averageSession from (select * from isRawSessionAnalytics order by startTimestamp) temp group by (startTimestamp - startTimestamp%3600000), userName order by bucketStart;
+
+        INSERT INTO TABLE isSessionAnalyticsDailyAggregate SELECT (bucketStart - bucketStart%86400000) as bucketStart, ((bucketStart - bucketStart%86400000) + 86400000)  as bucketEnd, userName, max(longestSession) as longestSession, avg(averageSession) as averageSession from (select * from isSessionAnalyticsHourlyAggregate order by bucketStart) temp group by (bucketStart - bucketStart%86400000), userName order by bucketStart;
     </Script>
     <CronExpression>0 0/5 * * * ?</CronExpression>
 </Analytics>
