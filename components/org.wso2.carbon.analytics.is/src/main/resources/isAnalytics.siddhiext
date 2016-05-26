@@ -21,3 +21,4 @@ ipToCountry=org.wso2.carbon.analytics.is.siddhi.extension.IpToCountryExtension
 ipToCity=org.wso2.carbon.analytics.is.siddhi.extension.IpToCityExtension
 duplicator=org.wso2.carbon.analytics.is.siddhi.extension.EventDuplicateStreamProcessor
 getMinuteStartingTime=org.wso2.carbon.analytics.is.siddhi.extension.MinuteStartingTimeFunctionExtension
+getMaxForever=org.wso2.carbon.analytics.is.siddhi.extension.getMaxForEverExtension
