@@ -1539,34 +1539,61 @@
                     timeUnit = "DAY";
                 }
 
-                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
+                var tableName = "IS-SESSION-COUNT-AGGREGATE-PER-" + timeUnit;
 
-                var fifteenMinutes = 15 * 60 * 1000;
-                var oneHour = 60 * 60 * 1000;
-                var twelveHours = 12 * 60 * 60 * 1000;
-                var twentyFourHours = 24 * 60 * 60 * 1000;
-                var maxDuration = Math.min((timeTo - timeFrom), 99999999);
+                var labels = ["< 15 mins", "< 1 hr", "< 12 hrs", "< 24 hrs", "> 24 hrs"];
 
-                var timeRanges = [[0, fifteenMinutes], [fifteenMinutes, oneHour], [oneHour, twelveHours], [twelveHours, twentyFourHours], [twentyFourHours, maxDuration]];
-                var labels = ["< 15 mins", "< 1 hr", "< 12 hrs", "< 24 hrs", "> 24 hrs"]
+                query = stringify({
+                    tableName: tableName,
+                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    aggregateFields: [
+                        {
+                            fields: ["durationLT15mins"],
+                            aggregate: "SUM",
+                            alias: "durationLT15mins"
+                        },
+                        {
+                            fields: ["durationGT15minsLT1hr"],
+                            aggregate: "SUM",
+                            alias: "durationGT15minsLT1hr"
+                        },
+                        {
+                            fields: ["durationGT1hrLT12hrs"],
+                            aggregate: "SUM",
+                            alias: "durationGT1hrLT12hrs"
+                        },
+                        {
+                            fields: ["durationGT12hrsLT24hrs"],
+                            aggregate: "SUM",
+                            alias: "durationGT12hrsLT24hrs"
+                        },
+                        {
+                            fields: ["durationGT24hrs"],
+                            aggregate: "SUM",
+                            alias: "durationGT24hrs"
+                        }
+                    ],
+                    noOfRecords: 100000
+                });
 
-                var queryPrefix = "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]";
+                resp = connector.searchWithAggregates(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
 
-                for(var i=0; i<timeRanges.length; i++){
-                    query = stringify({
-                        query : queryPrefix + " AND averageSession : [" + timeRanges[i][0] + " TO " + timeRanges[i][1] + "]",
-                        start:start,
-                        count:length
-                    });
+                dataPointsArray.push(dataPoints[0].values.durationLT15mins);
+                dataPointsArray.push(dataPoints[0].values.durationGT15minsLT1hr);
+                dataPointsArray.push(dataPoints[0].values.durationGT1hrLT12hrs);
+                dataPointsArray.push(dataPoints[0].values.durationGT12hrsLT24hrs);
+                dataPointsArray.push(dataPoints[0].values.durationGT24hrs);
 
-                    var count = connector.searchCount(loggedInUser, tableName, query).getMessage();
+                for (var i=0; i<labels.length; i++) {
                     data.push({
                         "duration": labels[i],
-                        "sessionCount": count
+                        "sessionCount": dataPointsArray[i]
                     });
                 }
+
                 result.push(data);
-                result.push(5);
+                result.push(labels.length);
                 break;
             }
             case TYPE_SESSION_USERNAME_LIST:
