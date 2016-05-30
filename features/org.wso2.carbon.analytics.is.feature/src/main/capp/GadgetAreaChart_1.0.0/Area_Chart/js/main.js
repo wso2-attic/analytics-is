@@ -16,6 +16,7 @@ var qs = gadgetUtil.getQueryString();
 var prefs = new gadgets.Prefs();
 var type;
 var chart = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE));
+var map;
 
 if (chart) {
     type = gadgetUtil.getRequestType(page, chart);
@@ -91,9 +92,11 @@ function checkMapType() {
     if (document.getElementById('chkMap').checked) {
         $("#mapSuccessDiv").hide();
         $("#mapFailDiv").show();
+        map.colorCode = "FAILURE";
     } else {
         $("#mapFailDiv").hide();
         $("#mapSuccessDiv").show()
+        map.colorCode = "SUCCESS";
     }
 }
 
@@ -315,6 +318,18 @@ function loadMap(data) {
     var mapCallBack = function(event, item) {
         if (item != null) {
             var region = item.datum.zipped.unitName;
+            map.mode = "REGION";
+
+            var message = {
+                userPrefValue: region,
+                mode: map.mode,
+                colorCode:map.colorCode
+            };
+
+            gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
+
+            gadgets.Hub.publish("subscriberUserPref", message);
+
         }
     }
 
