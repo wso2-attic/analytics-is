@@ -128,11 +128,6 @@
         schema "year INT -i, month INT -i,day INT -i,hour INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated,facetStartTime,  _timestamp", incrementalParams "isAuthenticationAnalyticsPerHour, 3600", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isUniqueAuthenticationAnalytics USING CarbonAnalytics
-        OPTIONS (tableName "Is-Unique-Authentication-Stats",
-        schema "userName STRING -i,serviceprovider STRING -i,identityProvider STRING -i,rolesCommaSeperated STRING -i, authenticationSuccess BOOLEAN -i,remoteIp STRING -i,userStoreDomain STRING -i,tenantDomain STRING -i,timestampValue LONG -i, isFederated BOOLEAN -i",
-        primaryKeys "userName, serviceprovider,identityProvider,rolesCommaSeperated,authenticationSuccess,remoteIp,userStoreDomain,tenantDomain,timestampValue, isFederated", mergeSchema "false");
-
         CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerDay USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Day",schema "year INT -i, month INT -i, day INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",primaryKeys "year, month, day, userStoreDomain, isFederated", incrementalParams "isUserstoreAuthenticationAnalyticsPerDay, 86400", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerMonth USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Month",schema "year INT -i, month INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",primaryKeys "year, month, userStoreDomain, isFederated", incrementalParams "isUserstoreAuthenticationAnalyticsPerMonth, 2628000", mergeSchema "false");
