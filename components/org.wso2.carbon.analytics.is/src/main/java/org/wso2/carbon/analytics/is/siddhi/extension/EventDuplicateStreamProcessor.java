@@ -40,7 +40,7 @@ public class EventDuplicateStreamProcessor extends StreamProcessor {
 
     @Override
     protected List<Attribute> init(AbstractDefinition inputDefinition,
-            ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext) {
+            ExpressionExecutor[] attributeExpressionExecutors, ExecutionPlanContext executionPlanContext,boolean outputExpectsExpiredEvents) {
         this.executionPlanContext = executionPlanContext;
 
         if (attributeExpressionExecutors.length == 1) {
