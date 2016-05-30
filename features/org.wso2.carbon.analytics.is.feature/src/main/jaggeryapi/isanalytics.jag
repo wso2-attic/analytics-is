@@ -690,7 +690,7 @@
                         tableName: "IS-AUTHENTICATION-STAT-PER-" + timeUnit,
                         groupByField: "facetStartTime",
                         query: "_timestamp : [" + timeRange.range[0] + " TO " + timeRange.range[1] + "]"
-                        + idpTypeFilter + additionalParameters,
+                                + idpTypeFilter + additionalParameters,
                         noOfRecords: 100000
                     };
                     searchParam.aggregateFields = aggregateFields;
@@ -1240,7 +1240,7 @@
                 var idpType = request.getParameter("idpType");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "IS-UNIQUE-AUTHENTICATION-STATS";
+                var tableName = "AUTHENTICATION-ANALYTICS-STREAM";
 
                 var additionalParameters = "";
                 if(listnedAdditionalUserPrefs != ""){
@@ -1253,7 +1253,7 @@
                 }
 
                 var query = stringify({
-                    "query": "timestampValue : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter + additionalParameters,
                     "start": start,
                     "count": length,
                     "sortBy" : [{
@@ -1331,7 +1331,7 @@
                     fieldName: "serviceprovider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "isFirstLoginCount : true AND _timestamp : [" + timeFrom + " TO " + timeTo + "]" +
-                    idpTypeFilter + additionalParameters, //search query, optional
+                            idpTypeFilter + additionalParameters, //search query, optional
                     scoreFunction: "authSuccessCount", //score function
                     start: start,
                     count: length
