@@ -26,8 +26,12 @@
              <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                 <title>Bar Chart</title>
+                
                 <link rel="stylesheet" type="text/css" href="css/font-wso2.min.css" />
                 <link rel="stylesheet" type="text/css" href="css/custom.css" />
+                <link rel="stylesheet" type="text/css" href="../commons/css/nanoscroller.css" />
+                <link rel="stylesheet" type="text/css" href="../commons/css/gadget.css" />
+
                 <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
                 <script language="javascript" type="text/javascript" src="js/excanvas.min.js"></script>
                 <script language="javascript" type="text/javascript" src="js/jquery.js"></script>

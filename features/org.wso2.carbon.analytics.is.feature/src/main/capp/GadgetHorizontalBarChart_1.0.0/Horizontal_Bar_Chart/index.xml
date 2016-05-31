@@ -16,7 +16,7 @@
               <link rel="stylesheet" type="text/css" href="/portal/extensions/themes/analytics/css/gadget.css" />
               <link rel="stylesheet" type="text/css" href="../commons/css/bootstrap.min.css" />
               <link rel="stylesheet" type="text/css" href="css/custom.css" />
-
+              <link rel="stylesheet" type="text/css" href="../commons/css/gadget.css" />
 
               <!-- jQuery -->
               <script src="../commons/js/jquery-1.10.2.js"></script>
@@ -39,8 +39,8 @@
               <script src="../commons/js/typeahead.bundle.js"></script>
 
             </head>
-            <body class="bkWrapColor">
-
+            <body>
+                <div class="row no-gutter">
                 <div class="successChart">
                     <div id="canvasSuccess" style="width:400px"></div>
                     <div id="idSuccessPaginate"></div>
@@ -61,7 +61,7 @@
 
                 <div class="residentIdp">
                 </div>
-
+                 </div>
             </body>
         ]]>
     </Content>
