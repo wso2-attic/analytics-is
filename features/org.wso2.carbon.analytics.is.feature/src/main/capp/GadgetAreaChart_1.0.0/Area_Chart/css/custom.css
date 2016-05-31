@@ -106,3 +106,16 @@ body.drak .chart-label {
     margin: 0px;
     background:#ffffff url("../images/back-icon.png") no-repeat 1px;
 }
+
+
+body.dark svg.marks .mark-group .background {
+    fill: #1E2531 !important;
+}
+
+body.dark svg.marks .mark-group .mark-text text {
+    fill: #7D8596 !important;
+}
+
+body.dark svg.marks .mark-group .mark-rule line {
+    stroke: #E3E5E6 !important;
+}
