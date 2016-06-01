@@ -1,72 +1,76 @@
 {
-  "name": "is-authentication-stat-per-minute",
-  "version": "1.0.0",
-  "nickName": "",
-  "description": "",
-  "payloadData": [
-    {
-      "name": "year",
-      "type": "INT"
-    },
-    {
-      "name": "month",
-      "type": "INT"
-    },
-    {
-      "name": "day",
-      "type": "INT"
-    },
-    {
-      "name": "hour",
-      "type": "INT"
-    },
-    {
-      "name": "minute",
-      "type": "INT"
-    },
-    {
-      "name": "userName",
-      "type": "STRING"
-    },
-    {
-      "name": "rolesCommaSeperated",
-      "type": "STRING"
-    },
-    {
+    "name": "is-authentication-stat-per-minute",
+    "version": "1.0.0",
+    "nickName": "",
+    "description": "",
+    "payloadData": [
+        {
+            "name": "year",
+            "type": "INT"
+        },
+        {
+            "name": "month",
+            "type": "INT"
+        },
+        {
+            "name": "day",
+            "type": "INT"
+        },
+        {
+            "name": "hour",
+            "type": "INT"
+        },
+        {
+            "name": "minute",
+            "type": "INT"
+        },
+        {
+            "name": "userName",
+            "type": "STRING"
+        },
+        {
+            "name": "rolesCommaSeperated",
+            "type": "STRING"
+        },
+        {
             "name": "serviceprovider",
             "type": "STRING"
         },
-    {
+        {
             "name": "identityProvider",
             "type": "STRING"
         },
-    {
+        {
             "name": "region",
             "type": "STRING"
         },
-    {
+        {
             "name": "userStoreDomain",
             "type": "STRING"
-        },	
-    {
-      "name": "authSuccessCount",
-      "type": "LONG"
-    },
-    {
-      "name": "authFailureCount",
-      "type": "LONG"
-    },
-    {
-      "name": "facetStartTime",
-      "type": "STRING"
-    },
-    {
-      "name": "isFederated",
-      "type": "BOOL"
-    },
-    {
-      "name": "_timestamp",
-      "type": "LONG"
-    }
-  ]
+        },
+        {
+            "name": "authSuccessCount",
+            "type": "LONG"
+        },
+        {
+            "name": "authFailureCount",
+            "type": "LONG"
+        },
+        {
+            "name": "authStepSuccessCount",
+            "type": "LONG"
+        },
+        {
+            "name": "facetStartTime",
+            "type": "STRING"
+        },
+        {
+            "name": "isFederated",
+            "type": "BOOL"
+        },
+        {
+            "name": "_timestamp",
+            "type": "LONG"
+        }
+    ]
 }

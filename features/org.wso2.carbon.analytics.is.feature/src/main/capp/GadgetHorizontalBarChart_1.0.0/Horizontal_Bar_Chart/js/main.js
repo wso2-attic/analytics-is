@@ -496,7 +496,13 @@ function drawChartSuccess(){
 
     var vg = new vizg(chartSuccess.schema, chartSuccess.chartConfig);
     $("#canvasSuccess").empty();
-    vg.draw("#canvasSuccess",[{type:"click", callback:typeSuccessCallbackmethod}]);
+
+    if (chartFailure) {
+        vg.draw("#canvasSuccess",[{type:"click", callback:typeSuccessCallbackmethod}]);
+    }else{
+        vg.draw("#canvasSuccess");
+    }
+
 
 
 }
