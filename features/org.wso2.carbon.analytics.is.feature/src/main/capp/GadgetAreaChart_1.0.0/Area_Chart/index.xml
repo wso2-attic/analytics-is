@@ -37,16 +37,16 @@
         <body>
 
             <div class="row no-gutter">
-                <div class="col-5">
+                <div class="col-9">
                     <div id="canvas" style="height:90%;"></div>
                     <input type="button" id="back" value="" title="Previous Time Range"/>
                 </div>
-                <div class="col-2 stats-total add-padding-top-1x">
+                <div class="col-3 stats-total add-padding-top-1x">
                     <h2 style="text-align: center;"><b>Total</b> login attempts <span id="title"></span></h2>
                     <h1 id="totalCount" style="text-align: center;"></h1>
                     <div id="donutDiv"></div>
                 </div>
-                <div class="col-5 clearfix">
+                <div style="display: none;">
                     <div class="pull-right clearfix">
                         <div class="pull-left arc-chart">
                             <input type="checkbox" id="chkMap" onclick="checkMapType()">
