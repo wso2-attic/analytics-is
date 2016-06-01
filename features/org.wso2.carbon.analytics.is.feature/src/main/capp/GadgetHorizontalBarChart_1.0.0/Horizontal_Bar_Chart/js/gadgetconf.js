@@ -304,7 +304,6 @@ var charts = [{
             "x":"serviceprovider",
             "yTitle":"successfulAttempts",
             "maxLength":"3000",
-            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#5CB85C"],
             "padding":{"top":0,"left":100,"bottom":0,"right":55},

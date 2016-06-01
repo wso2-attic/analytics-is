@@ -74,7 +74,7 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>isFirstLoginCount</Name>
+            <Name>isFirstLogin</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>true</IsPrimaryKey>

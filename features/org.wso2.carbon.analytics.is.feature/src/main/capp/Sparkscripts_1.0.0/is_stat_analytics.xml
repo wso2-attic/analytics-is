@@ -30,53 +30,53 @@
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerDay USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Day",
-        schema "year INT -i, month INT -i,day INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, month INT -i,day INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, day, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerDay, 86400", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMonth USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Month",
-        schema "year INT -i, month INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, month INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMonth, 2628000", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerYear USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Year",
-        schema "year INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerYear, 31536000", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Minute",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, day, hour, minute, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMinute, 60", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerHour USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Hour",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp,isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated,facetStartTime,  _timestamp", incrementalParams "isRoleAuthenticationAnalyticsPerHour, 3600", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerDay USING CarbonAnalytics
         OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Day",
-        schema "year INT -i, month INT -i, day INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLoginCount BOOLEAN -i, isFederated BOOLEAN -i",
-        primaryKeys "year, month, day, serviceprovider, isFirstLoginCount, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerDay, 86400", mergeSchema "false");
+        schema "year INT -i, month INT -i, day INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLogin BOOLEAN -i, isFederated BOOLEAN -i",
+        primaryKeys "year, month, day, serviceprovider, isFirstLogin, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerDay, 86400", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerMonth USING CarbonAnalytics
         OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Month",
-        schema "year INT -i, month INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLoginCount BOOLEAN -i, isFederated BOOLEAN -i",
-        primaryKeys "year, month, serviceprovider, isFirstLoginCount, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerMonth, 2628000", mergeSchema "false");
+        schema "year INT -i, month INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLogin BOOLEAN -i, isFederated BOOLEAN -i",
+        primaryKeys "year, month, serviceprovider, isFirstLogin, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerMonth, 2628000", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerYear USING CarbonAnalytics
         OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Year",
-        schema "year INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLoginCount BOOLEAN -i, isFederated BOOLEAN -i",
-        primaryKeys "year, serviceprovider, isFirstLoginCount, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerYear, 31536000", mergeSchema "false");
+        schema "year INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLogin BOOLEAN -i, isFederated BOOLEAN -i",
+        primaryKeys "year, serviceprovider, isFirstLogin, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerYear, 31536000", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Minute",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLoginCount BOOLEAN -i, isFederated BOOLEAN -i",
-        primaryKeys "year, month, day, hour, minute, serviceprovider, isFirstLoginCount, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerMinute, 60", mergeSchema "false");
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFirstLogin BOOLEAN -i, isFederated BOOLEAN -i",
+        primaryKeys "year, month, day, hour, minute, serviceprovider, isFirstLogin, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerMinute, 60", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerHour USING CarbonAnalytics
         OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Hour",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFirstLoginCount BOOLEAN -i, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
-        primaryKeys "year, month, day, hour, serviceprovider, isFirstLoginCount, isFederated,facetStartTime,  _timestamp", incrementalParams "isServiceProviderAuthenticationAnalyticsPerHour, 3600", mergeSchema "false");
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFirstLogin BOOLEAN -i, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
+        primaryKeys "year, month, day, hour, serviceprovider, isFirstLogin, isFederated,facetStartTime,  _timestamp", incrementalParams "isServiceProviderAuthenticationAnalyticsPerHour, 3600", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerDay USING CarbonAnalytics
         OPTIONS (tableName "Is-Identity-Provider-Authentication-Stat-per-Day",
@@ -105,27 +105,27 @@
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerDay USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Day",
-        schema "year INT -i, month INT -i,day INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,isFederated BOOLEAN -i,facetStartTime FACET -i,_timestamp LONG",
+        schema "year INT -i, month INT -i,day INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, day, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerDay, 86400", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMonth USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Month",
-        schema "year INT -i, month INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i,_timestamp LONG ",
+        schema "year INT -i, month INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerMonth, 2628000", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerYear USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Year",
-        schema "year INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "year INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp,timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerYear, 31536000", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Minute",
-        schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,facetStartTime FACET -i, isFederated BOOLEAN -i,_timestamp LONG",
+        schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, day, hour, minute, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerMinute, 60", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerHour USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Hour",
-        schema "year INT -i, month INT -i,day INT -i,hour INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "year INT -i, month INT -i,day INT -i,hour INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated,facetStartTime,  _timestamp", incrementalParams "isAuthenticationAnalyticsPerHour, 3600", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerDay USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Day",schema "year INT -i, month INT -i, day INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",primaryKeys "year, month, day, userStoreDomain, isFederated", incrementalParams "isUserstoreAuthenticationAnalyticsPerDay, 86400", mergeSchema "false");
@@ -163,19 +163,19 @@
         schema "year INT -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, region, isFederated", incrementalParams "isUserRegionStatPerYear, 31536000", mergeSchema "false");
 
-        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerHour SELECT year, month,day,hour,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp FROM isRoleAuthenticationAnalyticsPerMinute GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
+        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerHour SELECT year, month,day,hour,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount),isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp FROM isRoleAuthenticationAnalyticsPerMinute GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
         INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerMinute;
 
-        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerDay SELECT year, month,day,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, isFederated, getDateStartingTime(year, month, day) as _timestamp FROM isRoleAuthenticationAnalyticsPerHour GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, isFederated;
+        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerDay SELECT year, month,day,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount),cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, isFederated, getDateStartingTime(year, month, day) as _timestamp FROM isRoleAuthenticationAnalyticsPerHour GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerHour;
 
-        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerMonth SELECT year, month,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(isRoleAuthenticationAnalyticsPerDay.authSuccessCount) as authSuccessCount,SUM(isRoleAuthenticationAnalyticsPerDay.authFailureCount) as authFailureCount,cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, month) as _timestamp FROM isRoleAuthenticationAnalyticsPerDay GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, isFederated;
+        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerMonth SELECT year, month,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(isRoleAuthenticationAnalyticsPerDay.authSuccessCount) as authSuccessCount,SUM(isRoleAuthenticationAnalyticsPerDay.authFailureCount) as authFailureCount,SUM(isRoleAuthenticationAnalyticsPerDay.authStepSuccessCount) as authStepSuccessCount,cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, month) as _timestamp FROM isRoleAuthenticationAnalyticsPerDay GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerDay;
 
-        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerYear SELECT year, userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isRoleAuthenticationAnalyticsPerMonth GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, isFederated;
+        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerYear SELECT year, userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount),cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isRoleAuthenticationAnalyticsPerMonth GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerMonth;
 
@@ -195,19 +195,19 @@
 
         INCREMENTAL_TABLE_COMMIT isIdentityProviderAuthenticationAnalyticsPerMonth;
 
-        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerHour SELECT year, month, day, hour, serviceprovider,SUM(authSuccessCount),SUM(authFailureCount), isFirstLoginCount, isFederated,cast(getHourStartingTime(year, month, day, hour) as STRING) as facetStartTime,getHourStartingTime(year, month, day, hour) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMinute GROUP BY serviceprovider, year, month, day, hour, isFirstLoginCount, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
+        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerHour SELECT year, month, day, hour, serviceprovider,SUM(authSuccessCount),SUM(authFailureCount), isFirstLogin, isFederated,cast(getHourStartingTime(year, month, day, hour) as STRING) as facetStartTime,getHourStartingTime(year, month, day, hour) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMinute GROUP BY serviceprovider, year, month, day, hour, isFirstLogin, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
         INCREMENTAL_TABLE_COMMIT isServiceProviderAuthenticationAnalyticsPerMinute;
 
-        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerDay SELECT year, month, day,serviceprovider,SUM(authSuccessCount),SUM(authFailureCount), cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, isFirstLoginCount, isFederated,getDateStartingTime(year, month, day) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerHour GROUP BY serviceprovider, year, month, day, isFirstLoginCount, isFederated;
+        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerDay SELECT year, month, day,serviceprovider,SUM(authSuccessCount),SUM(authFailureCount), cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, isFirstLogin, isFederated,getDateStartingTime(year, month, day) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerHour GROUP BY serviceprovider, year, month, day, isFirstLogin, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isServiceProviderAuthenticationAnalyticsPerHour;
 
-        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerMonth SELECT year, month, serviceprovider, SUM(authSuccessCount), SUM(authFailureCount), cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, isFirstLoginCount, isFederated, getMonthStartingTime(year, month) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerDay GROUP BY serviceprovider, year, month, isFirstLoginCount, isFederated;
+        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerMonth SELECT year, month, serviceprovider, SUM(authSuccessCount), SUM(authFailureCount), cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, isFirstLogin, isFederated, getMonthStartingTime(year, month) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerDay GROUP BY serviceprovider, year, month, isFirstLogin, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isServiceProviderAuthenticationAnalyticsPerDay;
 
-        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerYear SELECT year, serviceprovider, SUM(authSuccessCount), SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFirstLoginCount, isFederated, getMonthStartingTime(year, 1) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMonth GROUP BY serviceprovider, year, isFirstLoginCount, isFederated;
+        INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerYear SELECT year, serviceprovider, SUM(authSuccessCount), SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFirstLogin, isFederated, getMonthStartingTime(year, 1) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMonth GROUP BY serviceprovider, year, isFirstLogin, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isServiceProviderAuthenticationAnalyticsPerMonth;
 
@@ -227,19 +227,19 @@
 
         INCREMENTAL_TABLE_COMMIT isUserAuthenticationAnalyticsPerMonth;
 
-        INSERT INTO TABLE isAuthenticationAnalyticsPerHour SELECT year, month, day, hour, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount), isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isAuthenticationAnalyticsPerMinute GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
+        INSERT INTO TABLE isAuthenticationAnalyticsPerHour SELECT year, month, day, hour, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isAuthenticationAnalyticsPerMinute GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerMinute;
 
-        INSERT INTO TABLE isAuthenticationAnalyticsPerDay SELECT year, month,day,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount), isFederated,cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime,getDateStartingTime(year, month, day) as _timestamp FROM isAuthenticationAnalyticsPerHour GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, isFederated;
+        INSERT INTO TABLE isAuthenticationAnalyticsPerDay SELECT year, month,day,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, isFederated,getDateStartingTime(year, month, day) as _timestamp FROM isAuthenticationAnalyticsPerHour GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerHour;
 
-        INSERT INTO TABLE isAuthenticationAnalyticsPerMonth SELECT year, month,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount), isFederated,cast(getMonthStartingTime(year, month) as STRING) as facetStartTime,getMonthStartingTime(year, month) as _timestamp FROM isAuthenticationAnalyticsPerDay GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, month, isFederated;
+        INSERT INTO TABLE isAuthenticationAnalyticsPerMonth SELECT year, month,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, month) as _timestamp FROM isAuthenticationAnalyticsPerDay GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, month, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerDay;
 
-        INSERT INTO TABLE isAuthenticationAnalyticsPerYear SELECT year,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),isFederated, cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime,getMonthStartingTime(year, 1) as _timestamp FROM isAuthenticationAnalyticsPerMonth GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, isFederated;
+        INSERT INTO TABLE isAuthenticationAnalyticsPerYear SELECT year,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isAuthenticationAnalyticsPerMonth GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, isFederated;
 
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerMonth;
 
