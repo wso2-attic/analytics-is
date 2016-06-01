@@ -86,5 +86,5 @@
         <StreamId>is-identity-provider-authentication-stat-per-minute:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
-    <RecordStoreName>EVENT_STORE_RWO</RecordStoreName>
+    <RecordStoreName>EVENT_STORE</RecordStoreName>
 </EventStoreConfiguration>
