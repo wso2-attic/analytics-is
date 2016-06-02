@@ -115,7 +115,7 @@
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerYear USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Year",
-        schema "year INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp,timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp,_timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerYear, 31536000", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinute USING CarbonAnalytics
@@ -177,7 +177,6 @@
 
         INSERT INTO TABLE isRoleAuthenticationAnalyticsPerYear SELECT year, userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount),cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isRoleAuthenticationAnalyticsPerMonth GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, isFederated;
 
-        INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerMonth;
 
         INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerHour SELECT year, month, day, hour, identityProvider,SUM(authSuccessCount),SUM(authFailureCount),isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isIdentityProviderAuthenticationAnalyticsPerMinute GROUP BY identityProvider, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
@@ -193,8 +192,6 @@
 
         INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerYear SELECT year, identityProvider,SUM(authSuccessCount),SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isIdentityProviderAuthenticationAnalyticsPerMonth GROUP BY identityProvider, year, isFederated;
 
-        INCREMENTAL_TABLE_COMMIT isIdentityProviderAuthenticationAnalyticsPerMonth;
-
         INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerHour SELECT year, month, day, hour, serviceprovider,SUM(authSuccessCount),SUM(authFailureCount), isFirstLogin, isFederated,cast(getHourStartingTime(year, month, day, hour) as STRING) as facetStartTime,getHourStartingTime(year, month, day, hour) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMinute GROUP BY serviceprovider, year, month, day, hour, isFirstLogin, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
         INCREMENTAL_TABLE_COMMIT isServiceProviderAuthenticationAnalyticsPerMinute;
@@ -208,8 +205,6 @@
         INCREMENTAL_TABLE_COMMIT isServiceProviderAuthenticationAnalyticsPerDay;
 
         INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerYear SELECT year, serviceprovider, SUM(authSuccessCount), SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFirstLogin, isFederated, getMonthStartingTime(year, 1) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMonth GROUP BY serviceprovider, year, isFirstLogin, isFederated;
-
-        INCREMENTAL_TABLE_COMMIT isServiceProviderAuthenticationAnalyticsPerMonth;
 
 
         INSERT INTO TABLE isUserAuthenticationAnalyticsPerHour SELECT year, month, day, hour, userName,SUM(authSuccessCount),SUM(authFailureCount), isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isUserAuthenticationAnalyticsPerMinute GROUP BY userName, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
@@ -225,8 +220,6 @@
 
         INSERT INTO TABLE isUserAuthenticationAnalyticsPerYear SELECT year, userName,SUM(authSuccessCount),SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isUserAuthenticationAnalyticsPerMonth GROUP BY userName, year, isFederated;
 
-        INCREMENTAL_TABLE_COMMIT isUserAuthenticationAnalyticsPerMonth;
-
         INSERT INTO TABLE isAuthenticationAnalyticsPerHour SELECT year, month, day, hour, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isAuthenticationAnalyticsPerMinute GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerMinute;
@@ -240,8 +233,6 @@
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerDay;
 
         INSERT INTO TABLE isAuthenticationAnalyticsPerYear SELECT year,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isAuthenticationAnalyticsPerMonth GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, region,userStoreDomain, year, isFederated;
-
-        INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerMonth;
 
         INSERT INTO TABLE isUserstoreAuthenticationAnalyticsPerHour SELECT year, month, day, hour, userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount), isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isUserstoreAuthenticationAnalyticsPerMinute GROUP BY userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
@@ -258,7 +249,6 @@
 
         INSERT INTO TABLE isUserstoreAuthenticationAnalyticsPerYear SELECT year, userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isUserstoreAuthenticationAnalyticsPerMonth GROUP BY userStoreDomain, year, isFederated;
 
-        INCREMENTAL_TABLE_COMMIT isUserstoreAuthenticationAnalyticsPerMonth;
 
         INSERT INTO TABLE isUserRegionStatPerHour SELECT year, month, day, hour, region,SUM(authSuccessCount),SUM(authFailureCount), isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isUserRegionStatPerMinute GROUP BY region, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
@@ -273,9 +263,6 @@
         INCREMENTAL_TABLE_COMMIT isUserRegionStatPerDay;
 
         INSERT INTO TABLE isUserRegionStatPerYear SELECT year, region,SUM(authSuccessCount),SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isUserRegionStatPerMonth GROUP BY region, year, isFederated;
-
-        INCREMENTAL_TABLE_COMMIT isUserRegionStatPerMonth;
-
     </Script>
     <CronExpression>0 0/5 * * * ?</CronExpression>
 </Analytics>
