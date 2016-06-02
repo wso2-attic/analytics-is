@@ -40,60 +40,51 @@ from inStream
 select eventId,userName,userStoreDomain, tenantDomain, remoteIp, 'region' as region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep,ifThenElse(identityProvider == "", "NOTSPECIFIED", identityProvider) as identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authStepSuccess == true, 1, 0) as successValue,ifThenElse(authStepSuccess == false, 1, 0) as failureValue,isFederated,_timestamp
 insert into countForIdentityProviderStream;
 
-from countForIdentityProviderStream
-select maxForever(_timestamp) as startTime,identityProvider,successValue, failureValue, isFederated
-insert into countForIdentityProviderMaxTimestampStream;
-
-
-from countStream
-select maxForever(_timestamp) as startTime,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,successValue, failureValue,stepSuccessValue,firstLoginValue, isFederated,isFirstLogin
-insert into countMaxTimestampStream;
-
-from countMaxTimestampStream#isAnalytics:duplicator(rolesCommaSeperated,";")
-select startTime,userName,role,serviceprovider,identityProvider,region,userStoreDomain,successValue, failureValue,stepSuccessValue, isFederated
+from countStream#isAnalytics:duplicator(rolesCommaSeperated,";")
+select _timestamp,userName,role,serviceprovider,identityProvider,region,userStoreDomain,successValue, failureValue,stepSuccessValue, isFederated
 insert into countMaxDuplicatedTimestampStream;
 
-from countMaxDuplicatedTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select startTime,userName,role,serviceprovider,identityProvider,region,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, isFederated
+from countMaxDuplicatedTimestampStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select batchEndTime,userName,role,serviceprovider,identityProvider,region,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, isFederated
 group by userName,role,serviceprovider,identityProvider,region,userStoreDomain,isFederated
 insert into perMinRoleTempStatStream;
 
-
-from countMaxTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
+from countStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain,isFederated
 insert into perMinAuthenticationStatStream;
 
-from countMaxTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,userName,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
+
+from countStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,isFederated
 insert into perMinUserStream;
 
-from countForIdentityProviderMaxTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,identityProvider,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
+from countForIdentityProviderStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,identityProvider,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by identityProvider,isFederated
 insert into perMinIdentityProviderStream;
 
-from countMaxTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
+from countStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userStoreDomain,isFederated
 insert into perMinUserStoreStream;
 
 from perMinRoleTempStatStream
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,userName,role,serviceprovider,identityProvider,region,userStoreDomain, authSuccessCount, authFailureCount,authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,role,serviceprovider,identityProvider,region,userStoreDomain, authSuccessCount, authFailureCount,authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 insert into perMinRoleStream;
 
-from countMaxTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,serviceprovider,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, false as isFirstLogin,isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
-group by userStoreDomain,isFederated
+from countStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,serviceprovider,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, false as isFirstLogin,isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
+group by serviceprovider,isFederated
 insert into perMinServiceProviderStream;
 
-from countMaxTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,serviceprovider,sum(firstLoginValue) as authSuccessCount, 0l as authFailureCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, true as isFirstLogin,isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
-group by userStoreDomain,isFederated,identityProvider
+from countStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,serviceprovider,sum(firstLoginValue) as authSuccessCount, 0l as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, true as isFirstLogin,isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
+group by serviceprovider,isFederated,identityProvider
 insert into perMinServiceProviderStream;
 
-from countMaxTimestampStream#window.externalTimeBatch(startTime, 1 min, 0, 10 sec)
-select time:extract(startTime, 'year') as year, time:extract(startTime, 'month') as month, time:extract(startTime, 'day') as day, time:extract(startTime, 'hour') as hour, time:extract(startTime, 'minute') as minute,region,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(startTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(startTime) as _timestamp
+from countStream#isAnalytics:externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,region,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by region,isFederated
 insert into perMinRegionStream;
