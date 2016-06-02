@@ -476,7 +476,7 @@
     </profiles>
 
     <properties>
-        <carbon.analytics.shared.version>1.0.1-SNAPSHOT</carbon.analytics.shared.version>
+        <carbon.analytics.shared.version>1.0.0-beta</carbon.analytics.shared.version>
         <junit.version>4.10</junit.version>
         <is.analytics.version>1.0.0-SNAPSHOT</is.analytics.version>
         <carbon.kernel.version>4.4.3</carbon.kernel.version>
@@ -570,6 +570,43 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>wso2-nexus</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <!--<updatePolicy>daily</updatePolicy> -->
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>wso2.snapshots</id>
+            <name>WSO2 Snapshot Repository</name>
+            <url>http://maven.wso2.org/nexus/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <!--<updatePolicy>daily</updatePolicy> -->
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>wso2.releases</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2.org/nexus/content/repositories/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+                <!--<updatePolicy>daily</updatePolicy> -->
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+
+    </repositories>
+
 
     <build>
         <extensions>
