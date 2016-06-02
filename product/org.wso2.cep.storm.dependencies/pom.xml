@@ -371,12 +371,12 @@
         <carbon.kernel.version>4.4.2</carbon.kernel.version>
 
         <!-- Carbon component dependency versions -->
-        <carbon.analytics.common.version>5.0.12-SNAPSHOT</carbon.analytics.common.version>
+        <carbon.analytics.common.version>5.0.12-beta2</carbon.analytics.common.version>
         <!--<carbon.ml.version>1.1.1</carbon.ml.version>-->
 
         <!--CEP versions-->
-        <siddhi.version>3.0.6-SNAPSHOT</siddhi.version>
-        <carbon.event.processing.version>2.0.13-SNAPSHOT</carbon.event.processing.version>
+        <siddhi.version>3.0.6-beta2</siddhi.version>
+        <carbon.event.processing.version>2.0.13-beta2</carbon.event.processing.version>
 
         <!-- Third party dependencies -->
         <libthrift.wso2.version>0.9.2.wso2v1</libthrift.wso2.version>
