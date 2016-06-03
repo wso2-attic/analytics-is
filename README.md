@@ -53,7 +53,7 @@ overall success and failure login attempts and authentication attempts views for
 2. Disk     - 1 GB minimum for unpacking the distribution
 3. Java(TM) - Oracle Java SE Development Kit 1.7 or later
 
-For a full list, please see [WSO2 DAS Installation Prerequisites](https://docs.wso2.com/display/DAS300/Installation+Prerequisites).
+For a full list, please see [WSO2 IS Analytics Installation Prerequisites](https://docs.wso2.com/display/DAS300/Installation+Prerequisites).
 
 
 #### Support ####
@@ -65,7 +65,7 @@ For more details and to take advantage of this unique opportunity please visit h
 
 #### Reporting Issues  ####
 
-We encourage you to report issues, documentation faults and feature requests regarding WSO2 IS Analytics through the public [DAS JIRA](https://wso2.org/jira/browse/ANLYIS).
+We encourage you to report issues, documentation faults and feature requests regarding WSO2 IS Analytics through the public [IS Analytics JIRA](https://wso2.org/jira/browse/ANLYIS).
 
 You can use the [Carbon JIRA](https://wso2.org/jira/browse/CARBON) to report any issues related to the Carbon base framework or associated Carbon components.
 
