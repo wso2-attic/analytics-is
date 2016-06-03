@@ -28,13 +28,6 @@
     <artifactId>org.wso2.carbon.analytics.is.feature</artifactId>
     <packaging>pom</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.wso2.carbon.analytics.is</groupId>
-            <artifactId>org.wso2.carbon.analytics.is</artifactId>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
