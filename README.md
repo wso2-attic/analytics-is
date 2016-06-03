@@ -28,7 +28,7 @@ WSO2 IS Analytics Server
 
 ---
 
-## Introducing WSO2 Data Analytics Server ##
+## Introducing WSO2 IS Analytics Server ##
 
 WSO2 IS Analytics Server is powered by WSO2 Data Analytics Server that combines real-time, batch, interactive, and predictive (via machine learning) analysis of data into one integrated platform to support the multiple demands of Internet of Things (IoT) solutions, as well as mobile and Web apps.
 
@@ -65,7 +65,7 @@ For more details and to take advantage of this unique opportunity please visit h
 
 #### Reporting Issues  ####
 
-We encourage you to report issues, documentation faults and feature requests regarding WSO2 DAS through the public [DAS JIRA](https://wso2.org/jira/browse/ANLYIS).
+We encourage you to report issues, documentation faults and feature requests regarding WSO2 IS Analytics through the public [DAS JIRA](https://wso2.org/jira/browse/ANLYIS).
 
 You can use the [Carbon JIRA](https://wso2.org/jira/browse/CARBON) to report any issues related to the Carbon base framework or associated Carbon components.
 
