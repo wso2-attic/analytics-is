@@ -238,5 +238,5 @@
 
         INSERT INTO TABLE isUserRegionStatPerYear SELECT year, region,SUM(authSuccessCount),SUM(authFailureCount), cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, 1) as _timestamp FROM isUserRegionStatPerMonth GROUP BY region, year, isFederated;
     </Script>
-    <CronExpression>0 0/5 * * * ?</CronExpression>
+    <CronExpression>0 0/2 * * * ?</CronExpression>
 </Analytics>
