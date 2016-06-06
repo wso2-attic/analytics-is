@@ -29,7 +29,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
 
-import static junit.framework.Assert.fail;
 
 public class DASIntegrationTest {
 
