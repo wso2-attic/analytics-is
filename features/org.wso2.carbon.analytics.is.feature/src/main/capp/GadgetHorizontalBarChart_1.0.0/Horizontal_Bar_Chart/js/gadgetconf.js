@@ -413,7 +413,7 @@ var charts = [{
             "yTitle":"Duration",
             "xTitle":"Username",
             "barGap":0.5,
-            "colorScale":["#D9534F"],
+            "colorScale":["#5CB85C"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
@@ -448,7 +448,7 @@ var charts = [{
             "yTitle":"Duration",
             "xTitle":"Username",
             "barGap":0.5,
-            "colorScale":["#D9534F"],
+            "colorScale":["#5CB85C"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
@@ -484,7 +484,7 @@ var charts = [{
             "yTitle":"Session Count",
             "xTitle":"Duration",
             "barGap":0.5,
-            "colorScale":["#D9534F"],
+            "colorScale":["#5CB85C"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "sessionCount"}]},
         types: [
