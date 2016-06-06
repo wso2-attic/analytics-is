@@ -366,11 +366,24 @@
                     start:start,
                     count:length
                 });
-            }else{
+
+            }else if(listnedAdditionalUserPrefs != ""){
                 query = stringify({
                     fieldName : "serviceprovider", //field which is indexed as a FACET
                     categoryPath : [], //Path being drilled down, optional
                     query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+
+                            idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction : "authSuccessCount", //score function
+                    start:start,
+                    count:length
+                });
+            }
+            else{
+                query = stringify({
+                    fieldName : "serviceprovider", //field which is indexed as a FACET
+                    categoryPath : [], //Path being drilled down, optional
+                    query : "isFirstLogin : false AND _timestamp : [" + timeFrom + " TO " + timeTo + "]"+
                             idpTypeFilter + additionalParameters,
                     //search query, optional
                     scoreFunction : "authSuccessCount", //score function
@@ -434,7 +447,7 @@
             query = stringify({
                 fieldName : "serviceprovider", //field which is indexed as a FACET
                 categoryPath : [], //Path being drilled down, optional
-                query : "isFirstLogin : false AND _timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter +
+                query : "_timestamp : [" + timeFrom + " TO " + timeTo + "]"+ idpTypeFilter +
                         additionalParameters,
                 //search query, optional
                 scoreFunction : "authFailureCount", //score function
@@ -509,6 +522,7 @@
                     count:length
                 });
             }
+
 
 
 

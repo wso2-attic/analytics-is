@@ -12,7 +12,7 @@ $(function() {
         datePickerBtn = $('#btnCustomRange');
     //if there are url elemements present, use them. Otherwis use last hour
 
-    var timeFrom = moment().subtract(29, 'days');
+    var timeFrom = moment().subtract(1, 'hours')
     var timeTo = moment();
     var message = {};
 
@@ -31,7 +31,7 @@ $(function() {
     if (timeUnit != null) {
         $("#date-select [role=date-update][data-value=" + timeUnit + "]").addClass("active");
     } else {
-        $("#date-select [role=date-update][data-value=LastMonth]").addClass("active");
+        $("#date-select [role=date-update][data-value=LastHour]").addClass("active");
     }
 
     cb(moment(timeFrom), moment(timeTo));
@@ -52,15 +52,15 @@ $(function() {
             $(datePickerBtn).addClass("active");
         }
     }
-    
+
     $(datePickerBtn).on('apply.daterangepicker', function(ev, picker) {
         cb(picker.startDate, picker.endDate);
     });
-    
+
     $(datePickerBtn).on('show.daterangepicker', function(ev, picker) {
         $(this).attr('aria-expanded', 'true');
     });
-    
+
     $(datePickerBtn).on('hide.daterangepicker', function(ev, picker) {
         $(this).attr('aria-expanded', 'false');
     });
@@ -71,14 +71,14 @@ $(function() {
         "alwaysShowCalendars": true,
         "opens": "left"
     });
-    
+
     $("#date-select [role=date-update]").click(function(){
-        
+
         $("#date-select button").removeClass("active");
         $("#date-select [data-value=" + $(this).data('value') + "]").addClass("active");
         $('#btnDropdown > span:first-child').html($(this).html());
         $('#btnDropdown').addClass('active');
-        
+
         switch($(this).data('value')){
             case 'LastHour':
                 dateLabel.html(moment().subtract(1, 'hours').format('MMMM D, YYYY hh:mm A') + ' - ' + moment().format('MMMM D, YYYY hh:mm A'));
@@ -115,13 +115,13 @@ $(function() {
             default:
                 return;
         }
-        
+
         gadgets.Hub.publish(TOPIC, message);
-        
+
         $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
         $('#btnDropdown').attr('aria-expanded', 'false');
     });
-    
+
     $('#btnDropdown').click(function() {
         if($(gadgetWrapper).hasClass('btn-dropdown-menu-open')){
             $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
@@ -136,7 +136,7 @@ $(function() {
 });
 
 gadgets.HubSettings.onConnect = function() {
-  gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function (topic, data, subscriberData) {
+    gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function (topic, data, subscriberData) {
         var listnedTimeFromValue = parseInt(gadgetUtil.getURLParam("persistTimeFrom"));
         var listnedTimeToValue = parseInt(gadgetUtil.getURLParam("persistTimeTo"));
         $("#date-select button").removeClass("active");
@@ -147,7 +147,7 @@ gadgets.HubSettings.onConnect = function() {
 };
 
 function onChartZoomed(data) {
-    console.log(data); 
+    console.log(data);
     message = {
         timeFrom: data.timeFrom,
         timeTo: data.timeTo,
@@ -173,12 +173,12 @@ $(window).resize(function() {
 $(window).load(function() {
     var datePicker = $('.daterangepicker'),
         dropdown = $('ul.dropdown-menu');
-    
+
     $('body').click(function(e){
         if ((!dropdown.is(e.target) && dropdown.has(e.target).length === 0)
             && (!$('#btnDropdown').is(e.target) && $('#btnDropdown').has(e.target).length === 0)) {
-                $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
-                $('#btnDropdown').attr('aria-expanded', 'false');
+            $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
+            $('#btnDropdown').attr('aria-expanded', 'false');
         }
     });
 
