@@ -1458,6 +1458,7 @@
             }
             case TYPE_SESSION_COUNT_OVER_TIME:
             {
+                /*
                 result = [];
                 var data = [];
                 dataPointsArray = [];
@@ -1497,7 +1498,66 @@
                         });
                     }
                 }
-                result.push(data);
+                result.push(data);                
+                result.push(count);
+
+                break;
+                */
+
+                result = [];
+                var data = [];
+                dataPointsArray = [];
+                var timeFrom = request.getParameter("timeFrom");
+                var timeTo = request.getParameter("timeTo");
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+                if(timeUnit == "SECOND"){
+                    timeUnit = "MINUTE";
+                } else if (timeUnit == "DAY" || timeUnit == "MONTH" || timeUnit == "YEAR") {
+                    timeUnit = "HOUR";
+                }
+
+                var tableName = "IS-SESSION-STAT-PER-" + timeUnit;
+
+                query = stringify({
+                    query : "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    start:start,
+                    count:length
+                });
+
+                resp = connector.search(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var count = connector.searchCount(loggedInUser, tableName, query);
+
+                for (i = 0; i < dataPoints.length; i++) {
+                    var temp = [];
+                    if (dataPoints[i] != null) {
+                        var timestamp = dataPoints[i]["values"]["bucketId"];
+                        var activeSessionCount = dataPoints[i]["values"]["activeSessionCount"];
+                        var newSessionCount = dataPoints[i]["values"]["newSessionCount"];
+                        var terminatedSessionCount = dataPoints[i]["values"]["terminatedSessionCount"];
+
+                        data.push({
+                            "timestamp": Number(timestamp),
+                            "sessionCount": activeSessionCount,
+                            "sessionType": "active"
+                        });
+                        data.push({
+                            "timestamp": Number(timestamp),
+                            "sessionCount": newSessionCount,
+                            "sessionType": "new"
+                        });
+                        data.push({
+                            "timestamp": Number(timestamp),
+                            "sessionCount": terminatedSessionCount,
+                            "sessionType": "terminated"
+                        });
+                    }
+                }
+                result.push(data);                
                 result.push(count);
 
                 break;
