@@ -58,17 +58,10 @@ public class DataPublisherClient {
         dataPublisher.shutdown();
     }
 
-    public void publish(String streamName, String version, List<Event> events) throws DataEndpointException {
-        String streamId = DataBridgeCommonsUtils.generateStreamId(streamName, version);
+    public void publish(List<Event> events) throws DataEndpointException {
         for (Event event : events) {
-            event.setStreamId(streamId);
             dataPublisher.publish(event);
         }
     }
 
-    public void publish(String streamName, String version, Event event) throws DataEndpointException {
-        String streamId = DataBridgeCommonsUtils.generateStreamId(streamName, version);
-        event.setStreamId(streamId);
-        dataPublisher.publish(event);
-    }
 }
