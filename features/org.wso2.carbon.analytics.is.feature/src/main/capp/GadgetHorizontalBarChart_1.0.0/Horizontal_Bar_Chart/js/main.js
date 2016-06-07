@@ -683,23 +683,23 @@ var substringMatcher = function() {
 
         switch (filterType) {
             case 12: {
-                listnedAdditionalUserPrefs= " AND userName:"+ q +"*";
+                listnedAdditionalUserPrefs= " AND userName:\""+ q +"*\"";
                 break;
             }
             case 13: {
-                listnedAdditionalUserPrefs= " AND serviceprovider:"+ q +"*";
+                listnedAdditionalUserPrefs= " AND serviceprovider:\""+ q +"*\"";
                 break;
             }
             case 14: {
-                listnedAdditionalUserPrefs= " AND identityProvider:"+ q +"*";
+                listnedAdditionalUserPrefs= " AND identityProvider:\""+ q +"*\"";
                 break;
             }
             case 15: {
-                listnedAdditionalUserPrefs= " AND role:"+ q +"*";
+                listnedAdditionalUserPrefs= " AND role:\""+ q +"*\"";
                 break;
             }
             case 16: {
-                listnedAdditionalUserPrefs= " AND userStoreDomain:"+ q +"*";
+                listnedAdditionalUserPrefs= " AND userStoreDomain\":"+ q +"*\"";
                 break;
             }
             default : {
