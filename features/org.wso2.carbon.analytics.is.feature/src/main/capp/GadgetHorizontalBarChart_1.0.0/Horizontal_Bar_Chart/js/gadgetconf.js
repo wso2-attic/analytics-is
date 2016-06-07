@@ -304,7 +304,6 @@ var charts = [{
             "x":"serviceprovider",
             "yTitle":"successfulAttempts",
             "maxLength":"3000",
-            "highlight" : "single",
             "barGap":0.5,
             "colorScale":["#5CB85C"],
             "padding":{"top":0,"left":100,"bottom":0,"right":55},
@@ -411,9 +410,10 @@ var charts = [{
         {
             "x":"username",
             "maxLength":"3000",
-            "yTitle":"duration",
+            "yTitle":"Duration",
+            "xTitle":"Username",
             "barGap":0.5,
-            "colorScale":["#D9534F"],
+            "colorScale":["#5CB85C"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
@@ -445,9 +445,10 @@ var charts = [{
         {
             "x":"username",
             "maxLength":"3000",
-            "yTitle":"duration",
+            "yTitle":"Duration",
+            "xTitle":"Username",
             "barGap":0.5,
-            "colorScale":["#D9534F"],
+            "colorScale":["#5CB85C"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
@@ -468,22 +469,22 @@ var charts = [{
     },
     {
         name: ROLE_SESSION_COUNT_OVER_TIME,
-        columns: ["sessionCount", "timestamp"],
+        columns: ["sessionCount", "duration"],
         schema: [{
             "metadata": {
-                "names": ["sessionCount", "timestamp"],
-                "types": ["linear","time"]
+                "names": ["sessionCount", "duration"],
+                "types": ["linear","ordinal"]
             },
             "data": []
         }],
         "chartConfig":
         {
-            "x":"timestamp",
+            "x":"duration",
             "maxLength":"3000",
             "yTitle":"Session Count",
-            "xTitle":"Time",
+            "xTitle":"Duration",
             "barGap":0.5,
-            "colorScale":["#D9534F"],
+            "colorScale":["#5CB85C"],
             "padding":{"top":30,"left":100,"bottom":38,"right":55},
             "charts":[{type: "bar",  y : "sessionCount"}]},
         types: [
@@ -495,7 +496,7 @@ var charts = [{
             var result = [];
             data.forEach(function(row, i) {
                 var sessionCount = row['sessionCount'];
-                var timestamp = row['timestamp'];
+                var timestamp = row['duration'];
 
                 result.push([sessionCount, timestamp]);
             });

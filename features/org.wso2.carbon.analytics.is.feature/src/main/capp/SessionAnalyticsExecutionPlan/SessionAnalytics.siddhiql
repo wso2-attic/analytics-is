@@ -8,23 +8,23 @@
 
 
 @Import('session-analytics-stream:1.0.0')
-define stream sessionStream (sessionId string, action int, userName string, tenantDomain string, _timestamp long);
+define stream sessionStream (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool, _timestamp long);
 
 @Export('is-session-stat-per-minute:1.0.0')
 define stream sessionStatPerMinute (bucketId long, bucketStart long, bucketEnd long, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
 
-define table sumHolderTable(id string, sums long);
+@from(eventtable = 'analytics.table' , table.name = 'is-session-active-count', primary.keys = 'id', indices = 'id', wait.for.indexing = 'true', merge.schema = 'false')
+define table activeSessionCountTable(id string, activeCount long);
 
-from sessionStream#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
-select (_timestamp - _timestamp%60000) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'netval' as id
+from sessionStream[startTimestamp == renewTimestamp OR renewTimestamp == terminationTimestamp]#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
+select (_timestamp - _timestamp%60000) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'count' as id
 insert into bucketStream;
 
-from bucketStream#window.length(1) as s left outer join sumHolderTable as t
+from bucketStream#window.length(1) as s left outer join activeSessionCountTable as t
 on s.id == t.id
-select s.bucketId, s.bucketId as bucketStart, (s.bucketId + 60000) as bucketEnd, (s.net  + ifThenElse(t.sums is null, convert(0, 'long'), t.sums) ) as activeSessionCount, s.newSessionCount, s.terminatedSessionCount
+select s.bucketId, s.bucketId as bucketStart, (s.bucketId + 60000) as bucketEnd, (s.net  + ifThenElse(t.activeCount is null, convert(0, 'long'), t.activeCount) ) as activeSessionCount, s.newSessionCount, s.terminatedSessionCount
 insert into sessionStatPerMinute;
 
 from sessionStatPerMinute#window.length(1)
-select 'netval' as id, activeSessionCount as sums
-insert overwrite sumHolderTable
-	on  id == sumHolderTable.id;
+select 'count' as id, activeSessionCount as activeCount
+insert into activeSessionCountTable;

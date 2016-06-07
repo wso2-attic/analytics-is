@@ -31,7 +31,7 @@
     </licenses>
 
     <modules>
-        <!--<module>components</module>-->
+        <module>components</module>
         <module>features</module>
         <module>product/org.wso2.das4is.multitenancy.dashboard.ui</module>
         <module>product/org.wso2.cep.storm.dependencies</module>
@@ -45,6 +45,12 @@
     <dependencyManagement>
         <dependencies>
             <!-- ************************ START - Vanilla carbon server + DAS style ************* -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.wso2.carbon</groupId>
                 <artifactId>org.wso2.carbon.core</artifactId>
@@ -118,6 +124,11 @@
             <dependency>
                 <groupId>org.wso2.carbon.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.multitenancy.dashboard.ui</artifactId>
+                <version>${is.analytics.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.carbon.analytics.is</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
             <!-- ************************ END - Vanilla carbon server + DAS style ************* -->
@@ -416,6 +427,16 @@
                 <artifactId>json</artifactId>
                 <version>${orbit.version.json}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics.shared</groupId>
+                <artifactId>org.wso2.carbon.analytics.shared.geolocation.udf</artifactId>
+                <version>${carbon.analytics.shared.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <artifactId>org.wso2.carbon.analytics.is</artifactId>
+                <version>${is.analytics.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -456,8 +477,8 @@
 
     <properties>
         <carbon.analytics.shared.version>1.0.1-SNAPSHOT</carbon.analytics.shared.version>
+        <junit.version>4.10</junit.version>
         <is.analytics.version>1.0.0-SNAPSHOT</is.analytics.version>
-
         <carbon.kernel.version>4.4.3</carbon.kernel.version>
         <carbon.analytics.version>1.0.6-SNAPSHOT</carbon.analytics.version>
         <carbon.analytics.common.version>5.0.12-SNAPSHOT</carbon.analytics.common.version>
@@ -512,7 +533,6 @@
         <slf4j.api.version>1.6.1</slf4j.api.version>
         <cipher.tool.version>1.0.0-wso2v3</cipher.tool.version>
         <geoip.api.version>1.2.15</geoip.api.version>
-
         <project.scm.id>my-scm-server</project.scm.id>
     </properties>
 

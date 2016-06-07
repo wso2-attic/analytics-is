@@ -25,15 +25,11 @@
             "type": "STRING"
         },
         {
-            "name": "tetantDomain",
+            "name": "tenantDomain",
             "type": "STRING"
         },
         {
             "name": "remoteIp",
-            "type": "STRING"
-        },
-        {
-            "name": "region",
             "type": "STRING"
         },
         {
@@ -58,10 +54,6 @@
         },
         {
             "name": "rolesCommaSeperated",
-            "type": "STRING"
-        },
-        {
-            "name": "role",
             "type": "STRING"
         },
         {

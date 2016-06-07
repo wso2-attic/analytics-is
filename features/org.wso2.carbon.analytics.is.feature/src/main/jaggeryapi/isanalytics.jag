@@ -45,6 +45,7 @@
     var TYPE_AVERAGE_SESSION_DURATION = 22;
     var TYPE_SESSION_COUNT_OVER_TIME = 23;
     var TYPE_SESSION_USERNAME_LIST = 24;
+    var TYPE_SESSION_CHANGE_OVER_TIME = 25;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -1458,7 +1459,6 @@
             }
             case TYPE_SESSION_COUNT_OVER_TIME:
             {
-                /*
                 result = [];
                 var data = [];
                 dataPointsArray = [];
@@ -1502,8 +1502,9 @@
                 result.push(count);
 
                 break;
-                */
-
+            }
+            case TYPE_SESSION_CHANGE_OVER_TIME:
+            {
                 result = [];
                 var data = [];
                 dataPointsArray = [];
@@ -1561,7 +1562,7 @@
                 result.push(count);
 
                 break;
-            }
+            }            
             case TYPE_SESSION_USERNAME_LIST:
             {
                 result = [];

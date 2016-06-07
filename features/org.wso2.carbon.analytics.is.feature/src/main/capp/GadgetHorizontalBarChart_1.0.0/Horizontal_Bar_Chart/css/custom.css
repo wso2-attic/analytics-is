@@ -16,6 +16,7 @@
 
 .typeahead.tt-hint {
     margin-bottom: 0;
+    visibility:hidden;
 }
 
 #autocomplete-search-box .typeahead{
@@ -69,4 +70,16 @@ input.typeahead.tt-hint{
     text-align: center;
     line-height: 12px;
     display:none;
+}
+
+body.dark svg.marks .mark-group .background {
+    fill: #121822 !important;
+}
+
+body.dark svg.marks .mark-group .mark-text text {
+    fill: #7D8596 !important;
+}
+
+body.dark svg.marks .mark-group .mark-rule line {
+    stroke: #E3E5E6 !important;
 }

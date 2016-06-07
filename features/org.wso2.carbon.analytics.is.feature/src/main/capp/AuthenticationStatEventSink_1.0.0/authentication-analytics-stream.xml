@@ -2,7 +2,16 @@
 <EventStoreConfiguration>
     <TableSchema>
         <ColumnDefinition>
+            <Name>contextId</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>eventId</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -10,27 +19,31 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>authenticationSuccess</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>userName</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>userStoreDomain</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>tetantDomain</Name>
+            <Name>tenantDomain</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -38,20 +51,15 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>remoteIp</Name>
-            <EnableIndexing>false</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>region</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>inboundAuthType</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -59,13 +67,15 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>serviceprovider</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>remembermeEnabled</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -73,6 +83,7 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>forceAuthEnabled</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -80,6 +91,7 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>passiveAuthEnabled</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -87,20 +99,15 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>rolesCommaSeperated</Name>
-            <EnableIndexing>false</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>role</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>authenticationStep</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -108,13 +115,15 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>identityProvider</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>authStepSuccess</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -122,6 +131,7 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>stepAuthenticator</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -129,6 +139,7 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>isFirstLogin</Name>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -136,7 +147,8 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>isFederated</Name>
-            <EnableIndexing>false</EnableIndexing>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>

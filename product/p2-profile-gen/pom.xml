@@ -95,7 +95,13 @@
                                     org.wso2.carbon.analytics.shared:org.wso2.analytics.shared.util.feature:${carbon.analytics.shared.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.analytics.shared:org.wso2.carbon.analytics.shared.spark.util.feature:${carbon.analytics.shared.version}
+                                    org.wso2.carbon.analytics.shared:org.wso2.analytics.shared.util.feature:${carbon.analytics.shared.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.analytics.shared:org.wso2.carbon.analytics.shared.geolocation.udf.feature:${carbon.analytics.shared.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.analytics.shared:org.wso2.carbon.analytics.shared.spark.common.udf.feature:${carbon.analytics.shared.version}
                                 </featureArtifactDef>
 
                                 <!-- START - Analytics Features -->
@@ -123,7 +129,10 @@
                                     org.wso2.carbon.analytics.is:org.wso2.carbon.analytics.is.feature:${is.analytics.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.analytics:org.wso2.carbon.analytics.dashboard.feature:${carbon.analytics.version}
+                                    org.wso2.carbon.analytics:org.wso2.carbon.analytics.dashboard.ui.feature:${carbon.analytics.version}
+                                </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.carbon.dashboards:org.wso2.carbon.dashboards.deployment.feature:${carbon.dashboard.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.analytics:org.wso2.carbon.analytics.messageconsole.feature:${carbon.analytics.version}
@@ -376,7 +385,15 @@
                                     <version>${carbon.analytics.shared.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.analytics.shared.spark.util.feature.group</id>
+                                    <id>org.wso2.analytics.shared.util.feature.group</id>
+                                    <version>${carbon.analytics.shared.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.analytics.shared.geolocation.udf.feature.group</id>
+                                    <version>${carbon.analytics.shared.version}</version>
+                                </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.analytics.shared.spark.common.udf.feature.group</id>
                                     <version>${carbon.analytics.shared.version}</version>
                                 </feature>
                                 <!-- START - Analytics Features -->
@@ -406,10 +423,13 @@
                                 </feature>
                                 <!-- END - Analytics features -->
                                 <feature>
-                                    <id>org.wso2.carbon.analytics.dashboard.feature.group</id>
+                                    <id>org.wso2.carbon.analytics.dashboard.ui.feature.group</id>
                                     <version>${carbon.analytics.version}</version>
                                 </feature>
-
+                                <feature>
+                                    <id>org.wso2.carbon.dashboard.deployment.feature.group</id>
+                                    <version>${carbon.dashboard.version}</version>
+                                </feature>
                                 <feature>
                                     <id>org.wso2.carbon.analytics.is.feature.group</id>
                                     <version>${is.analytics.version}</version>

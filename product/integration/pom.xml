@@ -15,11 +15,11 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!--<module>tests-common/admin-clients</module>
+        <module>tests-common/admin-clients</module>
         <module>tests-common/ui-pages</module>
         <module>tests-common/integration-test-utils</module>
-        <module>tests-integration</module>
-        <module>tests-ui-integration</module>-->
+        <module>tests-integration/tests</module>
+        <module>tests-ui-integration</module>
         <!--<module>tests-platform</module>-->
     </modules>
 </project>

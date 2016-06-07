@@ -21,6 +21,10 @@
             <artifactId>org.wso2.das4is.integration.common.utils</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.wso2.carbon.analytics.is</groupId>
+            <artifactId>org.wso2.das4is.integration.common.clients</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.wso2.carbon.analytics</groupId>
             <artifactId>org.wso2.carbon.analytics.spark.stub</artifactId>
         </dependency>

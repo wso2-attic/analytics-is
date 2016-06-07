@@ -12,13 +12,13 @@
           <link rel="stylesheet" type="text/css" href="/portal/libs/bootstrap_3.3.5/css/bootstrap.min.css" />
           <link rel="stylesheet" type="text/css" href="/portal/libs/font-wso2_1.0.0/css/font-wso2.min.css" />
           <link rel="stylesheet" type="text/css" href="/portal/libs/theme-wso2_1.0/css/theme-wso2.css" />
-          <link rel="stylesheet" type="text/css" href="/portal/extensions/themes/analytics/css/gadget.css" />
+          <link rel="stylesheet" type="text/css" href="../commons/css/gadget.css" />
           
           <!-- jQuery -->
-          <script src="../commons/js/jquery-1.10.2.js"></script> 
+          <script src="../commons/js/jquery-1.10.2.js"></script>
            
           <!-- Include Date Range Picker -->
-           <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+          <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
           <link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
           <script type="text/javascript" src="js/moment.min.js"></script>
           <script type="text/javascript" src="js/daterangepicker.js"></script>
@@ -33,17 +33,26 @@
             
             <div class="clearfix">
                 <div class="btn-group pull-right" id="date-select">
-                    <div id="reportrange" class="btn-group" role="group">
-                        <span class="btn-label">CUSTOM:</span>
-                        <button id="btnLastHour" type="button" class="btn btn-default">Last Hour</button>
-                        <button id="btnLastDay"  type="button" class="btn btn-default">Last 24 Hours</button>
-                        <button id="btnLastMonth" type="button" class="btn btn-default">Last 30 Days</button>
-                        <button id="btnLastYear" type="button" class="btn btn-default">Last Year</button>
+                    <div class="btn-group pull-right" role="group">
+                        <button role="date-update" data-value="LastHour" type="button" class="btn btn-default hidden-xs hidden-sm">Last Hour</button>
+                        <button role="date-update" data-value="LastDay" type="button" class="btn btn-default hidden-xs hidden-sm">Last 24 Hours</button>
+                        <button role="date-update" data-value="LastMonth" type="button" class="btn btn-default hidden-xs hidden-sm">Last 30 Days</button>
+                        <button role="date-update" data-value="LastYear" type="button" class="btn btn-default hidden-xs hidden-sm">Last Year</button>
+                        <button id="btnDropdown" type="button" class="btn btn-default dropdown-toggle hidden-md hidden-lg" data-toggle="dropdown">
+                            <span>Last Hour</span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu btn-dropdown-menu pull-right" role="menu" style="top: 32px; right: 111px;">
+                            <li><a href="javascript:void(0)" role="date-update" data-value="LastHour">Last Hour</a></li>
+                            <li><a href="javascript:void(0)" role="date-update" data-value="LastDay">Last 24 Hours</a></li>
+                            <li><a href="javascript:void(0)" role="date-update" data-value="LastMonth"s>Last 30 Days</a></li>
+                            <li><a href="javascript:void(0)" role="date-update" data-value="LastYear">Last 24 Year</a></li>
+                        </ul>
                         <button id="btnCustomRange" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i> Custom
                             <b class="caret"></b>
                         </button>
                     </div>
+                    <span id="reportrange" class="btn-label"></span>
                 </div>
             </div>
 

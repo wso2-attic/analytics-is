@@ -48,6 +48,7 @@ var ROLE_PER_USERSTORE_AUTHENTICATION_FAILURE_COUNT = "userstoreAuthenticationFa
 var ROLE_TOP_LONGEST_SESSIONS = "topLongestSessionsSuccessCount";
 var ROLE_PER_USER_AVERAGE_SESSION_DURATION = "userSessionDurationSuccessCount";
 var ROLE_SESSION_COUNT_OVER_TIME = "sessionCountSuccessCount";
+var ROLE_SESSION_CHANGE_OVER_TIME = "sessionChangeCount";
 var ROLE_LATENCY = "latency";
 var ROLE_RATE = "rate";
 

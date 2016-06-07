@@ -1,5 +1,5 @@
 var charts = [{
-    name: ROLE_SESSION_COUNT_OVER_TIME,
+    name: ROLE_SESSION_CHANGE_OVER_TIME,
     columns: ["sessionCount","timestamp", "sessionType"],
     schema: [{
         "metadata": {
@@ -15,7 +15,7 @@ var charts = [{
         range: true,
     },
     types: [
-        { name: TYPE_SESSIONS, type: 23 }
+        { name: TYPE_SESSIONS, type: 25 }
     ],
     processData: function(data) {
         var result = [];

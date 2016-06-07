@@ -16,6 +16,7 @@ var qs = gadgetUtil.getQueryString();
 var prefs = new gadgets.Prefs();
 var type;
 var chart = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE));
+var map;
 
 if (chart) {
     type = gadgetUtil.getRequestType(page, chart);
@@ -83,7 +84,21 @@ $(function() {
             }
         }
     });
+
+    checkMapType();
 });
+
+function checkMapType() {
+    if (document.getElementById('chkMap').checked) {
+        $("#mapSuccessDiv").hide();
+        $("#mapFailDiv").show();
+        map.colorCode = "FAILURE";
+    } else {
+        $("#mapFailDiv").hide();
+        $("#mapSuccessDiv").show()
+        map.colorCode = "SUCCESS";
+    }
+}
 
 gadgets.HubSettings.onConnect = function() {
 
@@ -184,6 +199,16 @@ function onDataChanged() {
         idpType:idpTypeFilter
     }, onData, onError);
 
+    gadgetUtil.fetchData(CONTEXT, {
+        type: 25,
+        timeFrom: listnedTimeFromValue,
+        timeTo: listnedTimeToValue,
+        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        idpType:idpTypeFilter,
+        start:0,
+        count:10
+    }, loadMap, onError);
+
 };
 
 
@@ -227,8 +252,6 @@ function onData(response) {
         $('#canvas').html(gadgetUtil.getErrorText(e));
     }
 }
-
-
 
 function onError(msg) {
     $("#canvas").html(gadgetUtil.getErrorText(msg));
@@ -285,23 +308,49 @@ function loadStats(data){
 
     var chartT = new vizg(dataT, configT);
     chartT.draw("#donutDiv");
+}
 
-    var worldData =  [
+function loadMap(data) {
+    var successData = [];
+    var failedData = [];
+
+
+    var mapCallBack = function(event, item) {
+        if (item != null) {
+            var region = item.datum.zipped.unitName;
+            map.mode = "REGION";
+
+            var message = {
+                userPrefValue: region,
+                mode: map.mode,
+                colorCode:map.colorCode
+            };
+
+            gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
+
+            gadgets.Hub.publish("subscriberUserPref", message);
+
+        }
+    }
+
+
+    for (var i = 0 ; i < data.message.length; i++) {
+        successData.push([data.message[i].region, data.message[i].authSuccessCount]);
+        failedData.push([data.message[i].region, data.message[i].authFailureCount]);
+    }
+
+
+    var worldSuccessData =  [
         {
             "metadata" : {
                 "names" : ["Country","Logins"],
                 "types" : ["ordinal", "linear"]
             },
-            "data": [
-
-                ["China",200], ["Germany",75],
-                ["USA",127], ["Canada",15]
-            ]
+            "data": successData
         }
     ];
 
-
-    var configWorld = {
+    var configSuccessWorld = {
         type: "map",
         x : "Country",
         legend : false,
@@ -310,14 +359,41 @@ function loadStats(data){
         charts : [{type: "map",  y : "Logins", mapType : "world"}],
         width: 380,
         height: 250,
-        colorScale:["#ffe6cc","#ff9933"]
+        colorScale:["#dcefdc","#5CB85C"]
     };
 
-    configWorld.helperUrl = "../../portal/templates/geojson/countryInfo.json";
-    configWorld.geoCodesUrl = "../../portal/templates/geojson/world.json";
-    var worldChart = new vizg(worldData, configWorld);
-    worldChart.draw("#mapDiv");
+    configSuccessWorld.helperUrl = "../../portal/templates/geojson/countryInfo.json";
+    configSuccessWorld.geoCodesUrl = "../../portal/templates/geojson/world.json";
+    var worldSuccessChart = new vizg(worldSuccessData, configSuccessWorld);
+    worldSuccessChart.draw("#mapSuccessDiv",[{type:"click", callback:mapCallBack}]);
 
+
+    var worldFailedData =  [
+        {
+            "metadata" : {
+                "names" : ["Country","Logins"],
+                "types" : ["ordinal", "linear"]
+            },
+            "data": failedData
+        }
+    ];
+
+    var configFailedWorld = {
+        type: "map",
+        x : "Country",
+        legend : false,
+        padding: { top:0, right:50, bottom:00, left:10 },
+        renderer : "canvas",
+        charts : [{type: "map",  y : "Logins", mapType : "world"}],
+        width: 380,
+        height: 250,
+        colorScale:["#f6d6d5","#D9534F"]
+    };
+
+    configFailedWorld.helperUrl = "../../portal/templates/geojson/countryInfo.json";
+    configFailedWorld.geoCodesUrl = "../../portal/templates/geojson/world.json";
+    var worldFailedChart = new vizg(worldFailedData, configFailedWorld);
+    worldFailedChart.draw("#mapFailDiv",[{type:"click", callback:mapCallBack}]);
 }
 
 document.body.onmouseup = function() {
