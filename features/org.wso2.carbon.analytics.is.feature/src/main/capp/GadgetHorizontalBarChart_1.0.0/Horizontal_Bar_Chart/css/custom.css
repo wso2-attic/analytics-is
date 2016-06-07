@@ -16,6 +16,7 @@
 
 .typeahead.tt-hint {
     margin-bottom: 0;
+    visibility:hidden;
 }
 
 #autocomplete-search-box .typeahead{
