@@ -39,7 +39,7 @@
               <script src="../commons/js/typeahead.bundle.js"></script>
 
             </head>
-            <body>
+            <body class="bkWrapColor">
                 <div class="row no-gutter">
                 <div class="successChart">
                     <div id="canvasSuccess" style="width:400px"></div>
