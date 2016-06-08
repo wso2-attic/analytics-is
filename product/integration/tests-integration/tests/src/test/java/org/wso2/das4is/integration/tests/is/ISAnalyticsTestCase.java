@@ -128,6 +128,9 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 
     }
 
+
+    //==========================  Overall Auth Success and Failure Count  ==============================================
+
     @Test(groups = "wso2.analytics.is", description = "Check Total Event Count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
         long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "AUTHENTICATION-ANALYTICS-STREAM", Long.MIN_VALUE, Long.MAX_VALUE);
@@ -256,6 +259,125 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
     }
 
 
+    //==========================  Overall Auth Success and Failure Count - For User ==============================================
+
+    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Min for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveAuthSuccessFailureCountFromPerMinForUserTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+                   AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND userName:\"Sarah\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-MINUTE");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0 , "========== Total auth success and failure event count are invalid per-min for user table ================");
+    }
+
+
+    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Hour for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveAuthSuccessFailureCountFromPerHourForUserTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+                   AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND userName:\"Sarah\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-HOUR");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0 , "========== Total auth success and failure event count are invalid per-hour for user table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Day for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveAuthSuccessFailureCountFromPerDayForUserTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+                   AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND userName:\"Sarah\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-DAY");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0 , "========== Total auth success and failure event count are invalid per-day for user table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Month for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveAuthSuccessFailureCountFromPerMonthForUserTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+                   AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND userName:\"Sarah\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-MONTH");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0 , "========== Total auth success and failure event count are invalid per-month for user table ================");
+    }
+
     @AfterTest(alwaysRun = true)
     public void startRestoreAnalyticsConfigFile() throws Exception {
         serverManager.restoreToLastConfiguration();
@@ -276,7 +398,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
                            loggedInSessionCookie);
     }
 
-//
+
 //    public static void main(String[] args) throws AnalyticsException, InterruptedException {
 //        List<AggregateField> fields = new ArrayList<AggregateField>();
 //        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
@@ -286,8 +408,10 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 //        aggregateRequest.setAggregateLevel(0);
 //        aggregateRequest.setParentPath(new ArrayList<String>());
 //        aggregateRequest.setGroupByField("facetStartTime");
-//        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\"");
+//        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND userName:\"Sarah\"");
 //        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-MINUTE");
+//
+//
 //        String analyticsDataConfigLocation = "/home/mohan/wso2/source-code/public/git/analytics-is/product/integration/tests-integration/tests/src/test/resources/config/analytics-data-config.xml";
 //        String apiConf = new File(analyticsDataConfigLocation).getAbsolutePath();
 //        AnalyticsDataAPI analyticsDataAPI =  new CarbonAnalyticsAPI(apiConf);
@@ -296,15 +420,13 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 //        double totalSuccessCount = 0;
 //        double totalFailureCount = 0;
 //
-//        Thread.sleep(10000);
-//
 //        while (resultItr.hasNext()) {
 //            Record record = resultItr.next();
 //            totalSuccessCount = totalSuccessCount + ((Double) record.getValues().get("total_authSuccessCount"));
 //            totalFailureCount = totalFailureCount + ((Double) record.getValues().get("total_authFailureCount"));
 //        }
 //
-//        System.out.println(totalFailureCount);
+//        System.out.println(totalFailureCount+totalSuccessCount);
 //    }
 
 
