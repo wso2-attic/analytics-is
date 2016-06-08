@@ -12,4 +12,9 @@
             <package name="org.wso2.das4is.integration.tests.globalpurging"/>
         </packages>
     </test>
+    <test name="is-analytics" preserve-order="true" parallel="false">
+        <packages>
+            <package name="org.wso2.das4is.integration.tests.is"/>
+        </packages>
+    </test>
 </suite>
