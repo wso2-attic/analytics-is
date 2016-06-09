@@ -15,7 +15,7 @@ var charts = [{
         range: true,
     },
     types: [
-        { name: TYPE_SESSIONS, type: 25 }
+        { name: TYPE_SESSIONS, type: 26 }
     ],
     processData: function(data) {
         var result = [];
