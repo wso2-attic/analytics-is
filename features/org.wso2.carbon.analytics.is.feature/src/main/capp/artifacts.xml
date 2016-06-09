@@ -9,6 +9,7 @@
         <dependency artifact="GadgetHorizontalBarChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="GadgetMessageTable" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="GadgetUserPreferences" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="GadgetLineChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="Sparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsAuthenticationEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
