@@ -92,7 +92,7 @@
         <ColumnDefinition>
             <Name>authSuccessCount</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
+            <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>true</EnableScoreParam>
             <Type>LONG</Type>
@@ -100,7 +100,7 @@
         <ColumnDefinition>
             <Name>authFailureCount</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
+            <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>true</EnableScoreParam>
             <Type>LONG</Type>
@@ -108,7 +108,7 @@
         <ColumnDefinition>
             <Name>authStepSuccessCount</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
+            <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>true</EnableScoreParam>
             <Type>LONG</Type>
