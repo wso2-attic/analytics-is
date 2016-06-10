@@ -37,12 +37,12 @@
             "type": "LONG"
         },
         {
-            "name": "facetStartTime",
-            "type": "STRING"
+            "name": "authFirstSuccessCount",
+            "type": "LONG"
         },
         {
-            "name": "isFirstLogin",
-            "type": "BOOL"
+            "name": "facetStartTime",
+            "type": "STRING"
         },
         {
             "name": "isFederated",
