@@ -66,20 +66,20 @@
             <Type>LONG</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>authFirstSuccessCount</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>true</EnableScoreParam>
+            <Type>LONG</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>facetStartTime</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>isFirstLogin</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>BOOLEAN</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>isFederated</Name>

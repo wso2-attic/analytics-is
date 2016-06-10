@@ -9,6 +9,9 @@
 @Import('authentication-analytics-stream:1.0.0')
 define stream inStream (contextId string, eventId string, authenticationSuccess bool, userName string, userStoreDomain string, tenantDomain string, remoteIp string, inboundAuthType string, serviceprovider string, remembermeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeperated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, isFederated bool, _timestamp long);
 
+@Export('is-service-provider-authentication-stat-per-minute:1.0.0')
+define stream perMinServiceProviderStream (year int, month int, day int, hour int, minute int, serviceprovider string, authSuccessCount long, authFailureCount long, authFirstSuccessCount long, facetStartTime string, isFederated bool, _timestamp long);
+
 @Export('is-authentication-stat-per-minute:1.0.0')
 define stream perMinAuthenticationStatStream (year int, month int, day int, hour int, minute int, userName string, rolesCommaSeperated string, serviceprovider string, identityProvider string, region string, userStoreDomain string, authSuccessCount long, authFailureCount long, authStepSuccessCount long,facetStartTime string, isFederated bool, _timestamp long);
 
@@ -24,9 +27,6 @@ define stream perMinRoleStream (year int, month int, day int, hour int, minute i
 
 @Export('is-identity-provider-authentication-stat-per-minute:1.0.0')
 define stream perMinIdentityProviderStream (year int, month int, day int, hour int, minute int, identityProvider string, authSuccessCount long, authFailureCount long, facetStartTime string, isFederated bool, _timestamp long);
-
-@Export('is-service-provider-authentication-stat-per-minute:1.0.0')
-define stream perMinServiceProviderStream (year int, month int, day int, hour int, minute int, serviceprovider string, authSuccessCount long, authFailureCount long, facetStartTime string, isFirstLogin bool,isFederated bool, _timestamp long);
 
 @Export('is-user-authentication-stat-per-minute:1.0.0')
 define stream perMinUserStream (year int, month int, day int, hour int, minute int, userName string, authSuccessCount long, authFailureCount long, facetStartTime string, isFederated bool,_timestamp long);
@@ -75,13 +75,8 @@ select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'm
 insert into perMinRoleStream;
 
 from countStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
-select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,serviceprovider,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, false as isFirstLogin,isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
+select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,serviceprovider,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(firstLoginValue) as  authFirstSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime,isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by serviceprovider,isFederated
-insert into perMinServiceProviderStream;
-
-from countStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
-select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,serviceprovider,sum(firstLoginValue) as authSuccessCount, 0l as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, true as isFirstLogin,isFederated, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
-group by serviceprovider,isFederated,identityProvider
 insert into perMinServiceProviderStream;
 
 from countStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
