@@ -41,6 +41,10 @@
             "type": "STRING"
         },
         {
+          "name": "remoteIp",
+          "type": "STRING"
+        },
+        {
             "name": "region",
             "type": "STRING"
         },

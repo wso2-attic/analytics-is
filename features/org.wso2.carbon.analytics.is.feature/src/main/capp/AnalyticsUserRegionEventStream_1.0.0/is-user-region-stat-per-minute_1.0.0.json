@@ -25,6 +25,10 @@
       "type": "INT"
     },
     {
+      "name": "remoteIp",
+      "type": "STRING"
+    },
+    {
       "name": "region",
       "type": "STRING"
     },
