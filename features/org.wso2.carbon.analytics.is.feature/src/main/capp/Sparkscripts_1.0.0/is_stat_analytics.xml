@@ -50,7 +50,7 @@
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Minute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
-        primaryKeys "year, month, day, hour, minute, userName,role,serviceprovider,identityProvider,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMinuteDuplicate, 3600", mergeSchema "false");
+        primaryKeys "year, month, day, hour, minute, userName,role,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMinuteDuplicate, 3600", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerHour USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Hour",
