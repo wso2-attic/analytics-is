@@ -239,7 +239,7 @@
 
         INCREMENTAL_TABLE_COMMIT isUserAuthenticationAnalyticsPerHour;
 
-        INSERT INTO TABLE isUserAuthenticationAnalyticsPerMonth SELECT year, month,userName,SUM(authSuccessCount),SUM(authFailureCount), cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, isFederated,getMonthStartingTime(year, month) as _timestamp FROM isUserAuthenticationAnalyticsPerDay GROUP BY userName, year, month, isFederated;
+        INSERT INTO TABLE isUserAuthenticationAnalyticsPerMonth SELECT year, month,userName,SUM(authSuccessCount),SUM(authFailureCount), isFederated,cast(getMonthStartingTime(year, month) as STRING) as facetStartTime,getMonthStartingTime(year, month) as _timestamp FROM isUserAuthenticationAnalyticsPerDay GROUP BY userName, year, month, isFederated;
 
 
         INSERT INTO TABLE isUserAuthenticationAnalyticsPerYear SELECT year, userName,SUM(authSuccessCount),SUM(authFailureCount), isFederated , cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isUserAuthenticationAnalyticsPerMonth GROUP BY userName, year, isFederated;
