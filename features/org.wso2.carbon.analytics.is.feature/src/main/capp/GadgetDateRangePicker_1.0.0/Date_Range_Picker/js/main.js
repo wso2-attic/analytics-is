@@ -141,7 +141,7 @@ gadgets.HubSettings.onConnect = function() {
         var listnedTimeToValue = parseInt(gadgetUtil.getURLParam("persistTimeTo"));
         $("#date-select button").removeClass("active");
         $('#btnCustomRange').addClass("active");
-        var dateLabel = $('#reportrange .btn-label');
+        var dateLabel = $('#reportrange');
         dateLabel.html(moment(listnedTimeFromValue).format('MMMM D, YYYY hh:mm A') + ' - ' + moment(listnedTimeToValue).format('MMMM D, YYYY hh:mm A'));
     });
 };
