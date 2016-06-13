@@ -84,7 +84,7 @@
         <ColumnDefinition>
             <Name>region</Name>
             <IsFacet>true</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
+            <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
