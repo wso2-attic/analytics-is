@@ -149,14 +149,16 @@ body.dark .message {
     color: #E3E5E6;
 }
 
-#canvas-tooltip {
+#canvas-tooltip,
+#donutDiv-tooltip {
     background: #c4c4c4 !important;
     color: #000;
     opacity: 0.9;
     font-size: 12px;
 }
 
-body.dark #canvas-tooltip {
+body.dark #canvas-tooltip,
+body.dark #donutDiv-tooltip {
     background: #000 !important;
     color: #fff;
 }
