@@ -935,7 +935,7 @@
                 query = stringify({
                     fieldName: "serviceprovider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "isFirstLoginCount : false AND _timestamp : [" + timeFrom + " TO " + timeTo + "]" +
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                             idpTypeFilter + additionalParameters,
                     //search query, optional
                     start: start,
