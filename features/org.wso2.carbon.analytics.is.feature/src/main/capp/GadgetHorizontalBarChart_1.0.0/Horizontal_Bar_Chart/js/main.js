@@ -15,6 +15,9 @@ var successDataObj;
 var failureDataObj;
 var commonScaleDomain;
 var idpTypeFilter = "";
+var href = parent.window.location.href;
+var hrefLastSegment = href.substr(href.lastIndexOf('/') + 1);
+var resolveURI = parent.ues.global.dashboard.id == hrefLastSegment ? '../' : '../../';
 
 var qs = gadgetUtil.getQueryString();
 var page = gadgetUtil.getCurrentPageName();
@@ -42,6 +45,14 @@ $(function() {
         {
             local: suggestionsList,
             source: substringMatcher(suggestionsList)
+        }).on('typeahead:rendered', function() {
+            var typeAhead = $('.tt-menu'),
+                parentWindow = window.parent.document,
+                thisParentWrapper = $('#' + gadgets.rpc.RPC_ID, parentWindow).closest('.grid-stack-item');
+
+            $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="'+resolveURI+'store/carbon.super/gadget/commons/css/autocomplete.css" />');
+            $('body', parentWindow).append('<script src="'+resolveURI+'store/carbon.super/gadget/commons/js/typeahead.bundle.js" type="text/javascript"></script>');
+            $(thisParentWrapper).append(typeAhead);
         });
 
     $("#remove-filter").off().click(function (event) {
