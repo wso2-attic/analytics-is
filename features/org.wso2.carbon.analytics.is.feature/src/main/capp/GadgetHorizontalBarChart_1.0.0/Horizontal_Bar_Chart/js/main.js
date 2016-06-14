@@ -711,7 +711,7 @@ var substringMatcher = function() {
             }
         }
 
-        gadgetUtil.fetchData(CONTEXT, {
+        gadgetUtil.fetchDataSync(CONTEXT, {
             type: filterType,
             timeFrom: listnedTimeFromValue,
             timeTo: listnedTimeToValue,
@@ -719,42 +719,20 @@ var substringMatcher = function() {
             idpType:idpTypeFilter,
             start:0,
             count:10
-        }, processSuggestionsList, successOnError);
+        }, function(response) {
+            try {
+                var data = response.message;
+                suggestionsList = [];
 
-        var matches, substringRegex;
-
-        // an array that will be populated with substring matches
-        matches = [];
-
-        // regex used to determine if a string contains the substring `q`
-        substrRegex = new RegExp(q, 'i');
-
-        // iterate through the pool of strings and for any string that
-        // contains the substring `q`, add it to the `matches` array
-        $.each(suggestionsList, function(i, str) {
-            if (substrRegex.test(str)) {
-                matches.push(str);
+                for (var i=0; i < data.length; i++) {
+                    for (var key in data[i]) {
+                        suggestionsList.push(data[i][key]);
+                    }
+                }
+                cb(suggestionsList);
+            } catch (e) {
+                //$('#canvas').html(gadgetUtil.getErrorText(e));
             }
-        });
-
-        //cb(matches);
-        cb(suggestionsList);
-
-        //$('#autocomplete-search-box .typeahead').typeahead('open');
+        }, successOnError);
     };
-};
-
-function processSuggestionsList(response) {
-    try {
-        var data = response.message;
-        suggestionsList = [];
-
-        for (var i=0; i < data.length; i++) {
-            for (var key in data[i]) {
-                suggestionsList.push(data[i][key]);
-            }
-        }
-    } catch (e) {
-        //$('#canvas').html(gadgetUtil.getErrorText(e));
-    }
 };
