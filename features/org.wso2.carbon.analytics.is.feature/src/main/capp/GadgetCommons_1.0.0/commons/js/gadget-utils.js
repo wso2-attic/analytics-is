@@ -179,6 +179,24 @@ function GadgetUtil() {
         });
     };
 
+    this.fetchDataSync = function(context, params, callback, error) {
+        var url = "?";
+        for (var param in params) {
+            url = url + param + "=" + params[param] + "&";
+        }
+        $.ajax({
+            url: context + url,
+            type: "GET",
+            success: function(data) {
+                callback(data);
+            },
+            error: function(msg) {
+                error(msg);
+            },
+            async: false
+        });
+    };
+
     this.getDefaultText = function() {
         return '<div class="status-message">'+
             '<div class="message message-info">'+
