@@ -18,8 +18,9 @@
     margin: 5px 0;
     outline: 0;
     border: 1px solid rgba(0,0,0,.15);
-    right: 0;
-    left: 0;
+    left: 6.5% !important;
+    width: 66.5%;
+    top: 90.5% !important;
 }
 
 .tt-highlight {

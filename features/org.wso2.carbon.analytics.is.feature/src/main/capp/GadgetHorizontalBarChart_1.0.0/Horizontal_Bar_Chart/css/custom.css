@@ -21,6 +21,9 @@
 
 #autocomplete-search-box .typeahead{
     vertical-align: middle !important;
+    border-radius: 0px;
+    margin: 0px 0px 0px 10px;
+    width: 90%;
 }
 
 span.twitter-typeahead {
@@ -50,9 +53,6 @@ input.typeahead.tt-hint{
 }
 
 #add-filter {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
     height: 20px;
     font-size: 12px;
     text-align: center;
@@ -60,9 +60,6 @@ input.typeahead.tt-hint{
 }
 
 #remove-filter{
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
     height: 20px;
     width: 20px;
     padding: 0px;
@@ -70,6 +67,10 @@ input.typeahead.tt-hint{
     text-align: center;
     line-height: 12px;
     display:none;
+}
+
+.residentIdp{
+    padding-left: 10px;
 }
 
 body.dark svg.marks .mark-group .background {

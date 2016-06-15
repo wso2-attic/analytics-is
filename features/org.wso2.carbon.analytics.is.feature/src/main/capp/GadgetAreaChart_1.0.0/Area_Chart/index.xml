@@ -41,7 +41,7 @@
                     <div id="canvas" style="height:90%;"></div>
                     <input type="button" id="back" value="" title="Previous Time Range"/>
                 </div>
-                <div class="col-2 stats-total add-padding-top-1x">
+                <div class="col-2 stats-total add-padding-top-5x">
                     <h2 style="text-align: center;"><b>Total</b> login attempts <span id="title"></span></h2>
                     <h1 id="totalCount" style="text-align: center;"></h1>
                     <div id="donutDiv"></div>

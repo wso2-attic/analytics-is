@@ -19,7 +19,7 @@ var charts = [{
         "colorDomain":["SUCCESS","FAILURE"],
         "padding":{
             "top":30,
-            "left":45,
+            "left":65,
             "bottom":38,
             "right":10
         },
