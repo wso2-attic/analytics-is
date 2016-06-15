@@ -69,6 +69,10 @@ input.typeahead.tt-hint{
     display:none;
 }
 
+.residentIdp{
+    padding-left: 10px;
+}
+
 body.dark svg.marks .mark-group .background {
     fill: #121822 !important;
 }
