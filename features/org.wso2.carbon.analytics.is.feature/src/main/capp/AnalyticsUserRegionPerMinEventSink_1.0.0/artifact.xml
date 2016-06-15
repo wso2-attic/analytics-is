@@ -18,6 +18,6 @@
   ~
   -->
 
-<artifact name="AnalyticsUserSessionEventSink" version="1.0.0" type="analytics/eventstore" serverRole="DataAnalyticsServer">
+<artifact name="AnalyticsUserRegionPerMinEventSink" version="1.0.0" type="analytics/eventstore" serverRole="DataAnalyticsServer">
     <file>is-user-region-stat-per-minute.xml</file>
 </artifact>
