@@ -49,9 +49,16 @@
                 <div class="col-4 stats-total add-padding-top-1x">
                     <div class="pull-right clearfix">
                         <div class="pull-left arc-chart">
-                            <input type="checkbox" id="chkMap" onclick="checkMapType()">
                             <div id="mapSuccessDiv"></div>
                             <div id="mapFailDiv"></div>
+                            <div class="text-center">
+                                <label>Failure</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="chkMap" onclick="checkMapType()" checked="checked">
+                                    <span class="helper"></span>
+                                </label>
+                                <label>Success</label>
+                            </div>
                         </div>
                     </div>
                 </div>
