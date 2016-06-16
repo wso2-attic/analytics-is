@@ -33,11 +33,11 @@ define stream perMinUserStream (year int, month int, day int, hour int, minute i
 
 
 from inStream
-select eventId,userName,userStoreDomain, tenantDomain, remoteIp, remoteIp as region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, ifThenElse(identityProvider is null, "NOTSPECIFIED", identityProvider) as identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse(authStepSuccess == false, 1, 0) as failureValue,ifThenElse(authStepSuccess == true, 1, 0) as stepSuccessValue,ifThenElse(authStepSuccess == true AND isFirstLogin == true, 1, 0) as firstLoginValue,isFederated,_timestamp
+select eventId,userName,userStoreDomain, tenantDomain, remoteIp, remoteIp as region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse(authStepSuccess == false, 1, 0) as failureValue,ifThenElse(authStepSuccess == true, 1, 0) as stepSuccessValue,ifThenElse(authStepSuccess == true AND isFirstLogin == true, 1, 0) as firstLoginValue,isFederated,_timestamp
 insert into countStream;
 
 from inStream
-select eventId,userName,userStoreDomain, tenantDomain, remoteIp, remoteIp as region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep,ifThenElse(identityProvider is null, "NOTSPECIFIED", identityProvider) as identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authStepSuccess == true, 1, 0) as successValue,ifThenElse(authStepSuccess == false, 1, 0) as failureValue,isFederated,_timestamp
+select eventId,userName,userStoreDomain, tenantDomain, remoteIp, remoteIp as region, inboundAuthType, serviceprovider, remembermeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authStepSuccess == true, 1, 0) as successValue,ifThenElse(authStepSuccess == false, 1, 0) as failureValue,isFederated,_timestamp
 insert into countForIdentityProviderStream;
 
 from countStream#isAnalytics:duplicator(rolesCommaSeperated)
