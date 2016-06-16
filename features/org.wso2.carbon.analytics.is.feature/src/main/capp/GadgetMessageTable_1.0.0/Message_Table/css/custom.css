@@ -1,0 +1,11 @@
+.dark .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+.dark .table-bordered > tbody > tr > td,
+.dark .table-bordered > thead > tr > th{
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .table-bordered {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
