@@ -44,12 +44,12 @@
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Minute",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i,facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,role,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate USING CarbonAnalytics
         OPTIONS (tableName "Is-Role-Authentication-Stat-per-Minute",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,role,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMinuteDuplicate, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerHour USING CarbonAnalytics
@@ -124,12 +124,12 @@
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Minute",
-        schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i ,facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,rolesCommaSeperated,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinuteDuplicate USING CarbonAnalytics
         OPTIONS (tableName "Is-Authentication-Stat-per-Minute",
-        schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, _timestamp LONG,facetStartTime FACET -i, isFederated BOOLEAN -i",
+        schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,rolesCommaSeperated,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerMinuteDuplicate, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerHour USING CarbonAnalytics
@@ -179,9 +179,9 @@
 
         INSERT INTO TABLE isUserRegionStatPerMinuteDuplicate SELECT year, month, day, hour, minute, remoteIp, getCountry(remoteIp) as region,SUM(authSuccessCount),SUM(authFailureCount), facetStartTime, isFederated, _timestamp  FROM isUserRegionStatPerMinute GROUP BY remoteIp, region, year, month, day, hour, minute, isFederated, facetStartTime, _timestamp;
 
-        INSERT INTO TABLE isAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month, day, hour, minute, userName,rolesCommaSeperated,serviceprovider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), facetStartTime, isFederated, _timestamp  FROM isAuthenticationAnalyticsPerMinute GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, remoteIp, region,userStoreDomain, year, month, day, hour, minute, isFederated, facetStartTime, _timestamp;
+        INSERT INTO TABLE isAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month, day, hour, minute, userName,rolesCommaSeperated,serviceprovider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), isFederated, facetStartTime, _timestamp  FROM isAuthenticationAnalyticsPerMinute GROUP BY userName, rolesCommaSeperated, serviceprovider, identityProvider, remoteIp, region,userStoreDomain, year, month, day, hour, minute, isFederated, facetStartTime, _timestamp;
 
-        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month,day,hour,minute,userName,role,serviceprovider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), facetStartTime, isFederated, _timestamp FROM isRoleAuthenticationAnalyticsPerMinute GROUP BY userName, role, serviceprovider, identityProvider, remoteIp, region,userStoreDomain, year, month, day, hour, minute, isFederated, facetStartTime, _timestamp;
+        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month,day,hour,minute,userName,role,serviceprovider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), isFederated, facetStartTime, _timestamp FROM isRoleAuthenticationAnalyticsPerMinute GROUP BY userName, role, serviceprovider, identityProvider, remoteIp, region,userStoreDomain, year, month, day, hour, minute, isFederated, facetStartTime, _timestamp;
 
         INSERT INTO TABLE isRoleAuthenticationAnalyticsPerHour SELECT year, month,day,hour,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount),isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp FROM isRoleAuthenticationAnalyticsPerMinute GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
