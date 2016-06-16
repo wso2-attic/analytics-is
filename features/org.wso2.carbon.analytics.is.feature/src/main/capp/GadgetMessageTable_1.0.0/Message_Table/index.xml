@@ -23,6 +23,7 @@
 
           <!-- Custom -->
           <link rel="stylesheet" type="text/css" href="../commons/css/dataTables.bootstrap.css">
+          <link rel="stylesheet" type="text/css" href="css/custom.css">
           <script src="../commons/js/jquery.dataTables.min.js"></script>
           <script src="../commons/js/dataTables.bootstrap.js"></script>
           <script src="js/gadgetconf.js"></script>
@@ -32,7 +33,7 @@
         <body class="nano">
             <div class="nano-content">
               <div id="canvas" class="add-padding-5x">
-                   <table id="tblMessages" class="table" cellspacing="0" width="100%">
+                   <table id="tblMessages" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" width="100%">
                         <thead>
                             <tr></tr>
                         </thead>
