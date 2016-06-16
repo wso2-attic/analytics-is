@@ -402,8 +402,7 @@ document.body.onmouseup = function() {
 
     if((rangeStart) && (rangeEnd) && (rangeStart.toString() !== rangeEnd.toString())){
 
-        if(!$(event.target).is('#back')){
-
+        if(event.target.nodeName == 'path' || event.target.nodeName == 'rect'){
             var timeFromValue = JSON.parse(JSON.stringify(listnedTimeFromValue));
             var timeToValue = JSON.parse(JSON.stringify(listnedTimeToValue));
             var timeRange = [timeFromValue, timeToValue];
