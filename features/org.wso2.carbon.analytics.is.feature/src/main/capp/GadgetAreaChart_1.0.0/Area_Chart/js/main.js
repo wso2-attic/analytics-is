@@ -90,13 +90,13 @@ $(function() {
 
 function checkMapType() {
     if (document.getElementById('chkMap').checked) {
-        $("#mapSuccessDiv").hide();
-        $("#mapFailDiv").show();
-        map.colorCode = "FAILURE";
-    } else {
         $("#mapFailDiv").hide();
         $("#mapSuccessDiv").show()
         map.colorCode = "SUCCESS";
+    } else {
+        $("#mapSuccessDiv").hide();
+        $("#mapFailDiv").show();
+        map.colorCode = "FAILURE";
     }
 }
 
@@ -397,8 +397,6 @@ function loadMap(data) {
 }
 
 document.body.onmouseup = function() {
-    // var div = document.getElementById("dChart");
-    // div.innerHTML = "<p> Start : " + rangeStart + "</p>" + "<p> End : " + rangeEnd + "</p>";
 
     if((rangeStart) && (rangeEnd) && (rangeStart.toString() !== rangeEnd.toString())){
 
