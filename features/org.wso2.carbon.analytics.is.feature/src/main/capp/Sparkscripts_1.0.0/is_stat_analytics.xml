@@ -190,7 +190,7 @@
 
         INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerMinute;
 
-        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerHour SELECT year, month,day,hour,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount),isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp FROM isRoleAuthenticationAnalyticsPerMinute WHERE region != "N/A" GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
+        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerHour SELECT year, month,day,hour,userName,role,serviceprovider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount),isFederated, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp FROM isRoleAuthenticationAnalyticsPerMinuteDuplicate WHERE region != "N/A" GROUP BY userName, role, serviceprovider, identityProvider, region,userStoreDomain, year, month, day, hour, isFederated,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour);
 
         INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerMinuteDuplicate;
 
@@ -295,7 +295,6 @@
 
 
         INSERT INTO TABLE isUserRegionStatPerYear SELECT year, region,SUM(authSuccessCount),SUM(authFailureCount), isFederated, cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isUserRegionStatPerMonth GROUP BY region, year, isFederated;
-
 
 
 
