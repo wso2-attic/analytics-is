@@ -495,6 +495,123 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
     }
 
 
+
+    //================================= Get max failed auth users =========================================================================
+
+    @Test(groups = "wso2.analytics.is", description = "Check max failed auth users - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveMaxAuthFailureUsersFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+                   AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-USER-AUTHENTICATION-STAT-PER-MINUTE");
+        categoryDrillDownRequest.setFieldName("userName");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"true\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 10) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 10; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Sarah", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 319.0, "======= Invalid score received for user Sarah ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Gary", "======= Invalid user name received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 293.0, "======= Invalid score received for user Gary ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getCategoryValue(), "David", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 185.0, "======= Invalid score received for user David ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Elizabeth", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 184.0, "======= Invalid score received for user Elizabeth ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Victor", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 183.0, "======= Invalid score received for user Victor ==== ");
+                } else if (i == 5) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Isabelle", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 180.0, "======= Invalid score received for user Isabelle ==== ");
+                } else if (i == 6) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Felix", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 173.0, "======= Invalid score received for user Felix ==== ");
+                } else if (i == 7) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(),"Adam", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 170.0, "======= Invalid score received for user Adam ==== ");
+                } else if (i == 8) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(),"John" , "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 168.0, "======= Invalid score received for user John ==== ");
+                } else if (i == 9) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Celine", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 166.0, "======= Invalid score received for user Celine ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of users received ============================");
+        }
+    }
+
+
+    @Test(groups = "wso2.analytics.is", description = "Check max failed auth users - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveMaxAuthFailureUsersFromPerMonthTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+                   AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-USER-AUTHENTICATION-STAT-PER-MONTH");
+        categoryDrillDownRequest.setFieldName("userName");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"true\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 10) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 10; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Sarah", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 319.0, "======= Invalid score received for user Sarah ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Gary", "======= Invalid user name received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 293.0, "======= Invalid score received for user Gary ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getCategoryValue(), "David", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 185.0, "======= Invalid score received for user David ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Elizabeth", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 184.0, "======= Invalid score received for user Elizabeth ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Victor", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 183.0, "======= Invalid score received for user Victor ==== ");
+                } else if (i == 5) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Isabelle", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 180.0, "======= Invalid score received for user Isabelle ==== ");
+                } else if (i == 6) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Felix", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 173.0, "======= Invalid score received for user Felix ==== ");
+                } else if (i == 7) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(),"Adam", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 170.0, "======= Invalid score received for user Adam ==== ");
+                } else if (i == 8) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(),"John" , "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 168.0, "======= Invalid score received for user John ==== ");
+                } else if (i == 9) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Celine", "======= Invalid user name received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 166.0, "======= Invalid score received for user Celine ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of users received ============================");
+        }
+    }
+
+
     //==========================  Overall Auth Success and Failure Count - For Service Provider ==============================================
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Min for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -927,6 +1044,67 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
             Assert.fail("================ Invalid no of roles received ============================");
         }
     }
+
+
+
+    //================================= Get max service provider first login =================================================================================
+
+    @Test(groups = "wso2.analytics.is", description = "Check max service provider first login - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveMaxServiceProviderFirstLoginFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+                   AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-MINUTE");
+        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"true\"");
+        categoryDrillDownRequest.setScoreFunction("authFirstSuccessCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 10) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 10; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Booking", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 1561.0, "======= Invalid score received for service provider Booking ==== ");
+                } else if (i == 1) {
+                    Assert.assertTrue(((categorySearchResultEntryArray[i]).getCategoryValue().equals("Lonely Planet") || (categorySearchResultEntryArray[i]).getCategoryValue().equals("Yahoo Travel")), "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 790.0, "======= Invalid score received for service provider Lonely Planet or Yahoo Travels ==== ");
+                } else if (i == 2) {
+                    Assert.assertTrue(((categorySearchResultEntryArray[i]).getCategoryValue().equals("Lonely Planet") || (categorySearchResultEntryArray[i]).getCategoryValue().equals("Yahoo Travel")), "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 790.0, "======= Invalid score received for service provider Lonely Planet or Yahoo Travels ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Trip Advisor", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 788.0, "======= Invalid score received for service provider Trip Advisor ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "JIRA", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 773.0, "======= Invalid score received for service provider JIRA ==== ");
+                } else if (i == 5) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Hotels", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 744.0, "======= Invalid score received for service provider Hotels ==== ");
+                } else if (i == 6) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Priceline", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 743.0, "======= Invalid score received for service provider Priceline ==== ");
+                } else if (i == 7) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(),"Expedia", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 733.0, "======= Invalid score received for service provider Expedia ==== ");
+                } else if (i == 8) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(),"AirBnB" , "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 731.0, "======= Invalid score received for service provider AirBnB ==== ");
+                } else if (i == 9) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Travelocity", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 728.0, "======= Invalid score received for service provider Travelocity ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of users received ============================");
+        }
+    }
+
 
 //        public static void main(String[] args) throws AnalyticsException, InterruptedException {
 //
