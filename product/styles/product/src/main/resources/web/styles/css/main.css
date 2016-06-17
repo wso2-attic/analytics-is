@@ -17,15 +17,16 @@ table#main-table td#menu-panel {
 
 /* ---------------- header styles ------------------ */
 div#header-div {
-    background-image: url(../images/bam-header-bg.png);
+    background-image: url(../images/is-header-bg.png);
     height: 70px;
 }
 
 div#header-div div.left-logo {
-    background-image: url(../images/bam-header-logo.png);
+    background-image: url(../images/is-analytics-header-logo.png);
     margin-left: 25px;
-    margin-top: 22px;
+    margin-top: 8px;
     position: absolute;
+    height: 60px;
 }
 
 div#header-div div.right-logo {
@@ -77,8 +78,8 @@ div#menu ul.main li.normal {
 }
 
 div#menu ul.main li a.menu-home {
-    background-image: url(../images/menu_header.gif);
-    height: 28px;
+    background-image: url(../images/menu_header.png);
+    height: 25px;
 }
 
 div#menu ul.main li.menu-header {
