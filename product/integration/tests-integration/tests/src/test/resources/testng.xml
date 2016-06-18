@@ -7,11 +7,11 @@
             <package name="org.wso2.das.integration.tests.jsapi.analytics"/>
         </packages>
     </test>
-    <test name="global-purging" preserve-order="true" parallel="false">
-        <packages>
-            <package name="org.wso2.das4is.integration.tests.globalpurging"/>
-        </packages>
-    </test>
+    <!--<test name="global-purging" preserve-order="true" parallel="false">-->
+        <!--<packages>-->
+            <!--<package name="org.wso2.das4is.integration.tests.globalpurging"/>-->
+        <!--</packages>-->
+    <!--</test>-->
     <test name="is-analytics" preserve-order="true" parallel="false">
         <packages>
             <package name="org.wso2.das4is.integration.tests.is"/>
