@@ -86,5 +86,5 @@
         <StreamId>is-userstore-authentication-stat-per-minute:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
-    <RecordStoreName>EVENT_STORE</RecordStoreName>
+    <RecordStoreName>EVENT_STORE_WO</RecordStoreName>
 </EventStoreConfiguration>
