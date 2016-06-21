@@ -575,7 +575,7 @@ function drawChartFailure(){
     //perform necessary transformation on input data
     chartFailure.schema[0].data = chartFailure.processData(failureDataObj[0]);
     //finally draw the chart on the given canvas
-    chartFailure.chartConfig.width = $("#canvasFailure").width() - 10;
+    chartFailure.chartConfig.width = $("#canvasFailure").width();
     chartFailure.chartConfig.height = $("#canvasFailure").height();
 
     var vg = new vizg(chartFailure.schema, chartFailure.chartConfig);
