@@ -16,7 +16,25 @@ define stream sessionStatPerMinute (bucketId long, bucketStart long, bucketEnd l
 @from(eventtable = 'analytics.table' , table.name = 'is-session-active-count', primary.keys = 'id', indices = 'id', wait.for.indexing = 'true', merge.schema = 'false')
 define table activeSessionCountTable(id string, activeCount long);
 
-from sessionStream[startTimestamp == renewTimestamp OR renewTimestamp == terminationTimestamp]#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
+@from(eventtable = 'analytics.table', table.name = 'ACTIVE_SESSIONS', primary.keys = 'sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, action, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag',  wait.for.indexing = 'false')
+define table activeSessionsTable (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
+
+@Export('session-info-stream:1.0.0')
+define stream sessionStreamInfo (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, duration long, isActive bool, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
+
+from sessionStream [action == 1 OR action == 2]
+select sessionId, startTimestamp, renewTimestamp, terminationTimestamp, action, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag
+insert into activeSessionsTable;
+
+from sessionStream [action == 0]
+select sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, (terminationTimestamp - startTimestamp) as duration,  false as isActive, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag
+insert into sessionStreamInfo;
+
+from sessionStreamInfo
+delete activeSessionsTable
+on activeSessionsTable.sessionId == sessionId;
+
+from sessionStream[action == 1 OR action == 0]#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
 select (_timestamp - _timestamp%60000) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'count' as id
 insert into bucketStream;
 
