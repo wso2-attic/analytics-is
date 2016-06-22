@@ -1,5 +1,5 @@
 {
-    "name": "is-user-authentication-stat-per-minute",
+    "name": "org.wso2.is.analytics.stream.SpAuthStatPerMinute",
     "version": "1.0.0",
     "nickName": "",
     "description": "",
@@ -25,7 +25,7 @@
             "type": "INT"
         },
         {
-            "name": "userName",
+            "name": "serviceprovider",
             "type": "STRING"
         },
         {
@@ -34,6 +34,10 @@
         },
         {
             "name": "authFailureCount",
+            "type": "LONG"
+        },
+        {
+            "name": "authFirstSuccessCount",
             "type": "LONG"
         },
         {

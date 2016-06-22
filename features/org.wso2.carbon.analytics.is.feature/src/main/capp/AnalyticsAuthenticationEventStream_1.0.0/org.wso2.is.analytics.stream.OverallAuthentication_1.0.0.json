@@ -1,5 +1,5 @@
 {
-    "name": "authentication-analytics-stream",
+    "name": "org.wso2.is.analytics.stream.OverallAuthentication",
     "version": "1.0.0",
     "nickName": "",
     "description": "",

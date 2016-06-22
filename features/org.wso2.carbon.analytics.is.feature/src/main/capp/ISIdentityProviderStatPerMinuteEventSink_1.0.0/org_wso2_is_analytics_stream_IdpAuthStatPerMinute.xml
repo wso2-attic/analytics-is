@@ -42,7 +42,7 @@
             <Type>INTEGER</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>userName</Name>
+            <Name>identityProvider</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>true</IsPrimaryKey>
@@ -83,7 +83,7 @@
         </ColumnDefinition>
     </TableSchema>
     <Source>
-        <StreamId>is-user-authentication-stat-per-minute:1.0.0</StreamId>
+        <StreamId>org.wso2.is.analytics.stream.IdpAuthStatPerMinute:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
     <RecordStoreName>EVENT_STORE_WO</RecordStoreName>

@@ -1,5 +1,5 @@
 {
-    "name": "is-session-stat-per-minute",
+    "name": "org.wso2.is.analytics.stream.SessionStatPerMinute",
     "version": "1.0.0",
     "nickName": "",
     "description": "",

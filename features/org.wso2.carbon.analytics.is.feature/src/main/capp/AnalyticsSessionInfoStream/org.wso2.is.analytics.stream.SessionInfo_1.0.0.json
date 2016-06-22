@@ -1,5 +1,5 @@
 {
-  "name": "session-info-stream",
+  "name": "org.wso2.is.analytics.stream.SessionInfo",
   "version": "1.0.0",
   "nickName": "",
   "description": "",

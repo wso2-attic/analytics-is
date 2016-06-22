@@ -1,5 +1,5 @@
 {
-  "name": "is-user-region-stat-per-minute",
+  "name": "org.wso2.is.analytics.stream.UserRegionStatPerMinute",
   "version": "1.0.0",
   "nickName": "",
   "description": "",

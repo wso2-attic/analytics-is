@@ -2,144 +2,160 @@
 <EventStoreConfiguration>
     <TableSchema>
         <ColumnDefinition>
-            <Name>year</Name>
+            <Name>contextId</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>month</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>day</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>hour</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>minute</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>userName</Name>
-            <IsFacet>true</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>role</Name>
-            <IsFacet>true</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>serviceprovider</Name>
-            <IsFacet>true</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>identityProvider</Name>
-            <IsFacet>true</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>remoteIp</Name>
-            <IsFacet>true</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>region</Name>
-            <IsFacet>true</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>eventId</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>authenticationSuccess</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>BOOLEAN</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>userName</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>userStoreDomain</Name>
-            <IsFacet>true</IsFacet>
+            <IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
+            <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>authSuccessCount</Name>
+            <Name>tenantDomain</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
+            <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>true</EnableScoreParam>
-            <Type>LONG</Type>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>authFailureCount</Name>
+            <Name>remoteIp</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>true</EnableScoreParam>
-            <Type>LONG</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>authStepSuccessCount</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>true</EnableScoreParam>
-            <Type>LONG</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>facetStartTime</Name>
-            <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>inboundAuthType</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>serviceprovider</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>remembermeEnabled</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>BOOLEAN</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>forceAuthEnabled</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>BOOLEAN</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>passiveAuthEnabled</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>BOOLEAN</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>rolesCommaSeperated</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>authenticationStep</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>identityProvider</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>authStepSuccess</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>BOOLEAN</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>stepAuthenticator</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>isFirstLogin</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>BOOLEAN</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>isFederated</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
+            <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>
         </ColumnDefinition>
     </TableSchema>
     <Source>
-        <StreamId>is-role-authentication-stat-per-minute:1.0.0</StreamId>
+        <StreamId>org.wso2.is.analytics.stream.OverallAuthentication:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
     <RecordStoreName>EVENT_STORE_WO</RecordStoreName>

@@ -695,7 +695,7 @@
                 var draw = request.getParameter("draw");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "AUTHENTICATION-ANALYTICS-STREAM";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
 
                 var additionalParameters = "";
 
@@ -1134,7 +1134,7 @@
                 var draw = request.getParameter("draw");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "AUTHENTICATION-ANALYTICS-STREAM";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
 
                 var additionalParameters = "";
                 if (listnedAdditionalUserPrefs != "") {
