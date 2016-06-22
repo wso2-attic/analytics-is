@@ -1510,8 +1510,347 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         }
     }
 
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Min for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerMinForSPTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
 
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-MINUTE");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 658.0, "========== Resident IDP - total auth success and failure event count are invalid per-min for service provider table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Hour for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerHourForSPTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-HOUR");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 658.0, "========== Resident IDP - total auth success and failure event count are invalid per-hour for service provider table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Day for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerDayForSPTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-DAY");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 658.0, "========== Resident IDP total auth success and failure event count are invalid per-day for service provider table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Month for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerMonthForSPTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-MONTH");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 658.0, "========== Resident IDP total auth success and failure event count are invalid per-month for service provider table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max succeeded auth service providers - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthSuccessServiceProvidersFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-MINUTE");
+        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authSuccessCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 10) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 10; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Booking", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 496.0, "======= Invalid score received for service provider Booking ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Yahoo Travel", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 241.0, "======= Invalid score received for service provider Yahoo Travel ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "JIRA", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 234.0, "======= Invalid score received for service provider JIRA ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Lonely Planet", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 233.0, "======= Invalid score received for service provider Lonely Planet ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Expedia", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 229.0, "======= Invalid score received for service provider Expedia ==== ");
+                } else if (i == 5) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Priceline", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 227.0, "======= Invalid score received for service provider Priceline ==== ");
+                } else if (i == 6) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Trip Advisor", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 226.0, "======= Invalid score received for service provider Trip Advisor ==== ");
+                } else if (i == 7) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "AirBnB", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 222.0, "======= Invalid score received for service provider AirBnB ==== ");
+                } else if (i == 8) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Travelocity", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 212.0, "======= Invalid score received for service provider Travelocity ==== ");
+                } else if (i == 9) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Hotels", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 197.0, "======= Invalid score received for service provider Hotels ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of service providers received for resident IDP ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max succeeded auth service providers - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthSuccessServiceProvidersFromPerMonthTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-MONTH");
+        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authSuccessCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 10) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 10; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Booking", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 496.0, "======= Invalid score received for service provider Booking ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Yahoo Travel", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 241.0, "======= Invalid score received for service provider Yahoo Travel ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "JIRA", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 234.0, "======= Invalid score received for service provider JIRA ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Lonely Planet", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 233.0, "======= Invalid score received for service provider Lonely Planet ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Expedia", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 229.0, "======= Invalid score received for service provider Expedia ==== ");
+                } else if (i == 5) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Priceline", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 227.0, "======= Invalid score received for service provider Priceline ==== ");
+                } else if (i == 6) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Trip Advisor", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 226.0, "======= Invalid score received for service provider Trip Advisor ==== ");
+                } else if (i == 7) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "AirBnB", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 222.0, "======= Invalid score received for service provider AirBnB ==== ");
+                } else if (i == 8) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Travelocity", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 212.0, "======= Invalid score received for service provider Travelocity ==== ");
+                } else if (i == 9) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Hotels", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 197.0, "======= Invalid score received for service provider Hotels ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of service providers received for resident IDP ============================");
+        }
+    }
+
+    //================================= Get max failed auth service providers for resident IDP =========================================================================
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max failed auth service providers - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthFailureServiceProvidersFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-MINUTE");
+        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 10) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 10; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Booking", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 162.0, "======= Invalid score received for service provider Booking ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Priceline", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 92.0, "======= Invalid score received for service provider Priceline ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Expedia", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 89.0, "======= Invalid score received for service provider Expedia ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Hotels", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 80.0, "======= Invalid score received for service provider Hotels ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Lonely Planet", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 78.0, "======= Invalid score received for service provider Lonely Planet ==== ");
+                } else if (i == 5) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Yahoo Travel", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 73.0, "======= Invalid score received for service provider Yahoo Travel ==== ");
+                } else if (i == 6) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "AirBnB", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 72.0, "======= Invalid score received for service provider AirBnB ==== ");
+                } else if (i == 7) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Trip Advisor", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 71.0, "======= Invalid score received for service provider Trip Advisor ==== ");
+                } else if (i == 8) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Travelocity", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 70.0, "======= Invalid score received for service provider Travelocity ==== ");
+                } else if (i == 9) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "JIRA", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 69.0, "======= Invalid score received for service provider JIRA ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of service providers received for resident IDP ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max failed auth service providers - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthFailureServiceProvidersFromPerMonthTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-MONTH");
+        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 10) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 10; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Booking", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 162.0, "======= Invalid score received for service provider Booking ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Priceline", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 92.0, "======= Invalid score received for service provider Priceline ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Expedia", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 89.0, "======= Invalid score received for service provider Expedia ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Hotels", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 80.0, "======= Invalid score received for service provider Hotels ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Lonely Planet", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 78.0, "======= Invalid score received for service provider Lonely Planet ==== ");
+                } else if (i == 5) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Yahoo Travel", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 73.0, "======= Invalid score received for service provider Yahoo Travel ==== ");
+                } else if (i == 6) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "AirBnB", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 72.0, "======= Invalid score received for service provider AirBnB ==== ");
+                } else if (i == 7) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Trip Advisor", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 71.0, "======= Invalid score received for service provider Trip Advisor ==== ");
+                } else if (i == 8) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Travelocity", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 70.0, "======= Invalid score received for service provider Travelocity ==== ");
+                } else if (i == 9) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "JIRA", "======= Invalid service provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 69.0, "======= Invalid score received for service provider JIRA ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of service providers received for resident IDP ============================");
+        }
+    }
 //        public static void main(String[] args) throws AnalyticsException, InterruptedException {
 //
 //            CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
