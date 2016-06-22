@@ -13,6 +13,10 @@
       "type": "LONG"
     },
     {
+      "name": "renewTimestamp",
+      "type": "LONG"
+    },
+    {
       "name": "terminationTimestamp",
       "type": "LONG"
     },
@@ -25,16 +29,28 @@
       "type": "LONG"
     },
     {
-      "name": "userName",
-      "type": "STRING"
-    },
-    {
       "name": "isActive",
       "type": "BOOL"
     },
     {
-      "name": "_timestamp",
-      "type": "LONG"
+      "name": "userName",
+      "type": "STRING"
+    },
+    {
+      "name": "userstoreDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "IP",
+      "type": "STRING"
+    },
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "rememberMeFlag",
+      "type": "BOOL"
     }
   ]
 }

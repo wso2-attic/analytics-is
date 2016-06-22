@@ -3,6 +3,7 @@
     <artifact name="org.wso2.carbon.analytics.is" version="1.0.0" type="carbon/application">
         <!-- Gadgets -->
         <dependency artifact="AnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="SessionAnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="GadgetCommons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="GadgetDateRangePicker" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="GadgetAreaChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -12,6 +13,7 @@
         <dependency artifact="GadgetLineChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="Sparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="SessionManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsAuthenticationEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionInfoStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -35,7 +37,7 @@
         <dependency artifact="ISUserStoreStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionAnalyticsExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
-        <dependency artifact="SessionInfoExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
+        <!--dependency artifact="SessionInfoExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/-->
         <dependency artifact="AuthenticationAnalyticsExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
         <!-- Dashboard Definition -->
         <dependency artifact="DashboardAuthentication" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
