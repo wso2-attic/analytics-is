@@ -33,10 +33,6 @@
             "type": "STRING"
         },
         {
-            "name": "region",
-            "type": "STRING"
-        },
-        {
             "name": "inboundAuthType",
             "type": "STRING"
         },
