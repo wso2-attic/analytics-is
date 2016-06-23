@@ -11,7 +11,7 @@ var charts = [{
     chartConfig: {
         x: "timestamp",
         charts: [{ type: "line", range:"true",  y : "sessionCount", color: "sessionType" }],
-        padding: { "top": 30, "left": 60, "bottom": 60, "right": 100 },
+        padding: { "top": 30, "left": 60, "bottom": 60, "right": 350 },
         range: true,
     },
     types: [
