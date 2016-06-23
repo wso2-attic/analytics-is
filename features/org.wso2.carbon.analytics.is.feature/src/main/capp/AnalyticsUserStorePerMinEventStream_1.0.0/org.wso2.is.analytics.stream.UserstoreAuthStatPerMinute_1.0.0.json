@@ -1,5 +1,5 @@
 {
-    "name": "is-identity-provider-authentication-stat-per-minute",
+    "name": "org.wso2.is.analytics.stream.UserstoreAuthStatPerMinute",
     "version": "1.0.0",
     "nickName": "",
     "description": "",
@@ -25,7 +25,7 @@
             "type": "INT"
         },
         {
-            "name": "identityProvider",
+            "name": "userStoreDomain",
             "type": "STRING"
         },
         {

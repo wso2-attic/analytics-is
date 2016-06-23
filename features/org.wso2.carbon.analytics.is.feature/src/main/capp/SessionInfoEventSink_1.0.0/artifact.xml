@@ -19,5 +19,5 @@
   -->
 
 <artifact name="SessionInfoEventSink" version="1.0.0" type="analytics/eventstore" serverRole="DataAnalyticsServer">
-    <file>session-info-stream.xml</file>
+    <file>org_wso2_is_analytics_stream_SessionInfo.xml</file>
 </artifact>

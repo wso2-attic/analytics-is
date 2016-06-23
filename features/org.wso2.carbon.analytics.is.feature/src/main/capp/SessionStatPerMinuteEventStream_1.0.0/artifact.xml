@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <artifact name="SessionStatPerMinuteEventStream" version="1.0.0" type="event/stream"
           serverRole="DataAnalyticsServer">
-    <file>is-session-stat-per-minute_1.0.0.json</file>
+    <file>org.wso2.is.analytics.stream.SessionStatPerMinute_1.0.0.json</file>
 </artifact>

@@ -3,177 +3,177 @@
     <Name>is_stat_analytics</Name>
     <Script>
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerMinute USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Authentication-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName, isFederated", incrementalParams "isUserAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerHour USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Authentication-Stat-per-Hour",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerHour",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, userName FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, userName, isFederated,facetStartTime,  _timestamp", incrementalParams "isUserAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerDay USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Authentication-Stat-per-Day",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerDay",
         schema "year INT -i, month INT -i, day INT -i, userName FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, userName, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerMonth USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Authentication-Stat-per-Month",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerMonth",
         schema "year INT -i, month INT -i, userName FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, userName, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerYear USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Authentication-Stat-per-Year",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerYear",
         schema "year INT -i, userName FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, userName, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerDay USING CarbonAnalytics
-        OPTIONS (tableName "Is-Role-Authentication-Stat-per-Day",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerDay",
         schema "year INT -i, month INT -i,day INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i ,facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMonth USING CarbonAnalytics
-        OPTIONS (tableName "Is-Role-Authentication-Stat-per-Month",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerMonth",
         schema "year INT -i, month INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerYear USING CarbonAnalytics
-        OPTIONS (tableName "Is-Role-Authentication-Stat-per-Year",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerYear",
         schema "year INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, userName,role,serviceprovider,identityProvider,region,userStoreDomain, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinute USING CarbonAnalytics
-        OPTIONS (tableName "Is-Role-Authentication-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i,facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,role,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate USING CarbonAnalytics
-        OPTIONS (tableName "Is-Role-Authentication-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,role,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isRoleAuthenticationAnalyticsPerMinuteDuplicate, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerHour USING CarbonAnalytics
-        OPTIONS (tableName "Is-Role-Authentication-Stat-per-Hour",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerHour",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, userName FACET -i,role FACET -i,serviceprovider FACET -i,identityProvider FACET -i,remoteIp FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp,isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, userName,role,serviceprovider,identityProvider,remoteIp,region,userStoreDomain, isFederated,facetStartTime,  _timestamp", incrementalParams "isRoleAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerDay USING CarbonAnalytics
-        OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Day",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_SpAuthStatPerDay",
         schema "year INT -i, month INT -i, day INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authFirstSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, serviceprovider, isFederated,facetStartTime,  _timestamp", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerMonth USING CarbonAnalytics
-        OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Month",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_SpAuthStatPerMonth",
         schema "year INT -i, month INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authFirstSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, serviceprovider, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerYear USING CarbonAnalytics
-        OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Year",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_SpAuthStatPerYear",
         schema "year INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authFirstSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, serviceprovider, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerMinute USING CarbonAnalytics
-        OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_SpAuthStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authFirstSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, serviceprovider, isFederated", incrementalParams "isServiceProviderAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isServiceProviderAuthenticationAnalyticsPerHour USING CarbonAnalytics
-        OPTIONS (tableName "Is-Service-Provider-Authentication-Stat-per-Hour",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_SpAuthStatPerHour",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, serviceprovider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authFirstSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, serviceprovider, isFederated,facetStartTime,  _timestamp", incrementalParams "isServiceProviderAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerDay USING CarbonAnalytics
-        OPTIONS (tableName "Is-Identity-Provider-Authentication-Stat-per-Day",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerDay",
         schema "year INT -i, month INT -i, day INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, identityProvider, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerMonth USING CarbonAnalytics
-        OPTIONS (tableName "Is-Identity-Provider-Authentication-Stat-per-Month",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerMonth",
         schema "year INT -i, month INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, identityProvider, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerYear USING CarbonAnalytics
-        OPTIONS (tableName "Is-Identity-Provider-Authentication-Stat-per-Year",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerYear",
         schema "year INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, identityProvider, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerMinute USING CarbonAnalytics
-        OPTIONS (tableName "Is-Identity-Provider-Authentication-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, identityProvider, isFederated", incrementalParams "isIdentityProviderAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerHour USING CarbonAnalytics
-        OPTIONS (tableName "Is-Identity-Provider-Authentication-Stat-per-Hour",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerHour",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, identityProvider, isFederated,facetStartTime,  _timestamp", incrementalParams "isIdentityProviderAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerDay USING CarbonAnalytics
-        OPTIONS (tableName "Is-Authentication-Stat-per-Day",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerDay",
         schema "year INT -i, month INT -i,day INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMonth USING CarbonAnalytics
-        OPTIONS (tableName "Is-Authentication-Stat-per-Month",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerMonth",
         schema "year INT -i, month INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerYear USING CarbonAnalytics
-        OPTIONS (tableName "Is-Authentication-Stat-per-Year",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerYear",
         schema "year INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, userName,rolesCommaSeperated,serviceprovider,identityProvider,region,userStoreDomain, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinute USING CarbonAnalytics
-        OPTIONS (tableName "Is-Authentication-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerMinute",
         schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i ,facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,rolesCommaSeperated,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinuteDuplicate USING CarbonAnalytics
-        OPTIONS (tableName "Is-Authentication-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerMinute",
         schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, minute, userName,rolesCommaSeperated,serviceprovider,identityProvider,remoteIp,userStoreDomain, isFederated", incrementalParams "isAuthenticationAnalyticsPerMinuteDuplicate, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerHour USING CarbonAnalytics
-        OPTIONS (tableName "Is-Authentication-Stat-per-Hour",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerHour",
         schema "year INT -i, month INT -i,day INT -i,hour INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceprovider FACET -i,identityProvider FACET -i,remoteIp FACET -i,region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour, userName,rolesCommaSeperated,serviceprovider,identityProvider,remoteIp,region,userStoreDomain, isFederated,facetStartTime,  _timestamp", incrementalParams "isAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerDay USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Day",schema "year INT -i, month INT -i, day INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, day, userStoreDomain, isFederated", mergeSchema "false");
+        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerDay USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_UserstoreAuthStatPerDay",schema "year INT -i, month INT -i, day INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, day, userStoreDomain, isFederated", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerMonth USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Month",schema "year INT -i, month INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, userStoreDomain, isFederated", mergeSchema "false");
+        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerMonth USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_UserstoreAuthStatPerMonth",schema "year INT -i, month INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, userStoreDomain, isFederated", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerYear USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Year",schema "year INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, userStoreDomain, isFederated", mergeSchema "false");
+        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerYear USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_UserstoreAuthStatPerYear",schema "year INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, userStoreDomain, isFederated", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Minute",schema "year INT -i, month INT -i, day INT -i, hour INT -I, minute INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, day, hour, minute, userStoreDomain, isFederated", incrementalParams "isUserstoreAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
+        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_UserstoreAuthStatPerMinute",schema "year INT -i, month INT -i, day INT -i, hour INT -I, minute INT -i, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, day, hour, minute, userStoreDomain, isFederated", incrementalParams "isUserstoreAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
-        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerHour USING CarbonAnalytics OPTIONS (tableName "Is-Userstore-Authentication-Stat-per-Hour",schema "year INT -i, month INT -i, day INT -i, hour INT -I, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, day, hour, userStoreDomain, isFederated,facetStartTime,  _timestamp", incrementalParams "isUserstoreAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
+        CREATE TEMPORARY TABLE isUserstoreAuthenticationAnalyticsPerHour USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_UserstoreAuthStatPerHour",schema "year INT -i, month INT -i, day INT -i, hour INT -I, userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",primaryKeys "year, month, day, hour, userStoreDomain, isFederated,facetStartTime,  _timestamp", incrementalParams "isUserstoreAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerMinute USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Region-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, remoteIp FACET -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, day, hour, minute, remoteIp, isFederated", incrementalParams "isUserRegionStatPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerMinuteDuplicate USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Region-Stat-per-Minute",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, remoteIp FACET -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, isFederated BOOLEAN -i",
         primaryKeys "year, month, day, hour, minute, remoteIp, isFederated", incrementalParams "isUserRegionStatPerMinuteDuplicate, MINUTE", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerHour USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Region-Stat-per-Hour",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerHour",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i,remoteIp FACET -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, hour,remoteIp, region, isFederated,facetStartTime,  _timestamp", incrementalParams "isUserRegionStatPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerDay USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Region-Stat-per-Day",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerDay",
         schema "year INT -i, month INT -i, day INT -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, day, region, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerMonth USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Region-Stat-per-Month",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerMonth",
         schema "year INT -i, month INT -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, month, region, isFederated", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerYear USING CarbonAnalytics
-        OPTIONS (tableName "Is-User-Region-Stat-per-Year",
+        OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerYear",
         schema "year INT -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, isFederated BOOLEAN -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, region, isFederated", mergeSchema "false");
 
