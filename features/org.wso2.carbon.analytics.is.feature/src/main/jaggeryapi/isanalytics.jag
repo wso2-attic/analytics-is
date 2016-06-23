@@ -17,6 +17,8 @@
     var USER_TOKEN = "user";
     var TYPE = "type";
     var USERNAME = "username";
+    var TENANT_DOMAIN = "domain";
+    var CONST_AT = "@";
     var HTTP_INTERNAL_ERROR = 500;
     var HTTP_USER_NOT_AUTHENTICATED = 403;
 
@@ -64,7 +66,7 @@
     } else {
         var token = session.get(USER_TOKEN);
         if (token != null) {
-            loggedInUser = token[USERNAME];
+            token[USERNAME] + CONST_AT + token[TENANT_DOMAIN];
         } else {
             log.error("user is not authenticated!");
             response.status = HTTP_USER_NOT_AUTHENTICATED;
