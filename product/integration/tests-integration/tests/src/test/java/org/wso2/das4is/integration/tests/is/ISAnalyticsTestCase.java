@@ -494,8 +494,6 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         }
     }
 
-
-
     //================================= Get max failed auth users =========================================================================
 
     @Test(groups = "wso2.analytics.is", description = "Check max failed auth users - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -886,167 +884,6 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         }
     }
 
-    //==========================  Overall Auth Success and Failure Count - For Role ==============================================
-
-    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Min for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
-    public void retrieveAuthSuccessFailureCountFromPerMinForRoleTest()
-            throws AnalyticsServiceException, AnalyticsException, RemoteException,
-            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
-
-        List<AggregateField> fields = new ArrayList<AggregateField>();
-        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
-        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
-        AggregateRequest aggregateRequest = new AggregateRequest();
-        aggregateRequest.setFields(fields);
-        aggregateRequest.setAggregateLevel(0);
-        aggregateRequest.setParentPath(new ArrayList<String>());
-        aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND role:\"Admin\"");
-        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-MINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
-
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
-
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1937.0, "========== Total auth success and failure event count are invalid per-min for role table ================");
-    }
-
-    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Hour for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
-    public void retrieveAuthSuccessFailureCountFromPerHourForRoleTest()
-            throws AnalyticsServiceException, AnalyticsException, RemoteException,
-            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
-
-        List<AggregateField> fields = new ArrayList<AggregateField>();
-        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
-        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
-        AggregateRequest aggregateRequest = new AggregateRequest();
-        aggregateRequest.setFields(fields);
-        aggregateRequest.setAggregateLevel(0);
-        aggregateRequest.setParentPath(new ArrayList<String>());
-        aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND role:\"Admin\"");
-        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-HOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
-
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
-
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1937.0, "========== Total auth success and failure event count are invalid per-hour for role table ================");
-    }
-
-    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Day for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
-    public void retrieveAuthSuccessFailureCountFromPerDayForRoleTest()
-            throws AnalyticsServiceException, AnalyticsException, RemoteException,
-            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
-
-        List<AggregateField> fields = new ArrayList<AggregateField>();
-        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
-        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
-        AggregateRequest aggregateRequest = new AggregateRequest();
-        aggregateRequest.setFields(fields);
-        aggregateRequest.setAggregateLevel(0);
-        aggregateRequest.setParentPath(new ArrayList<String>());
-        aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND role:\"Admin\"");
-        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-DAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
-
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
-
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1937.0, "========== Total auth success and failure event count are invalid per-day for role table ================");
-    }
-
-    @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Month for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
-    public void retrieveAuthSuccessFailureCountFromPerMonthForRoleTest()
-            throws AnalyticsServiceException, AnalyticsException, RemoteException,
-            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
-
-        List<AggregateField> fields = new ArrayList<AggregateField>();
-        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
-        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
-        AggregateRequest aggregateRequest = new AggregateRequest();
-        aggregateRequest.setFields(fields);
-        aggregateRequest.setAggregateLevel(0);
-        aggregateRequest.setParentPath(new ArrayList<String>());
-        aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"true\" AND role:\"Admin\"");
-        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-MONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
-
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
-
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1937.0, "========== Total auth success and failure event count are invalid per-month for role table ================");
-    }
-
-    @Test(groups = "wso2.analytics.is", description = "Check max succeeded roles - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
-    public void retrieveMaxAuthSuccessRolesFromPerMinTest()
-            throws AnalyticsServiceException, AnalyticsException, RemoteException,
-            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
-
-        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
-        categoryDrillDownRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-MINUTE");
-        categoryDrillDownRequest.setFieldName("role");
-        categoryDrillDownRequest.setPath(new String[]{});
-        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"true\"");
-        categoryDrillDownRequest.setScoreFunction("authSuccessCount");
-        categoryDrillDownRequest.setStart(0);
-        categoryDrillDownRequest.setCount(10);
-
-        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
-
-        if (subCategories.getCategories().size() == 7) {
-            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
-            for (int i = 0; i < 7; i++) {
-                if (i == 0) {
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Developer", "======= Invalid role received ==== ");
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 2961.0, "======= Invalid score received for role Developer ==== ");
-                } else if (i == 1) {
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Manager", "======= Invalid role received ==== ");
-                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 2001.0, "======= Invalid score received for role Manager ==== ");
-                } else if (i == 2) {
-                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getCategoryValue(), "Architect", "======= Invalid role received ==== ");
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 984.0, "======= Invalid score received for role Architect ==== ");
-                } else if (i == 3) {
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Super User", "======= Invalid role received ==== ");
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 970.0, "======= Invalid score received for role Super User ==== ");
-                } else if (i == 4) {
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Admin", "======= Invalid role received ==== ");
-                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 499.0, "======= Invalid score received for role Super Admin ==== ");
-                }
-            }
-        } else {
-            Assert.fail("================ Invalid no of roles received ============================");
-        }
-    }
-
-
-
     //================================= Get max service provider first login =================================================================================
 
     @Test(groups = "wso2.analytics.is", description = "Check max service provider first login - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1423,10 +1260,6 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         }
     }
 
-
-
-    //================================= Get max failed auth users =========================================================================
-
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP max failed auth users - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
     public void retrieveResidentIDPMaxAuthFailureUsersFromPerMinTest()
             throws AnalyticsServiceException, AnalyticsException, RemoteException,
@@ -1507,6 +1340,165 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
             }
         } else {
             Assert.fail("================ Invalid no of users received for resident IDP ============================");
+        }
+    }
+
+    //==========================  Resident IDP Overall Auth Success and Failure Count - For Role ==============================================
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Min for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerMinForRoleTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND role:\"Admin\"");
+        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-MINUTE");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-min for role table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Hour for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerHourForRoleTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND role:\"Admin\"");
+        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-HOUR");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-hour for role table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Day for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerDayForRoleTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND role:\"Admin\"");
+        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-DAY");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-day for role table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Month for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerMonthForRoleTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND role:\"Admin\"");
+        aggregateRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-MONTH");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-month for role table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check max succeeded roles - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthSuccessRolesFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-ROLE-AUTHENTICATION-STAT-PER-MINUTE");
+        categoryDrillDownRequest.setFieldName("role");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"true\"");
+        categoryDrillDownRequest.setScoreFunction("authSuccessCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 7) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 7; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Developer", "======= Invalid role received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 2961.0, "======= Invalid score received for role Developer ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Manager", "======= Invalid role received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 2001.0, "======= Invalid score received for role Manager ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getCategoryValue(), "Architect", "======= Invalid role received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 984.0, "======= Invalid score received for role Architect ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Super User", "======= Invalid role received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 970.0, "======= Invalid score received for role Super User ==== ");
+                } else if (i == 4) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Admin", "======= Invalid role received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 499.0, "======= Invalid score received for role Super Admin ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of roles received for resident IDP ============================");
         }
     }
 
@@ -1849,6 +1841,222 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
             }
         } else {
             Assert.fail("================ Invalid no of service providers received for resident IDP ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Min for Userstore", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerMinForUserstoreTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND userStoreDomain:\"wso2\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-MINUTE");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP - total auth success and failure event count are invalid per-min for userstore table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Hour for Userstore", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerHourForUserstoreTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND userStoreDomain:\"wso2\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-HOUR");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP - total auth success and failure event count are invalid per-hour for userstore table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Day for Userstore", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerDayForUserstoreTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND userStoreDomain:\"wso2\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-DAY");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP total auth success and failure event count are invalid per-day for userstore table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Month for Userstore", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPAuthSuccessFailureCountFromPerMonthForUserstoreTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        List<AggregateField> fields = new ArrayList<AggregateField>();
+        fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
+        fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
+        AggregateRequest aggregateRequest = new AggregateRequest();
+        aggregateRequest.setFields(fields);
+        aggregateRequest.setAggregateLevel(0);
+        aggregateRequest.setParentPath(new ArrayList<String>());
+        aggregateRequest.setGroupByField("facetStartTime");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND isFederated:\"false\" AND userStoreDomain:\"wso2\"");
+        aggregateRequest.setTableName("IS-AUTHENTICATION-STAT-PER-MONTH");
+        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+
+        double totalSuccessCount = 0;
+        double totalFailureCount = 0;
+
+        while (resultItr.hasNext()) {
+            Record record = resultItr.next();
+            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
+            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
+        }
+
+        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP total auth success and failure event count are invalid per-month for userstore table ================");
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max succeeded auth userstores - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthSuccessUserstoresFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-USERSTORE-AUTHENTICATION-STAT-PER-MINUTE");
+        categoryDrillDownRequest.setFieldName("userStoreDomain");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authSuccessCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 1) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getCategoryValue(), "wso2", "======= Invalid userstore received ==== ");
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getScore(), 2517.0, "======= Invalid score received for userstore wso2 ==== ");
+        } else {
+            Assert.fail("================ Invalid no of userstores received for resident IDP ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max succeeded auth userstores - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthSuccessUserstoresFromPerMonthTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-USERSTORE-AUTHENTICATION-STAT-PER-MONTH");
+        categoryDrillDownRequest.setFieldName("userStoreDomain");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authSuccessCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 1) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getCategoryValue(), "wso2", "======= Invalid userstore received ==== ");
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getScore(), 2517.0, "======= Invalid score received for userstore wso2 ==== ");
+        } else {
+            Assert.fail("================ Invalid no of userstores received for resident IDP ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max failed auth userstores - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthFailureUserstoresFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-USERSTORE-AUTHENTICATION-STAT-PER-MINUTE");
+        categoryDrillDownRequest.setFieldName("userStoreDomain");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 1) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getCategoryValue(), "wso2", "======= Invalid userstore received ==== ");
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getScore(), 856.0, "======= Invalid score received for userstore wso2 ==== ");
+        } else {
+            Assert.fail("================ Invalid no of userstores received for resident IDP ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check resident IDP max faiiled auth userstores - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveResidentIDPMaxAuthFailureUserstoresFromPerMonthTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("IS-USERSTORE-AUTHENTICATION-STAT-PER-MONTH");
+        categoryDrillDownRequest.setFieldName("userStoreDomain");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND isFederated:\"false\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 1) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getCategoryValue(), "wso2", "======= Invalid userstore received ==== ");
+            Assert.assertEquals((categorySearchResultEntryArray[0]).getScore(), 856.0, "======= Invalid score received for userstore wso2 ==== ");
+        } else {
+            Assert.fail("================ Invalid no of userstores received for resident IDP ============================");
         }
     }
 //        public static void main(String[] args) throws AnalyticsException, InterruptedException {
