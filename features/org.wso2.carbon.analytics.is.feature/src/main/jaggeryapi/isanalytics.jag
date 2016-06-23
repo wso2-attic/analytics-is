@@ -66,7 +66,7 @@
     } else {
         var token = session.get(USER_TOKEN);
         if (token != null) {
-            token[USERNAME] + CONST_AT + token[TENANT_DOMAIN];
+            loggedInUser = token[USERNAME] + CONST_AT + token[TENANT_DOMAIN];
         } else {
             log.error("user is not authenticated!");
             response.status = HTTP_USER_NOT_AUTHENTICATED;
