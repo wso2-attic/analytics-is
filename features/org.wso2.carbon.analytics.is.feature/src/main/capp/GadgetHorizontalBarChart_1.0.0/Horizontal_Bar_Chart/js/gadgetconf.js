@@ -24,6 +24,7 @@ var charts = [{
     ],
     mode: "USERNAME",
     colorCode: "SUCCESS",
+    isSelected: false,
     processData: function(data) {
         var result = [];
         data.forEach(function(row, i) {
@@ -60,6 +61,7 @@ var charts = [{
     ],
     mode: "USERNAME",
     colorCode: "FAILURE",
+    isSelected: false,
     processData: function(data) {
         var result = [];
         data.forEach(function(row, i) {
@@ -96,6 +98,7 @@ var charts = [{
     ],
     mode: "SERVICEPROVIDER",
     colorCode: "SUCCESS",
+    isSelected: false,
     processData: function(data) {
         var result = [];
         data.forEach(function(row, i) {
@@ -132,6 +135,7 @@ var charts = [{
             { name: TYPE_RESIDENT_IDP, type: 6, filter:15 }
         ],
         mode: "ROLE",
+        isSelected: false,
         colorCode: "SUCCESS",
         processData: function(data) {
             var result = [];
@@ -169,6 +173,7 @@ var charts = [{
             { name: TYPE_RESIDENT_IDP, type: 5, filter:13 }
         ],
         mode: "SERVICEPROVIDER",
+        isSelected: false,
         colorCode: "FAILURE",
         processData: function(data) {
             var result = [];
@@ -206,6 +211,7 @@ var charts = [{
             { name: TYPE_RESIDENT_IDP, type: 7, filter:15 }
         ],
         mode: "ROLE",
+        isSelected: false,
         colorCode: "FAILURE",
         processData: function(data) {
             var result = [];
@@ -242,6 +248,7 @@ var charts = [{
             { name: TYPE_LANDING, type: 9, filter:14 }
         ],
         mode: "IDENTITYPROVIDER",
+        isSelected: false,
         colorCode: "SUCCESS",
         processData: function(data) {
             var result = [];
@@ -278,6 +285,7 @@ var charts = [{
             { name: TYPE_LANDING, type: 10, filter:14 }
         ],
         mode: "IDENTITYPROVIDER",
+        isSelected: false,
         colorCode: "FAILURE",
         processData: function(data) {
             var result = [];
@@ -312,6 +320,7 @@ var charts = [{
             { name: TYPE_LANDING, type: 16, filter:13 }
         ],
         mode: "FIRST_TIME_SERVICEPROVIDER",
+        isSelected: false,
         colorCode: "SUCCESS",
         processData: function(data) {
             var result = [];
@@ -348,6 +357,7 @@ var charts = [{
             { name: TYPE_RESIDENT_IDP, type: 18, filter:17 }
         ],
         mode: "USERSTORE",
+        isSelected: false,
         colorCode: "SUCCESS",
         processData: function(data) {
             var result = [];
@@ -384,6 +394,7 @@ var charts = [{
             { name: TYPE_RESIDENT_IDP, type: 19, filter:17 }
         ],
         mode: "USERSTORE",
+        isSelected: false,
         colorCode: "FAILURE",
         processData: function(data) {
             var result = [];

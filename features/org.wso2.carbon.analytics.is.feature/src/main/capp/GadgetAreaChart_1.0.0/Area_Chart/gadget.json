@@ -24,6 +24,10 @@
         "publisherSliderDateRange": {
             "type": "dateRange",
             "description": "This notifies date ranges generated in Slider"
+        },
+        "publisherRegion": {
+            "type": "selectedUser",
+            "description": "This notifies region selected"
         }
-}
+    }
 }
