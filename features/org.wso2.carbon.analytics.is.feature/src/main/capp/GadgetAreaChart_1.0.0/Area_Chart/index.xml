@@ -26,8 +26,6 @@
           <script src="../commons/js/d3.min.js"></script>
           <script src="../commons/js/vega.js"></script>
           <script src="../commons/js/VizGrammar.min.js"></script>
-          <!--script src="/portal/extensions/themes/analytics/js/colorbrewer.js"></script-->
-          <!--script src="/portal/extensions/themes/analytics/js/VizGrammarSettings.js"></script-->
 
           <!-- Custom -->
           <script src="js/gadgetconf.js"></script>
@@ -52,12 +50,12 @@
                             <div id="mapSuccessDiv"></div>
                             <div id="mapFailDiv"></div>
                             <div class="text-center">
-                                <label>Failure</label>
+                                <label>Success</label>
                                 <label class="switch">
                                     <input type="checkbox" id="chkMap" onclick="checkMapType()" checked="checked">
                                     <span class="helper"></span>
                                 </label>
-                                <label>Success</label>
+                                <label>Failure</label>
                             </div>
                         </div>
                     </div>

@@ -145,6 +145,8 @@ $(function() {
                                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "FIRST_TIME_SERVICEPROVIDER"){
                                 listnedAdditionalUserPrefs+= " AND serviceprovider:\""+historyParamVal.split("_")[0]+"\"";
+                            }else if(globalUniqueArray[i][2] == "REGION"){
+                                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
                             }
                         }
                     }
@@ -222,6 +224,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "REGION"){
+                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -299,6 +303,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "REGION"){
+                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -585,6 +591,11 @@ function drawChartFailure(){
 
 var typeSuccessCallbackmethod = function(event, item) {
 
+    chartSuccess.isSelected = true;
+    if(chartFailure.isSelected){
+        chartFailure.isSelected = false;
+        refreshChart(chartFailure);
+    }
     var userPrefKey = chartSuccess.chartConfig.x;
     var jsonObj = item.datum;
     var userPrefValue = "";
@@ -637,6 +648,12 @@ var typeSuccessCallbackmethod = function(event, item) {
 
 
 var typeFailureCallbackmethod = function(event, item) {
+
+    chartFailure.isSelected = true;
+    if(chartSuccess.isSelected){
+        chartSuccess.isSelected = false;
+        refreshChart(chartSuccess);
+    }
 
     var userPrefKey = chartFailure.chartConfig.x;
     var jsonObj = item.datum;
@@ -747,3 +764,19 @@ var substringMatcher = function() {
         }, successOnError);
     };
 };
+
+function refreshChart(chartObj){
+
+
+    var vg = new vizg(chartObj.schema, chartObj.chartConfig);
+
+    if(chartObj.colorCode == "SUCCESS"){
+        $("#canvasSuccess").empty();
+        vg.draw("#canvasSuccess",[{type:"click", callback:typeSuccessCallbackmethod}]);
+    }else{
+        $("#canvasFailure").empty();
+        vg.draw("#canvasFailure",[{type:"click", callback:typeFailureCallbackmethod}]);
+    }
+
+
+}
