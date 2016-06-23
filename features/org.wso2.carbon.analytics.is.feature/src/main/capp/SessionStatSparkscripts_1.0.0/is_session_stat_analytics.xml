@@ -2,11 +2,11 @@
 <Analytics>
     <Name>is_session_stat_analytics</Name>
     <Script>
-        CREATE TEMPORARY TABLE rawSessionData USING CarbonAnalytics OPTIONS (tableName "SESSION-ANALYTICS-STREAM",schema "sessionId STRING, action INT, userName STRING, tenantDomain STRING,_timestamp LONG" );
+        CREATE TEMPORARY TABLE rawSessionData USING CarbonAnalytics OPTIONS (tableName "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLSESSION",schema "sessionId STRING, action INT, userName STRING, tenantDomain STRING,_timestamp LONG" );
 
-        CREATE TEMPORARY TABLE isRawSessionAnalytics USING CarbonAnalytics OPTIONS (tableName "SESSION-INFO-STREAM");
+        CREATE TEMPORARY TABLE isRawSessionAnalytics USING CarbonAnalytics OPTIONS (tableName "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO");
 
-        CREATE TEMPORARY TABLE isSessionAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "IS-SESSION-STAT-PER-MINUTE");
+        CREATE TEMPORARY TABLE isSessionAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONSTATPERMINUTE");
 
         CREATE TEMPORARY TABLE isSessionAnalyticsPerHour USING CarbonAnalytics OPTIONS (tableName "Is-Session-Stat-per-Hour", schema "bucketId LONG -i, bucketStart LONG -i, bucketEnd LONG -i, activeSessionCount INT -i, newSessionCount INT -i, terminatedSessionCount INT -i", primaryKeys "bucketId, bucketStart, bucketEnd", incrementalParams "isSessionAnalyticsPerHour, HOUR", mergeSchema "false");
 

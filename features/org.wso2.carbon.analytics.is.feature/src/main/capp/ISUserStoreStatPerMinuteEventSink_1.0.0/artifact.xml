@@ -19,5 +19,5 @@
   -->
 
 <artifact name="ISUserStoreStatPerMinuteEventSink" version="1.0.0" type="analytics/eventstore" serverRole="DataAnalyticsServer">
-    <file>is-userstore-authentication-stat-per-minute.xml</file>
+    <file>org_wso2_is_analytics_stream_UserstoreAuthStatPerMinute.xml</file>
 </artifact>
