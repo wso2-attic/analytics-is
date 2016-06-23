@@ -11,36 +11,36 @@
 define stream sessionStream (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.SessionStatPerMinute:1.0.0')
-define stream sessionStatPerMinute (bucketId long, bucketStart long, bucketEnd long, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
+define stream sessionStatPerMinute (bucketId long, bucketStart long, bucketEnd long, year int, month int, day int, hour int, minute int, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
 
 @from(eventtable = 'analytics.table' , table.name = 'is-session-active-count', primary.keys = 'id', indices = 'id', wait.for.indexing = 'true', merge.schema = 'false')
 define table activeSessionCountTable(id string, activeCount long);
 
-@from(eventtable = 'analytics.table', table.name = 'ACTIVE_SESSIONS', primary.keys = 'sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, action, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag',  wait.for.indexing = 'false')
-define table activeSessionsTable (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
+@from(eventtable = 'analytics.table', table.name = 'ACTIVE_SESSIONS', primary.keys = 'sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, year, month, day, hour, minute, action, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag',  wait.for.indexing = 'false')
+define table activeSessionsTable (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, year int, month int, day int, hour int, minute int, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
 
 @Export('org.wso2.is.analytics.stream.SessionInfo:1.0.0')
-define stream sessionStreamInfo (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, duration long, isActive bool, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
+define stream sessionStreamInfo (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
 
 from sessionStream [action == 1 OR action == 2]
-select sessionId, startTimestamp, renewTimestamp, terminationTimestamp, action, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag
+select sessionId, startTimestamp, renewTimestamp, terminationTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, action, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag
 insert into activeSessionsTable;
 
 from sessionStream [action == 0]
-select sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, (terminationTimestamp - startTimestamp) as duration,  false as isActive, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag
+select sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (terminationTimestamp - startTimestamp) as duration,  false as isActive, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag
 insert into sessionStreamInfo;
 
 from sessionStreamInfo
 delete activeSessionsTable
 on activeSessionsTable.sessionId == sessionId;
 
-from sessionStream[action == 1 OR action == 0]#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
-select (_timestamp - _timestamp%60000) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'count' as id
+from sessionStream[action == 1 OR action == 0]#window.timeBatch(1 min, 0)
+select isAnalytics:getMinuteStartingTime(time:timestampInMilliseconds()) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'count' as id
 insert into bucketStream;
 
 from bucketStream#window.length(1) as s left outer join activeSessionCountTable as t
 on s.id == t.id
-select s.bucketId, s.bucketId as bucketStart, (s.bucketId + 60000) as bucketEnd, (s.net  + ifThenElse(t.activeCount is null, convert(0, 'long'), t.activeCount) ) as activeSessionCount, s.newSessionCount, s.terminatedSessionCount
+select s.bucketId, s.bucketId as bucketStart, (s.bucketId + 60000) as bucketEnd, time:extract(bucketId, 'year') as year, time:extract(bucketId, 'month') as month, time:extract(bucketId, 'day') as day, time:extract(bucketId, 'hour') as hour, time:extract(bucketId, 'minute') as minute,  (s.net  + ifThenElse(t.activeCount is null, convert(0, 'long'), t.activeCount) ) as activeSessionCount, s.newSessionCount, s.terminatedSessionCount
 insert into sessionStatPerMinute;
 
 from sessionStatPerMinute#window.length(1)
