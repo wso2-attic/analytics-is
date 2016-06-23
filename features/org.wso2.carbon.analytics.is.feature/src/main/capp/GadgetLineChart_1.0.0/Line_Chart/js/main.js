@@ -23,7 +23,6 @@ $(function() {
     }*/
     var timeFrom = gadgetUtil.timeFrom();
     var timeTo = gadgetUtil.timeTo();
-    console.log("LINE_CHART[" + page + "]: TimeFrom: " + timeFrom + " TimeTo: " + timeTo);
     gadgetUtil.fetchData(CONTEXT, {
         type: type,
         timeFrom: timeFrom,
@@ -57,13 +56,12 @@ function onData(response) {
             $('#canvas').html(gadgetUtil.getEmptyRecordsText());
             return;
         }
-        //sort the timestamps
-        /*data[0].sort(function(a, b) {
-            return a.timestamp - b.timestamp;
-        });*/
+        
+        loadStats(data);
+        
         //perform necessary transformation on input data
         chart.schema[0].data = chart.processData(data);
-
+        //sort the timestamps
         chart.schema[0].data.sort(function(a, b) {
             return a[1] - b[1];
         });
@@ -74,10 +72,16 @@ function onData(response) {
         var vg = new vizg(chart.schema, chart.chartConfig);
         $("#canvas").empty();
         vg.draw("#canvas",[{type:"range", callback:onRangeSelected}]);
+
     } catch (e) {
         $('#canvas').html(gadgetUtil.getErrorText(e));
     }
 };
+
+function loadStats(data){
+    var activeSessionCount = data[1].activeCount;
+    $("#active-session-count").html(activeSessionCount);
+}
 
 function onError(msg) {
     $("#canvas").html(gadgetUtil.getErrorText(msg));

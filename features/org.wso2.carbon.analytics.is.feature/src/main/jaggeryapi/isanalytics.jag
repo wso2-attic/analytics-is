@@ -1516,7 +1516,9 @@
                     timeUnit = "HOUR";
                 }
 
+                // querying for session change
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONSTATPER" + timeUnit;
+
 
                 query = stringify({
                     query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
@@ -1524,9 +1526,22 @@
                     count: length
                 });
 
-                resp = connector.search(loggedInUser, tableName, query);
+                var resp = connector.search(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var count = connector.searchCount(loggedInUser, tableName, query);
+
+                // querying for active session count
+                var tableNameActiveSessions = "IS-SESSION-ACTIVE-COUNT";
+
+                queryActiveSessions = stringify({
+                    query: "*:*",
+                    start: start,
+                    count: length
+                });
+
+                var respActiveCount = connector.search(loggedInUser, tableNameActiveSessions, queryActiveSessions);
+                var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
+                var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
@@ -1553,8 +1568,11 @@
                         });
                     }
                 }
+
                 result.push(data);
-                result.push(count);
+                result.push({
+                    "activeCount": activeCount
+                });
 
                 break;
             }
