@@ -92,9 +92,9 @@ $(function() {
     $( ".residentIdp").empty();
 
     if(page == TYPE_RESIDENT_IDP) {
-        idpTypeFilter = " AND isFederated:\"false\"";
+        idpTypeFilter = " AND identityProviderType:\"LOCAL\"";
     } else {
-        idpTypeFilter = " AND isFederated:\"true\"";
+        idpTypeFilter = " AND identityProviderType:\"FEDERATED\"";
 
         var instanceType = chartSuccess.mode;
         if(instanceType == "IDENTITYPROVIDER"){

@@ -67,7 +67,7 @@ $(function() {
                     d.timeFrom = parseInt(listnedTimeFromValue);
                     d.timeTo = parseInt(listnedTimeToValue);
                     d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
-                    d.idpType = " AND isFederated:\"true\"";
+                    d.idpType = " AND identityProviderType:\"FEDERATED\"";
                 }
             }
         });
@@ -101,7 +101,7 @@ $(function() {
                     d.timeFrom = parseInt(listnedTimeFromValue);
                     d.timeTo = parseInt(listnedTimeToValue);
                     d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
-                    d.idpType = " AND isFederated:\"false\"";
+                    d.idpType = " AND identityProviderType:\"LOCAL\"";
                 }
             }
         });
