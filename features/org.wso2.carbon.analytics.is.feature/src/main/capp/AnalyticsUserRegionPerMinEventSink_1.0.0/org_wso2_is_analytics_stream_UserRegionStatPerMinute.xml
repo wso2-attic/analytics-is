@@ -82,12 +82,12 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>isFederated</Name>
+            <Name>identityProviderType</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>true</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
-            <Type>BOOLEAN</Type>
+            <Type>STRING</Type>
         </ColumnDefinition>
     </TableSchema>
     <Source>

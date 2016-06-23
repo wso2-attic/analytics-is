@@ -45,8 +45,8 @@
             "type": "STRING"
         },
         {
-            "name": "isFederated",
-            "type": "BOOL"
+            "name": "identityProviderType",
+            "type": "STRING"
         },
         {
             "name": "_timestamp",
