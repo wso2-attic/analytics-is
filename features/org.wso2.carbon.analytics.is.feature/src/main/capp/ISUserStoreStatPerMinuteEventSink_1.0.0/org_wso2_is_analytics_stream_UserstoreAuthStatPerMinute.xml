@@ -42,7 +42,7 @@
             <Type>INTEGER</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>serviceprovider</Name>
+            <Name>userStoreDomain</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>true</IsPrimaryKey>
@@ -59,14 +59,6 @@
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>authFailureCount</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>true</EnableScoreParam>
-            <Type>LONG</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>authFirstSuccessCount</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
@@ -91,7 +83,7 @@
         </ColumnDefinition>
     </TableSchema>
     <Source>
-        <StreamId>is-service-provider-authentication-stat-per-minute:1.0.0</StreamId>
+        <StreamId>org.wso2.is.analytics.stream.UserstoreAuthStatPerMinute:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
     <RecordStoreName>EVENT_STORE_WO</RecordStoreName>

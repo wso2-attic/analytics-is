@@ -2,6 +2,7 @@ var TOPIC_DATE_RANGE = "subscriber";
 var TOPIC_USERNAME = "subscriberUser";
 var TOPIC_USERPREF_DELETION = "subscriberUserPrefDeletion";
 var TOPIC_SLIDER = "publisherSliderDateRange";
+var TOPIC_REGION = "publisherRegion";
 var listnedTimeFromValue;
 var listnedTimeToValue;
 var listnedAdditionalUserPrefs = "";
@@ -137,6 +138,8 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "REGION"){
+                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -180,6 +183,8 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
             listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
             listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+        }else if(globalUniqueArray[i][2] == "REGION"){
+            listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
         }
     }
 }
@@ -328,8 +333,7 @@ function loadMap(data) {
 
             gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
 
-            gadgets.Hub.publish("subscriberUserPref", message);
-
+            gadgets.Hub.publish(TOPIC_REGION, message);
         }
     }
 

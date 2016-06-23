@@ -51,7 +51,7 @@
         </ColumnDefinition>
     </TableSchema>
     <Source>
-        <StreamId>is-session-stat-per-minute:1.0.0</StreamId>
+        <StreamId>org.wso2.is.analytics.stream.SessionStatPerMinute:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
     <RecordStoreName>EVENT_STORE_WO</RecordStoreName>

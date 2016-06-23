@@ -19,5 +19,5 @@
   -->
 
 <artifact name="ISRoleStatPerMinuteEventSink" version="1.0.0" type="analytics/eventstore" serverRole="DataAnalyticsServer">
-    <file>is-role-authentication-stat-per-minute.xml</file>
+    <file>org_wso2_is_analytics_stream_RoleAuthStatPerMinute.xml</file>
 </artifact>

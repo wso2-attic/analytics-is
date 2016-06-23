@@ -7,10 +7,10 @@
 /* define streams/tables and write queries here ... */
 
 
-@Import('session-analytics-stream:1.0.0')
+@Import('org.wso2.is.analytics.stream.OverallSession:1.0.0')
 define stream sessionStream (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool, _timestamp long);
 
-@Export('is-session-stat-per-minute:1.0.0')
+@Export('org.wso2.is.analytics.stream.SessionStatPerMinute:1.0.0')
 define stream sessionStatPerMinute (bucketId long, bucketStart long, bucketEnd long, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
 
 @from(eventtable = 'analytics.table' , table.name = 'is-session-active-count', primary.keys = 'id', indices = 'id', wait.for.indexing = 'true', merge.schema = 'false')
@@ -19,7 +19,7 @@ define table activeSessionCountTable(id string, activeCount long);
 @from(eventtable = 'analytics.table', table.name = 'ACTIVE_SESSIONS', primary.keys = 'sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, action, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag',  wait.for.indexing = 'false')
 define table activeSessionsTable (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
 
-@Export('session-info-stream:1.0.0')
+@Export('org.wso2.is.analytics.stream.SessionInfo:1.0.0')
 define stream sessionStreamInfo (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, duration long, isActive bool, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool);
 
 from sessionStream [action == 1 OR action == 2]

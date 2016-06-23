@@ -17,6 +17,8 @@
     var USER_TOKEN = "user";
     var TYPE = "type";
     var USERNAME = "username";
+    var TENANT_DOMAIN = "domain";
+    var CONST_AT = "@";
     var HTTP_INTERNAL_ERROR = 500;
     var HTTP_USER_NOT_AUTHENTICATED = 403;
 
@@ -64,7 +66,7 @@
     } else {
         var token = session.get(USER_TOKEN);
         if (token != null) {
-            loggedInUser = token[USERNAME];
+            loggedInUser = token[USERNAME] + CONST_AT + token[TENANT_DOMAIN];
         } else {
             log.error("user is not authenticated!");
             response.status = HTTP_USER_NOT_AUTHENTICATED;
@@ -122,7 +124,7 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
@@ -202,12 +204,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-USER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -271,13 +273,13 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-USER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -329,12 +331,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -401,12 +403,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -457,7 +459,7 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-ROLE-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
@@ -523,7 +525,7 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-ROLE-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
@@ -575,12 +577,12 @@
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
-                var tableName = "IS-IDENTITY-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -642,12 +644,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-IDENTITY-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -695,7 +697,7 @@
                 var draw = request.getParameter("draw");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "AUTHENTICATION-ANALYTICS-STREAM";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
 
                 var additionalParameters = "";
 
@@ -769,12 +771,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-USER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -820,7 +822,7 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-ROLE-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
@@ -869,12 +871,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-IDENTITY-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -918,12 +920,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -968,7 +970,7 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-USERSTORE-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
@@ -1016,12 +1018,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-USERSTORE-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -1082,12 +1084,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-USERSTORE-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-AUTHENTICATION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -1134,7 +1136,7 @@
                 var draw = request.getParameter("draw");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "AUTHENTICATION-ANALYTICS-STREAM";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
 
                 var additionalParameters = "";
                 if (listnedAdditionalUserPrefs != "") {
@@ -1203,7 +1205,7 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-SERVICE-PROVIDER-AUTHENTICATION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
                 var idpTypeFilter = "";
                 if (idpType != "") {
@@ -1250,12 +1252,12 @@
                     timeUnit = "MINUTE";
                 }
 
-                var tableName = "IS-USER-REGION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
 
                 var additionalParameters = "";
 
                 if (listnedAdditionalUserPrefs != "") {
-                    tableName = "IS-USER-REGION-STAT-PER-" + timeUnit;
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
                     additionalParameters = listnedAdditionalUserPrefs;
                 }
 
@@ -1299,7 +1301,7 @@
                     timeUnit = "DAY";
                 }
 
-                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
 
                 query = stringify({
                     query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
@@ -1347,7 +1349,7 @@
                     timeUnit = "DAY";
                 }
 
-                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
 
                 query = stringify({
                     tableName: tableName,
@@ -1409,7 +1411,7 @@
                     timeUnit = "DAY";
                 }
 
-                var tableName = "IS-SESSION-COUNT-AGGREGATE-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONCOUNTAGGREGATEPER" + timeUnit;
 
                 var labels = ["< 15 mins", "< 1 hr", "< 12 hrs", "< 24 hrs", "> 24 hrs"];
 
@@ -1477,7 +1479,7 @@
                     timeUnit = "DAY";
                 }
 
-                var tableName = "IS-SESSION-STAT-AGGREGATE-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
 
                 query = stringify({
                     fieldName: "userName", //field which is indexed as a FACET
@@ -1515,7 +1517,8 @@
                 }
 
                 // querying for session change
-                var tableName = "IS-SESSION-STAT-PER-" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONSTATPER" + timeUnit;
+
 
                 query = stringify({
                     query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",

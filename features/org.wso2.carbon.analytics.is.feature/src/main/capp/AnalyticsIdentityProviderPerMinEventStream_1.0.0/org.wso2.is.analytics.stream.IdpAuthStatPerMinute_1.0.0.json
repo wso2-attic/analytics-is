@@ -1,5 +1,5 @@
 {
-    "name": "is-role-authentication-stat-per-minute",
+    "name": "org.wso2.is.analytics.stream.IdpAuthStatPerMinute",
     "version": "1.0.0",
     "nickName": "",
     "description": "",
@@ -25,31 +25,7 @@
             "type": "INT"
         },
         {
-            "name": "userName",
-            "type": "STRING"
-        },
-        {
-            "name": "role",
-            "type": "STRING"
-        },
-        {
-            "name": "serviceprovider",
-            "type": "STRING"
-        },
-        {
             "name": "identityProvider",
-            "type": "STRING"
-        },
-        {
-          "name": "remoteIp",
-          "type": "STRING"
-        },
-        {
-            "name": "region",
-            "type": "STRING"
-        },
-        {
-            "name": "userStoreDomain",
             "type": "STRING"
         },
         {
@@ -58,10 +34,6 @@
         },
         {
             "name": "authFailureCount",
-            "type": "LONG"
-        },
-        {
-            "name": "authStepSuccessCount",
             "type": "LONG"
         },
         {

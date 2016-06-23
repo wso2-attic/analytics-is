@@ -4,13 +4,13 @@
     <Script>
         CREATE TEMPORARY TABLE activeSessionTable USING CarbonAnalytics OPTIONS (tableName "ACTIVE_SESSIONS", schema "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, action INT, userName STRING, userstoreDomain STRING, IP STRING, tenantDomain STRING, rememberMeFlag BOOLEAN", primaryKeys "sessionId");
 
-        CREATE TEMPORARY TABLE rawSessionsTable USING CarbonAnalytics OPTIONS (tableName "SESSION-INFO-STREAM");
+        CREATE TEMPORARY TABLE rawSessionsTable USING CarbonAnalytics OPTIONS (tableName "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO");
 
         INSERT INTO TABLE rawSessionsTable SELECT sessionId, startTimestamp, renewTimestamp, terminationTimestamp, -1, now(0) - startTimestamp, true, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag from activeSessionTable where terminationTimestamp > now(0);
 
-        CREATE TEMPORARY TABLE sesssionEventsNotificationTable USING org.wso2.carbon.analytics.spark.event.EventStreamProvider OPTIONS (streamName "session-analytics-stream", version "1.0.0", payload "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, action INT, userName STRING, userstoreDomain STRING, IP STRING, tenantDomain STRING, rememberMeFlag BOOLEAN, _timestamp LONG");
+        CREATE TEMPORARY TABLE sesssionEventsNotificationTable USING org.wso2.carbon.analytics.spark.event.EventStreamProvider OPTIONS (streamName "org.wso2.is.analytics.stream.OverallSession", version "1.0.0", payload "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, action INT, userName STRING, userstoreDomain STRING, IP STRING, tenantDomain STRING, rememberMeFlag BOOLEAN, _timestamp LONG");
 
-        INSERT INTO TABLE sesssionEventsNotificationTable SELECT sessionId, startTimestamp, renewTimestamp, terminationTimestamp, 0, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag, terminationTimestamp from activeSessionTable WHERE terminationTimestamp &lt; now(0);
+        INSERT INTO TABLE sesssionEventsNotificationTable SELECT sessionId, startTimestamp, renewTimestamp, terminationTimestamp, 0, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag, now(0) from activeSessionTable WHERE terminationTimestamp &lt; now(0);
     </Script>
     <CronExpression>0 0/15 * * * ?</CronExpression>
 </Analytics>
