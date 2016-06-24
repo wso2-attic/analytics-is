@@ -37,11 +37,11 @@
             "type": "STRING"
         },
         {
-            "name": "serviceprovider",
+            "name": "serviceProvider",
             "type": "STRING"
         },
         {
-            "name": "remembermeEnabled",
+            "name": "rememberMeEnabled",
             "type": "BOOL"
         },
         {

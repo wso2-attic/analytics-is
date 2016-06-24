@@ -74,17 +74,17 @@ var charts = [{
     }
 },{
     name: ROLE_PER_SERVICE_PROVIDER_AUTHENTICATION_SUCCESS_COUNT,
-    columns: ["authSuccessCount", "serviceprovider"],
+    columns: ["authSuccessCount", "serviceProvider"],
     schema: [{
         "metadata": {
-            "names": ["authSuccessCount", "serviceprovider"],
+            "names": ["authSuccessCount", "serviceProvider"],
             "types": ["linear","ordinal"]
         },
         "data": []
     }],
     "chartConfig":
     {
-        "x":"serviceprovider",
+        "x":"serviceProvider",
         "yTitle":"successfulAttempts",
         "maxLength":"3000",
         "highlight" : "single",
@@ -103,9 +103,9 @@ var charts = [{
         var result = [];
         data.forEach(function(row, i) {
             var authSuccessCount = row['authSuccessCount'];
-            var serviceprovider = row["serviceprovider"];
+            var serviceProvider = row["serviceProvider"];
 
-            result.push([authSuccessCount, serviceprovider]);
+            result.push([authSuccessCount, serviceProvider]);
         });
         return result;
     }
@@ -150,17 +150,17 @@ var charts = [{
     },
     {
         name: ROLE_PER_SERVICE_PROVIDER_AUTHENTICATION_FAILURE_COUNT,
-        columns: ["authFailureCount", "serviceprovider"],
+        columns: ["authFailureCount", "serviceProvider"],
         schema: [{
             "metadata": {
-                "names": ["authFailureCount", "serviceprovider"],
+                "names": ["authFailureCount", "serviceProvider"],
                 "types": ["linear","ordinal"]
             },
             "data": []
         }],
         "chartConfig":
         {
-            "x":"serviceprovider",
+            "x":"serviceProvider",
             "maxLength":"3000",
             "yTitle":"failureAttempts",
             "highlight" : "single",
@@ -179,9 +179,9 @@ var charts = [{
             var result = [];
             data.forEach(function(row, i) {
                 var authFailureCount = row['authFailiureCount'];
-                var serviceprovider = row["serviceprovider"];
+                var serviceProvider = row["serviceProvider"];
 
-                result.push([authFailureCount, serviceprovider]);
+                result.push([authFailureCount, serviceProvider]);
             });
             return result;
         }
@@ -299,17 +299,17 @@ var charts = [{
         }
     },{
         name: ROLE_PER_IDENTITY_PROVIDER_FIRST_LOGIN_COUNT,
-        columns: ["authSuccessCount", "serviceprovider"],
+        columns: ["authSuccessCount", "serviceProvider"],
         schema: [{
             "metadata": {
-                "names": ["authSuccessCount", "serviceprovider"],
+                "names": ["authSuccessCount", "serviceProvider"],
                 "types": ["linear","ordinal"]
             },
             "data": []
         }],
         "chartConfig":
         {
-            "x":"serviceprovider",
+            "x":"serviceProvider",
             "yTitle":"successfulAttempts",
             "maxLength":"3000",
             "barGap":0.2,
@@ -326,9 +326,9 @@ var charts = [{
             var result = [];
             data.forEach(function(row, i) {
                 var authSuccessCount = row['authSuccessCount'];
-                var serviceprovider = row["serviceprovider"];
+                var serviceProvider = row["serviceProvider"];
 
-                result.push([authSuccessCount, serviceprovider]);
+                result.push([authSuccessCount, serviceProvider]);
             });
             return result;
         }

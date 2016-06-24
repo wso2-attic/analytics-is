@@ -3,7 +3,7 @@ var configs = [{
         type: 11,
         columns: [
             { name: "userName", label: "User Name", type: "ordinal" },
-            { name: "serviceprovider", label: "Service Provider", type: "ordinal" },
+            { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "identityProvider", label: "Identity Provider", type: "ordinal" },
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
@@ -16,7 +16,7 @@ var configs = [{
         type: 20,
         columns: [
             { name: "userName", label: "User Name", type: "ordinal" },
-            { name: "serviceprovider", label: "Service Provider", type: "ordinal" },
+            { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "userstore", label: "Userstore", type: "ordinal" },
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },

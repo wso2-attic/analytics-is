@@ -25,7 +25,7 @@
             "type": "INT"
         },
         {
-            "name": "serviceprovider",
+            "name": "serviceProvider",
             "type": "STRING"
         },
         {

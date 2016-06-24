@@ -133,7 +133,7 @@ gadgets.HubSettings.onConnect = function() {
             if(globalUniqueArray[i][2] == "USERNAME"){
                 listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "ROLE"){
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
@@ -178,7 +178,7 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
         if(globalUniqueArray[i][2] == "USERNAME"){
             listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-            listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "ROLE"){
             listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){

@@ -136,7 +136,7 @@ $(function() {
                             if(key == "USERNAME"){
                                 listnedAdditionalUserPrefs+= " AND userName:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "SERVICEPROVIDER"){
-                                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+historyParamVal.split("_")[0]+"\"";
+                                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "ROLE"){
                                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "IDENTITYPROVIDER"){
@@ -144,7 +144,7 @@ $(function() {
                             }else if(key == "USERSTORE"){
                                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(key == "FIRST_TIME_SERVICEPROVIDER"){
-                                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+historyParamVal.split("_")[0]+"\"";
+                                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+historyParamVal.split("_")[0]+"\"";
                             }else if(globalUniqueArray[i][2] == "REGION"){
                                 listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
                             }
@@ -215,7 +215,7 @@ gadgets.HubSettings.onConnect = function() {
             if(globalUniqueArray[i][2] == "USERNAME"){
                 listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "ROLE"){
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
@@ -223,7 +223,7 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "REGION"){
                 listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
             }
@@ -294,7 +294,7 @@ gadgets.HubSettings.onConnect = function() {
             if(globalUniqueArray[i][2] == "USERNAME"){
                 listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
             }if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
             }if(globalUniqueArray[i][2] == "ROLE"){
                 listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
@@ -302,7 +302,7 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceprovider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "REGION"){
                 listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
             }
@@ -719,7 +719,7 @@ var substringMatcher = function() {
                 break;
             }
             case 13: {
-                listnedAdditionalUserPrefs= " AND serviceprovider:"+ escape(q) +"*";
+                listnedAdditionalUserPrefs= " AND serviceProvider:"+ escape(q) +"*";
                 break;
             }
             case 14: {
