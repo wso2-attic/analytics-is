@@ -1,5 +1,5 @@
 /* Enter a unique ExecutionPlan */
-@Plan:name('AuthenticationAnalyticsExecutionPlan')
+@Plan:name('IsAnalytics-ExecutionPlan-AuthenticationData')
 
 /* Enter a unique description for ExecutionPlan */
 -- @Plan:description('ExecutionPlan')

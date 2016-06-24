@@ -36,9 +36,9 @@
         <dependency artifact="ISUserStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="ISUserStoreStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="SessionAnalyticsExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
+        <dependency artifact="IsAnalytics-ExecutionPlan-SessionData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
         <!--dependency artifact="SessionInfoExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/-->
-        <dependency artifact="AuthenticationAnalyticsExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
+        <dependency artifact="IsAnalytics-ExecutionPlan-AuthenticationData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
         <!-- Dashboard Definition -->
         <dependency artifact="DashboardAuthentication" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
     </artifact>
