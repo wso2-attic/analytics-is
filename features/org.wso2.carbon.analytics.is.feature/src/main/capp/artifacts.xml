@@ -4,13 +4,13 @@
         <!-- Gadgets -->
         <dependency artifact="AnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionAnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="GadgetCommons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="GadgetDateRangePicker" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="GadgetAreaChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="GadgetHorizontalBarChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="GadgetMessageTable" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="GadgetUserPreferences" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="GadgetLineChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-Commons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-DateRangePicker" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-AreaChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-HorizontalBarChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-MessageTable" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-UserPreferences" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-LineChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="Sparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -40,6 +40,6 @@
         <!--dependency artifact="SessionInfoExecutionPlan" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/-->
         <dependency artifact="IsAnalytics-ExecutionPlan-AuthenticationData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
         <!-- Dashboard Definition -->
-        <dependency artifact="DashboardAuthentication" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Dashboard-AuthenticationData" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
     </artifact>
 </artifacts>
