@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Analytics>
-    <Name>is_session_management_analytics</Name>
+    <Name>IsAnalytics-SparkScript-SessionManagement</Name>
     <Script>
         CREATE TEMPORARY TABLE activeSessionTable USING CarbonAnalytics OPTIONS (tableName "ACTIVE_SESSIONS", schema "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, action INT, userName STRING, userstoreDomain STRING, IP STRING, tenantDomain STRING, rememberMeFlag BOOLEAN", primaryKeys "sessionId");
 

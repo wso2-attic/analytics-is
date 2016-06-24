@@ -17,6 +17,6 @@
   ~ under the License.
   ~
   -->
-<artifact name="SessionInfoExecutionPlan" version="1.0.0" type="event/execution-plan" serverRole="ComplexEventProcessor">
-    <file>SessionInfo.siddhiql</file>
+<artifact name="IsAnalytics-ExecutionPlan-SessionInfo" version="1.0.0" type="event/execution-plan" serverRole="ComplexEventProcessor">
+    <file>IsAnalytics-ExecutionPlan-SessionInfo.siddhiql</file>
 </artifact>
