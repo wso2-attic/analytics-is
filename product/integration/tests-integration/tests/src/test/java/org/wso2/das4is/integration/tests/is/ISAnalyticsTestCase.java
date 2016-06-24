@@ -147,7 +147,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
                    AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException {
 
         Thread.sleep(25000);
-        analyticsStub.executeScriptInBackground("is_stat_analytics");
+        analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-AuthenticationData");
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
         fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
@@ -638,7 +638,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setAggregateLevel(0);
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -667,7 +667,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setAggregateLevel(0);
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -696,7 +696,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setAggregateLevel(0);
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -725,7 +725,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setAggregateLevel(0);
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
-        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceprovider:\"Booking\"");
+        aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -910,7 +910,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 
         CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
         categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPERMINUTE");
-        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setFieldName("serviceProvider");
         categoryDrillDownRequest.setPath(new String[]{});
         categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND identityProviderType:\"FEDERATED\"");
         categoryDrillDownRequest.setScoreFunction("authFirstSuccessCount");
@@ -1538,7 +1538,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" " +
-                "AND serviceprovider:\"Booking\"");
+                "AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -1568,7 +1568,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" " +
-                "AND serviceprovider:\"Booking\"");
+                "AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -1598,7 +1598,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" " +
-                "AND serviceprovider:\"Booking\"");
+                "AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -1628,7 +1628,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setParentPath(new ArrayList<String>());
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\"" +
-                " AND serviceprovider:\"Booking\"");
+                " AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
         AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
@@ -1651,7 +1651,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 
         CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
         categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPERMINUTE");
-        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setFieldName("serviceProvider");
         categoryDrillDownRequest.setPath(new String[]{});
         categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND " +
                 "identityProviderType:\"LOCAL\"");
@@ -1708,7 +1708,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 
         CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
         categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPERMONTH");
-        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setFieldName("serviceProvider");
         categoryDrillDownRequest.setPath(new String[]{});
         categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND " +
                 "identityProviderType:\"LOCAL\"");
@@ -1767,7 +1767,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 
         CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
         categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPERMINUTE");
-        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setFieldName("serviceProvider");
         categoryDrillDownRequest.setPath(new String[]{});
         categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND " +
                 "identityProviderType:\"LOCAL\"");
@@ -1824,7 +1824,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
 
         CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
         categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPERMONTH");
-        categoryDrillDownRequest.setFieldName("serviceprovider");
+        categoryDrillDownRequest.setFieldName("serviceProvider");
         categoryDrillDownRequest.setPath(new String[]{});
         categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND " +
                 "identityProviderType:\"LOCAL\"");

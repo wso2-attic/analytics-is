@@ -347,7 +347,7 @@
 
                 if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
                     query = stringify({
-                        fieldName: "serviceprovider", //field which is indexed as a FACET
+                        fieldName: "serviceProvider", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
                         query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                                 idpTypeFilter + additionalParameters,
@@ -360,7 +360,7 @@
                 }
                 else {
                     query = stringify({
-                        fieldName: "serviceprovider", //field which is indexed as a FACET
+                        fieldName: "serviceProvider", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
                         query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                                 idpTypeFilter + additionalParameters,
@@ -381,7 +381,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         dataPointsArray.push({
-                            "serviceprovider": key,
+                            "serviceProvider": key,
                             "authSuccessCount": obj[key]
                         });
                     }
@@ -418,7 +418,7 @@
                 }
 
                 query = stringify({
-                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                             idpTypeFilter + additionalParameters,
@@ -437,7 +437,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         dataPointsArray.push({
-                            "serviceprovider": key,
+                            "serviceProvider": key,
                             "authFailiureCount": obj[key]
                         });
                     }
@@ -688,7 +688,7 @@
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
 
-                var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
+                var columns = ["userName", "serviceProvider", "identityProvider", "rolesCommaSeperated"
                     , "remoteIp", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -935,7 +935,7 @@
                 }
 
                 query = stringify({
-                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                             idpTypeFilter + additionalParameters,
@@ -951,7 +951,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         result.push({
-                            "serviceprovider": key
+                            "serviceProvider": key
                         });
                     }
                 }
@@ -1127,7 +1127,7 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
-                var columns = ["userName", "serviceprovider", "userStoreDomain", "rolesCommaSeperated"
+                var columns = ["userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
                     , "remoteIp", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -1213,7 +1213,7 @@
                 }
 
                 query = stringify({
-                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter, //search query, optional
                     scoreFunction: "authFirstSuccessCount", //score function
@@ -1230,7 +1230,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         dataPointsArray.push({
-                            "serviceprovider": key,
+                            "serviceProvider": key,
                             "authSuccessCount": obj[key]
                         });
                     }

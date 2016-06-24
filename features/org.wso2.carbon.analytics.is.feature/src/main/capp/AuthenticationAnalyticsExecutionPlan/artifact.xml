@@ -18,7 +18,7 @@
   ~
   -->
 
-<artifact name="AuthenticationAnalyticsExecutionPlan" version="1.0.0" type="event/execution-plan"
+<artifact name="IsAnalytics-ExecutionPlan-AuthenticationData" version="1.0.0" type="event/execution-plan"
           serverRole="ComplexEventProcessor">
-    <file>AuthenticationAnalytics.siddhiql</file>
+    <file>IsAnalytics-ExecutionPlan-AuthenticationData.siddhiql</file>
 </artifact>

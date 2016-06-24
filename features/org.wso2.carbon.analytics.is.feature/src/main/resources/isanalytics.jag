@@ -17,6 +17,8 @@
     var USER_TOKEN = "user";
     var TYPE = "type";
     var USERNAME = "username";
+    var TENANT_DOMAIN = "domain";
+    var CONST_AT = "@";
     var HTTP_INTERNAL_ERROR = 500;
     var HTTP_USER_NOT_AUTHENTICATED = 403;
 
@@ -64,7 +66,7 @@
     } else {
         var token = session.get(USER_TOKEN);
         if (token != null) {
-            loggedInUser = token[USERNAME];
+            loggedInUser = token[USERNAME] + CONST_AT + token[TENANT_DOMAIN];
         } else {
             log.error("user is not authenticated!");
             response.status = HTTP_USER_NOT_AUTHENTICATED;
@@ -345,7 +347,7 @@
 
                 if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
                     query = stringify({
-                        fieldName: "serviceprovider", //field which is indexed as a FACET
+                        fieldName: "serviceProvider", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
                         query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                                 idpTypeFilter + additionalParameters,
@@ -358,7 +360,7 @@
                 }
                 else {
                     query = stringify({
-                        fieldName: "serviceprovider", //field which is indexed as a FACET
+                        fieldName: "serviceProvider", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
                         query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                                 idpTypeFilter + additionalParameters,
@@ -379,7 +381,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         dataPointsArray.push({
-                            "serviceprovider": key,
+                            "serviceProvider": key,
                             "authSuccessCount": obj[key]
                         });
                     }
@@ -416,7 +418,7 @@
                 }
 
                 query = stringify({
-                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                             idpTypeFilter + additionalParameters,
@@ -435,7 +437,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         dataPointsArray.push({
-                            "serviceprovider": key,
+                            "serviceProvider": key,
                             "authFailiureCount": obj[key]
                         });
                     }
@@ -686,7 +688,7 @@
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
 
-                var columns = ["userName", "serviceprovider", "identityProvider", "rolesCommaSeperated"
+                var columns = ["userName", "serviceProvider", "identityProvider", "rolesCommaSeperated"
                     , "remoteIp", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -933,7 +935,7 @@
                 }
 
                 query = stringify({
-                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
                             idpTypeFilter + additionalParameters,
@@ -949,7 +951,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         result.push({
-                            "serviceprovider": key
+                            "serviceProvider": key
                         });
                     }
                 }
@@ -1125,7 +1127,7 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
-                var columns = ["userName", "serviceprovider", "userStoreDomain", "rolesCommaSeperated"
+                var columns = ["userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
                     , "remoteIp", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -1211,7 +1213,7 @@
                 }
 
                 query = stringify({
-                    fieldName: "serviceprovider", //field which is indexed as a FACET
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter, //search query, optional
                     scoreFunction: "authFirstSuccessCount", //score function
@@ -1228,7 +1230,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         dataPointsArray.push({
-                            "serviceprovider": key,
+                            "serviceProvider": key,
                             "authSuccessCount": obj[key]
                         });
                     }
@@ -1514,7 +1516,9 @@
                     timeUnit = "HOUR";
                 }
 
+                // querying for session change
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONSTATPER" + timeUnit;
+
 
                 query = stringify({
                     query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
@@ -1522,9 +1526,22 @@
                     count: length
                 });
 
-                resp = connector.search(loggedInUser, tableName, query);
+                var resp = connector.search(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var count = connector.searchCount(loggedInUser, tableName, query);
+
+                // querying for active session count
+                var tableNameActiveSessions = "IS-SESSION-ACTIVE-COUNT";
+
+                queryActiveSessions = stringify({
+                    query: "*:*",
+                    start: start,
+                    count: length
+                });
+
+                var respActiveCount = connector.search(loggedInUser, tableNameActiveSessions, queryActiveSessions);
+                var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
+                var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
@@ -1551,8 +1568,11 @@
                         });
                     }
                 }
+
                 result.push(data);
-                result.push(count);
+                result.push({
+                    "activeCount": activeCount
+                });
 
                 break;
             }

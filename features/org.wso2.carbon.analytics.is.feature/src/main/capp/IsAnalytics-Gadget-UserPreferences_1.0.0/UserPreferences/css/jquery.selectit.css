@@ -1,0 +1,55 @@
+﻿/*
+// jquery.selectit plugin v0.1 Alpha
+// Copyright (c) 2011 Chris Pietschmann (http://pietschsoft.com)
+// This work is licensed under a Creative Commons Attribution 3.0 United States License, unless explicitly stated otherwise within the posted content.
+// http://creativecommons.org/licenses/by/3.0/us/
+*/
+.selectit 
+{
+    background: #fff;
+    border: 1px solid #666;
+    cursor: text;
+    font-size: 14px;
+    margin: 2px 3px 16px 0;
+    padding: 3px;
+    width: 97%;
+    overflow: hidden;
+}
+.selectit span
+{
+    display: block;
+    float: left;
+    margin: 0 5px 2px 0;
+    position: relative;
+}
+
+.selectit .selectit-option
+{
+    color: #3e6d8e;
+    background-color: #DEE7F8;
+    border: 1px solid currentColor;
+    border-top-color: #DEE7F8;
+    border-left-color: #DEE7F8;
+    padding: 0 4px 3px 4px;
+}
+
+.selectit .selectit-new input 
+{
+    background: inherit;
+    border: none;
+    float: left;
+    margin: 0 5px 0 0;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    width: 97%;
+}
+
+.selectit a.selectit-close {
+    color: #ff5555;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 3px;
+    padding: 2px 0 2px 3px;
+    text-decoration: none;
+}

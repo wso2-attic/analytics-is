@@ -33,7 +33,7 @@
             "type": "STRING"
         },
         {
-            "name": "serviceprovider",
+            "name": "serviceProvider",
             "type": "STRING"
         },
         {
