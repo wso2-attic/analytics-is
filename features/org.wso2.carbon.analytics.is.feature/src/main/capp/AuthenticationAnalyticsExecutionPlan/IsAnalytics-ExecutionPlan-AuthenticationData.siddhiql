@@ -8,76 +8,76 @@
 
 
 @Import('org.wso2.is.analytics.stream.OverallAuthentication:1.0.0')
-define stream inStream (contextId string, eventId string, authenticationSuccess bool, userName string, userStoreDomain string, tenantDomain string, remoteIp string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeperated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+define stream InStream (contextId string, eventId string, authenticationSuccess bool, userName string, userStoreDomain string, tenantDomain string, remoteIp string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeperated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
 
 
 @Export('org.wso2.is.analytics.stream.SpAuthStatPerMinute:1.0.0')
-define stream perMinServiceProviderStream (year int, month int, day int, hour int, minute int, serviceProvider string, authSuccessCount long, authFailureCount long, authFirstSuccessCount long, facetStartTime string, identityProviderType string, _timestamp long);
+define stream PerMinServiceProviderStream (year int, month int, day int, hour int, minute int, serviceProvider string, authSuccessCount long, authFailureCount long, authFirstSuccessCount long, facetStartTime string, identityProviderType string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.AuthStatPerMinute:1.0.0')
-define stream perMinAuthenticationStatStream (year int, month int, day int, hour int, minute int, userName string, rolesCommaSeperated string, serviceProvider string, identityProvider string, remoteIp string, region string, userStoreDomain string, authSuccessCount long, authFailureCount long, authStepSuccessCount long,facetStartTime string, identityProviderType string, _timestamp long);
+define stream PerMinAuthenticationStatStream (year int, month int, day int, hour int, minute int, userName string, rolesCommaSeperated string, serviceProvider string, identityProvider string, remoteIp string, region string, userStoreDomain string, authSuccessCount long, authFailureCount long, authStepSuccessCount long,facetStartTime string, identityProviderType string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.UserRegionStatPerMinute:1.0.0')
-define stream perMinRegionStream (year int, month int, day int, hour int, minute int, remoteIp string, region string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string, _timestamp long);
+define stream PerMinRegionStream (year int, month int, day int, hour int, minute int, remoteIp string, region string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string, _timestamp long);
 
 
 @Export('org.wso2.is.analytics.stream.UserstoreAuthStatPerMinute:1.0.0')
-define stream perMinUserStoreStream (year int, month int, day int, hour int, minute int, userStoreDomain string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string, _timestamp long);
+define stream PerMinUserStoreStream (year int, month int, day int, hour int, minute int, userStoreDomain string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.RoleAuthStatPerMinute:1.0.0')
-define stream perMinRoleStream (year int, month int, day int, hour int, minute int, userName string, role string, serviceProvider string, identityProvider string, remoteIp string, region string,userStoreDomain string, authSuccessCount long, authFailureCount long,authStepSuccessCount long, facetStartTime string, identityProviderType string, _timestamp long);
+define stream PerMinRoleStream (year int, month int, day int, hour int, minute int, userName string, role string, serviceProvider string, identityProvider string, remoteIp string, region string,userStoreDomain string, authSuccessCount long, authFailureCount long,authStepSuccessCount long, facetStartTime string, identityProviderType string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.IdpAuthStatPerMinute:1.0.0')
-define stream perMinIdentityProviderStream (year int, month int, day int, hour int, minute int, identityProvider string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string, _timestamp long);
+define stream PerMinIdentityProviderStream (year int, month int, day int, hour int, minute int, identityProvider string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.UserAuthStatPerMinute:1.0.0')
-define stream perMinUserStream (year int, month int, day int, hour int, minute int, userName string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string,_timestamp long);
+define stream PerMinUserStream (year int, month int, day int, hour int, minute int, userName string, authSuccessCount long, authFailureCount long, facetStartTime string, identityProviderType string,_timestamp long);
 
 
-from inStream
+from InStream
 select eventId,userName,userStoreDomain, tenantDomain, remoteIp, "N/A" as region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse(authStepSuccess == false, 1, 0) as failureValue,ifThenElse(authStepSuccess == true, 1, 0) as stepSuccessValue,ifThenElse(authStepSuccess == true AND isFirstLogin == true, 1, 0) as firstLoginValue,identityProviderType,_timestamp
-insert into countStream;
+insert into CountStream;
 
 
-from countStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+from CountStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
 select *
-insert into authenticationStatStream;
+insert into AuthenticationStatStream;
 
-from authenticationStatStream#isAnalytics:duplicator(rolesCommaSeperated)
+from AuthenticationStatStream#isAnalytics:duplicator(rolesCommaSeperated)
 select _timestamp,userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain,successValue, failureValue,stepSuccessValue, identityProviderType,batchEndTime
-insert into countMaxDuplicatedTimestampStream;
+insert into CountMaxDuplicatedTimestampStream;
 
-from authenticationStatStream#window.isAnalytics:batch()
+from AuthenticationStatStream#window.isAnalytics:batch()
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,region,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,rolesCommaSeperated,serviceProvider,identityProvider,region,userStoreDomain,identityProviderType
-insert into perMinAuthenticationStatStream;
+insert into PerMinAuthenticationStatStream;
 
-from authenticationStatStream#window.isAnalytics:batch()
+from AuthenticationStatStream#window.isAnalytics:batch()
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,identityProviderType
-insert into perMinUserStream;
+insert into PerMinUserStream;
 
-from authenticationStatStream#window.isAnalytics:batch()
+from AuthenticationStatStream#window.isAnalytics:batch()
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,identityProvider,sum(stepSuccessValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by identityProvider,identityProviderType
-insert into perMinIdentityProviderStream;
+insert into PerMinIdentityProviderStream;
 
-from authenticationStatStream#window.isAnalytics:batch()
+from AuthenticationStatStream#window.isAnalytics:batch()
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userStoreDomain,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userStoreDomain,identityProviderType
-insert into perMinUserStoreStream;
+insert into PerMinUserStoreStream;
 
-from countMaxDuplicatedTimestampStream#window.isAnalytics:batch()
+from CountMaxDuplicatedTimestampStream#window.isAnalytics:batch()
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,role,serviceProvider,identityProvider,region,userStoreDomain,identityProviderType
-insert into perMinRoleStream;
+insert into PerMinRoleStream;
 
-from authenticationStatStream#window.isAnalytics:batch()
+from AuthenticationStatStream#window.isAnalytics:batch()
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,serviceProvider,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(firstLoginValue) as  authFirstSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime,identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by serviceProvider,identityProviderType
-insert into perMinServiceProviderStream;
+insert into PerMinServiceProviderStream;
 
-from authenticationStatStream#window.isAnalytics:batch()
+from AuthenticationStatStream#window.isAnalytics:batch()
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,remoteIp,region,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by region,identityProviderType
-insert into perMinRegionStream;
+insert into PerMinRegionStream;

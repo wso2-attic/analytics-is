@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <artifact name="SessionAnalyticsConfigEventReceiver" version="1.0.0" type="event/receiver" serverRole="DataAnalyticsServer">
-    <file>is_session_analytics_config_receiver.xml</file>
+    <file>IsAnalytics-Receiver-wso2event-SessionData.xml</file>
 </artifact>

@@ -147,7 +147,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
                    AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException {
 
         Thread.sleep(25000);
-        analyticsStub.executeScriptInBackground("is_stat_analytics");
+        analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-AuthenticationData");
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
         fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));

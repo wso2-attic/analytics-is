@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <artifact name="SessionStatSparkscripts" version="1.0.0" type="analytics/spark" serverRole="DataAnalyticsServer">
-    <file>is_session_stat_analytics.xml</file>
+    <file>IsAnalytics-SparkScript-SessionData.xml</file>
 </artifact>

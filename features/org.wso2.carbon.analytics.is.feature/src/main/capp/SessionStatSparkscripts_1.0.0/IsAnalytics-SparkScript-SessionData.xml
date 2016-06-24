@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Analytics>
-    <Name>is_session_stat_analytics</Name>
+    <Name>IsAnalytics-SparkScript-SessionData</Name>
     <Script>
         CREATE TEMPORARY TABLE rawSessionData USING CarbonAnalytics OPTIONS (tableName "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLSESSION",schema "sessionId STRING, action INT, userName STRING, tenantDomain STRING,_timestamp LONG" );
 

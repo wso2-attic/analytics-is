@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Analytics>
-    <Name>is_stat_analytics</Name>
+    <Name>IsAnalytics-SparkScript-AuthenticationData</Name>
     <Script>
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerMinute",
