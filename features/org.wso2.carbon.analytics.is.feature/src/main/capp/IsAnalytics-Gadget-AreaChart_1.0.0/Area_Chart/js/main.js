@@ -316,6 +316,13 @@ function loadStats(data){
 }
 
 function loadMap(data) {
+
+    if(data.message.length == 0) {
+        $("#chkMap").attr("disabled", true);
+    } else {
+        $("#chkMap").attr("disabled", false);
+    }
+
     var successData = [];
     var failedData = [];
 
