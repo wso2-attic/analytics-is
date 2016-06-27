@@ -901,6 +901,120 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         }
     }
 
+    @Test(groups = "wso2.analytics.is", description = "Check max succeeded identity providers - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveMaxAuthSuccessIdentityProvidersFromPerMonthTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPERMONTH");
+        categoryDrillDownRequest.setFieldName("identityProvider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND identityProviderType:\"FEDERATED\"");
+        categoryDrillDownRequest.setScoreFunction("authSuccessCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 4) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 4; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Google", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 3768.0, "======= Invalid score received for identity provider Google ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "WSO2IS", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 1550.0, "======= Invalid score received for identity provider WSO2IS ==== ");
+                } else if (i == 2) {
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getCategoryValue(), "Yahoo", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 1540.0, "======= Invalid score received for identity provider Yahoo ==== ");
+                } else if (i == 3) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Facebook", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 1523.0, "======= Invalid score received for identity provider Facebook ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of identity providers received ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check max failed identity providers - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveMaxAuthFailedIdentityProvidersFromPerMinTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPERMINUTE");
+        categoryDrillDownRequest.setFieldName("identityProvider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND identityProviderType:\"FEDERATED\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 4) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 4; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Google", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 1242.0, "======= Invalid score received for identity provider Google ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Facebook", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 542.0, "======= Invalid score received for identity provider Facebook ==== ");
+                } else if (i == 2) {
+                    Assert.assertTrue((categorySearchResultEntryArray[i]).getCategoryValue().equals("WSO2IS") || (categorySearchResultEntryArray[i]).getCategoryValue().equals("Yahoo"), "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 505.0, "======= Invalid score received for identity provider Yahoo ==== ");
+                } else if (i == 3) {
+                    Assert.assertTrue((categorySearchResultEntryArray[i]).getCategoryValue().equals("WSO2IS") || (categorySearchResultEntryArray[i]).getCategoryValue().equals("Yahoo"), "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 505.0, "======= Invalid score received for identity provider WSO2IS ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of identity providers received ============================");
+        }
+    }
+
+    @Test(groups = "wso2.analytics.is", description = "Check max failed identity providers - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
+    public void retrieveMaxAuthFailedIdentityProvidersFromPerMonthTest()
+            throws AnalyticsServiceException, AnalyticsException, RemoteException,
+            AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
+
+        CategoryDrillDownRequest categoryDrillDownRequest = new CategoryDrillDownRequest();
+        categoryDrillDownRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPERMONTH");
+        categoryDrillDownRequest.setFieldName("identityProvider");
+        categoryDrillDownRequest.setPath(new String[]{});
+        categoryDrillDownRequest.setQuery("_timestamp : [1339093800000 TO 1465324200000] AND identityProviderType:\"FEDERATED\"");
+        categoryDrillDownRequest.setScoreFunction("authFailureCount");
+        categoryDrillDownRequest.setStart(0);
+        categoryDrillDownRequest.setCount(10);
+
+        SubCategories subCategories = analyticsDataAPI.drillDownCategories(-1234, categoryDrillDownRequest);
+
+        if (subCategories.getCategories().size() == 4) {
+            CategorySearchResultEntry[] categorySearchResultEntryArray = subCategories.getCategories().toArray(new CategorySearchResultEntry[subCategories.getCategories().size()]);
+            for (int i = 0; i < 4; i++) {
+                if (i == 0) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Google", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 1242.0, "======= Invalid score received for identity provider Google ==== ");
+                } else if (i == 1) {
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getCategoryValue(), "Facebook", "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals(( categorySearchResultEntryArray[i]).getScore(), 542.0, "======= Invalid score received for identity provider Facebook ==== ");
+                } else if (i == 2) {
+                    Assert.assertTrue((categorySearchResultEntryArray[i]).getCategoryValue().equals("WSO2IS") || (categorySearchResultEntryArray[i]).getCategoryValue().equals("Yahoo"), "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 505.0, "======= Invalid score received for identity provider Yahoo ==== ");
+                } else if (i == 3) {
+                    Assert.assertTrue((categorySearchResultEntryArray[i]).getCategoryValue().equals("WSO2IS") || (categorySearchResultEntryArray[i]).getCategoryValue().equals("Yahoo"), "======= Invalid identity provider received ==== ");
+                    Assert.assertEquals((categorySearchResultEntryArray[i]).getScore(), 505.0, "======= Invalid score received for identity provider WSO2IS ==== ");
+                }
+            }
+        } else {
+            Assert.fail("================ Invalid no of identity providers received ============================");
+        }
+    }
+
     //================================= Get max service provider first login =================================================================================
 
     @Test(groups = "wso2.analytics.is", description = "Check max service provider first login - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
