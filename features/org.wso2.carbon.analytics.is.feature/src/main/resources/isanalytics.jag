@@ -48,6 +48,8 @@
     var TYPE_SESSION_USERNAME_LIST = 24;
     var TYPE_PER_USER_REGION = 25;
     var TYPE_SESSION_CHANGE_OVER_TIME = 26;
+    var TYPE_TOP_LONGEST_SESSIONS_NEW = 27;
+    var TYPE_SESSION_COUNT_OVER_TIME_NEW = 28;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -1335,6 +1337,48 @@
                 result.push(count);
                 break;
             }
+            case TYPE_TOP_LONGEST_SESSIONS_NEW:
+            {
+                result = [];
+                var data = [];
+                dataPointsArray = [];
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+
+                query = stringify({
+                    fieldName: "sessionId", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "((startTimestamp : [" + timeFrom + " TO " + timeTo + "] OR startTimestamp : [" + 0 + " TO " + timeFrom + "]) AND (endTimestamp : [" + timeFrom + " TO " + timeTo + "] OR endTimestamp : [" + timeTo + " TO " + 1473641368431 + "] OR isActive:1))",
+                    scoreFunction: "duration", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
+                var categoryCount = dataPoints.categoryCount;
+
+
+                //TODO : Get the session ID lists and retreive records - getRecordsByIds
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        dataPointsArray.push({
+                            "sessionId": key,
+                            "duration": obj[key]
+                        });
+                    }
+                }
+
+                result.push(dataPointsArray);
+                result.push(categoryCount);
+                break;
+            }
             case TYPE_AVERAGE_SESSION_DURATION:
             {
                 result = [];
@@ -1466,6 +1510,78 @@
 
                 result.push(data);
                 result.push(labels.length);
+                break;
+            }
+            case TYPE_SESSION_COUNT_OVER_TIME_NEW:
+            {
+                result = [];
+                var data = [];
+                dataPointsArray = [];
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("count"));
+
+                if (timeUnit == "SECOND" || timeUnit == "MINUTE") {
+                    timeUnit = "HOUR";
+                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
+                    timeUnit = "DAY";
+                }
+
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+
+                var labels = ["< 15 mins", "< 1 hr", "< 12 hrs", "< 24 hrs", "> 24 hrs"];
+
+                query = stringify({
+                    tableName: tableName,
+                    rangeField: "duration",
+                    "ranges":[
+                        {
+                            "label":"< 15 mins",
+                            "from":0,
+                            "to":900000
+                        },
+                        {
+                            "label":"< 1 hr",
+                            "from":900001,
+                            "to":3600000
+                        },
+                        {
+                            "label":"< 12 hrs",
+                            "from":3600000,
+                            "to":43200000
+                        },
+                        {
+                            "label":"< 24 hrs",
+                            "from":43200001,
+                            "to":86400000
+                        },
+                        {
+                            "label":"> 24 hrs",
+                            "from":86400000,
+                            "to":9223372036854775807
+                        }
+                    ],
+                    query: "((startTimestamp : [" + timeFrom + " TO " + timeTo + "] OR startTimestamp : [" + 0 + " TO " + timeFrom + "]) AND (endTimestamp : [" + timeFrom + " TO " + timeTo + "] OR endTimestamp : [" + timeTo + " TO " + 1473641368431 + "] OR isActive:1))",
+                });
+
+                resp = connector.drillDownRangeCount(loggedInUser, tableName, query);
+
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
+                var categoryCount = dataPoints.categoryCount;
+
+
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        dataPointsArray.push({
+                            "duration": key,
+                            "sessionCount": obj[key]
+                        });
+                    }
+                }
+
+                result.push(dataPointsArray);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_SESSION_USERNAME_LIST:
