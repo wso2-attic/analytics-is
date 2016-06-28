@@ -93,13 +93,15 @@ $(function() {
 
     if(page == TYPE_RESIDENT_IDP) {
         idpTypeFilter = " AND identityProviderType:\"LOCAL\"";
-    } else {
+    } else if(page == TYPE_LANDING) {
         idpTypeFilter = " AND identityProviderType:\"FEDERATED\"";
 
         var instanceType = chartSuccess.mode;
         if(instanceType == "IDENTITYPROVIDER"){
             $( ".residentIdp").append( "<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>" );
         }
+    } else if(page == TYPE_SESSIONS) {
+        $('#autocomplete-search-box').hide();
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -407,7 +409,6 @@ function successOnData(response) {
         } else {
             $(".failureChart").remove();
             $('#canvasSuccess').css({"height":"80%"});
-            $('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 
         }
