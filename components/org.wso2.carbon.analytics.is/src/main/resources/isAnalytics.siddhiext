@@ -22,3 +22,5 @@ ipToCity=org.wso2.carbon.analytics.is.siddhi.extension.IpToCityExtension
 duplicator=org.wso2.carbon.analytics.is.siddhi.extension.EventDuplicateStreamProcessor
 getMinuteStartingTime=org.wso2.carbon.analytics.is.siddhi.extension.MinuteStartingTimeFunctionExtension
 batch=org.wso2.carbon.analytics.is.siddhi.extension.BatchWindowProcessor
+getSecondStartingTime=org.wso2.carbon.analytics.is.siddhi.extension.SecondStartingTimeFunctionExtension
+
