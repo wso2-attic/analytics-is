@@ -318,9 +318,9 @@ function loadStats(data){
 function loadMap(data) {
 
     if(data.message.length == 0) {
-        $("#chkMap").attr("disabled", true);
+        $(".text-center").hide();
     } else {
-        $("#chkMap").attr("disabled", false);
+        $(".text-center").show();
     }
 
     var successData = [];
