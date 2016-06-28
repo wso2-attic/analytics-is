@@ -186,15 +186,6 @@
                 <exclude>**/*</exclude>
             </excludes>
         </fileSet>
-
-        <!--Storm Jar-->
-        <fileSet>
-            <directory>repository/conf/cep/storm</directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/cep/storm</outputDirectory>
-            <includes>
-                <include>org.wso2.cep.storm.dependencies.jar</include>
-            </includes>
-        </fileSet>
         
         <!-- Some war files related to CEP websockets -->
         <fileSet>
@@ -284,6 +275,11 @@
             <includes>
                 <include>**/*.sql</include>
             </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>../samples/</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/samples/</outputDirectory>
         </fileSet>
 
 
@@ -701,17 +697,6 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/bin/</outputDirectory>
         </file>
 
-
-        <!-- CEP -->
-
-        <file>
-            <source>
-                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/cep/storm/storm.yaml
-            </source>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/cep/storm/
-            </outputDirectory>
-            <filtered>true</filtered>
-        </file>
 
         <!-- Including rdbms configuration file for event simulator -->
         <file>
