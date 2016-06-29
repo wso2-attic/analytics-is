@@ -105,6 +105,42 @@ $(function() {
                 }
             }
         });
+    } else if(page.name == TYPE_SESSIONS) {
+        oTable = $('#tblMessages').DataTable({
+            dom: '<"dataTablesTop"' +
+                'f' +
+                '<"dataTables_toolbar">' +
+                '>' +
+                'rt' +
+                '<"dataTablesBottom"' +
+                'lip' +
+                '>',
+            "processing": true,
+            "serverSide": true,
+            "searching": false,
+            "columns" : [
+                { title: "Session ID" },
+                { title: "Start Time" },
+                { title: "Renew Time" },
+                { title: "Termination Time" },
+                { title: "Action" },
+                { title: "Username" },
+                { title: "Userstore Domain" },
+                { title: "IP" },
+                { title: "Tenant Domain" },
+                { title: "Remember Me Flag" },
+                { title: "Timestamp" }
+
+            ],
+            "ajax": {
+                "url" : CONTEXT,
+                "data" : function (d) {
+                    d.type = page.type;
+                    d.timeFrom = parseInt(listnedTimeFromValue);
+                    d.timeTo = parseInt(listnedTimeToValue);
+                }
+            }
+        });
     }
 
 
