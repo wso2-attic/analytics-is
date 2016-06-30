@@ -40,7 +40,7 @@
                     <input type="button" id="back" value="" title="Previous Time Range"/>
                 </div>
                 <div class="col-2 stats-total add-padding-top-5x">
-                    <h2 style="text-align: center;"><b>Total</b> login attempts <span id="title"></span></h2>
+                    <h4 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h4>
                     <h1 id="totalCount" style="text-align: center;"></h1>
                     <div id="donutDiv"></div>
                 </div>
