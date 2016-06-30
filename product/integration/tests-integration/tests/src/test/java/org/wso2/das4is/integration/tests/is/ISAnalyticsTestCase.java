@@ -83,7 +83,7 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
         serverManager.applyConfigurationWithoutRestart(sourceFile, targetFile, true);
         serverManager.restartGracefully();
         Thread.sleep(150000);
-        dataPublisherClient = new DataPublisherClient("tcp://localhost:8311");
+        dataPublisherClient = new DataPublisherClient("tcp://localhost:9411");
         String apiConf = new File(analyticsDataConfigLocation).getAbsolutePath();
         analyticsDataAPI = new CarbonAnalyticsAPI(apiConf);
         initAnalyticsProcessorStub();
