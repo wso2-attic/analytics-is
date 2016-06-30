@@ -87,37 +87,78 @@ insert into perSecondRegionStream;
 
 -- Per Minute ---------------
 
-from perSecondAuthenticationStatStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+from perSecondAuthenticationStatStream
+select str:concat(facetStartTime, '_' , userName, '_', rolesCommaSeperated, '_', serviceProvider, '_', identityProvider, '_', remoteIp , '_' , userStoreDomain , '_' , identityProviderType) as uniqueId, year, month, day, hour, minute, userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, authSuccessCount, authFailureCount, authStepSuccessCount, facetStartTime, identityProviderType, _timestamp
+insert into perSecondAuthenticationStatStreamWithUniqueId;
+
+from perSecondAuthenticationStatStreamWithUniqueId#uniqueExternalTimeBatch(uniqueId, _timestamp, 60 sec, 59999 millisec, 10 sec)
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,region,userStoreDomain,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount,sum(authStepSuccessCount) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,userStoreDomain,identityProviderType
 insert into PerMinAuthenticationStatStream;
 
-from perSecondUserStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+---------
+
+from perSecondUserStream
+select str:concat(facetStartTime, '_' , userName, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, userName, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp
+insert into perSecondUserStreamWithUniqueId;
+
+from perSecondUserStreamWithUniqueId#uniqueExternalTimeBatch(uniqueId, _timestamp, 60 sec, 59999 millisec, 10 sec)
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,identityProviderType
 insert into PerMinUserStream;
 
-from perSecondIdentityProviderStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+----------
+
+from perSecondIdentityProviderStream
+select str:concat(facetStartTime, '_' , identityProvider, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,identityProvider, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp
+insert into perSecondIdentityProviderStreamWithUniqueId;
+
+from perSecondIdentityProviderStreamWithUniqueId#uniqueExternalTimeBatch(uniqueId, _timestamp, 60 sec, 59999 millisec, 10 sec)
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,identityProvider,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by identityProvider,identityProviderType
 insert into PerMinIdentityProviderStream;
 
-from perSecondUserStoreStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+------------
+
+from perSecondUserStoreStream
+select str:concat(facetStartTime, '_' , userStoreDomain, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,userStoreDomain, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp
+insert into perSecondUserStoreStreamWithUniqueId;
+
+
+from perSecondUserStoreStreamWithUniqueId#uniqueExternalTimeBatch(uniqueId, _timestamp, 60 sec, 59999 millisec, 10 sec)
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userStoreDomain,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userStoreDomain,identityProviderType
 insert into PerMinUserStoreStream;
 
-from perSecondRoleStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+-------------
+
+from perSecondRoleStream
+select str:concat(facetStartTime, '_' , userName, '_', role, '_', serviceProvider, '_', identityProvider, '_', remoteIp , '_', userStoreDomain, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, authSuccessCount, authFailureCount, authStepSuccessCount, facetStartTime, identityProviderType, _timestamp
+insert into perSecondRoleStreamWithUniqueId;
+
+from perSecondRoleStreamWithUniqueId#uniqueExternalTimeBatch(uniqueId, _timestamp, 60 sec, 59999 millisec, 10 sec)
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount,sum(authStepSuccessCount) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by userName,role,serviceProvider,identityProvider,remoteIp,userStoreDomain,identityProviderType
 insert into PerMinRoleStream;
 
-from perSecondserviceProviderStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+--------------
+
+from perSecondserviceProviderStream
+select str:concat(facetStartTime, '_' , serviceProvider, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, serviceProvider, authSuccessCount, authFailureCount, authFirstSuccessCount, facetStartTime,identityProviderType, _timestamp
+insert into perSecondserviceProviderStreamWithUniqueId;
+
+from perSecondserviceProviderStreamWithUniqueId#uniqueExternalTimeBatch(uniqueId, _timestamp, 60 sec, 59999 millisec, 10 sec)
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,serviceProvider,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount,sum(authFirstSuccessCount) as  authFirstSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime,identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by serviceProvider,identityProviderType
 insert into PerMinserviceProviderStream;
 
-from perSecondRegionStream#externalTimeBatch(_timestamp, 1 min, 0, 10 sec)
+---------------
+
+from perSecondRegionStream
+select str:concat(facetStartTime, '_' , remoteIp, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, remoteIp,region, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp
+insert into perSecondRegionStreamWithUniqueId;
+
+from perSecondRegionStreamWithUniqueId#uniqueExternalTimeBatch(uniqueId, _timestamp, 60 sec, 59999 millisec, 10 sec)
 select time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,remoteIp,region,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by remoteIp,identityProviderType
 insert into PerMinRegionStream;
