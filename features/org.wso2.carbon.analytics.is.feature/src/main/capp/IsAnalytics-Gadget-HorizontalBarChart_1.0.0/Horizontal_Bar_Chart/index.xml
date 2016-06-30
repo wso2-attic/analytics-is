@@ -41,26 +41,30 @@
             </head>
             <body class="bkWrapColor">
                 <div class="row no-gutter">
-                <div class="successChart">
-                    <div id="canvasSuccess" style="width:400px"></div>
-                    <div id="idSuccessPaginate"></div>
-                </div>
 
-                <div class="failureChart">
-                    <div id="canvasFailure" style="width:400px"></div>
-                    <div id="idFailurePaginate"></div>
-                </div>
+                    <div class="switchSP">
 
-                <span id="autocomplete-search-box">
-                    <input class="typeahead" type="text" placeholder="Search..">
-                    <div id="button-group">
-                    <input type="button" id="remove-filter" value="X"/>
-                    <input type="button" id="add-filter" value="Add Filter"/>
                     </div>
-                </span>
+                    <div class="successChart">
+                        <div id="canvasSuccess" style="width:400px"></div>
+                        <div id="idSuccessPaginate"></div>
+                    </div>
 
-                <div class="residentIdp">
-                </div>
+                    <div class="failureChart">
+                        <div id="canvasFailure" style="width:400px"></div>
+                        <div id="idFailurePaginate"></div>
+                    </div>
+
+                    <span id="autocomplete-search-box">
+                        <input class="typeahead" type="text" placeholder="Search..">
+                        <div id="button-group">
+                        <input type="button" id="remove-filter" value="X"/>
+                        <input type="button" id="add-filter" value="Add Filter"/>
+                        </div>
+                    </span>
+
+                    <div class="residentIdp">
+                    </div>
                  </div>
             </body>
         ]]>
