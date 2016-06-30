@@ -317,7 +317,8 @@ var charts = [{
             "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 16, filter:13 }
+            { name: TYPE_LANDING, type: 16, filter:13 },
+            { name: TYPE_RESIDENT_IDP, type: 16, filter:13 }
         ],
         mode: "FIRST_TIME_SERVICEPROVIDER",
         isSelected: false,

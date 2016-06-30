@@ -24,7 +24,6 @@ var page = gadgetUtil.getCurrentPageName();
 var prefs = new gadgets.Prefs();
 var chartSuccess = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE)+"SuccessCount");
 var chartFailure = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE)+"FailureCount");
-var chartSPFirstLogin;
 
 if (chartSuccess && chartFailure) {
     functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
@@ -413,7 +412,7 @@ function successOnData(response) {
             }, failureOnData, failureOnError);
         } else {
             $("#canvasFailure").css({"display":"none"});
-            $('#canvasSuccess').css({"height":"65%"});
+            $('#canvasSuccess').css({"height":"70%"});
             //$('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 
@@ -792,6 +791,7 @@ function onSPChange(){
 
         $("#spLableId").val("Show Service Provider");
         chartSuccess = gadgetUtil.getChart("serviceProviderAuthenticationFirstLoginSuccessCount");
+        console.log(chartSuccess);
         functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
         filterType = gadgetUtil.getFilterType(page, chartSuccess);
         chartFailure = null;
