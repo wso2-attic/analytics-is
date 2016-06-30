@@ -24,6 +24,7 @@ var page = gadgetUtil.getCurrentPageName();
 var prefs = new gadgets.Prefs();
 var chartSuccess = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE)+"SuccessCount");
 var chartFailure = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE)+"FailureCount");
+var chartSPFirstLogin;
 
 if (chartSuccess && chartFailure) {
     functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
@@ -91,17 +92,19 @@ $(function() {
 
     $( ".residentIdp").empty();
 
+    var instanceType = chartSuccess.mode;
+
     if(page == TYPE_RESIDENT_IDP) {
         idpTypeFilter = " AND identityProviderType:\"LOCAL\"";
-    } else if(page == TYPE_LANDING) {
+    } else {
         idpTypeFilter = " AND identityProviderType:\"FEDERATED\"";
-
-        var instanceType = chartSuccess.mode;
         if(instanceType == "IDENTITYPROVIDER"){
             $( ".residentIdp").append( "<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>" );
         }
-    } else if(page == TYPE_SESSIONS) {
-        $('#autocomplete-search-box').hide();
+    }
+
+    if(instanceType == "SERVICEPROVIDER"){
+        $( ".switchSP").append( "<input type='button' id='spLableId' style='float: right;' value='Show First Login Success' onclick='onSPChange()'>" );
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -407,8 +410,9 @@ function successOnData(response) {
                 count: 10
             }, failureOnData, failureOnError);
         } else {
-            $(".failureChart").remove();
-            $('#canvasSuccess').css({"height":"80%"});
+            $("#canvasFailure").css({"display":"none"});
+            $('#canvasSuccess').css({"height":"65%"});
+            //$('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 
         }
@@ -778,6 +782,32 @@ function refreshChart(chartObj){
         $("#canvasFailure").empty();
         vg.draw("#canvasFailure",[{type:"click", callback:typeFailureCallbackmethod}]);
     }
+}
 
+function onSPChange(){
 
+    if($("#spLableId").val() == "Show First Login Success"){
+
+        $("#spLableId").val("Show Service Provider");
+        chartSuccess = gadgetUtil.getChart("serviceProviderAuthenticationFirstLoginSuccessCount");
+        functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
+        filterType = gadgetUtil.getFilterType(page, chartSuccess);
+        chartFailure = null;
+        $("#canvasSuccess").empty();
+        $("#canvasFailure").empty();
+        $(window.parent.document).find(".gadget-heading h1:contains('Top Service Providers')").text("TOP SERVICE PROVIDER FIRST LOGIN");
+        onChange();
+    }else{
+        $("#spLableId").val("Show First Login Success");
+        chartSuccess = gadgetUtil.getChart("serviceProviderAuthenticationSuccessCount");
+        chartFailure = gadgetUtil.getChart("serviceProviderAuthenticationFailureCount");
+        functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
+        functionTypeFailure = gadgetUtil.getRequestType(page, chartFailure);
+        filterType = gadgetUtil.getFilterType(page, chartSuccess);
+        $("#canvasSuccess").empty();
+        $("#canvasFailure").empty();
+        $("#canvasFailure").css({"display":"block"});
+        $(window.parent.document).find(".gadget-heading h1:contains('TOP SERVICE PROVIDER FIRST LOGIN')").text("TOP SERVICE PROVIDERS");
+        onChange();
+    }
 }

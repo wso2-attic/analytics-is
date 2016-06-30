@@ -50,7 +50,6 @@
     var TYPE_SESSION_CHANGE_OVER_TIME = 26;
     var TYPE_TOP_LONGEST_SESSIONS_NEW = 27;
     var TYPE_SESSION_COUNT_OVER_TIME_NEW = 28;
-    var TYPE_SESSION_DATA_TABLE = 29;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -1693,62 +1692,6 @@
 
                 break;
             }
-            case TYPE_SESSION_DATA_TABLE:
-            {
-
-                var columns = ["sessionId", "startTimestamp", "renewTimestamp", "terminationTimestamp", "action", "userName", 
-                                "userstoreDomain", "IP", "tenantDomain", "rememberMeFlag", "_timestamp"];
-                var result = {};
-                var data = [];
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("length"));
-                var draw = request.getParameter("draw");
-
-                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
-                var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLSESSION";
-                
-                var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]",
-                    "start": start,
-                    "count": length
-                });
-
-                var resp = connector.search(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
-
-                var count = connector.searchCount(loggedInUser, tableName, query);
-                var limit = count.getMessage();
-
-                for (i = 0; i < dataPoints.length; i++) {
-                    var temp = [];
-
-                    for (j = 0; j < columns.length; j++) {
-                        var column = columns[j];
-                        if (dataPoints[i] != null) {
-                            if (column == "_timestamp") {
-                                var value = dataPoints[i]["timestamp"];
-                                var date = new Date(value);
-                                temp.push(date.toLocaleString());
-                            } else {
-                                var value = dataPoints[i]["values"][column];
-                                temp.push(value);
-                            }
-                        }
-                    }
-                    data.push(temp);
-                }
-
-                result["draw"] = draw;
-                result["data"] = data;
-
-                if (dataPoints.length < length) {
-                    limit = start + length;
-                }
-                result["recordsFiltered"] = limit;
-                result["recordsTotal"] = limit;
-                break;
-            }            
             default:
             {
                 result = '{ "status": "Failed", "message": "Unidentified operation" }';
@@ -1760,7 +1703,7 @@
                 log.debug("value of result: " + result);
             }
             var finalResult;
-            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP || TYPE_SESSION_DATA_TABLE) {
+            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP) {
                 finalResult = result;
             } else {
                 finalResult = {
