@@ -797,7 +797,7 @@ function onSPChange(){
         chartFailure = null;
         $("#canvasSuccess").empty();
         $("#canvasFailure").empty();
-        $(window.parent.document).find(".gadget-heading h1:contains('Top Service Providers')").text("TOP SERVICE PROVIDER FIRST LOGIN");
+        $(window.parent.document).find(".gadget-heading h1:contains('Top Service Providers'),h1:contains('TOP SERVICE PROVIDERS')").text("TOP SERVICE PROVIDER FIRST LOGIN");
         onChange();
     }else{
         $("#spLableId").val("Show First Login Success");
