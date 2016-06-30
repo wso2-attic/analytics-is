@@ -96,11 +96,13 @@ $(function() {
 
     if(page == TYPE_RESIDENT_IDP) {
         idpTypeFilter = " AND identityProviderType:\"LOCAL\"";
-    } else {
+    } else if(page == TYPE_LANDING) {
         idpTypeFilter = " AND identityProviderType:\"FEDERATED\"";
         if(instanceType == "IDENTITYPROVIDER"){
             $( ".residentIdp").append( "<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>" );
         }
+    }  else if(page == TYPE_SESSIONS) {
+        $('#autocomplete-search-box').hide();
     }
 
     if(instanceType == "SERVICEPROVIDER"){
