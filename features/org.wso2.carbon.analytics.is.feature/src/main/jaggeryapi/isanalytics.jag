@@ -48,8 +48,6 @@
     var TYPE_SESSION_USERNAME_LIST = 24;
     var TYPE_PER_USER_REGION = 25;
     var TYPE_SESSION_CHANGE_OVER_TIME = 26;
-    var TYPE_TOP_LONGEST_SESSIONS_NEW = 27;
-    var TYPE_SESSION_COUNT_OVER_TIME_NEW = 28;
     var TYPE_SESSION_DATA_TABLE = 29;
 
     if (configs.cacheTimeoutSeconds) {
@@ -1289,30 +1287,46 @@
                 break;
             }
 
-
             case TYPE_TOP_LONGEST_SESSIONS:
             {
                 result = [];
                 var data = [];
-                dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                if (timeUnit == "SECOND" || timeUnit == "MINUTE") {
-                    timeUnit = "HOUR";
-                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "DAY";
-                }
-
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+                var timeNow = new Date().getTime();
 
                 query = stringify({
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    fieldName: "sessionId", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)",
+                    scoreFunction: "duration", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var obj = dataPoints.categories;
+
+                var sessionIds = [];
+                var queryString = "";
+                for (var key in obj) {
+                    sessionIds.push(key);
+                    if(queryString.length != 0) {
+                        queryString += " OR ";
+                    }
+                    queryString += "sessionId:" + key;
+                }
+
+                query = stringify({
+                    query: queryString,
                     start: start,
                     count: length,
                     "sortBy": [
                         {
-                            "field": "longestSession",
+                            "field": "duration",
                             "sortType": "DESC"
                         }
                     ]
@@ -1327,7 +1341,7 @@
                     if (dataPoints[i] != null) {
                         var index = start + i + 1;
                         var username = dataPoints[i]["values"]["userName"];
-                        var duration = dataPoints[i]["values"]["longestSession"];
+                        var duration = dataPoints[i]["values"]["duration"];
                         data.push({
                             "username": username + " " + index,
                             "duration": duration / 1000
@@ -1336,48 +1350,6 @@
                 }
                 result.push(data);
                 result.push(count);
-                break;
-            }
-            case TYPE_TOP_LONGEST_SESSIONS_NEW:
-            {
-                result = [];
-                var data = [];
-                dataPointsArray = [];
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("count"));
-
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
-
-                query = stringify({
-                    fieldName: "sessionId", //field which is indexed as a FACET
-                    categoryPath: [], //Path being drilled down, optional
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + 1473641368431 + "] OR isActive:true)",
-                    scoreFunction: "duration", //score function
-                    start: start,
-                    count: length
-                });
-
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
-
-                var dataPoints = JSON.parse(resp.getMessage());
-
-                var obj = dataPoints.categories;
-                var categoryCount = dataPoints.categoryCount;
-
-
-                //TODO : Get the session ID lists and retreive records - getRecordsByIds
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        dataPointsArray.push({
-                            "sessionId": key,
-                            "duration": obj[key]
-                        });
-                    }
-                }
-
-                result.push(dataPointsArray);
-                result.push(categoryCount);
                 break;
             }
             case TYPE_AVERAGE_SESSION_DURATION:
@@ -1445,78 +1417,6 @@
             case TYPE_SESSION_COUNT_OVER_TIME:
             {
                 result = [];
-                var data = [];
-                dataPointsArray = [];
-                var start = parseInt(request.getParameter("start"));
-                var length = parseInt(request.getParameter("count"));
-
-                if (timeUnit == "SECOND" || timeUnit == "MINUTE") {
-                    timeUnit = "HOUR";
-                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "DAY";
-                }
-
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONCOUNTAGGREGATEPER" + timeUnit;
-
-                var labels = ["< 15 mins", "< 1 hr", "< 12 hrs", "< 24 hrs", "> 24 hrs"];
-
-                query = stringify({
-                    tableName: tableName,
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
-                    aggregateFields: [
-                        {
-                            fields: ["durationLT15mins"],
-                            aggregate: "SUM",
-                            alias: "durationLT15mins"
-                        },
-                        {
-                            fields: ["durationGT15minsLT1hr"],
-                            aggregate: "SUM",
-                            alias: "durationGT15minsLT1hr"
-                        },
-                        {
-                            fields: ["durationGT1hrLT12hrs"],
-                            aggregate: "SUM",
-                            alias: "durationGT1hrLT12hrs"
-                        },
-                        {
-                            fields: ["durationGT12hrsLT24hrs"],
-                            aggregate: "SUM",
-                            alias: "durationGT12hrsLT24hrs"
-                        },
-                        {
-                            fields: ["durationGT24hrs"],
-                            aggregate: "SUM",
-                            alias: "durationGT24hrs"
-                        }
-                    ],
-                    noOfRecords: 100000
-                });
-
-                resp = connector.searchWithAggregates(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
-
-                dataPointsArray.push(dataPoints[0].values.durationLT15mins);
-                dataPointsArray.push(dataPoints[0].values.durationGT15minsLT1hr);
-                dataPointsArray.push(dataPoints[0].values.durationGT1hrLT12hrs);
-                dataPointsArray.push(dataPoints[0].values.durationGT12hrsLT24hrs);
-                dataPointsArray.push(dataPoints[0].values.durationGT24hrs);
-
-                for (var i = 0; i < labels.length; i++) {
-                    data.push({
-                        "duration": labels[i],
-                        "sessionCount": dataPointsArray[i]
-                    });
-                }
-
-                result.push(data);
-                result.push(labels.length);
-                break;
-            }
-            case TYPE_SESSION_COUNT_OVER_TIME_NEW:
-            {
-                result = [];
-                var data = [];
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
@@ -1530,6 +1430,7 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
 
                 var labels = ["< 15 mins", "< 1 hr", "< 12 hrs", "< 24 hrs", "> 24 hrs"];
+                var timeNow = new Date().getTime();
 
                 query = stringify({
                     tableName: tableName,
@@ -1561,28 +1462,21 @@
                             "to":9223372036854775807
                         }
                     ],
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + 1473641368431 + "] OR isActive:true)"
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)"
                 });
 
                 resp = connector.drillDownRangeCount(loggedInUser, tableName, query);
-
                 var dataPoints = JSON.parse(resp.getMessage());
 
-                var obj = dataPoints.categories;
-                var categoryCount = dataPoints.categoryCount;
-
-
-                for (var key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        dataPointsArray.push({
-                            "duration": key,
-                            "sessionCount": obj[key]
-                        });
-                    }
+                for (var i=0; i<dataPoints.length; i++) {
+                    dataPointsArray.push({
+                        "duration": dataPoints[i].label,
+                        "sessionCount": dataPoints[i].count
+                    });
                 }
 
                 result.push(dataPointsArray);
-                result.push(categoryCount);
+                result.push(dataPoints.length);
                 break;
             }
             case TYPE_SESSION_USERNAME_LIST:
