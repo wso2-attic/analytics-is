@@ -48,7 +48,7 @@
     var TYPE_SESSION_USERNAME_LIST = 24;
     var TYPE_PER_USER_REGION = 25;
     var TYPE_SESSION_CHANGE_OVER_TIME = 26;
-    var TYPE_SESSION_DATA_TABLE = 29;
+    var TYPE_SESSION_DATA_TABLE = 27;
 
     if (configs.cacheTimeoutSeconds) {
         cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
@@ -1590,8 +1590,8 @@
             case TYPE_SESSION_DATA_TABLE:
             {
 
-                var columns = ["sessionId", "startTimestamp", "renewTimestamp", "terminationTimestamp", "action", "userName",
-                    "userstoreDomain", "IP", "tenantDomain", "rememberMeFlag", "_timestamp"];
+                var columns = ["sessionId", "userName", "startTimestamp", "terminationTimestamp", "endTimestamp", "duration",
+                    "isActive", "userstoreDomain", "IP", "tenantDomain", "rememberMeFlag", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
@@ -1600,7 +1600,7 @@
 
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLSESSION";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
 
                 var query = stringify({
                     "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]",
