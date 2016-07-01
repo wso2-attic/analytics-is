@@ -45,7 +45,7 @@
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerMinute",
         schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, userName FACET -i,role FACET -i,serviceProvider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, identityProviderType FACET -i,facetStartTime FACET -i, _timestamp LONG",
-        primaryKeys "year, month, day, hour, minute, userName,role,serviceProvider,identityProvider,remoteIp,userStoreDomain, identityProviderType", incrementalParams "isRoleAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
+        primaryKeys "year, month, day, hour, minute, userName,role,serviceProvider,identityProvider,remoteIp,userStoreDomain, identityProviderType", incrementalParams "isRoleAuthenticationAnalyticsPerMinute, MINUTE", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_RoleAuthStatPerMinute",
@@ -125,7 +125,7 @@
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerMinute",
         schema "year INT -i, month INT -i,day INT -i,hour INT -i, minute INT -i, userName FACET -i,rolesCommaSeperated FACET -i,serviceProvider FACET -i,identityProvider FACET -i, remoteIp FACET -i, region FACET -i,userStoreDomain FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp,authStepSuccessCount LONG -sp, identityProviderType FACET -i ,facetStartTime FACET -i, _timestamp LONG",
-        primaryKeys "year, month, day, hour, minute, userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,userStoreDomain, identityProviderType", incrementalParams "isAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
+        primaryKeys "year, month, day, hour, minute, userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,userStoreDomain, identityProviderType", incrementalParams "isAuthenticationAnalyticsPerMinute, MINUTE", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerMinuteDuplicate USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_AuthStatPerMinute",
@@ -149,13 +149,13 @@
 
         CREATE TEMPORARY TABLE isUserRegionStatPerMinute USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerMinute",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, remoteIp FACET -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, identityProviderType FACET -i",
-        primaryKeys "year, month, day, hour, minute, remoteIp, identityProviderType", incrementalParams "isUserRegionStatPerMinute, HOUR", mergeSchema "false");
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, remoteIp FACET -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, facetStartTime FACET -i, identityProviderType FACET -i, _timestamp LONG",
+        primaryKeys "year, month, day, hour, minute, remoteIp, identityProviderType", incrementalParams "isUserRegionStatPerMinute, MINUTE", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerMinuteDuplicate USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerMinute",
-        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, remoteIp FACET -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, _timestamp LONG, facetStartTime FACET -i, identityProviderType FACET -i",
-        primaryKeys "year, month, day, hour, minute, remoteIp, identityProviderType", incrementalParams "isUserRegionStatPerMinuteDuplicate, MINUTE", mergeSchema "false");
+        schema "year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, remoteIp FACET -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, facetStartTime FACET -i, identityProviderType FACET -i, _timestamp LONG",
+        primaryKeys "year, month, day, hour, minute, remoteIp, identityProviderType", incrementalParams "isUserRegionStatPerMinuteDuplicate, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserRegionStatPerHour USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserRegionStatPerHour",
@@ -177,16 +177,16 @@
         schema "year INT -i, region FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "year, region, identityProviderType", mergeSchema "false");
 
-        INSERT INTO TABLE isUserRegionStatPerMinuteDuplicate SELECT year, month, day, hour, minute, remoteIp, getCountry(remoteIp) as region,SUM(authSuccessCount),SUM(authFailureCount), facetStartTime, identityProviderType, _timestamp  FROM isUserRegionStatPerMinute GROUP BY remoteIp, region, year, month, day, hour, minute, identityProviderType, facetStartTime, _timestamp;
+        INSERT INTO TABLE isUserRegionStatPerMinuteDuplicate SELECT year, month, day, hour, minute, remoteIp, getCountry(remoteIp) as region,authSuccessCount,authFailureCount, facetStartTime, identityProviderType, _timestamp  FROM isUserRegionStatPerMinute;
 
         INCREMENTAL_TABLE_COMMIT isUserRegionStatPerMinute;
 
-        INSERT INTO TABLE isAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month, day, hour, minute, userName,rolesCommaSeperated,serviceProvider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), identityProviderType, facetStartTime, _timestamp  FROM isAuthenticationAnalyticsPerMinute GROUP BY userName, rolesCommaSeperated, serviceProvider, identityProvider, remoteIp, region,userStoreDomain, year, month, day, hour, minute, identityProviderType, facetStartTime, _timestamp;
+        INSERT INTO TABLE isAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month, day, hour, minute, userName,rolesCommaSeperated,serviceProvider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,authSuccessCount,authFailureCount,authStepSuccessCount, identityProviderType, facetStartTime, _timestamp FROM isAuthenticationAnalyticsPerMinute;
 
         INCREMENTAL_TABLE_COMMIT isAuthenticationAnalyticsPerMinute;
 
 
-        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month,day,hour,minute,userName,role,serviceProvider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), identityProviderType, facetStartTime, _timestamp FROM isRoleAuthenticationAnalyticsPerMinute GROUP BY userName, role, serviceProvider, identityProvider, remoteIp, region,userStoreDomain, year, month, day, hour, minute, identityProviderType, facetStartTime, _timestamp;
+        INSERT INTO TABLE isRoleAuthenticationAnalyticsPerMinuteDuplicate SELECT year, month,day,hour,minute,userName,role,serviceProvider,identityProvider, remoteIp, getCountry(remoteIp) as region,userStoreDomain,authSuccessCount,authFailureCount,authStepSuccessCount, identityProviderType, facetStartTime, _timestamp FROM isRoleAuthenticationAnalyticsPerMinute;
 
         INCREMENTAL_TABLE_COMMIT isRoleAuthenticationAnalyticsPerMinute;
 
