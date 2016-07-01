@@ -40,9 +40,9 @@
 
             </head>
             <body class="bkWrapColor">
-                <div class="row no-gutter">
+                <div class="row no-gutter" style="position: relative;">
 
-                    <div class="switchSP">
+                    <div class="switchSP" style = "position: absolute;margin: 10px;right: 0px;">
 
                     </div>
                     <div class="successChart">
