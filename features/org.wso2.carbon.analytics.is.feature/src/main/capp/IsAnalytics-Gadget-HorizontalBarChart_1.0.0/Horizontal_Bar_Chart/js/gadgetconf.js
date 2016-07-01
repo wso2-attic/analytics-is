@@ -12,6 +12,7 @@ var charts = [{
     {
         "x":"username",
         "yTitle":"successfulAttempts",
+        "xTitle":"Username",
         "maxLength":"3000",
         "barGap":0.2,
         "highlight" : "single",
@@ -49,6 +50,7 @@ var charts = [{
     {
         "x":"username",
         "maxLength":"3000",
+        "xTitle":"Username",
         "yTitle":"failureAttempts",
         "highlight" : "single",
         "barGap":0.2,
@@ -86,6 +88,7 @@ var charts = [{
     {
         "x":"serviceProvider",
         "yTitle":"successfulAttempts",
+        "xTitle":"Service Provider",
         "maxLength":"3000",
         "highlight" : "single",
         "barGap":0.2,
@@ -124,6 +127,7 @@ var charts = [{
         {
             "x":"role",
             "maxLength":"3000",
+            "xTitle":"Role",
             "yTitle":"successfulAttempts",
             "highlight" : "single",
             "barGap":0.2,
@@ -163,6 +167,7 @@ var charts = [{
             "x":"serviceProvider",
             "maxLength":"3000",
             "yTitle":"failureAttempts",
+            "xTitle":"Service Provider",
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#D9534F"],
@@ -200,6 +205,7 @@ var charts = [{
         {
             "x":"role",
             "maxLength":"3000",
+            "xTitle":"Role",
             "yTitle":"failureAttempts",
             "highlight" : "single",
             "barGap":0.2,
@@ -238,6 +244,7 @@ var charts = [{
         {
             "x":"identityProvider",
             "maxLength":"3000",
+            "xTitle":"Identity Provider",
             "yTitle":"successfulAttempts",
             "highlight" : "single",
             "barGap":0.2,
@@ -276,6 +283,7 @@ var charts = [{
             "x":"identityProvider",
             "maxLength":"3000",
             "yTitle":"failureAttempts",
+            "xTitle":"Identity Provider",
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#D9534F"],
@@ -298,7 +306,7 @@ var charts = [{
             return result;
         }
     },{
-        name: ROLE_PER_IDENTITY_PROVIDER_FIRST_LOGIN_COUNT,
+        name: ROLE_PER_SERVICE_PROVIDER_FIRST_LOGIN_COUNT,
         columns: ["authSuccessCount", "serviceProvider"],
         schema: [{
             "metadata": {
@@ -310,14 +318,17 @@ var charts = [{
         "chartConfig":
         {
             "x":"serviceProvider",
+            "xTitle":"Service Provider",
             "yTitle":"successfulAttempts",
             "maxLength":"3000",
+            hoverCursor:"pointer",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
             "padding":{"top":0,"left":100,"bottom":0,"right":55},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 16, filter:13 }
+            { name: TYPE_LANDING, type: 16, filter:13 },
+            { name: TYPE_RESIDENT_IDP, type: 16, filter:13 }
         ],
         mode: "FIRST_TIME_SERVICEPROVIDER",
         isSelected: false,
@@ -347,6 +358,7 @@ var charts = [{
         {
             "x":"userstore",
             "maxLength":"3000",
+            "xTitle":"User Store Domain",
             "yTitle":"successfulAttempts",
             "highlight" : "single",
             "barGap":0.2,
@@ -384,6 +396,7 @@ var charts = [{
         {
             "x":"userstore",
             "maxLength":"3000",
+            "xTitle":"User Store Domain",
             "yTitle":"failureAttempts",
             "highlight" : "single",
             "barGap":0.2,

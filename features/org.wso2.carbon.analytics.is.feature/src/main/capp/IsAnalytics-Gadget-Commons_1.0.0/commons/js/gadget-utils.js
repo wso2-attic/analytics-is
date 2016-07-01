@@ -42,7 +42,7 @@ var ROLE_PER_ROLE_AUTHENTICATION_SUCCESS_COUNT = "roleAuthenticationSuccessCount
 var ROLE_PER_ROLE_AUTHENTICATION_FAILURE_COUNT = "roleAuthenticationFailureCount";
 var ROLE_PER_IDENTITY_PROVIDER_AUTHENTICATION_SUCCESS_COUNT = "identityProviderAuthenticationSuccessCount";
 var ROLE_PER_IDENTITY_PROVIDER_AUTHENTICATION_FAILURE_COUNT = "identityProviderAuthenticationFailureCount";
-var ROLE_PER_IDENTITY_PROVIDER_FIRST_LOGIN_COUNT = "serviceProviderAuthenticationFirstLoginSuccessCount";
+var ROLE_PER_SERVICE_PROVIDER_FIRST_LOGIN_COUNT = "serviceProviderAuthenticationFirstLoginSuccessCount";
 var ROLE_PER_USERSTORE_AUTHENTICATION_SUCCESS_COUNT = "userstoreAuthenticationSuccessCount";
 var ROLE_PER_USERSTORE_AUTHENTICATION_FAILURE_COUNT = "userstoreAuthenticationFailureCount";
 var ROLE_TOP_LONGEST_SESSIONS = "topLongestSessionsSuccessCount";
@@ -329,13 +329,13 @@ var gadgetUtil = new GadgetUtil();
 function mediaScreenSize(){
     var windowWidth = $(window).width();
     if(windowWidth < 767){
-        $('body').attr('media-screen', 'xs');       
+        $('body').attr('media-screen', 'xs');
     }
     if((windowWidth > 768) && (windowWidth < 991)){
-        $('body').attr('media-screen', 'sm');       
+        $('body').attr('media-screen', 'sm');
     }
     if((windowWidth > 992) && (windowWidth < 1199)){
-        $('body').attr('media-screen', 'md');       
+        $('body').attr('media-screen', 'md');
     }
     if(windowWidth > 1200){
         $('body').attr('media-screen', 'lg');
@@ -344,29 +344,29 @@ function mediaScreenSize(){
 
 // Light/Dark Theme Switcher
 $(document).ready(function() {
-    
+
     $(gadgetUtil.getGadgetWrapper()).addClass('loading');
-    
+
     if((gadgetUtil.getCookie('dashboardTheme') == 'dark') || gadgetUtil.getCookie('dashboardTheme') == ''){
         $('body').addClass('dark');
     }
     else{
         $('body').removeClass('dark');
     }
-    
+
     if(typeof $.fn.nanoScroller == 'function'){
         $(".nano").nanoScroller();
     }
-    
+
     mediaScreenSize();
-    
+
 });
 
 var readyInterval = setInterval(function() {
     if (document.readyState == "complete") {
         $(gadgetUtil.getGadgetWrapper()).removeClass('loading');
         clearInterval(readyInterval);
-    }   
+    }
 }, 100);
 
 $(window).resize(function(){

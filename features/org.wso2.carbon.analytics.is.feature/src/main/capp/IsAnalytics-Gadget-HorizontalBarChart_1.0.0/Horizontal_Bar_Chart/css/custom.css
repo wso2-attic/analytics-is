@@ -84,3 +84,18 @@ body.dark svg.marks .mark-group .mark-text text {
 body.dark svg.marks .mark-group .mark-rule line {
     stroke: #E3E5E6 !important;
 }
+
+body.dark #spLableId{
+    background-color: #29313E;
+    color: #fff;
+}
+
+body.dark #remove-filter{
+    background-color: #29313E;
+    color: #fff;
+}
+
+body.dark #add-filter{
+    background-color: #29313E;
+    color: #fff;
+}
