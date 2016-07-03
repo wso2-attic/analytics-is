@@ -1565,17 +1565,17 @@
                         data.push({
                             "timestamp": Number(timestamp),
                             "sessionCount": activeSessionCount,
-                            "sessionType": "active"
+                            "sessionType": "Active"
                         });
                         data.push({
                             "timestamp": Number(timestamp),
                             "sessionCount": newSessionCount,
-                            "sessionType": "new"
+                            "sessionType": "New"
                         });
                         data.push({
                             "timestamp": Number(timestamp),
                             "sessionCount": terminatedSessionCount,
-                            "sessionType": "terminated"
+                            "sessionType": "Terminated"
                         });
                     }
                 }
