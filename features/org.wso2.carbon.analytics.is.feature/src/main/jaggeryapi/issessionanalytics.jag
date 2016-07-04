@@ -2,20 +2,12 @@
 (function () {
 
     var log = new Log();
-    var carbon = require('carbon');
-    var configs = require('/configs/designer.json');
+    var carbon = require('carbon');    
     var timeRangeUtil = Packages.org.wso2.analytics.shared.util.time.TimeRangeUtils;
-    var JSUtils = Packages.org.wso2.carbon.analytics.jsservice.Utils;
-    var AnalyticsCachedJSServiceConnector = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector;
-    var AnalyticsCache = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector.AnalyticsCache;
-
+    var common = require('isanalytics-common.jag');
+    
     var CONTENT_TYPE_JSON = "application/json";
-    var AUTHORIZATION_HEADER = "Authorization";
-    var USER_TOKEN = "user";
     var TYPE = "type";
-    var USERNAME = "username";
-    var TENANT_DOMAIN = "domain";
-    var CONST_AT = "@";
     var HTTP_INTERNAL_ERROR = 500;
     var HTTP_USER_NOT_AUTHENTICATED = 403;
 
@@ -27,39 +19,18 @@
     var TYPE_SESSION_CHANGE_OVER_TIME = 26;
     var TYPE_SESSION_DATA_TABLE = 27;
 
-    if (configs.cacheTimeoutSeconds) {
-        cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
-    }
-    var cacheSizeBytes = 1024 * 1024 * 1024; // 1GB
-    if (configs.cacheSizeBytes) {
-        cacheSizeBytes = parseInt(configs.cacheSizeBytes);
-    }
-
     response.contentType = CONTENT_TYPE_JSON;
 
-    var authParam = request.getHeader(AUTHORIZATION_HEADER);
-    if (authParam != null) {
-        credentials = JSUtils.authenticate(authParam);
-        loggedInUser = credentials[0];
-    } else {
-        var token = session.get(USER_TOKEN);
-        if (token != null) {
-            loggedInUser = token[USERNAME] + CONST_AT + token[TENANT_DOMAIN];
-        } else {
-            log.error("user is not authenticated!");
-            response.status = HTTP_USER_NOT_AUTHENTICATED;
-            print('{ "status": "Failed", "message": "User is not authenticated." }');
-            return;
-        }
+    loggedInUser = common.getLoggedInUser();
+
+    if (loggedInUser == null) {
+        log.error("user is not authenticated!");
+        response.status = HTTP_USER_NOT_AUTHENTICATED;
+        print('{ "status": "Failed", "message": "User is not authenticated." }');
+        return;
     }
 
-    var cache = application.get("AnalyticsWebServiceCache");
-    if (cache == null) {
-        cache = new AnalyticsCache(cacheTimeoutSeconds, cacheSizeBytes);
-        application.put("AnalyticsWebServiceCache", cache);
-    }
-
-    var connector = new AnalyticsCachedJSServiceConnector(cache);
+    var connector = common.getConnector();
 
     var type = 0;
     var typeParam = request.getParameter(TYPE);
@@ -72,13 +43,6 @@
         response.status = HTTP_INTERNAL_ERROR;
         print('{ "status": "Failed", "message": "Operation type is not specified" }');
         return;
-    }
-
-    var content = request.getContent();
-    if (content != '' && content != null) {
-        if (log.isDebugEnabled()) {
-            log.debug("value of content: " + stringify(content));
-        }
     }
 
     if (connector != null && loggedInUser != null) {
