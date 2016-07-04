@@ -19,12 +19,10 @@ var href = parent.window.location.href;
 var hrefLastSegment = href.substr(href.lastIndexOf('/') + 1);
 var resolveURI = parent.ues.global.dashboard.id == hrefLastSegment ? '../' : '../../';
 
-var qs = gadgetUtil.getQueryString();
 var page = gadgetUtil.getCurrentPageName();
 var prefs = new gadgets.Prefs();
-var chartSuccess = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE)+"SuccessCount");
-var chartFailure = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE)+"FailureCount");
-var chartSPFirstLogin;
+var chartSuccess = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE) + "SuccessCount");
+var chartFailure = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE) + "FailureCount");
 
 if (chartSuccess && chartFailure) {
     functionTypeSuccess = gadgetUtil.getRequestType(page, chartSuccess);
@@ -36,7 +34,7 @@ if (chartSuccess && chartFailure) {
 }
 
 
-$(function() {
+$(function () {
 
     $('#autocomplete-search-box .typeahead').typeahead({
             hint: true,
@@ -46,13 +44,13 @@ $(function() {
         {
             local: suggestionsList,
             source: substringMatcher(suggestionsList)
-        }).on('typeahead:rendered', function() {
+        }).on('typeahead:rendered', function () {
             var typeAhead = $('.tt-menu'),
                 parentWindow = window.parent.document,
                 thisParentWrapper = $('#' + gadgets.rpc.RPC_ID, parentWindow).closest('.grid-stack-item');
 
-            $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="'+resolveURI+'store/carbon.super/gadget/commons/css/autocomplete.css" />');
-            $('body', parentWindow).append('<script src="'+resolveURI+'store/carbon.super/gadget/commons/js/typeahead.bundle.js" type="text/javascript"></script>');
+            $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="' + resolveURI + 'store/carbon.super/gadget/commons/css/autocomplete.css" />');
+            $('body', parentWindow).append('<script src="' + resolveURI + 'store/carbon.super/gadget/commons/js/typeahead.bundle.js" type="text/javascript"></script>');
             $(thisParentWrapper).append(typeAhead);
         });
 
@@ -65,7 +63,7 @@ $(function() {
         var message = {
             userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
             mode: chartFailure.mode,
-            colorCode:chartFailure.colorCode
+            colorCode: chartFailure.colorCode
         };
         gadgets.Hub.publish("publisherFilterDeletion", message);
     });
@@ -77,83 +75,82 @@ $(function() {
         var message = {
             userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
             mode: chartSuccess.mode,
-            colorCode:chartSuccess.colorCode
+            colorCode: chartSuccess.colorCode
         };
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
 
     });
 
 
-    if (!chartSuccess && chartFailure) {
+    if (!chartSuccess) {
         $("#canvasSuccess").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
         $("#canvasFailure").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
         return;
     }
 
-    $( ".residentIdp").empty();
+    $(".residentIdp").empty();
 
     var instanceType = chartSuccess.mode;
 
-    if(page == TYPE_RESIDENT_IDP) {
+    if (page == TYPE_RESIDENT_IDP) {
         idpTypeFilter = " AND identityProviderType:\"LOCAL\"";
-    } else if(page == TYPE_LANDING) {
+    } else if (page == TYPE_LANDING) {
         idpTypeFilter = " AND identityProviderType:\"FEDERATED\"";
-        if(instanceType == "IDENTITYPROVIDER"){
-            $( ".residentIdp").append( "<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>" );
+        if (instanceType == "IDENTITYPROVIDER") {
+            $(".residentIdp").append("<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>");
         }
-    }  else if(page == TYPE_SESSIONS) {
+    } else if (page == TYPE_SESSIONS) {
         $('#autocomplete-search-box').hide();
     }
 
-    if(instanceType == "SERVICEPROVIDER"){
-        $( ".switchSP").append( "<input type='button' id='spLableId' style='float: right;' value='Show First Login Success' onclick='onSPChange()'>" );
+    if (instanceType == "SERVICEPROVIDER") {
+        $(".switchSP").append("<input type='button' id='spLableId' style='border-radius: 0px;padding: 4px 5px;' value='Show First Login Success' onclick='onSPChange()'>");
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
 
-    if(historyParmExist == null){
+    if (historyParmExist == null) {
         listnedTimeFromValue = gadgetUtil.timeFrom();
         listnedTimeToValue = gadgetUtil.timeTo();
-    }else{
+    } else {
 
         var historyParms = gadgetUtil.getURLParams();
 
         for (var key in historyParms) {
             if (historyParms.hasOwnProperty(key)) {
 
-                if(key == "persistTimeFrom"){
+                if (key == "persistTimeFrom") {
                     listnedTimeFromValue = historyParms[key];
-                }else if(key == "persistTimeTo"){
+                } else if (key == "persistTimeTo") {
                     listnedTimeToValue = historyParms[key];
-                }else if(Object.keys(historyParms).length > 2){
+                } else if (Object.keys(historyParms).length > 2) {
 
                     var historyParamVal = historyParms[key].toString();
-                    addUserPrefsToGlobalArray("Topic",key,historyParamVal.split("_")[0]);
-                    var instanceType = chartSuccess.mode;
+                    addUserPrefsToGlobalArray("Topic", key, historyParamVal.split("_")[0]);
 
-                    if(key != instanceType){
+                    if (key != instanceType) {
                         var alreadySelected = false;
-                        for(i=0;i<globalUniqueArray.length;i++){
-                            if(globalUniqueArray[i][2] == instanceType){
+                        for (i = 0; i < globalUniqueArray.length; i++) {
+                            if (globalUniqueArray[i][2] == instanceType) {
                                 alreadySelected = true;
                                 break;
                             }
                         }
-                        if(!alreadySelected){
-                            if(key == "USERNAME"){
-                                listnedAdditionalUserPrefs+= " AND userName:\""+historyParamVal.split("_")[0]+"\"";
-                            }else if(key == "SERVICEPROVIDER"){
-                                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+historyParamVal.split("_")[0]+"\"";
-                            }else if(key == "ROLE"){
-                                listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+historyParamVal.split("_")[0]+"\"";
-                            }else if(key == "IDENTITYPROVIDER"){
-                                listnedAdditionalUserPrefs+= " AND identityProvider:\""+historyParamVal.split("_")[0]+"\"";
-                            }else if(key == "USERSTORE"){
-                                listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+historyParamVal.split("_")[0]+"\"";
-                            }else if(key == "FIRST_TIME_SERVICEPROVIDER"){
-                                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+historyParamVal.split("_")[0]+"\"";
-                            }else if(globalUniqueArray[i][2] == "REGION"){
-                                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
+                        if (!alreadySelected) {
+                            if (key == "USERNAME") {
+                                listnedAdditionalUserPrefs += " AND userName:\"" + historyParamVal.split("_")[0] + "\"";
+                            } else if (key == "SERVICEPROVIDER") {
+                                listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
+                            } else if (key == "ROLE") {
+                                listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\"" + historyParamVal.split("_")[0] + "\"";
+                            } else if (key == "IDENTITYPROVIDER") {
+                                listnedAdditionalUserPrefs += " AND identityProvider:\"" + historyParamVal.split("_")[0] + "\"";
+                            } else if (key == "USERSTORE") {
+                                listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + historyParamVal.split("_")[0] + "\"";
+                            } else if (key == "FIRST_TIME_SERVICEPROVIDER") {
+                                listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
+                            } else if (globalUniqueArray[i][2] == "REGION") {
+                                listnedAdditionalUserPrefs += " AND region:\"" + globalUniqueArray[i][1] + "\"";
                             }
                         }
                     }
@@ -171,125 +168,99 @@ function onResidentIdpClick() {
     parent.window.location = targetUrl;
 };
 
-function successOnPaginationClicked(e,originalEvent,type,page){
+function successOnPaginationClicked(e, originalEvent, type, page) {
     successGlobalPage = page;
 
     gadgetUtil.fetchData(CONTEXT, {
         type: functionTypeSuccess,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-        idpType:idpTypeFilter,
-        start:(page - 1) * 10,
-        count:10
+        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        idpType: idpTypeFilter,
+        start: (page - 1) * 10,
+        count: 10
     }, successOnData, successOnError);
 
 }
 
-function failureOnPaginationClicked(e,originalEvent,type,page){
+function failureOnPaginationClicked(e, originalEvent, type, page) {
     failureGlobalPage = page;
 
     gadgetUtil.fetchData(CONTEXT, {
         type: functionTypeFailure,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-        idpType:idpTypeFilter,
-        start:(page - 1) * 10,
-        count:10
+        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        idpType: idpTypeFilter,
+        start: (page - 1) * 10,
+        count: 10
     }, failureOnData, failureOnError);
 
 }
 
-gadgets.HubSettings.onConnect = function() {
+gadgets.HubSettings.onConnect = function () {
 
-    gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function(topic, data, subscriberData) {
+    gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function (topic, data, subscriberData) {
         listnedTimeFromValue = data.timeFrom;
         listnedTimeToValue = data.timeTo;
         onChange();
     });
 
-    gadgets.Hub.subscribe(TOPIC_SUB_USERPREF, function(topic, data, subscriberData) {
+    gadgets.Hub.subscribe(TOPIC_SUB_USERPREF, function (topic, data, subscriberData) {
 
         var instanceType = chartSuccess.mode;
 
-        addUserPrefsToGlobalArray(topic,data.mode,data.userPrefValue);
+        addUserPrefsToGlobalArray(topic, data.mode, data.userPrefValue);
 
         listnedAdditionalUserPrefs = "";
 
-        for(i=0;i<globalUniqueArray.length;i++){
+        for (i = 0; i < globalUniqueArray.length; i++) {
 
-            if(globalUniqueArray[i][2] == "USERNAME"){
-                listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "ROLE"){
-                listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "REGION"){
-                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
+            if (globalUniqueArray[i][2] == "USERNAME") {
+                listnedAdditionalUserPrefs += " AND userName:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "SERVICEPROVIDER") {
+                listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "ROLE") {
+                listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "IDENTITYPROVIDER") {
+                listnedAdditionalUserPrefs += " AND identityProvider:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "USERSTORE") {
+                listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
+                listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "REGION") {
+                listnedAdditionalUserPrefs += " AND region:\"" + globalUniqueArray[i][1] + "\"";
             }
         }
 
-        if(instanceType != data.mode){
+        if (instanceType == "SERVICEPROVIDER" && listnedAdditionalUserPrefs != "") {
+            $("#spLableId").hide();
+        }
 
-            if(instanceType == "SERVICEPROVIDER" || instanceType == "FIRST_TIME_SERVICEPROVIDER"){
-
-                if(instanceType == "SERVICEPROVIDER" && data.mode != "FIRST_TIME_SERVICEPROVIDER"){
-                    var alreadySelected = false;
-                    for(i=0;i<globalUniqueArray.length;i++){
-                        if(globalUniqueArray[i][2] == instanceType){
-                            alreadySelected = true;
-                            break;
-                        }
-                    }
-                    if(!alreadySelected){
-                        onChange();
-                    }
-                }else if(instanceType == "FIRST_TIME_SERVICEPROVIDER" && data.mode != "SERVICEPROVIDER"){
-                    var alreadySelected = false;
-                    for(i=0;i<globalUniqueArray.length;i++){
-                        if(globalUniqueArray[i][2] == instanceType){
-                            alreadySelected = true;
-                            break;
-                        }
-                    }
-                    if(!alreadySelected){
-                        onChange();
-                    }
-
-                }
-            }else{
-                var alreadySelected = false;
-                for(i=0;i<globalUniqueArray.length;i++){
-                    if(globalUniqueArray[i][2] == instanceType){
-                        alreadySelected = true;
-                        break;
-                    }
-                }
-                if(!alreadySelected){
-                    onChange();
-                }
+        var alreadySelected = false;
+        for (var i = 0; i < globalUniqueArray.length; i++) {
+            if (globalUniqueArray[i][2] == instanceType) {
+                alreadySelected = true;
+                break;
             }
+        }
+        if (!alreadySelected) {
+            onChange();
         }
     });
 
-    gadgets.Hub.subscribe(TOPIC_USERPREF_DELETION, function(topic, data, subscriberData) {
+    gadgets.Hub.subscribe(TOPIC_USERPREF_DELETION, function (topic, data, subscriberData) {
 
 
+        var instanceType = chartSuccess.mode;
         var index = -1;
-        for(i=0;i<globalUniqueArray.length;i++){
-            if(globalUniqueArray[i][2] == data.category){
+        for (i = 0; i < globalUniqueArray.length; i++) {
+            if (globalUniqueArray[i][2] == data.category) {
                 index = i;
                 break;
             }
         }
-        if(index != -1){
+        if (index != -1) {
             globalUniqueArray.splice(index, 1);
         }
 
@@ -297,39 +268,45 @@ gadgets.HubSettings.onConnect = function() {
 
         listnedAdditionalUserPrefs = "";
 
-        for(i=0;i<globalUniqueArray.length;i++){
-            if(globalUniqueArray[i][2] == "USERNAME"){
-                listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
-            }if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
-            }if(globalUniqueArray[i][2] == "ROLE"){
-                listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "USERSTORE"){
-                listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
-            }else if(globalUniqueArray[i][2] == "REGION"){
-                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
+        for (i = 0; i < globalUniqueArray.length; i++) {
+            if (globalUniqueArray[i][2] == "USERNAME") {
+                listnedAdditionalUserPrefs += " AND userName:\"" + globalUniqueArray[i][1] + "\"";
             }
+            if (globalUniqueArray[i][2] == "SERVICEPROVIDER") {
+                listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+            }
+            if (globalUniqueArray[i][2] == "ROLE") {
+                listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "IDENTITYPROVIDER") {
+                listnedAdditionalUserPrefs += " AND identityProvider:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "USERSTORE") {
+                listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
+                listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+            } else if (globalUniqueArray[i][2] == "REGION") {
+                listnedAdditionalUserPrefs += " AND region:\"" + globalUniqueArray[i][1] + "\"";
+            }
+        }
+
+        if (instanceType == "SERVICEPROVIDER" && listnedAdditionalUserPrefs == "") {
+            $("#spLableId").show();
         }
 
         var instanceType = chartSuccess.mode;
 
-        if(instanceType != data.category){
+        if (instanceType != data.category) {
 
             var alreadySelected = false;
-            for(i=0;i<globalUniqueArray.length;i++){
-                if(globalUniqueArray[i][2] == instanceType){
+            for (i = 0; i < globalUniqueArray.length; i++) {
+                if (globalUniqueArray[i][2] == instanceType) {
                     alreadySelected = true;
                     break;
                 }
             }
-            if(!alreadySelected){
+            if (!alreadySelected) {
                 onChange();
             }
-        }else {
+        } else {
             $('#add-filter').show();
             $('#autocomplete-search-box .typeahead').prop('disabled', false);
             $('#remove-filter').hide();
@@ -340,13 +317,13 @@ gadgets.HubSettings.onConnect = function() {
     });
 };
 
-function addUserPrefsToGlobalArray(topic,mode,value){
+function addUserPrefsToGlobalArray(topic, mode, value) {
 
     var valExist = false;
 
-    if(globalUniqueArray.length != 0){
-        for(i=0;i<globalUniqueArray.length;i++){
-            if(globalUniqueArray[i][2] == mode){
+    if (globalUniqueArray.length != 0) {
+        for (i = 0; i < globalUniqueArray.length; i++) {
+            if (globalUniqueArray[i][2] == mode) {
                 valExist = true;
                 globalUniqueArray[i][0] = topic;
                 globalUniqueArray[i][1] = value;
@@ -354,12 +331,12 @@ function addUserPrefsToGlobalArray(topic,mode,value){
             }
         }
 
-        if(!valExist){
-            var arry = [topic,value,mode];
+        if (!valExist) {
+            var arry = [topic, value, mode];
             globalUniqueArray.push(arry);
         }
-    }else{
-        var arry = [topic,value,mode];
+    } else {
+        var arry = [topic, value, mode];
         globalUniqueArray.push(arry);
     }
 
@@ -372,20 +349,20 @@ function onChange() {
         type: functionTypeSuccess,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-        idpType:idpTypeFilter,
-        start:0,
-        count:10
+        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        idpType: idpTypeFilter,
+        start: 0,
+        count: 10
     }, successOnData, successOnError);
 
     gadgetUtil.fetchData(CONTEXT, {
         type: filterType,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-        idpType:idpTypeFilter,
-        start:0,
-        count:10
+        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        idpType: idpTypeFilter,
+        start: 0,
+        count: 10
     }, processSuggestionsList, successOnError);
 };
 
@@ -394,26 +371,27 @@ function successOnData(response) {
     try {
         successDataObj = response.message;
 
-        if(successDataObj[0].length > 0){
+        if (successDataObj[0].length > 0) {
             maxSuccessRcordValue = successDataObj[0][0].authSuccessCount;
-        }else{
+        } else {
             maxSuccessRcordValue = 0;
         }
+
         if (chartFailure) {
-            $('#canvasSuccess').css({"height":"35%"});
-            $('#canvasFailure').css({"height":"35%"});
+            $('#canvasSuccess').css({"height": "35%"});
+            $('#canvasFailure').css({"height": "35%"});
             gadgetUtil.fetchData(CONTEXT, {
                 type: functionTypeFailure,
                 timeFrom: listnedTimeFromValue,
                 timeTo: listnedTimeToValue,
                 listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
-                idpType:idpTypeFilter,
+                idpType: idpTypeFilter,
                 start: 0,
                 count: 10
             }, failureOnData, failureOnError);
         } else {
-            $("#canvasFailure").css({"display":"none"});
-            $('#canvasSuccess').css({"height":"65%"});
+            $("#canvasFailure").css({"display": "none"});
+            $('#canvasSuccess').css({"height": "70%"});
             //$('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 
@@ -433,20 +411,20 @@ function failureOnData(response) {
     try {
         failureDataObj = response.message;
 
-        if(failureDataObj[0].length > 0){
+        if (failureDataObj[0].length > 0) {
             maxFailureRcordValue = failureDataObj[0][0].authFailiureCount;
-        }else{
+        } else {
             maxFailureRcordValue = 0;
         }
 
-        if(maxSuccessRcordValue > maxFailureRcordValue){
+        if (maxSuccessRcordValue > maxFailureRcordValue) {
             commonScaleDomain = maxSuccessRcordValue;
-        }else{
+        } else {
             commonScaleDomain = maxFailureRcordValue;
         }
 
-        chartSuccess.chartConfig.yScaleDomain = [0,commonScaleDomain];
-        chartFailure.chartConfig.yScaleDomain = [0,commonScaleDomain];
+        chartSuccess.chartConfig.yScaleDomain = [0, commonScaleDomain];
+        chartFailure.chartConfig.yScaleDomain = [0, commonScaleDomain];
 
         drawChartSuccess();
         drawChartFailure();
@@ -461,12 +439,12 @@ function failureOnError(msg) {
 };
 
 
-function drawChartSuccess(){
+function drawChartSuccess() {
 
     var allDataCount = successDataObj[1];
     var totalPages = parseInt(allDataCount / 10);
 
-    if(allDataCount != 0) {
+    if (allDataCount != 0) {
 
         if (allDataCount % 10 != 0) {
             totalPages += 1;
@@ -511,7 +489,6 @@ function drawChartSuccess(){
         $('#idSuccessPaginate').bootstrapPaginator(options);
 
     }
-
     //perform necessary transformation on input data
     chartSuccess.schema[0].data = chartSuccess.processData(successDataObj[0]);
     //finally draw the chart on the given canvas
@@ -522,25 +499,24 @@ function drawChartSuccess(){
     $("#canvasSuccess").empty();
 
     if (chartFailure) {
-        vg.draw("#canvasSuccess",[{type:"click", callback:typeSuccessCallbackmethod}]);
-    }else{
+        vg.draw("#canvasSuccess", [
+            {type: "click", callback: typeSuccessCallbackmethod}
+        ]);
+    } else {
         vg.draw("#canvasSuccess");
     }
-
-
-
 }
 
 
-function drawChartFailure(){
+function drawChartFailure() {
 
     var allDataCount = failureDataObj[1];
 
     var totalPages = parseInt(allDataCount / 10);
 
-    if(allDataCount != 0){
+    if (allDataCount != 0) {
 
-        if(allDataCount % 10 != 0){
+        if (allDataCount % 10 != 0) {
             totalPages += 1;
         }
 
@@ -548,24 +524,23 @@ function drawChartFailure(){
             currentPage: failureGlobalPage,
             totalPages: totalPages,
             onPageClicked: failureOnPaginationClicked,
-            alignment:'right',
-            shouldShowPage:function(type, page, current){
-                switch(type)
-                {
+            alignment: 'right',
+            shouldShowPage: function (type, page, current) {
+                switch (type) {
                     case "first":
                     case "last":
                     case "page":
                         return false;
                     case "prev":
-                        if(current > 1){
+                        if (current > 1) {
                             return true;
-                        }else{
+                        } else {
                             return false;
                         }
                     case "next":
-                        if(totalPages > 1){
+                        if (totalPages > 1) {
                             return true;
-                        }else{
+                        } else {
                             return false;
                         }
                 }
@@ -584,7 +559,6 @@ function drawChartFailure(){
     }
 
 
-
     //perform necessary transformation on input data
     chartFailure.schema[0].data = chartFailure.processData(failureDataObj[0]);
     //finally draw the chart on the given canvas
@@ -593,13 +567,15 @@ function drawChartFailure(){
 
     var vg = new vizg(chartFailure.schema, chartFailure.chartConfig);
     $("#canvasFailure").empty();
-    vg.draw("#canvasFailure",[{type:"click", callback:typeFailureCallbackmethod}]);
+    vg.draw("#canvasFailure", [
+        {type: "click", callback: typeFailureCallbackmethod}
+    ]);
 }
 
-var typeSuccessCallbackmethod = function(event, item) {
+var typeSuccessCallbackmethod = function (event, item) {
 
     chartSuccess.isSelected = true;
-    if(chartFailure.isSelected){
+    if (chartFailure.isSelected) {
         chartFailure.isSelected = false;
         refreshChart(chartFailure);
     }
@@ -608,18 +584,18 @@ var typeSuccessCallbackmethod = function(event, item) {
     var userPrefValue = "";
 
     for (var key in jsonObj) {
-        if(key == userPrefKey){
+        if (key == userPrefKey) {
             userPrefValue = jsonObj[key];
         }
     }
 
-    if(userPrefValue != ""){
+    if (userPrefValue != "") {
 
         var valExist = false;
 
-        if(globalUniqueArray.length != 0){
-            for(i=0;i<globalUniqueArray.length;i++){
-                if(globalUniqueArray[i][2] == chartSuccess.mode){
+        if (globalUniqueArray.length != 0) {
+            for (var i = 0; i < globalUniqueArray.length; i++) {
+                if (globalUniqueArray[i][2] == chartSuccess.mode) {
                     valExist = true;
                     globalUniqueArray[i][0] = TOPIC_PUB_USERPREF;
                     globalUniqueArray[i][1] = userPrefValue;
@@ -627,22 +603,28 @@ var typeSuccessCallbackmethod = function(event, item) {
                 }
             }
 
-            if(!valExist){
-                var arry = [TOPIC_PUB_USERPREF,userPrefValue,chartSuccess.mode];
+            if (!valExist) {
+                var arry = [TOPIC_PUB_USERPREF, userPrefValue, chartSuccess.mode];
                 globalUniqueArray.push(arry);
             }
-        }else{
-            var arry = [TOPIC_PUB_USERPREF,userPrefValue,chartSuccess.mode];
+        } else {
+            var arry = [TOPIC_PUB_USERPREF, userPrefValue, chartSuccess.mode];
             globalUniqueArray.push(arry);
+        }
+
+        var instanceType = chartSuccess.mode;
+
+        if (instanceType == "SERVICEPROVIDER") {
+            $("#spLableId").hide();
         }
 
         var message = {
             userPrefValue: userPrefValue,
             mode: chartSuccess.mode,
-            colorCode:chartSuccess.colorCode
+            colorCode: chartSuccess.colorCode
         };
 
-        gadgetUtil.updateURLParam(chartSuccess.mode, userPrefValue + "_" +chartSuccess.colorCode);
+        gadgetUtil.updateURLParam(chartSuccess.mode, userPrefValue + "_" + chartSuccess.colorCode);
 
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
 
@@ -654,10 +636,10 @@ var typeSuccessCallbackmethod = function(event, item) {
 };
 
 
-var typeFailureCallbackmethod = function(event, item) {
+var typeFailureCallbackmethod = function (event, item) {
 
     chartFailure.isSelected = true;
-    if(chartSuccess.isSelected){
+    if (chartSuccess.isSelected) {
         chartSuccess.isSelected = false;
         refreshChart(chartSuccess);
     }
@@ -667,18 +649,18 @@ var typeFailureCallbackmethod = function(event, item) {
     var userPrefValue;
 
     for (var key in jsonObj) {
-        if(key == userPrefKey){
+        if (key == userPrefKey) {
             userPrefValue = jsonObj[key];
         }
     }
 
-    if(userPrefValue != ""){
+    if (userPrefValue != "") {
 
         var valExist = false;
 
-        if(globalUniqueArray.length != 0){
-            for(i=0;i<globalUniqueArray.length;i++){
-                if(globalUniqueArray[i][2] == chartFailure.mode){
+        if (globalUniqueArray.length != 0) {
+            for (i = 0; i < globalUniqueArray.length; i++) {
+                if (globalUniqueArray[i][2] == chartFailure.mode) {
                     valExist = true;
                     globalUniqueArray[i][0] = TOPIC_PUB_USERPREF;
                     globalUniqueArray[i][1] = userPrefValue;
@@ -686,22 +668,27 @@ var typeFailureCallbackmethod = function(event, item) {
                 }
             }
 
-            if(!valExist){
-                var arry = [TOPIC_PUB_USERPREF,userPrefValue,chartFailure.mode];
+            if (!valExist) {
+                var arry = [TOPIC_PUB_USERPREF, userPrefValue, chartFailure.mode];
                 globalUniqueArray.push(arry);
             }
-        }else{
-            var arry = [TOPIC_PUB_USERPREF,userPrefValue,chartFailure.mode];
+        } else {
+            var arry = [TOPIC_PUB_USERPREF, userPrefValue, chartFailure.mode];
             globalUniqueArray.push(arry);
+        }
+
+        var instanceType = chartFailure.mode;
+        if (instanceType == "SERVICEPROVIDER") {
+            $("#spLableId").hide();
         }
 
         var message = {
             userPrefValue: userPrefValue,
             mode: chartFailure.mode,
-            colorCode:chartFailure.colorCode
+            colorCode: chartFailure.colorCode
         };
 
-        gadgetUtil.updateURLParam(chartFailure.mode, userPrefValue + "_" +chartFailure.colorCode);
+        gadgetUtil.updateURLParam(chartFailure.mode, userPrefValue + "_" + chartFailure.colorCode);
 
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
 
@@ -712,36 +699,42 @@ var typeFailureCallbackmethod = function(event, item) {
     }
 };
 
-var escape = function(text) {
+var escape = function (text) {
     return text.replace(/[-[/\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-var substringMatcher = function() {
+var substringMatcher = function () {
 
     return function findMatches(q, cb) {
 
         switch (filterType) {
-            case 12: {
-                listnedAdditionalUserPrefs= " AND userName:"+ escape(q) +"*";
+            case 12:
+            {
+                listnedAdditionalUserPrefs = " AND userName:" + escape(q) + "*";
                 break;
             }
-            case 13: {
-                listnedAdditionalUserPrefs= " AND serviceProvider:"+ escape(q) +"*";
+            case 13:
+            {
+                listnedAdditionalUserPrefs = " AND serviceProvider:" + escape(q) + "*";
                 break;
             }
-            case 14: {
-                listnedAdditionalUserPrefs= " AND identityProvider:"+ escape(q) +"*";
+            case 14:
+            {
+                listnedAdditionalUserPrefs = " AND identityProvider:" + escape(q) + "*";
                 break;
             }
-            case 15: {
-                listnedAdditionalUserPrefs= " AND role:"+ escape(q) +"*";
+            case 15:
+            {
+                listnedAdditionalUserPrefs = " AND role:" + escape(q) + "*";
                 break;
             }
-            case 16: {
-                listnedAdditionalUserPrefs= " AND userStoreDomain:"+ escape(q) +"*";
+            case 16:
+            {
+                listnedAdditionalUserPrefs = " AND userStoreDomain:" + escape(q) + "*";
                 break;
             }
-            default : {
+            default :
+            {
                 listnedAdditionalUserPrefs = "";
             }
         }
@@ -750,16 +743,16 @@ var substringMatcher = function() {
             type: filterType,
             timeFrom: listnedTimeFromValue,
             timeTo: listnedTimeToValue,
-            listnedAdditionalUserPrefs:listnedAdditionalUserPrefs,
-            idpType:idpTypeFilter,
-            start:0,
-            count:10
-        }, function(response) {
+            listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+            idpType: idpTypeFilter,
+            start: 0,
+            count: 10
+        }, function (response) {
             try {
                 var data = response.message;
                 suggestionsList = [];
 
-                for (var i=0; i < data.length; i++) {
+                for (var i = 0; i < data.length; i++) {
                     for (var key in data[i]) {
                         suggestionsList.push(data[i][key]);
                     }
@@ -772,23 +765,27 @@ var substringMatcher = function() {
     };
 };
 
-function refreshChart(chartObj){
+function refreshChart(chartObj) {
 
 
     var vg = new vizg(chartObj.schema, chartObj.chartConfig);
 
-    if(chartObj.colorCode == "SUCCESS"){
+    if (chartObj.colorCode == "SUCCESS") {
         $("#canvasSuccess").empty();
-        vg.draw("#canvasSuccess",[{type:"click", callback:typeSuccessCallbackmethod}]);
-    }else{
+        vg.draw("#canvasSuccess", [
+            {type: "click", callback: typeSuccessCallbackmethod}
+        ]);
+    } else {
         $("#canvasFailure").empty();
-        vg.draw("#canvasFailure",[{type:"click", callback:typeFailureCallbackmethod}]);
+        vg.draw("#canvasFailure", [
+            {type: "click", callback: typeFailureCallbackmethod}
+        ]);
     }
 }
 
-function onSPChange(){
+function onSPChange() {
 
-    if($("#spLableId").val() == "Show First Login Success"){
+    if ($("#spLableId").val() == "Show First Login Success") {
 
         $("#spLableId").val("Show Service Provider");
         chartSuccess = gadgetUtil.getChart("serviceProviderAuthenticationFirstLoginSuccessCount");
@@ -799,7 +796,7 @@ function onSPChange(){
         $("#canvasFailure").empty();
         $(window.parent.document).find(".gadget-heading h1:contains('Top Service Providers'),h1:contains('TOP SERVICE PROVIDERS')").text("TOP SERVICE PROVIDER FIRST LOGIN");
         onChange();
-    }else{
+    } else {
         $("#spLableId").val("Show First Login Success");
         chartSuccess = gadgetUtil.getChart("serviceProviderAuthenticationSuccessCount");
         chartFailure = gadgetUtil.getChart("serviceProviderAuthenticationFailureCount");
@@ -808,7 +805,7 @@ function onSPChange(){
         filterType = gadgetUtil.getFilterType(page, chartSuccess);
         $("#canvasSuccess").empty();
         $("#canvasFailure").empty();
-        $("#canvasFailure").css({"display":"block"});
+        $("#canvasFailure").css({"display": "block"});
         $(window.parent.document).find(".gadget-heading h1:contains('TOP SERVICE PROVIDER FIRST LOGIN')").text("TOP SERVICE PROVIDERS");
         onChange();
     }

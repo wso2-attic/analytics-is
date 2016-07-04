@@ -35,7 +35,7 @@
                     <div id="canvas"></div>
                 </div>
                 <div class="col-2 stats-total add-padding-top-5x">
-                    <h2 style="text-align: center;"><b>Active</b> sessions <span id="title"></span></h2>
+                    <h4 style="text-align: center;">ACTIVE SESSIONS</h4>
                     <h1 id="active-session-count" style="text-align: center;">0</h1>
                 </div>                
             </div>
