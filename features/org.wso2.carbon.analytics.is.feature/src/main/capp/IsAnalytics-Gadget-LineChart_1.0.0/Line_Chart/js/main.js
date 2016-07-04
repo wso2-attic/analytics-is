@@ -7,6 +7,7 @@ var type;
 var chart = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE));
 var rangeStart;
 var rangeEnd;
+var gadgetContext = SESSION_CONTEXT;
 
 if (chart) {
     type = gadgetUtil.getRequestType(page, chart);
@@ -23,7 +24,7 @@ $(function() {
     }*/
     var timeFrom = gadgetUtil.timeFrom();
     var timeTo = gadgetUtil.timeTo();
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(gadgetContext, {
         type: type,
         timeFrom: timeFrom,
         timeTo: timeTo,
@@ -39,7 +40,7 @@ gadgets.HubSettings.onConnect = function() {
 };
 
 function onTimeRangeChanged(data) {
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(gadgetContext, {
         type: type,
         timeFrom: data.timeFrom,
         timeTo: data.timeTo,

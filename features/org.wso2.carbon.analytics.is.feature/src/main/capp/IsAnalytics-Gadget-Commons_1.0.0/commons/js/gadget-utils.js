@@ -18,7 +18,8 @@
  * This Javascript module groups utility methods that are being used by all the gadgets in the ESB analytics dashboard
  */
 
-var CONTEXT = "/portal/apis/isanalytics";
+var AUTHENTICATION_CONTEXT = "/portal/apis/isanalytics";
+var SESSION_CONTEXT = "/portal/apis/issessionanalytics";
 var DASHBOARD_NAME = "IsAnalytics-AuthenticationData";
 var BASE_URL = "/portal/dashboards/" + DASHBOARD_NAME + "/";
 
