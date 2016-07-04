@@ -1,13 +1,10 @@
 <%
 (function () {
 
-
     var log = new Log();
     var carbon = require('carbon');
     var configs = require('/configs/designer.json');
-    var utils = require('/modules/utils.js');
     var timeRangeUtil = Packages.org.wso2.analytics.shared.util.time.TimeRangeUtils;
-    var timeRange = Packages.org.wso2.analytics.shared.util.time.bean.TimeRange;
     var JSUtils = Packages.org.wso2.carbon.analytics.jsservice.Utils;
     var AnalyticsCachedJSServiceConnector = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector;
     var AnalyticsCache = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector.AnalyticsCache;
@@ -193,9 +190,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -263,8 +257,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -319,9 +311,6 @@
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
-
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
@@ -393,8 +382,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -448,8 +435,6 @@
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
@@ -515,8 +500,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -567,8 +550,6 @@
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
@@ -633,8 +614,6 @@
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
@@ -761,8 +740,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -812,8 +789,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -861,8 +836,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -909,8 +882,6 @@
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
@@ -960,8 +931,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
                 }
@@ -1007,8 +976,6 @@
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
@@ -1073,8 +1040,6 @@
                 dataPointsArray = [];
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
-
-                var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";

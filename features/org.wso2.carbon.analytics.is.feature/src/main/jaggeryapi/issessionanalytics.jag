@@ -5,7 +5,6 @@
     var carbon = require('carbon');
     var configs = require('/configs/designer.json');
     var timeRangeUtil = Packages.org.wso2.analytics.shared.util.time.TimeRangeUtils;
-    var timeRange = Packages.org.wso2.analytics.shared.util.time.bean.TimeRange;
     var JSUtils = Packages.org.wso2.carbon.analytics.jsservice.Utils;
     var AnalyticsCachedJSServiceConnector = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector;
     var AnalyticsCache = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector.AnalyticsCache;
