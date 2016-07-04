@@ -196,7 +196,7 @@ function onDataChanged() {
     gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
     gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
 
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(AUTHENTICATION_CONTEXT, {
         type: type,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
@@ -204,7 +204,7 @@ function onDataChanged() {
         idpType:idpTypeFilter
     }, onData, onError);
 
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(AUTHENTICATION_CONTEXT, {
         type: 25,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
