@@ -15,6 +15,7 @@ var successDataObj;
 var failureDataObj;
 var commonScaleDomain;
 var idpTypeFilter = "";
+var gadgetContext = AUTHENTICATION_CONTEXT;
 var href = parent.window.location.href;
 var hrefLastSegment = href.substr(href.lastIndexOf('/') + 1);
 var resolveURI = parent.ues.global.dashboard.id == hrefLastSegment ? '../' : '../../';
@@ -101,6 +102,7 @@ $(function () {
         }
     } else if (page == TYPE_SESSIONS) {
         $('#autocomplete-search-box').hide();
+        gadgetContext = SESSION_CONTEXT;
     }
 
     if (instanceType == "SERVICEPROVIDER") {
@@ -171,7 +173,7 @@ function onResidentIdpClick() {
 function successOnPaginationClicked(e, originalEvent, type, page) {
     successGlobalPage = page;
 
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(gadgetContext, {
         type: functionTypeSuccess,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
@@ -186,7 +188,7 @@ function successOnPaginationClicked(e, originalEvent, type, page) {
 function failureOnPaginationClicked(e, originalEvent, type, page) {
     failureGlobalPage = page;
 
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(gadgetContext, {
         type: functionTypeFailure,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
@@ -345,7 +347,7 @@ function addUserPrefsToGlobalArray(topic, mode, value) {
 
 function onChange() {
 
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(gadgetContext, {
         type: functionTypeSuccess,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
@@ -355,7 +357,7 @@ function onChange() {
         count: 10
     }, successOnData, successOnError);
 
-    gadgetUtil.fetchData(CONTEXT, {
+    gadgetUtil.fetchData(gadgetContext, {
         type: filterType,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
@@ -380,7 +382,7 @@ function successOnData(response) {
         if (chartFailure) {
             $('#canvasSuccess').css({"height": "35%"});
             $('#canvasFailure').css({"height": "35%"});
-            gadgetUtil.fetchData(CONTEXT, {
+            gadgetUtil.fetchData(gadgetContext, {
                 type: functionTypeFailure,
                 timeFrom: listnedTimeFromValue,
                 timeTo: listnedTimeToValue,
@@ -739,7 +741,7 @@ var substringMatcher = function () {
             }
         }
 
-        gadgetUtil.fetchDataSync(CONTEXT, {
+        gadgetUtil.fetchDataSync(gadgetContext, {
             type: filterType,
             timeFrom: listnedTimeFromValue,
             timeTo: listnedTimeToValue,

@@ -61,7 +61,7 @@ $(function() {
 
             ],
             "ajax": {
-                "url" : CONTEXT,
+                "url" : AUTHENTICATION_CONTEXT,
                 "data" : function (d) {
                     d.type = page.type;
                     d.timeFrom = parseInt(listnedTimeFromValue);
@@ -95,7 +95,7 @@ $(function() {
 
             ],
             "ajax": {
-                "url" : CONTEXT,
+                "url" : AUTHENTICATION_CONTEXT,
                 "data" : function (d) {
                     d.type = page.type;
                     d.timeFrom = parseInt(listnedTimeFromValue);
@@ -134,7 +134,7 @@ $(function() {
 
             ],
             "ajax": {
-                "url" : CONTEXT,
+                "url" : SESSION_CONTEXT,
                 "data" : function (d) {
                     d.type = page.type;
                     d.timeFrom = parseInt(listnedTimeFromValue);

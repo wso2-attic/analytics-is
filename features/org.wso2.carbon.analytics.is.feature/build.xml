@@ -16,6 +16,7 @@
     <target name="pre-configure">
         <mkdir dir="${target-dir}"/>
 	<copy file="${jaggery-api-dir}/isanalytics.jag" todir="${res-dir}"/>
+    <copy file="${jaggery-api-dir}/issessionanalytics.jag" todir="${res-dir}"/>
     </target>
 
     <target name="zip" depends="clean,pre-configure">
