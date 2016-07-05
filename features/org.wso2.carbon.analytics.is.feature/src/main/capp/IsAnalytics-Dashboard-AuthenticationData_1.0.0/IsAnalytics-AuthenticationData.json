@@ -1438,6 +1438,10 @@
                                         {
                                             "from": "hcs95c0d5n9gj33tv2bg9zfr",
                                             "event": "publisher"
+                                        },
+                                        {
+                                            "from": "Line_Chart-0",
+                                            "event": "chart-zoomed"
                                         }
                                     ]
                                 },
@@ -1501,6 +1505,10 @@
                                         {
                                             "from": "hcs95c0d5n9gj33tv2bg9zfr",
                                             "event": "publisher"
+                                        },
+                                        {
+                                            "from": "Line_Chart-0",
+                                            "event": "chart-zoomed"
                                         }
                                     ]
                                 },
@@ -1564,6 +1572,10 @@
                                         {
                                             "from": "hcs95c0d5n9gj33tv2bg9zfr",
                                             "event": "publisher"
+                                        },
+                                        {
+                                            "from": "Line_Chart-0",
+                                            "event": "chart-zoomed"
                                         }
                                     ]
                                 },
@@ -1628,7 +1640,13 @@
                             "listen": {
                                 "subscriber": {
                                     "type": "dateRange",
-                                    "description": "Used to listen to Any message of type state"
+                                    "description": "Used to listen to Any message of type state",
+                                    "on": [
+                                        {
+                                            "from": "Line_Chart-0",
+                                            "event": "chart-zoomed"
+                                        }
+                                    ]
                                 }
                             },
                             "notify": {

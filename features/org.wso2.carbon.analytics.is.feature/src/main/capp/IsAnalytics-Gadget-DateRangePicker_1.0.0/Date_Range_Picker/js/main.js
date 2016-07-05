@@ -137,8 +137,8 @@ $(function() {
 
 gadgets.HubSettings.onConnect = function() {
     gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function (topic, data, subscriberData) {
-        var listnedTimeFromValue = parseInt(gadgetUtil.getURLParam("persistTimeFrom"));
-        var listnedTimeToValue = parseInt(gadgetUtil.getURLParam("persistTimeTo"));
+        var listnedTimeFromValue = parseInt(data.timeFrom);
+        var listnedTimeToValue = parseInt(data.timeTo);
         $("#date-select button").removeClass("active");
         $('#btnCustomRange').addClass("active");
         var dateLabel = $('#reportrange');
