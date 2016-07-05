@@ -370,13 +370,22 @@
                 var draw = request.getParameter("draw");
 
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                if(sortByColumnNo == 6 || sortByColumnNo == 10) {
+                    sortByColumnNo = 0;
+                }
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
 
                 var query = stringify({
                     "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]",
                     "start": start,
-                    "count": length
+                    "count": length,
+                    "sortBy": [
+                        {
+                            "field": columns[sortByColumnNo],
+                            "sortType": sortType
+                        }
+                    ]
                 });
 
                 var resp = connector.search(loggedInUser, tableName, query);
@@ -391,7 +400,19 @@
                     for (j = 0; j < columns.length; j++) {
                         var column = columns[j];
                         if (dataPoints[i] != null) {
-                            if (column == "_timestamp") {
+                            if (column == "startTimestamp") {
+                                var value = dataPoints[i]["values"]["startTimestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else if (column == "terminationTimestamp") {
+                                var value = dataPoints[i]["values"]["terminationTimestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else if (column == "endTimestamp") {
+                                var value = dataPoints[i]["values"]["endTimestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else if (column == "_timestamp") {
                                 var value = dataPoints[i]["timestamp"];
                                 var date = new Date(value);
                                 temp.push(date.toLocaleString());
