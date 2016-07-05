@@ -438,7 +438,7 @@ var charts = [{
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":30,"left":100,"bottom":38,"right":90},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
             { name: TYPE_SESSIONS, type: 21, filter:24 }
@@ -473,7 +473,7 @@ var charts = [{
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":30,"left":100,"bottom":38,"right":90},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
             { name: TYPE_SESSIONS, type: 22, filter:24 }
@@ -509,7 +509,7 @@ var charts = [{
             "xTitle":"Duration",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
-            "padding":{"top":30,"left":100,"bottom":38,"right":55},
+            "padding":{"top":30,"left":100,"bottom":38,"right":90},
             "charts":[{type: "bar",  y : "sessionCount"}]},
         types: [
             { name: TYPE_SESSIONS, type: 23 }

@@ -143,7 +143,7 @@
                     tableName: tableName,
                     groupByField: "userName",
                     aggregateLevel: 0,
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "]",
                     aggregateFields: [
                         {
                             fieldName: "averageSession",
