@@ -64,4 +64,8 @@ public class DataPublisherClient {
         }
     }
 
+    public void publish(Event event) throws DataEndpointException {
+        dataPublisher.publish(event);
+    }
+
 }
