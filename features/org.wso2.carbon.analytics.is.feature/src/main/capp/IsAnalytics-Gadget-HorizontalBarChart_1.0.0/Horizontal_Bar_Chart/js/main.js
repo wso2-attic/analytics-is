@@ -393,7 +393,11 @@ function successOnData(response) {
             }, failureOnData, failureOnError);
         } else {
             $("#canvasFailure").css({"display": "none"});
-            $('#canvasSuccess').css({"height": "70%"});
+            if(page == TYPE_SESSIONS) {
+                $('#canvasSuccess').css({"height": "90%"});
+            } else {
+                $('#canvasSuccess').css({"height": "70%"});
+            }
             //$('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 
