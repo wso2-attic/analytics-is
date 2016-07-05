@@ -370,13 +370,22 @@
                 var draw = request.getParameter("draw");
 
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                if(sortByColumnNo == 6 || sortByColumnNo == 10) {
+                    sortByColumnNo = 0;
+                }
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
 
                 var query = stringify({
                     "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]",
                     "start": start,
-                    "count": length
+                    "count": length,
+                    "sortBy": [
+                        {
+                            "field": columns[sortByColumnNo],
+                            "sortType": sortType
+                        }
+                    ]
                 });
 
                 var resp = connector.search(loggedInUser, tableName, query);
