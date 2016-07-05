@@ -1,0 +1,45 @@
+<%
+    var JSUtils = Packages.org.wso2.carbon.analytics.jsservice.Utils;
+    var AnalyticsCachedJSServiceConnector = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector;
+    var AnalyticsCache = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector.AnalyticsCache;
+    var configs = require('/configs/designer.json');
+
+    var AUTHORIZATION_HEADER = "Authorization";
+    var USER_TOKEN = "user";
+    var USERNAME = "username";
+    var TENANT_DOMAIN = "domain";
+    var CONST_AT = "@";
+
+    function getLoggedInUser(){
+    	var authParam = request.getHeader(AUTHORIZATION_HEADER);
+    	var loggedInUser = null;
+	    if (authParam != null) {
+	        credentials = JSUtils.authenticate(authParam);
+	        loggedInUser = credentials[0];
+	    } else {
+	        var token = session.get(USER_TOKEN);
+	        if (token != null) {
+	            loggedInUser = token[USERNAME] + CONST_AT + token[TENANT_DOMAIN];
+	            return loggedInUser;
+	        }
+	    }
+	    return loggedInUser;
+    };
+
+    function getConnector(){
+    	if (configs.cacheTimeoutSeconds) {
+        	cacheTimeoutSeconds = parseInt(configs.cacheTimeoutSeconds);
+	    }
+	    var cacheSizeBytes = 1024 * 1024 * 1024; // 1GB
+	    if (configs.cacheSizeBytes) {
+	        cacheSizeBytes = parseInt(configs.cacheSizeBytes);
+	    }
+	    var cache = application.get("AnalyticsWebServiceCache");
+	    if (cache == null) {
+	        cache = new AnalyticsCache(cacheTimeoutSeconds, cacheSizeBytes);
+	        application.put("AnalyticsWebServiceCache", cache);
+	    }
+	    return new AnalyticsCachedJSServiceConnector(cache);
+    };
+    
+ %>

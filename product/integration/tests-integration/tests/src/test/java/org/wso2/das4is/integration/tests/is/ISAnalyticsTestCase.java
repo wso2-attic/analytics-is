@@ -110,12 +110,12 @@ public class ISAnalyticsTestCase extends DASIntegrationTest {
                 String[] eventObject = line.split(",");
                 line = br.readLine();
                 Object[] payload = new Object[]{eventObject[0], eventObject[1], Boolean.valueOf(eventObject[2]), eventObject[3], eventObject[4], eventObject[5],
-                        eventObject[6], eventObject[7], eventObject[8], Boolean.valueOf(eventObject[9]),
-                        Boolean.valueOf(eventObject[10]), Boolean.valueOf(eventObject[11]), eventObject[12],
-                        eventObject[13], eventObject[14],
-                        Boolean.valueOf(eventObject[15]), eventObject[16], Boolean.valueOf(eventObject[17]),
-                        eventObject[18],
-                        Long.valueOf(eventObject[19])};
+                        eventObject[6], eventObject[7], eventObject[8], eventObject[9], Boolean.valueOf(eventObject[10]),
+                        Boolean.valueOf(eventObject[11]), Boolean.valueOf(eventObject[12]), eventObject[13],
+                        eventObject[14], eventObject[15],
+                        Boolean.valueOf(eventObject[16]), eventObject[17], Boolean.valueOf(eventObject[18]),
+                        eventObject[19],
+                        Long.valueOf(eventObject[20])};
 
                 count++;
 
