@@ -8,7 +8,7 @@
 
 
 @Import('org.wso2.is.analytics.stream.OverallSession:1.0.0')
-define stream SessionStream (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, tenantDomain string, rememberMeFlag bool, _timestamp long);
+define stream SessionStream (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, region string, tenantDomain string, rememberMeFlag bool, userAgent string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.SessionStatPerMinute:1.0.0')
 define stream SessionStatPerMinute (bucketId long, bucketStart long, bucketEnd long, year int, month int, day int, hour int, minute int, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
