@@ -234,15 +234,15 @@
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/portal
             </directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/portal</outputDirectory>
-            <excludes>
+            <!--excludes>
                 <exclude>**/extensions/themes/basic/css/dashboard.css</exclude>
                 <exclude>**/extensions/themes/basic/css/portal.css</exclude>
                 <exclude>**/extensions/themes/basic/js/*</exclude>
-            </excludes>
+            </excludes-->
         </fileSet>
 
         <!-- Adding customized analytics theme to themes directory -->
-        <fileSet>
+        <!--fileSet>
             <directory>
                 src/ues/themes/basic
             </directory>
@@ -250,7 +250,7 @@
             <includes>
                 <include>**/*</include>
             </includes>
-        </fileSet>
+        </fileSet-->
        
         <!-- END UES related dashboard artifacts -->
 
