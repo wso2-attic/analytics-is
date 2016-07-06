@@ -82,20 +82,20 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>userAgent</Name>
-            <IsFacet>false</IsFacet>
-            <EnableIndexing>false</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
-        <ColumnDefinition>
             <Name>rememberMeFlag</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>userAgent</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
         </ColumnDefinition>
     </TableSchema>
     <Source>
