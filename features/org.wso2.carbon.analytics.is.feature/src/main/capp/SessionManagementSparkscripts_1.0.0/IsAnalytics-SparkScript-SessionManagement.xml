@@ -2,7 +2,7 @@
 <Analytics>
     <Name>IsAnalytics-SparkScript-SessionManagement</Name>
     <Script>
-        CREATE TEMPORARY TABLE activeSessionTable USING CarbonAnalytics OPTIONS (tableName "ACTIVE_SESSIONS", schema "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, year INT, month INT, day INT, hour INT, minute INT, action INT, userName STRING, userstoreDomain STRING, IP STRING, tenantDomain STRING, rememberMeFlag BOOLEAN", primaryKeys "sessionId");
+        CREATE TEMPORARY TABLE activeSessionTable USING CarbonAnalytics OPTIONS (tableName "ACTIVE_SESSIONS", schema "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, year INT, month INT, day INT, hour INT, minute INT, action INT, userName STRING, userstoreDomain STRING, IP STRING, region STRING, tenantDomain STRING, rememberMeFlag BOOLEAN, userAgent STRING", primaryKeys "sessionId");
 
         CREATE TEMPORARY TABLE rawSessionsTable USING CarbonAnalytics OPTIONS (tableName "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO");
 
