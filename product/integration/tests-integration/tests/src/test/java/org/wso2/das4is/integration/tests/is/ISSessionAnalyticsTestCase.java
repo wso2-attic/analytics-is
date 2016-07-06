@@ -117,8 +117,10 @@ public class ISSessionAnalyticsTestCase extends DASIntegrationTest {
                     USERS[idx],
                     USERS[idx],
                     "127.0.0.1",
+                    "NOT_AVAILABLE",
                     TENANT_DOMAIN[idx],
                     RAND.nextBoolean(),
+                    "Firefox",
                     System.currentTimeMillis()
             };
             Event event = new Event(streamId, System.currentTimeMillis(), null, null, payload);

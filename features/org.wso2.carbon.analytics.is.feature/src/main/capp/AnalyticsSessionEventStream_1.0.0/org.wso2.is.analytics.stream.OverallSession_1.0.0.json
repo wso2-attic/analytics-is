@@ -37,12 +37,20 @@
             "type": "STRING"
         },
         {
+          "name": "region",
+          "type": "STRING"
+        },
+        {
             "name": "tenantDomain",
             "type": "STRING"
         },
         {
             "name": "rememberMeFlag",
             "type": "BOOL"
+        },
+        {
+          "name": "userAgent",
+          "type": "STRING"
         },
         {
             "name": "_timestamp",
