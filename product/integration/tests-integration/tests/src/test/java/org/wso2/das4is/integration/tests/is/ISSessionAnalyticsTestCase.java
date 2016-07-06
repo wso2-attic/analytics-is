@@ -134,7 +134,8 @@ public class ISSessionAnalyticsTestCase extends DASIntegrationTest {
             System.out.println("Published " + ctr + " events.");
         }
 
-
+        Thread.sleep(5000);
+        dataPublisherClient.shutdown();
         Thread.sleep(20000);
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-SessionData");
         Thread.sleep(15000);
