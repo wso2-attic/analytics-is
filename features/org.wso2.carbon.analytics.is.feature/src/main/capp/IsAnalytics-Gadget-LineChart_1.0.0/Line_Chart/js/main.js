@@ -7,6 +7,9 @@ var type;
 var chart = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE));
 var rangeStart;
 var rangeEnd;
+var rangeHistoryArray = [];
+var listnedTimeFromValue;
+var listnedTimeToValue;
 var gadgetContext = SESSION_CONTEXT;
 
 if (chart) {
@@ -31,11 +34,33 @@ $(function() {
         start: 0,
         count: 10        
     }, onData, onError);
+
+    $("#back").off().click(function (event) {
+        if(rangeHistoryArray.length > 0) {
+            var timeRange = rangeHistoryArray[rangeHistoryArray.length - 1];
+            rangeHistoryArray.splice(rangeHistoryArray.length - 1, 1);
+            listnedTimeFromValue = timeRange[0];
+            listnedTimeToValue = timeRange[1];
+            var message = {
+                timeFrom: listnedTimeFromValue,
+                timeTo: listnedTimeToValue,
+                timeUnit: "Custom"
+            };
+            onTimeRangeChanged(message);
+            gadgets.Hub.publish(PUBLISHER_TOPIC, message);
+            if(rangeHistoryArray.length == 0) {
+                $(this).hide();
+            }
+        }
+    });
 });
 
 gadgets.HubSettings.onConnect = function() {
     gadgets.Hub.subscribe(TOPIC, function(topic, data, subscriberData) {
         onTimeRangeChanged(data);
+        listnedTimeFromValue = data.timeFrom;
+        listnedTimeToValue = data.timeTo;
+        $("#back").hide();
     });
 };
 
@@ -99,12 +124,25 @@ document.body.onmouseup = function() {
     // div.innerHTML = "<p> Start : " + rangeStart + "</p>" + "<p> End : " + rangeEnd + "</p>";
 
     if((rangeStart) && (rangeEnd) && (rangeStart.toString() !== rangeEnd.toString())){
-        var message = {
-            timeFrom: new Date(rangeStart).getTime(),
-            timeTo: new Date(rangeEnd).getTime(),
-            timeUnit: "Custom"
-        };
-        gadgets.Hub.publish(PUBLISHER_TOPIC, message);
+        if(event.target.nodeName == 'svg' && !($(event.target).is('#back'))) {
+            var timeFromValue = JSON.parse(JSON.stringify(listnedTimeFromValue));
+            var timeToValue = JSON.parse(JSON.stringify(listnedTimeToValue));
+            var timeRange = [timeFromValue, timeToValue];
+            rangeHistoryArray.push(timeRange);
+            $("#back").show();
+
+            var message = {
+                timeFrom: new Date(rangeStart).getTime(),
+                timeTo: new Date(rangeEnd).getTime(),
+                timeUnit: "Custom"
+            };
+
+            listnedTimeFromValue = new Date(rangeStart).getTime();
+            listnedTimeToValue = new Date(rangeEnd).getTime();
+
+            onTimeRangeChanged(message);
+            gadgets.Hub.publish(PUBLISHER_TOPIC, message);
+        }
     }
 }
 
