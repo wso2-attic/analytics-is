@@ -182,9 +182,8 @@ $(window).load(function() {
         }
     });
 
-    $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="' + resolveURI + 'store/carbon.super/gadget/Date_Range_Picker/css/daterangepicker.css" />');
-    $('body', parentWindow).append('<script src="' + resolveURI + 'store/carbon.super/gadget/Date_Range_Picker/js/daterangepicker.js" type="text/javascript"></script>');
-    $(gadgetWrapper).append(datePicker);
+    $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="' + resolveURI + 'store/carbon.super/fs/gadget/Date_Range_Picker/css/daterangepicker.css" />');
+    $('body', parentWindow).append('<script src="' + resolveURI + 'store/carbon.super/fs/gadget/Date_Range_Picker/js/daterangepicker.js" type="text/javascript"></script>');    $(gadgetWrapper).append(datePicker);
     $(gadgetWrapper).append(dropdown);
     $(gadgetWrapper).closest('.ues-component-box').addClass('widget form-control-widget');
     $('body').addClass('widget');
