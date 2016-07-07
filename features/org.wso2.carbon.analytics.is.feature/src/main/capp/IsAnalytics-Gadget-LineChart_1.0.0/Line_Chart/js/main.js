@@ -35,6 +35,9 @@ $(function() {
         count: 10        
     }, onData, onError);
 
+    listnedTimeFromValue = gadgetUtil.timeFrom();
+    listnedTimeToValue = gadgetUtil.timeTo();
+
     $("#back").off().click(function (event) {
         if(rangeHistoryArray.length > 0) {
             var timeRange = rangeHistoryArray[rangeHistoryArray.length - 1];
@@ -124,7 +127,7 @@ document.body.onmouseup = function() {
     // div.innerHTML = "<p> Start : " + rangeStart + "</p>" + "<p> End : " + rangeEnd + "</p>";
 
     if((rangeStart) && (rangeEnd) && (rangeStart.toString() !== rangeEnd.toString())){
-        if(event.target.nodeName == 'svg' && !($(event.target).is('#back'))) {
+        if((event.target.nodeName == 'svg' || event.target.nodeName == 'rect')&& !($(event.target).is('#back'))) {
             var timeFromValue = JSON.parse(JSON.stringify(listnedTimeFromValue));
             var timeToValue = JSON.parse(JSON.stringify(listnedTimeToValue));
             var timeRange = [timeFromValue, timeToValue];
