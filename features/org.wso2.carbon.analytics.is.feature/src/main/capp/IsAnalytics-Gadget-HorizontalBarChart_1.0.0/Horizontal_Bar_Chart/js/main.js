@@ -151,7 +151,7 @@ $(function () {
                                 listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + historyParamVal.split("_")[0] + "\"";
                             } else if (key == "FIRST_TIME_SERVICEPROVIDER") {
                                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
-                            } else if (globalUniqueArray[i][2] == "REGION") {
+                            } else if (key == "REGION") {
                                 listnedAdditionalUserPrefs += " AND region:\"" + globalUniqueArray[i][1] + "\"";
                             }
                         }

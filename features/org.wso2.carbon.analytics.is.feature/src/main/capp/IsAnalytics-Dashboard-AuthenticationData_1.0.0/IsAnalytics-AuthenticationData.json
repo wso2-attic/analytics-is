@@ -1,7 +1,9 @@
 {"id": "IsAnalytics-AuthenticationData", "title": "Security Analytics", "description": "", "permissions": {
     "viewers": ["Internal/everyone"],
     "editors": ["Internal/everyone"]
-}, "pages": [
+},
+    "shareDashboard" : true,
+    "pages": [
     {
         "id": "landing",
         "title": "Federated Identity Provider",
