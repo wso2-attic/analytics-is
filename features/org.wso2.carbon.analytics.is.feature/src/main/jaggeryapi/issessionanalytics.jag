@@ -88,7 +88,7 @@
                     if(queryString.length != 0) {
                         queryString += " OR ";
                     }
-                    queryString += "sessionId:" + key;
+                    queryString += "sessionId:" + '"' + key + '"'; //adding "" because sessionId could contain special characters
                 }
 
                 query = stringify({
