@@ -8,8 +8,8 @@
 
         INSERT INTO TABLE rawSessionsTable SELECT sessionId, startTimestamp, renewTimestamp, terminationTimestamp, -1, year, month, day, hour, minute, now(0) - startTimestamp, true, userName, userstoreDomain, IP, tenantDomain, rememberMeFlag, _tenantId, -1 from activeSessionTable where terminationTimestamp > now(0);
 
-        CREATE TEMPORARY TABLE sesssionEventsNotificationTable USING org.wso2.carbon.analytics.spark.event.EventStreamProvider OPTIONS (streamName "org.wso2.is.analytics.stream.OverallSession", version "1.0.0", payload "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, action INT, userName STRING, userstoreDomain STRING, IP STRING, region STRING, tenantDomain STRING, rememberMeFlag BOOLEAN, userAgent STRING",  globalTenantAccess "true");
+        CREATE TEMPORARY TABLE sesssionEventsNotificationTable USING org.wso2.carbon.analytics.spark.event.EventStreamProvider OPTIONS (streamName "org.wso2.is.analytics.stream.OverallSession", version "1.0.0", payload "sessionId STRING, startTimestamp LONG, renewTimestamp LONG, terminationTimestamp LONG, action INT, userName STRING, userstoreDomain STRING, IP STRING, region STRING, tenantDomain STRING, rememberMeFlag BOOLEAN, userAgent STRING, _tenantId INT,  _timestamp LONG",  globalTenantAccess "true");
 
-        INSERT INTO TABLE sesssionEventsNotificationTable SELECT sessionId, startTimestamp, renewTimestamp, terminationTimestamp, 0, userName, userstoreDomain, IP, region, tenantDomain, rememberMeFlag, userAgent from activeSessionTable WHERE terminationTimestamp &lt; now(0);    </Script>
+        INSERT INTO TABLE sesssionEventsNotificationTable SELECT sessionId, startTimestamp, renewTimestamp, terminationTimestamp, 0, userName, userstoreDomain, IP, region, tenantDomain, rememberMeFlag, userAgent, _tenantId, now(0) from activeSessionTable WHERE terminationTimestamp &lt; now(0);    </Script>
     <CronExpression>0 0/5 * * * ?</CronExpression>
 </Analytics>
