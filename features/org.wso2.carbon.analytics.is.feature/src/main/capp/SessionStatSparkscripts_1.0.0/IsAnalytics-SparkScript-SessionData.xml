@@ -2,7 +2,7 @@
 <Analytics>
     <Name>IsAnalytics-SparkScript-SessionData</Name>
     <Script>
-        CREATE TEMPORARY TABLE isSessionAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_SessionStatPerMinute", schema "bucketId LONG -i, bucketStart LONG -i, bucketEnd LONG -i, year INT, month INT, day INT, hour INT, minute INT, activeSessionCount INT, newSessionCount INT, terminatedSessionCount INT, _tenantId INT, _timestamp LONG -i", , primaryKeys "bucketId, bucketStart, bucketEnd", mergeSchema "false", globalTenantAccess "true");
+        CREATE TEMPORARY TABLE isSessionAnalyticsPerMinute USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_SessionStatPerMinute", schema "bucketId LONG -i, bucketStart LONG -i, bucketEnd LONG -i, year INT, month INT, day INT, hour INT, minute INT, activeSessionCount INT, newSessionCount INT, terminatedSessionCount INT, _tenantId INT, _timestamp LONG -i", primaryKeys "bucketId, bucketStart, bucketEnd", mergeSchema "false", globalTenantAccess "true");
 
         CREATE TEMPORARY TABLE isSessionAnalyticsPerHour USING CarbonAnalytics OPTIONS (tableName "org_wso2_is_analytics_stream_SessionStatPerHour", schema "bucketId LONG -i, bucketStart LONG -i, bucketEnd LONG -i, year INT, month INT, day INT, hour INT, activeSessionCount INT -i, newSessionCount INT -i, terminatedSessionCount INT -i, _tenantId INT, _timestamp LONG -i", primaryKeys "bucketId, bucketStart, bucketEnd", incrementalParams "isSessionAnalyticsPerHour, HOUR", mergeSchema "false", globalTenantAccess "true");
 
