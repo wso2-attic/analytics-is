@@ -226,6 +226,16 @@ body.dark .pagination > li.active > a:hover {
     border-color: #353C48;
 }
 
+body.dark .pagination > li > span:hover,
+body.dark .pagination > li > a:hover {
+    background-color: #353C48;
+}
+
+body.dark .pagination > li.active > span:hover,
+body.dark .pagination > li.active > a:hover {
+    background-color: #438CAD;
+}
+
 .pagination > li > span:hover,
 .pagination > li > a:hover {
     color: #353C48;

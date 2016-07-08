@@ -34,17 +34,19 @@
         </head>
         <body>
 
-            <div class="row no-gutter">
+            <div class="row no-gutter add-padding-5x">
                 <div class="col-6">
-                    <div id="canvas" style="height:90%;"></div>
-                    <input type="button" id="back" value="" title="Previous Time Range"/>
+                    <button class="btn btn-default" id="back" data-toggle="tooltip" title="Previous Time Range">
+                        <i class="fw fw-left"></i>
+                    </button>
+                    <div id="canvas" style="height:80%;"></div>
                 </div>
-                <div class="col-2 stats-total add-padding-top-5x">
+                <div class="col-2 stats-total add-padding-left-3x add-padding-right-3x">
                     <h4 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h4>
                     <h1 id="totalCount" style="text-align: center;"></h1>
                     <div id="donutDiv"></div>
                 </div>
-                <div class="col-4 stats-total add-padding-top-1x">
+                <div class="col-4 stats-total">
                     <div class="pull-right clearfix">
                         <div class="pull-left arc-chart">
                             <div id="mapSuccessDiv"></div>

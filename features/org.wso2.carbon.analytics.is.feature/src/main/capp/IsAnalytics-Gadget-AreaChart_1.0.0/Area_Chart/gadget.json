@@ -6,6 +6,12 @@
     "data": {
         "url": "store://gadget/Area_Chart/index.xml"
     },
+    "toolbarButtons":{
+        "default":{
+            "maximize": false,
+            "configurations": false
+        }
+    },
     "listen": {
         "subscriber": {
             "type": "dateRange",
