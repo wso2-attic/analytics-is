@@ -6,6 +6,12 @@
     "data":{
         "url":"store://gadget/UserPreferences/index.xml"
     },
+    "toolbarButtons":{
+        "default":{
+            "maximize": false,
+            "configurations": false
+        }
+    },
     "listen": {
         "subscriberUserPref": {
             "type": "selectedUser",

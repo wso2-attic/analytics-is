@@ -7,6 +7,12 @@
   "data": {
     "url": "store://gadget/Date_Range_Picker/index.xml"
   },
+  "toolbarButtons":{
+    "default":{
+        "maximize": false,
+        "configurations": false
+    }
+  },
   "styles": {
     "borders": false,
     "title": false

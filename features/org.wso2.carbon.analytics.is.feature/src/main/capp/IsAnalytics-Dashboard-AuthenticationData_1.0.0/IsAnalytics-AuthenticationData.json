@@ -97,6 +97,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Area_Chart\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -186,6 +192,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "styles": {
                   "no_heading": true,
                   "hide_gadget": false,
@@ -233,6 +245,12 @@
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriber": {
@@ -325,6 +343,12 @@
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriber": {
@@ -421,6 +445,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -513,6 +543,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Message_Table\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -588,6 +624,12 @@
                 "thumbnail": "fs:\/\/gadget\/UserPreferences\/index.png",
                 "data": {
                   "url": "fs:\/\/gadget\/UserPreferences\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriberUserPref": {
@@ -764,6 +806,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -854,6 +902,12 @@
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriber": {
@@ -946,6 +1000,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -1037,6 +1097,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Area_Chart\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -1122,6 +1188,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "styles": {
                   "no_heading": true,
                   "hide_gadget": false,
@@ -1172,6 +1244,12 @@
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriber": {
@@ -1264,6 +1342,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Message_Table\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -1339,6 +1423,12 @@
                 "thumbnail": "fs:\/\/gadget\/UserPreferences\/index.png",
                 "data": {
                   "url": "fs:\/\/gadget\/UserPreferences\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriberUserPref": {
@@ -1507,6 +1597,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -1580,6 +1676,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "listen": {
                   "subscriber": {
                     "type": "dateRange",
@@ -1652,6 +1754,12 @@
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
                   "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriber": {
@@ -1727,6 +1835,12 @@
                 "data": {
                   "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
                 },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
+                },
                 "styles": {
                   "no_heading": true,
                   "borders": false,
@@ -1769,6 +1883,12 @@
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
                   "url": "store:\/\/gadget\/Line_Chart\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriber": {
@@ -1824,6 +1944,12 @@
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
                   "url": "store:\/\/gadget\/Message_Table\/index.xml"
+                },
+                "toolbarButtons":{
+                    "default":{
+                        "maximize": false,
+                        "configurations": false
+                    }
                 },
                 "listen": {
                   "subscriber": {
