@@ -131,22 +131,18 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                if (timeUnit == "SECOND" || timeUnit == "MINUTE") {
-                    timeUnit = "HOUR";
-                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "DAY";
-                }
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+                var timeNow = new Date().getTime();
 
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
 
                 query = stringify({
                     tableName: tableName,
                     groupByField: "userName",
                     aggregateLevel: 0,
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "]",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)",
                     aggregateFields: [
                         {
-                            fieldName: "averageSession",
+                            fieldName: "duration",
                             aggregate: "AVG",
                             alias: "averageSession"
                         }
@@ -261,12 +257,13 @@
                     timeUnit = "DAY";
                 }
 
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+                var timeNow = new Date().getTime();
 
                 query = stringify({
                     fieldName: "userName", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)",
                 });
 
                 resp = connector.drillDownCategories(loggedInUser, tableName, query);
