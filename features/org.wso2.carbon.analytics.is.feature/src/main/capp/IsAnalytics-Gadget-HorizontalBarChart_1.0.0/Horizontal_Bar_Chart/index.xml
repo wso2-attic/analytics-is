@@ -40,20 +40,24 @@
 
             </head>
             <body class="bkWrapColor">
-                <div class="row no-gutter" style="position: relative;">
+                <div class="row no-gutter gadget-container" style="position: relative;">
 
-                    <div class="switchSP" style = "position: absolute;margin: 10px;right: 0px;">
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                      <div class="successChart">
+                          <div id="canvasSuccess"></div>
+                          <div id="idSuccessPaginate"></div>
+                      </div>
+
+                      <div class="failureChart">
+                          <div id="canvasFailure"></div>
+                          <div id="idFailurePaginate"></div>
+                      </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="profile">
 
                     </div>
-                    <div class="successChart">
-                        <div id="canvasSuccess" style="width:400px"></div>
-                        <div id="idSuccessPaginate"></div>
-                    </div>
-
-                    <div class="failureChart">
-                        <div id="canvasFailure" style="width:400px"></div>
-                        <div id="idFailurePaginate"></div>
-                    </div>
+                  </div>
 
                     <span id="autocomplete-search-box">
                         <input class="typeahead" type="text" placeholder="Search..">
