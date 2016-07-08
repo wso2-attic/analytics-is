@@ -94,17 +94,20 @@ body.drak .chart-label {
     color: #ECEEF3;
 }
 
-#back {
+#back, #back:focus, #back:hover {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    z-index: 100000;
     display: none;
-    float: right;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    width: 20px;
-    height: 20px;
-    padding: 0px;
-    margin: 0px;
-    background: #ffffff url("../images/back-icon.png") no-repeat 1px;
+    background-color: #636c7c;
+    border-color: #636c7c;
+    color: #e3e5e6;
+}
+
+#back:hover {
+    background-color: #454b56;
+    border-color: #454b56;
 }
 
 /* ========================================================================
