@@ -36,9 +36,10 @@
 
             <div class="row no-gutter add-padding-5x">
                 <div class="col-6">
-                    <button class="btn btn-default" id="back" data-toggle="tooltip" title="Previous Time Range">
-                        <i class="fw fw-left"></i>
-                    </button>
+                    <span class="fw fw-stack" id="back" data-toggle="tooltip" title="Previous Time Range">
+                        <i class="fw fw-left-arrow fw-stack-1x"></i>
+                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    </span>
                     <div id="canvas" style="height:80%;"></div>
                 </div>
                 <div class="col-2 stats-total add-padding-left-3x add-padding-right-3x">

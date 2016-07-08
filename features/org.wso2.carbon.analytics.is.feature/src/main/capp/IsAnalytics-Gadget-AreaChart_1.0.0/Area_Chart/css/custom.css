@@ -96,18 +96,17 @@ body.drak .chart-label {
 
 #back, #back:focus, #back:hover {
     position: absolute;
-    top: 30px;
-    left: 0;
+    top: 20px;
+    left: 62px;
+    font-size: 12px;
     z-index: 100000;
     display: none;
-    background-color: #636c7c;
-    border-color: #636c7c;
-    color: #e3e5e6;
+    cursor: pointer;
+    opacity: 0.6;
 }
 
 #back:hover {
-    background-color: #454b56;
-    border-color: #454b56;
+    opacity: 1;
 }
 
 /* ========================================================================
