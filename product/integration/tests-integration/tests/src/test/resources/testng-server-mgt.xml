@@ -14,7 +14,7 @@
         <classes>
             <!--<class name="org.wso2.das4is.integration.tests.servervalidationservice.OSGIServerBundleStatusTestCase"/>-->
             <!--<class name="org.wso2.das.integration.tests.servervalidationservice.DASServerStartupTestCase"/>-->
-            <class name="org.wso2.das4is.integration.tests.loginlogoutservice.LoginLogoutTestCase"/>
+            <!--<class name="org.wso2.das4is.integration.tests.loginlogoutservice.LoginLogoutTestCase"/>-->
         </classes>
     </test>
 </suite>
