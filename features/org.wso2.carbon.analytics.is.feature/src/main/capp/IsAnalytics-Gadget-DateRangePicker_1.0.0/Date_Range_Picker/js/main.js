@@ -12,7 +12,7 @@ $(function() {
         datePickerBtn = $('#btnCustomRange');
     //if there are url elemements present, use them. Otherwis use last hour
 
-    var timeFrom = moment().subtract(1, 'hours')
+    var timeFrom = moment().subtract(29, 'days');
     var timeTo = moment();
     var message = {};
 
@@ -31,7 +31,7 @@ $(function() {
     if (timeUnit != null) {
         $("#date-select [role=date-update][data-value=" + timeUnit + "]").addClass("active");
     } else {
-        $("#date-select [role=date-update][data-value=LastHour]").addClass("active");
+        $("#date-select [role=date-update][data-value=LastMonth]").addClass("active");
     }
 
     cb(moment(timeFrom), moment(timeTo));
@@ -52,17 +52,22 @@ $(function() {
             $(datePickerBtn).addClass("active");
         }
     }
-
+    
     $(datePickerBtn).on('apply.daterangepicker', function(ev, picker) {
         cb(picker.startDate, picker.endDate);
     });
-
+    
     $(datePickerBtn).on('show.daterangepicker', function(ev, picker) {
         $(this).attr('aria-expanded', 'true');
+        wso2.gadgets.controls.resizeGadget({
+            height: "710px"
+        });
     });
-
+    
     $(datePickerBtn).on('hide.daterangepicker', function(ev, picker) {
         $(this).attr('aria-expanded', 'false');
+        
+        wso2.gadgets.controls.restoreGadget();
     });
 
     $(datePickerBtn).daterangepicker({
@@ -71,14 +76,14 @@ $(function() {
         "alwaysShowCalendars": true,
         "opens": "left"
     });
-
+    
     $("#date-select [role=date-update]").click(function(){
-
+        
         $("#date-select button").removeClass("active");
         $("#date-select [data-value=" + $(this).data('value') + "]").addClass("active");
         $('#btnDropdown > span:first-child').html($(this).html());
         $('#btnDropdown').addClass('active');
-
+        
         switch($(this).data('value')){
             case 'LastHour':
                 dateLabel.html(moment().subtract(1, 'hours').format('MMMM D, YYYY hh:mm A') + ' - ' + moment().format('MMMM D, YYYY hh:mm A'));
@@ -115,22 +120,21 @@ $(function() {
             default:
                 return;
         }
-
+        
         gadgets.Hub.publish(TOPIC, message);
-
+        
         $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
         $('#btnDropdown').attr('aria-expanded', 'false');
     });
-
-    $('#btnDropdown').click(function() {
-        if($(gadgetWrapper).hasClass('btn-dropdown-menu-open')){
-            $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
-            $(this).attr('aria-expanded', 'false');
-        }
-        else{
-            $(gadgetWrapper).addClass('btn-dropdown-menu-open');
-            $(this).attr('aria-expanded', 'true');
-        }
+    
+    $('.date-shortcuts').on('show.bs.dropdown', function(e){
+        wso2.gadgets.controls.resizeGadget({
+            height: "180px"
+        });
+    });
+    
+    $('.date-shortcuts').on('hide.bs.dropdown', function(e){
+        wso2.gadgets.controls.restoreGadget();
     });
 
 });
@@ -164,27 +168,8 @@ function onChartZoomed(data) {
 };
 
 $(window).resize(function() {
-    if(($('body').attr('media-screen') == 'md') || ($('body').attr('media-screen') == 'lg')){
+    if(($('body').attr('media-screen') == 'md') || ($('body').attr('media-screen') == 'lg') || ($('body').attr('media-screen') == 'sm')){
         $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
         $('#btnDropdown').attr('aria-expanded', 'false');
     }
-});
-
-$(window).load(function() {
-    var datePicker = $('.daterangepicker'),
-        dropdown = $('ul.dropdown-menu');
-
-    $('body').click(function(e){
-        if ((!dropdown.is(e.target) && dropdown.has(e.target).length === 0)
-            && (!$('#btnDropdown').is(e.target) && $('#btnDropdown').has(e.target).length === 0)) {
-            $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
-            $('#btnDropdown').attr('aria-expanded', 'false');
-        }
-    });
-
-    $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="' + resolveURI + 'store/carbon.super/fs/gadget/Date_Range_Picker/css/daterangepicker.css" />');
-    $('body', parentWindow).append('<script src="' + resolveURI + 'store/carbon.super/fs/gadget/Date_Range_Picker/js/daterangepicker.js" type="text/javascript"></script>');    $(gadgetWrapper).append(datePicker);
-    $(gadgetWrapper).append(dropdown);
-    $(gadgetWrapper).closest('.ues-component-box').addClass('widget form-control-widget');
-    $('body').addClass('widget');
 });
