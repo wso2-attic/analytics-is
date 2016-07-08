@@ -313,7 +313,7 @@
                 var count = connector.searchCount(loggedInUser, tableName, query);
 
                 // querying for active session count
-                var tableNameActiveSessions = "IS-SESSION-ACTIVE-COUNT";
+                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVE_COUNT";
 
                 queryActiveSessions = stringify({
                     query: "*:*",
