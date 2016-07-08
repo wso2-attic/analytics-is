@@ -690,7 +690,7 @@
                 result["data"] = data;
 
                 if (dataPoints.length < length) {
-                    limit = start + length;
+                    limit = start + dataPoints.length;
                 }
                 result["recordsFiltered"] = limit;
                 result["recordsTotal"] = limit;
@@ -1112,7 +1112,7 @@
                 result["data"] = data;
 
                 if (dataPoints.length < length) {
-                    limit = start + length;
+                    limit = start + dataPoints.length;
                 }
                 result["recordsFiltered"] = limit;
                 result["recordsTotal"] = limit;
