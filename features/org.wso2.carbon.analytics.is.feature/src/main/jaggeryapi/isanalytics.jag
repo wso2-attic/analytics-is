@@ -67,9 +67,13 @@
 
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
-        var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-        var idpType = request.getParameter("idpType");
+        var additionalParameters = request.getParameter("listnedAdditionalUserPrefs");
+        var idpTypeFilter = request.getParameter("idpType");
         var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+        if (!additionalParameters) {
+            additionalParameters = "";
+        }
 
         switch (type) {
             case TYPE_OVERALL_AUTH_SUCCESS_AND_FAILURE:
@@ -81,18 +85,8 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                var additionalParameters = "";
 
-                if (listnedAdditionalUserPrefs != "") {
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
                     query = stringify({
                         tableName: tableName,
                         groupByField: "facetStartTime",
@@ -159,19 +153,11 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
                     query = stringify({
                         fieldName: "userName", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
@@ -226,17 +212,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 query = stringify({
@@ -252,7 +229,6 @@
                 resp = connector.drillDownCategories(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var categoryCount = dataPoints.categoryCount;
-
 
                 var obj = dataPoints.categories;
 
@@ -281,19 +257,11 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
                     query = stringify({
                         fieldName: "serviceProvider", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
@@ -351,16 +319,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 query = stringify({
@@ -405,18 +365,7 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
                     query = stringify({
                         fieldName: "role", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
@@ -469,17 +418,6 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
                 query = stringify({
                     fieldName: "role", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
@@ -519,19 +457,11 @@
                 }
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     query = stringify({
                         fieldName: "identityProvider", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
@@ -584,16 +514,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 query = stringify({
@@ -636,17 +558,6 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
-
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
 
                 var query = stringify({
                     "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter +
@@ -709,16 +620,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 query = stringify({
@@ -758,17 +661,6 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
                 query = stringify({
                     fieldName: "role", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
@@ -805,16 +697,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 query = stringify({
@@ -852,16 +736,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 query = stringify({
@@ -900,17 +776,6 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
                 query = stringify({
                     fieldName: "userStoreDomain", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
@@ -946,19 +811,11 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
-                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
                     query = stringify({
                         fieldName: "userStoreDomain", //field which is indexed as a FACET
                         categoryPath: [], //Path being drilled down, optional
@@ -1010,16 +867,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 query = stringify({
@@ -1061,16 +910,6 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
-
-                var additionalParameters = "";
-                if (listnedAdditionalUserPrefs != "") {
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
 
                 var query = stringify({
                     "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
@@ -1131,11 +970,6 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
-                }
-
                 query = stringify({
                     fieldName: "serviceProvider", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
@@ -1178,16 +1012,8 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
 
-                var additionalParameters = "";
-
-                if (listnedAdditionalUserPrefs != "") {
+                if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
-                    additionalParameters = listnedAdditionalUserPrefs;
-                }
-
-                var idpTypeFilter = "";
-                if (idpType != "") {
-                    idpTypeFilter = idpType;
                 }
 
                 var query = stringify({
