@@ -690,7 +690,7 @@
                 result["data"] = data;
 
                 if (dataPoints.length < length) {
-                    limit = start + length;
+                    limit = start + dataPoints.length;
                 }
                 result["recordsFiltered"] = limit;
                 result["recordsTotal"] = limit;
@@ -1112,7 +1112,7 @@
                 result["data"] = data;
 
                 if (dataPoints.length < length) {
-                    limit = start + length;
+                    limit = start + dataPoints.length;
                 }
                 result["recordsFiltered"] = limit;
                 result["recordsTotal"] = limit;
@@ -1200,11 +1200,22 @@
                 var dataPoints = JSON.parse(resp.getMessage());
 
                 for (var i = 0; i < dataPoints.length; i++) {
-                    result.push({
-                        "region": dataPoints[i].values.region,
-                        "authSuccessCount": dataPoints[i].values.authSuccessCount,
-                        "authFailureCount": dataPoints[i].values.authFailureCount,
-                    });
+                    if(dataPoints[i].values.region != ""){
+                        var success = dataPoints[i].values.authSuccessCount;
+                        var falure  = dataPoints[i].values.authFailureCount;
+                        for (var j = 0; j < result.length; j++) {
+                            if (result[j].region == dataPoints[i].values.region) {
+                                var success = success + result[j].authSuccessCount;
+                                var falure  = falure + result[j].authFailureCount;
+                                result.splice(j,1);
+                            }                            
+                        }
+                        result.push({
+                            "region": dataPoints[i].values.region,
+                            "authSuccessCount": success,
+                            "authFailureCount": falure,
+                        });                     
+                    }                   
                 }
 
                 break;
