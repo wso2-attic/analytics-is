@@ -41,5 +41,37 @@
 	    }
 	    return new AnalyticsCachedJSServiceConnector(cache);
     };
+
+        function getDrillDownResult(tableName, fieldName, categoryPath, queryString, scoreFunction, start, count){
+    	if (scoreFunction != "") {
+    		var query = stringify({
+                fieldName: fieldName, //field which is indexed as a FACET
+                categoryPath: categoryPath, //Path being drilled down, optional
+                query: queryString,
+                scoreFunction: scoreFunction,
+                start: start,
+                count: count
+            });
+    	} else {
+    		var query = stringify({
+                fieldName: fieldName, //field which is indexed as a FACET
+                categoryPath: categoryPath, //Path being drilled down, optional
+                query: queryString,
+                start: start,
+                count: count
+            });
+    	}
+    	
+
+        var resp = getConnector().drillDownCategories(getLoggedInUser(), tableName, query);
+
+        var dataPoints = JSON.parse(resp.getMessage());
+
+        var obj = dataPoints.categories;
+        var categoryCount = dataPoints.categoryCount;
+
+        return [obj, categoryCount];
+
+    };
     
  %>
