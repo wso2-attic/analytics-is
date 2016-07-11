@@ -34,26 +34,16 @@ if (chartSuccess && chartFailure) {
     filterType = gadgetUtil.getFilterType(page, chartSuccess);
 }
 
-
 $(function () {
 
     $('#autocomplete-search-box .typeahead').typeahead({
-            hint: true,
-            highlight: true,
-            minLength: 1
-        },
-        {
-            local: suggestionsList,
-            source: substringMatcher(suggestionsList)
-        }).on('typeahead:rendered', function () {
-            var typeAhead = $('.tt-menu'),
-                parentWindow = window.parent.document,
-                thisParentWrapper = $('#' + gadgets.rpc.RPC_ID, parentWindow).closest('.grid-stack-item');
-
-            $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="' + resolveURI + 'store/carbon.super/fs/gadget/commons/css/autocomplete.css" />');
-            $('body', parentWindow).append('<script src="' + resolveURI + 'store/carbon.super/fs/gadget/commons/js/typeahead.bundle.js" type="text/javascript"></script>');
-            $(thisParentWrapper).append(typeAhead);
-        });
+        hint: true,
+        highlight: true,
+        minLength: 1
+    },{
+        local: suggestionsList,
+        source: substringMatcher(suggestionsList)
+    });
 
     $("#remove-filter").off().click(function (event) {
         var $input = $("#autocomplete-search-box .typeahead");

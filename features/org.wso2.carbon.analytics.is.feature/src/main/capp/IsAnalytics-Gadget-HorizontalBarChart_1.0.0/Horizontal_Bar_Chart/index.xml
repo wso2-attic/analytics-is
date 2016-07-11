@@ -11,12 +11,9 @@
             <head>
 
               <!-- Theme -->
-              <link rel="stylesheet" type="text/css" href="/portal/libs/font-wso2_1.0.0/css/font-wso2.min.css" />
-              <link rel="stylesheet" type="text/css" href="/portal/libs/theme-wso2_1.0/css/theme-wso2.css" />
-              <link rel="stylesheet" type="text/css" href="/portal/extensions/themes/analytics/css/gadget.css" />
               <link rel="stylesheet" type="text/css" href="../commons/css/bootstrap.min.css" />
-              <link rel="stylesheet" type="text/css" href="css/custom.css" />
-              <link rel="stylesheet" type="text/css" href="../commons/css/gadget.css" />
+              <link rel="stylesheet" type="text/css" href="/portal/libs/font-wso2_1.0.0/css/font-wso2.min.css" />
+              <link rel="stylesheet" type="text/css" href="/portal/libs/theme-wso2_1.0/css/theme-wso2.css" />     
 
               <!-- jQuery -->
               <script src="../commons/js/jquery-1.10.2.js"></script>
@@ -30,6 +27,17 @@
               <script src="../commons/js/VizGrammar.min.js"></script>
               <script src="/portal/extensions/themes/analytics/js/colorbrewer.js"></script>
               <script src="/portal/extensions/themes/analytics/js/VizGrammarSettings.js"></script>
+              
+              <!--Twitter typeahead-->
+              <link rel="stylesheet" type="text/css" href="../commons/css/autocomplete.css" />
+              <script src="../commons/js/typeahead.bundle.js"></script>
+
+              <!-- Custom -->
+              <script src="js/gadgetconf.js"></script>
+              <script src="js/main.js"></script>
+
+              <link rel="stylesheet" type="text/css" href="../commons/css/gadget.css" />
+              <link rel="stylesheet" type="text/css" href="css/custom.css" />
 
               <!-- Custom -->
               <script src="js/gadgetconf.js"></script>
@@ -41,39 +49,40 @@
             </head>
             <body class="bkWrapColor">
 
-                  <ul class="nav nav-tabs" role="tablist" id="nav-tabs" style="height:10%;"><li>&nbsp;</li></ul>
+                  <ul class="nav nav-tabs" role="tablist" id="nav-tabs" style="height:20px;"><li>&nbsp;</li></ul>
 
-                  <div class="tab-content" style="height:70%;">
-                    <div role="tabpanel" class="tab-pane active" id="home">
-                      <div class="successChart">
-                          <div id="canvasSuccess"></div>
-                          <div id="idSuccessPaginate"></div>
-                      </div>
-
-                      <div class="failureChart">
-                          <div id="canvasFailure"></div>
-                          <div id="idFailurePaginate"></div>
-                      </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="profile">
-
-                    </div>
-                  </div>
-
-                  <div class="form-group" id="autocomplete-search-box">
-                      <div class="input-group">
-                          <div class="input-group-btn input-wrap has-form-control-btn">
-                              <input class="typeahead" type="text" placeholder="Search..">
+                  <div class="tab-content" style="height:calc(100% - 90px);">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                          <div class="successChart">
+                              <div id="canvasSuccess"></div>
+                              <div id="idSuccessPaginate"></div>
                           </div>
-                          <div class="input-group-btn">
-                              <input type="button" id="remove-filter" value="X"/>
-                              <input type="button" id="add-filter" value="Add Filter"/>
+
+                          <div class="failureChart">
+                              <div id="canvasFailure"></div>
+                              <div id="idFailurePaginate"></div>
+                          </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+
+                        </div>
+                  </div>
+                  
+                  <div style="height: 40px;">
+                      <div class="form-group" id="autocomplete-search-box">
+                          <div class="input-group">
+                              <div class="input-group-btn input-wrap has-form-control-btn">
+                                  <input class="typeahead typeahead-inverted" type="text" placeholder="Search..">
+                              </div>
+                              <div class="input-group-btn">
+                                  <input type="button" id="remove-filter" value="X"/>
+                                  <input type="button" id="add-filter" value="Add Filter"/>
+                              </div>
                           </div>
                       </div>
-                  </div>
 
-                    <div class="residentIdp">
-                    </div>
+                      <div class="residentIdp"></div>
+                  </div>
 
             </body>
         ]]>
