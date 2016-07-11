@@ -21,10 +21,30 @@ $(function() {
         $("#canvas").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
         return;
     }
-    /*if (page != TYPE_LANDING && qs[PARAM_ID] == null) {
-        $("#canvas").html(gadgetUtil.getDefaultText());
-        return;
-    }*/
+
+    var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
+
+    if(historyParmExist == null){
+        listnedTimeFromValue = gadgetUtil.timeFrom();
+        listnedTimeToValue = gadgetUtil.timeTo();
+    }else{
+        var historyParms = gadgetUtil.getURLParams();
+
+        for (var key in historyParms) {
+            if (historyParms.hasOwnProperty(key)) {
+
+                if(key == "persistTimeFrom"){
+                    listnedTimeFromValue = historyParms[key];
+                }else if(key == "persistTimeTo"){
+                    listnedTimeToValue = historyParms[key];
+                }else if(Object.keys(historyParms).length > 2){
+                    var historyParamVal = historyParms[key].toString();
+                    addUserPrefsToGlobalArray("Topic",key,historyParamVal.split("_")[0]);
+                }
+            }
+        }
+    }
+
     var timeFrom = gadgetUtil.timeFrom();
     var timeTo = gadgetUtil.timeTo();
     gadgetUtil.fetchData(gadgetContext, {
@@ -34,9 +54,6 @@ $(function() {
         start: 0,
         count: 10        
     }, onData, onError);
-
-    listnedTimeFromValue = gadgetUtil.timeFrom();
-    listnedTimeToValue = gadgetUtil.timeTo();
 
     $("#back").off().click(function (event) {
         if(rangeHistoryArray.length > 0) {
@@ -68,6 +85,10 @@ gadgets.HubSettings.onConnect = function() {
 };
 
 function onTimeRangeChanged(data) {
+
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
+
     gadgetUtil.fetchData(gadgetContext, {
         type: type,
         timeFrom: data.timeFrom,
