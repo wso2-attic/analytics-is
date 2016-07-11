@@ -50,8 +50,8 @@ $(function () {
                 parentWindow = window.parent.document,
                 thisParentWrapper = $('#' + gadgets.rpc.RPC_ID, parentWindow).closest('.grid-stack-item');
 
-            $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="' + resolveURI + 'store/carbon.super/gadget/commons/css/autocomplete.css" />');
-            $('body', parentWindow).append('<script src="' + resolveURI + 'store/carbon.super/gadget/commons/js/typeahead.bundle.js" type="text/javascript"></script>');
+            $('head', parentWindow).append('<link rel="stylesheet" type="text/css" href="' + resolveURI + 'store/carbon.super/fs/gadget/commons/css/autocomplete.css" />');
+            $('body', parentWindow).append('<script src="' + resolveURI + 'store/carbon.super/fs/gadget/commons/js/typeahead.bundle.js" type="text/javascript"></script>');
             $(thisParentWrapper).append(typeAhead);
         });
 
@@ -106,10 +106,12 @@ $(function () {
     }
 
     if (instanceType == "SERVICEPROVIDER") {
-        $(".switchSP").append("<input type='button' id='spLableId' style='border-radius: 0px;padding: 4px 5px;' value='Show First Login Success' onclick='onSPChange()'>");
+        $('#nav-tabs').html('<li role="presentation" class="active"><a href="javascript:void(0);" onclick="onSPChange(this)" data-provider="service">Service Providers</a></li>'
+            +'<li role="presentation"><a href="javascript:void(0);" data-provider="attempts" onclick="onSPChange(this)" >Successful Attempts</a></li>');
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
+
 
     if (historyParmExist == null) {
         listnedTimeFromValue = gadgetUtil.timeFrom();
@@ -151,7 +153,7 @@ $(function () {
                                 listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + historyParamVal.split("_")[0] + "\"";
                             } else if (key == "FIRST_TIME_SERVICEPROVIDER") {
                                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
-                            } else if (key == "REGION") {
+                            } else if (globalUniqueArray[i][2] == "REGION") {
                                 listnedAdditionalUserPrefs += " AND region:\"" + globalUniqueArray[i][1] + "\"";
                             }
                         }
@@ -380,8 +382,8 @@ function successOnData(response) {
         }
 
         if (chartFailure) {
-            $('#canvasSuccess').css({"height": "35%"});
-            $('#canvasFailure').css({"height": "35%"});
+            $('#canvasSuccess').css({"height": "32%"});
+            $('#canvasFailure').css({"height": "32%"});
             gadgetUtil.fetchData(gadgetContext, {
                 type: functionTypeFailure,
                 timeFrom: listnedTimeFromValue,
@@ -396,7 +398,7 @@ function successOnData(response) {
             if(page == TYPE_SESSIONS) {
                 $('#canvasSuccess').css({"height": "90%"});
             } else {
-                $('#canvasSuccess').css({"height": "70%"});
+                $('#canvasSuccess').css({"height": "60%"});
             }
             //$('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
@@ -468,11 +470,18 @@ function drawChartSuccess() {
                     case "page":
                         return false;
                     case "prev":
-                        if (current > 1) {
+
+                        if(totalPages < 2){
+                            return false;
+                        }else{
+                            return true;
+                        }
+
+                        /*if (current > 1) {
                             return true;
                         } else {
                             return false;
-                        }
+                        }*/
                     case "next":
                         if (totalPages > 1) {
                             return true;
@@ -484,9 +493,9 @@ function drawChartSuccess() {
             itemTexts: function (type, page, current) {
                 switch (type) {
                     case "prev":
-                        return "Prev";
+                        return "<";
                     case "next":
-                        return "Next";
+                        return ">";
                 }
             }
         };
@@ -538,11 +547,17 @@ function drawChartFailure() {
                     case "page":
                         return false;
                     case "prev":
-                        if (current > 1) {
+                        if(totalPages < 2){
+                            return false;
+                        }else{
+                            return true;
+                        }
+                        
+                        /*if (current > 1) {
                             return true;
                         } else {
                             return false;
-                        }
+                        }*/
                     case "next":
                         if (totalPages > 1) {
                             return true;
@@ -554,9 +569,9 @@ function drawChartFailure() {
             itemTexts: function (type, page, current) {
                 switch (type) {
                     case "prev":
-                        return "Prev";
+                        return "<";
                     case "next":
-                        return "Next";
+                        return ">";
                 }
             }
         };
@@ -789,9 +804,12 @@ function refreshChart(chartObj) {
     }
 }
 
-function onSPChange() {
+function onSPChange(el) {
 
-    if ($("#spLableId").val() == "Show First Login Success") {
+    $('.nav-tabs .active').removeClass('active');
+    $(el).parent().addClass('active');
+
+    if ($(el).data('provider') == "attempts") {
 
         $("#spLableId").val("Show Service Provider");
         chartSuccess = gadgetUtil.getChart("serviceProviderAuthenticationFirstLoginSuccessCount");

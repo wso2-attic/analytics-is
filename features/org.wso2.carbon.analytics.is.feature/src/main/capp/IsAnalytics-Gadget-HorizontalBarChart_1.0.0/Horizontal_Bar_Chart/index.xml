@@ -40,22 +40,27 @@
 
             </head>
             <body class="bkWrapColor">
-                <div class="row no-gutter" style="position: relative;">
 
-                    <div class="switchSP" style = "position: absolute;margin: 10px;right: 0px;">
+                  <ul class="nav nav-tabs" role="tablist" id="nav-tabs" style="height:10%;"><li>&nbsp;</li></ul>
+
+                  <div class="tab-content" style="height:70%;">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                      <div class="successChart">
+                          <div id="canvasSuccess"></div>
+                          <div id="idSuccessPaginate"></div>
+                      </div>
+
+                      <div class="failureChart">
+                          <div id="canvasFailure"></div>
+                          <div id="idFailurePaginate"></div>
+                      </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="profile">
 
                     </div>
-                    <div class="successChart">
-                        <div id="canvasSuccess" style="width:400px"></div>
-                        <div id="idSuccessPaginate"></div>
-                    </div>
+                  </div>
 
-                    <div class="failureChart">
-                        <div id="canvasFailure" style="width:400px"></div>
-                        <div id="idFailurePaginate"></div>
-                    </div>
-
-                    <span id="autocomplete-search-box">
+                    <span id="autocomplete-search-box" style="height:20%;">
                         <input class="typeahead" type="text" placeholder="Search..">
                         <div id="button-group">
                         <input type="button" id="remove-filter" value="X"/>
@@ -65,7 +70,7 @@
 
                     <div class="residentIdp">
                     </div>
-                 </div>
+
             </body>
         ]]>
     </Content>

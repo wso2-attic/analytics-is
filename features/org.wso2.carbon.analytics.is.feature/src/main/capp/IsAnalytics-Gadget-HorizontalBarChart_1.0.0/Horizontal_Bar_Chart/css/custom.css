@@ -1,7 +1,7 @@
 .pagination {
-    margin: 0 0 10px;
-    height: 15px;
+    margin: 0px;
     display: block;
+    padding: 5px;
 }
 
 .pagination ul > li > a, .pagination ul > li > span {
@@ -23,7 +23,7 @@
     vertical-align: middle !important;
     border-radius: 0px;
     margin: 0px 0px 0px 10px;
-    width: 90%;
+    width: 100%;
 }
 
 span.twitter-typeahead {
@@ -32,7 +32,7 @@ span.twitter-typeahead {
 }
 
 .twitter-typeahead {
-    width: 80%;
+    width: 84%;
 }
 
 input.typeahead.tt-input{
@@ -48,7 +48,7 @@ input.typeahead.tt-hint{
 #button-group {
     float: right;
     padding: 0px;
-    width: 20%;
+    width: 14%;
     display: table-row;
 }
 
@@ -86,16 +86,91 @@ body.dark svg.marks .mark-group .mark-rule line {
 }
 
 body.dark #spLableId{
-    background-color: #29313E;
+    background-color: #494D54;
     color: #fff;
+    border: 1px solid #494D54;
+    border-radius: 0px;
+    padding: 4px 5px;
+}
+body.dark #spLableId:hover{
+    background-color: #1E2531;
+    border: 1px solid #383636;
 }
 
 body.dark #remove-filter{
-    background-color: #29313E;
+    background-color: #494D54;
     color: #fff;
+    border: 1px solid #494D54;
+}
+
+body.dark #remove-filter:hover{
+    background-color: #1E2531;
+    border: 1px solid #383636;
 }
 
 body.dark #add-filter{
-    background-color: #29313E;
+    background-color: #494D54;
     color: #fff;
+    border: 1px solid #494D54;
+}
+body.dark #add-filter:hover{
+    background-color: #1E2531;
+    border: 1px solid #383636;
+}
+body.dark .gadget-container{
+    height: 100%;
+}
+#autocomplete-search-box{
+    width: 100%;
+}
+.input-group span.twitter-typeahead .typeahead-inverted ~ .tt-dropdown-menu {
+  top: auto !important;
+  bottom: 0px;
+}
+.pagination ul{
+    display: block;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin: 0px auto;
+    width: 50px;
+    height: 15px;
+    margin-bottom: 10px;
+}
+.pagination ul li a{
+    padding: 5px;
+}
+.successChart, .failureChart{
+    position: relative;
+}
+.gadget-container .nav{
+    margin-bottom: 0px;
+    border-bottom: 1px solid #353C48;
+}
+.nav-tabs > li > a{
+    padding: 0px 10px;
+    border-radius: 0px;
+    border: none;
+    color: #B7B7B7;
+    background-color: #2C2D2F;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus{
+    color: #FFFFFF;
+    cursor: default;
+    background-color: #494D54;
+    border-bottom-color: transparent;
+    border: none;
+}
+.nav-tabs > li > a:hover, .nav-tabs > li > a:focus{
+    border:none;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+    text-decoration: none;
+    background-color: #494D54;
+}
+.tab-content{
+    overflow: inherit;
 }
