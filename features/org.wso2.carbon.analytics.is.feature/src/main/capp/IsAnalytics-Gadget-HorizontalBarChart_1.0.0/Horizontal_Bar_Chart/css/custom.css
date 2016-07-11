@@ -31,7 +31,7 @@
     width: 100%;
 }
 
-span.twitter-typeahead {
+span.twitter-type[ahead {
     margin: 0;
     padding: 0;
 }
@@ -73,9 +73,14 @@ input.typeahead.tt-hint{
     display:none;
 }
 
-.residentIdp{
-    padding-left: 10px;
+.residentIdp { padding-left: 20px; }
+
+.residentIdp > a {
+    text-decoration: underline;
+    color: #e3e5e6;
 }
+
+.residentIdp > a:hover { text-decoration: none; }
 
 body.dark svg.marks .mark-group .background {
     fill: #121822 !important;
@@ -127,9 +132,16 @@ body.dark .gadget-container{
 #autocomplete-search-box{
     width: 100%;
 }
-.input-group span.twitter-typeahead .typeahead-inverted ~ .tt-dropdown-menu {
-  top: auto !important;
-  bottom: 0px;
+.twitter-typeahead > .typeahead.typeahead-inverted.tt-input + pre + .tt-menu {
+    top: auto !important;
+    bottom: 15px;
+    width: 76%;
+    left: 0 !important;
+}
+.tt-suggestion.tt-selectable:hover {
+    cursor: pointer;
+    background: #494D54;
+    color: #fff;
 }
 .pagination ul{
     display: block;
@@ -161,14 +173,17 @@ body.dark .gadget-container{
     color: #B7B7B7;
     background-color: #2C2D2F;
 }
-.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus{
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus {
     color: #FFFFFF;
     cursor: default;
     background-color: #494D54;
     border-bottom-color: transparent;
     border: none;
 }
-.nav-tabs > li > a:hover, .nav-tabs > li > a:focus{
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
     border:none;
 }
 .nav > li > a:hover, .nav > li > a:focus{
@@ -178,21 +193,28 @@ body.dark .gadget-container{
 .tab-content{
     overflow: inherit;
 }
-.dashboard.dark .tt-menu {
-    background-color: #353C48;
-    border: 1px solid #6B7992;
-    color: #fff;
-    width: 76%;
-    left: 25px !important;
-}
-.tt-menu {
-    top: 96.5% !important;
-}
+
 .input-group-btn {
     position: relative;
-    font-size: 0;
     white-space: nowrap;
 }
-.input-group-addon, .input-group-btn, .input-group .form-control {
+.input-group-addon,
+.input-group-btn,
+.input-group .form-control {
     display: table-cell;
+}
+
+body.dark .tt-hint {
+    background: transparent !important;
+}
+
+body.dark .tt-input {
+    border: 1px solid #6B7992 !important;
+    color: #E3E5E6;
+}
+
+body.dark .tt-menu {
+    background-color: #1E2531;
+    color: #E3E5E6;
+    border: 1px solid #6B7992;
 }
