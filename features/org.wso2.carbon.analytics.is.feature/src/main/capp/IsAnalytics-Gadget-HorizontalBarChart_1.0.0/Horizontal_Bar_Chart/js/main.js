@@ -106,10 +106,8 @@ $(function () {
     }
 
     if (instanceType == "SERVICEPROVIDER") {
-        $('.gadget-container').prepend('<ul class="nav nav-tabs" role="tablist">'
-            +'<li role="presentation" class="active"><a href="javascript:void(0);" onclick="onSPChange(this)" data-provider="service">Service Providers</a></li>'
-            +'<li role="presentation"><a href="javascript:void(0);" data-provider="attempts" onclick="onSPChange(this)" >Successful Attempts</a></li>'
-            +'</ul>');
+        $('#nav-tabs').html('<li role="presentation" class="active"><a href="javascript:void(0);" onclick="onSPChange(this)" data-provider="service">Service Providers</a></li>'
+            +'<li role="presentation"><a href="javascript:void(0);" data-provider="attempts" onclick="onSPChange(this)" >Successful Attempts</a></li>');
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");

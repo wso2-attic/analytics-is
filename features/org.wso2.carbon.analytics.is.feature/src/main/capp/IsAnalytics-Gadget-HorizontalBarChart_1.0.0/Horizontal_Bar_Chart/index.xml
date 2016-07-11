@@ -40,9 +40,10 @@
 
             </head>
             <body class="bkWrapColor">
-                <div class="row no-gutter gadget-container" style="position: relative;">
 
-                  <div class="tab-content">
+                  <ul class="nav nav-tabs" role="tablist" id="nav-tabs" style="height:10%;"><li>&nbsp;</li></ul>
+
+                  <div class="tab-content" style="height:70%;">
                     <div role="tabpanel" class="tab-pane active" id="home">
                       <div class="successChart">
                           <div id="canvasSuccess"></div>
@@ -59,7 +60,7 @@
                     </div>
                   </div>
 
-                    <span id="autocomplete-search-box">
+                    <span id="autocomplete-search-box" style="height:20%;">
                         <input class="typeahead" type="text" placeholder="Search..">
                         <div id="button-group">
                         <input type="button" id="remove-filter" value="X"/>
@@ -69,7 +70,7 @@
 
                     <div class="residentIdp">
                     </div>
-                 </div>
+
             </body>
         ]]>
     </Content>
