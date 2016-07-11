@@ -7,6 +7,7 @@ var configs = [{
             { name: "identityProvider", label: "Identity Provider", type: "ordinal" },
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
+            { name: "region", label: "Region", type: "ordinal" },
             { name: "authenticationSuccess", label: "Authentication Success", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
@@ -20,6 +21,7 @@ var configs = [{
             { name: "userstore", label: "Userstore", type: "ordinal" },
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
+            { name: "region", label: "Region", type: "ordinal" },
             { name: "authenticationSuccess", label: "Authentication Success", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]

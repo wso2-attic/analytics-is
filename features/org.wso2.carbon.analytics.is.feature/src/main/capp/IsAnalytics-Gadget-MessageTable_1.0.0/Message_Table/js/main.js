@@ -56,6 +56,7 @@ $(function() {
                 { title: "Identity Provider" },
                 { title: "Roles" },
                 { title: "Ip" },
+                { title: "Region" },
                 { title: "Authentication Success" },
                 { title: "Timestamp" }
 
@@ -90,6 +91,7 @@ $(function() {
                 { title: "Userstore" },
                 { title: "Roles" },
                 { title: "Ip" },
+                { title: "Region" },
                 { title: "Authentication Success" },
                 { title: "Timestamp" }
 
