@@ -271,18 +271,6 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                query = stringify({
-                    fieldName: "serviceProvider", //field which is indexed as a FACET
-                    categoryPath: [], //Path being drilled down, optional
-                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
-                            idpTypeFilter + additionalParameters,
-                    //search query, optional
-                    scoreFunction: "authFailureCount", //score function
-                    start: start,
-                    count: length
-                });
-
-
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFailureCount", start, length);
 
@@ -829,35 +817,34 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
-                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
-                }
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                
+                var scoreFunctions = ["authSuccessCount", "authFailureCount"]
 
-                var query = stringify({
-                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
-                    "start": start,
-                    "count": length
-                });
+                for (var i = 0; i < scoreFunctions.length; i++) {
 
-                var resp = connector.search(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
+                    var queryResult = common.getDrillDownResult(tableName, "region", categoryPath, queryString, scoreFunctions[i], start, length);
 
-                for (var i = 0; i < dataPoints.length; i++) {
-                    if(dataPoints[i].values.region != ""){
-                        var success = dataPoints[i].values.authSuccessCount;
-                        var falure  = dataPoints[i].values.authFailureCount;
-                        for (var j = 0; j < result.length; j++) {
-                            if (result[j].region == dataPoints[i].values.region) {
-                                var success = success + result[j].authSuccessCount;
-                                var falure  = falure + result[j].authFailureCount;
-                                result.splice(j,1);
-                            }                            
+                    var obj = queryResult[0];
+
+                    if ( i == 0) {
+                        for (var key in obj) {
+                            if (obj.hasOwnProperty(key)) {
+                                result.push({
+                                    "region": key,
+                                    "authSuccessCount": obj[key]
+                                });
+                            }
                         }
-                        result.push({
-                            "region": dataPoints[i].values.region,
-                            "authSuccessCount": success,
-                            "authFailureCount": falure,
-                        });                     
+                    } else if (i == 1) {
+                        for (var key in obj) {
+                            if (obj.hasOwnProperty(key)) {
+                                result.push({
+                                    "region": key,
+                                    "authFailureCount": obj[key]
+                                });
+                            }
+                        }
                     }                   
                 }
 

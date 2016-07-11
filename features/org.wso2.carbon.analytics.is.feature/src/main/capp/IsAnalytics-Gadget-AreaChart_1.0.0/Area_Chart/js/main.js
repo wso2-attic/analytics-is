@@ -346,8 +346,12 @@ function loadMap(data) {
 
 
     for (var i = 0 ; i < data.message.length; i++) {
-        successData.push([data.message[i].region, data.message[i].authSuccessCount]);
-        failedData.push([data.message[i].region, data.message[i].authFailureCount]);
+        if (data.message[i].authSuccessCount) {
+            successData.push([data.message[i].region, data.message[i].authSuccessCount]);
+        }
+        if (data.message[i].authFailureCount) {
+            failedData.push([data.message[i].region, data.message[i].authFailureCount]);
+        }        
     }
 
 
