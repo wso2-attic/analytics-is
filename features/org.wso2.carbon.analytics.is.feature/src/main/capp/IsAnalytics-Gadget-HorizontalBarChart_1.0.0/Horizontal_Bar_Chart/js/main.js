@@ -159,7 +159,8 @@ $(function () {
 
 function onResidentIdpClick() {
     var targetUrl = RESIDENT_IDP_PAGE_URL;
-    parent.window.location = targetUrl;
+    var timeRangeUrlParam = "?persistTimeFrom="+listnedTimeFromValue+"&persistTimeTo="+listnedTimeToValue;
+    parent.window.location = targetUrl + timeRangeUrlParam;
 };
 
 function successOnPaginationClicked(e, originalEvent, type, page) {

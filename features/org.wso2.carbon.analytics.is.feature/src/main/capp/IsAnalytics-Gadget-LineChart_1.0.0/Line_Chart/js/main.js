@@ -45,6 +45,9 @@ $(function() {
         }
     }
 
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
+
     var timeFrom = gadgetUtil.timeFrom();
     var timeTo = gadgetUtil.timeTo();
     gadgetUtil.fetchData(gadgetContext, {

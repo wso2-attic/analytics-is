@@ -18,6 +18,7 @@ var prefs = new gadgets.Prefs();
 var type;
 var chart = gadgetUtil.getChart(prefs.getString(PARAM_GADGET_ROLE));
 var map;
+var publishTimeRange;
 
 if (chart) {
     type = gadgetUtil.getRequestType(page, chart);
@@ -62,6 +63,9 @@ $(function() {
                 }
             }
         }
+        if(page == TYPE_RESIDENT_IDP) {
+            publishTimeRange = "true";
+        }
     }
 
     onDataChanged();
@@ -102,6 +106,16 @@ function checkMapType() {
 }
 
 gadgets.HubSettings.onConnect = function() {
+
+    if(publishTimeRange == "true") {
+        var message = {
+            timeFrom: listnedTimeFromValue,
+            timeTo: listnedTimeToValue,
+            timeUnit: "Custom"
+        };
+        gadgets.Hub.publish(TOPIC_SLIDER, message);
+        onDataChanged();
+    }
 
     gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function(topic, data, subscriberData) {
 
