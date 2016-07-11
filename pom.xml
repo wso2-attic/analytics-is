@@ -468,6 +468,7 @@
     </profiles>
 
     <properties>
+        <carbon.identity.auth.saml2.version>5.1.1</carbon.identity.auth.saml2.version>
         <carbon.analytics.shared.version>1.0.0-SNAPSHOT</carbon.analytics.shared.version>
         <junit.version>4.10</junit.version>
         <is.analytics.version>5.2.0-SNAPSHOT</is.analytics.version>
