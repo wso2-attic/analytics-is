@@ -60,13 +60,17 @@
                     </div>
                   </div>
 
-                    <span id="autocomplete-search-box" style="height:20%;">
-                        <input class="typeahead" type="text" placeholder="Search..">
-                        <div id="button-group">
-                        <input type="button" id="remove-filter" value="X"/>
-                        <input type="button" id="add-filter" value="Add Filter"/>
-                        </div>
-                    </span>
+                  <div class="form-group" id="autocomplete-search-box">
+                      <div class="input-group">
+                          <div class="input-group-btn input-wrap has-form-control-btn">
+                              <input class="typeahead" type="text" placeholder="Search..">
+                          </div>
+                          <div class="input-group-btn">
+                              <input type="button" id="remove-filter" value="X"/>
+                              <input type="button" id="add-filter" value="Add Filter"/>
+                          </div>
+                      </div>
+                  </div>
 
                     <div class="residentIdp">
                     </div>

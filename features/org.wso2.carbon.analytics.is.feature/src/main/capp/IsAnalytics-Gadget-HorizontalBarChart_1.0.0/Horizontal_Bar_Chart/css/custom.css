@@ -22,17 +22,18 @@
 #autocomplete-search-box .typeahead{
     vertical-align: middle !important;
     border-radius: 0px;
-    margin: 0px 0px 0px 10px;
+    width: 100%;
+}
+.typeahead{
+    width: 100%;
+}
+.twitter-typeahead{
     width: 100%;
 }
 
 span.twitter-typeahead {
     margin: 0;
     padding: 0;
-}
-
-.twitter-typeahead {
-    width: 84%;
 }
 
 input.typeahead.tt-input{
@@ -43,6 +44,9 @@ input.typeahead.tt-input{
 
 input.typeahead.tt-hint{
     width: 100%;
+}
+.input-group{
+    padding:0px 20px;
 }
 
 #button-group {
@@ -173,4 +177,22 @@ body.dark .gadget-container{
 }
 .tab-content{
     overflow: inherit;
+}
+.dashboard.dark .tt-menu {
+    background-color: #353C48;
+    border: 1px solid #6B7992;
+    color: #fff;
+    width: 76%;
+    left: 25px !important;
+}
+.tt-menu {
+    top: 96.5% !important;
+}
+.input-group-btn {
+    position: relative;
+    font-size: 0;
+    white-space: nowrap;
+}
+.input-group-addon, .input-group-btn, .input-group .form-control {
+    display: table-cell;
 }
