@@ -346,15 +346,17 @@ function loadMap(data) {
             var region = item.datum.zipped.unitName;
             map.mode = "REGION";
 
-            var message = {
+            if (region) {
+                var message = {
                 userPrefValue: region,
                 mode: map.mode,
                 colorCode:map.colorCode
-            };
+                };
 
-            gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
+                gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
 
-            gadgets.Hub.publish(TOPIC_REGION, message);
+                gadgets.Hub.publish(TOPIC_REGION, message);
+            }           
         }
     }
 
