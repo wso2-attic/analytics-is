@@ -832,7 +832,7 @@
 
                     if ( i == 0) {
                         for (var key in obj) {
-                            if (obj.hasOwnProperty(key)) {
+                            if (obj.hasOwnProperty(key) && key != "EMPTY_FACET_VALUE!") {
                                 result.push({
                                     "region": key,
                                     "authSuccessCount": obj[key]
@@ -841,7 +841,7 @@
                         }
                     } else if (i == 1) {
                         for (var key in obj) {
-                            if (obj.hasOwnProperty(key)) {
+                            if (obj.hasOwnProperty(key) && key != "EMPTY_FACET_VALUE!") {
                                 result.push({
                                     "region": key,
                                     "authFailureCount": obj[key]
