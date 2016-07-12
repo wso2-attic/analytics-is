@@ -110,6 +110,7 @@ function addUserPrefsToGlobalArray(colorCode,mode,userPrefValue){
     var isExist = false;
     var index = -1;
     var color = "";
+    var userPrefLabel;
 
     if(colorCode == "SUCCESS"){
         color = "#5CB85C";
@@ -141,20 +142,23 @@ function addUserPrefsToGlobalArray(colorCode,mode,userPrefValue){
                 }else{
                     color = "#D9534F";
                 }
-                $("#userPrefs ul").append('<li style="background-color:'+color+'">'+globalUniquArray[i][1]+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
+                userPrefLabel = gadgetUtil.escapeHtml(globalUniquArray[i][1]);
+                $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
                 //$('#userPrefs').selectit('add', globalUniquArray[i][1]);
             }
         }else{
 
             var arry = ["Topic",userPrefValue,mode,colorCode];
             globalUniquArray.push(arry);
-            $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefValue+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
+            userPrefLabel = gadgetUtil.escapeHtml(userPrefValue);
+            $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
         }
 
     }else{
         var arry = ["Topic",userPrefValue,mode,colorCode]
         globalUniquArray.push(arry);
-        $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefValue+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
+        userPrefLabel = gadgetUtil.escapeHtml(userPrefValue);
+        $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
     }
 
 }
