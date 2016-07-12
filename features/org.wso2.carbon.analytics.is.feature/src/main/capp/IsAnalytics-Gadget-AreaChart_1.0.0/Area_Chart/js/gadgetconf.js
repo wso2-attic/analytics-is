@@ -12,11 +12,12 @@ var charts = [{
         "x":"timeStamp",
         "maxLength":"3000",
         "legend" : false,
-        range:"true",
+        "range":"true",
         "yTitle":"Authentication Attempts",
         "xTitle":"Time",
         "colorScale":["#5CB85C","#D9534F"],
         "colorDomain":["SUCCESS","FAILURE"],
+        "rangeColor":"#737373",
         "padding":{
             "top":30,
             "left":65,

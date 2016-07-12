@@ -17,6 +17,7 @@ var charts = [{
         "barGap":0.2,
         "highlight" : "single",
         "colorScale":["#5CB85C"],
+        "selectionColor":"#5BF85C",
         "padding":{"top":0,"left":100,"bottom":0,"right":20},
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
@@ -56,6 +57,7 @@ var charts = [{
         "barGap":0.2,
         "padding":{"top":0,"left":100,"bottom":0,"right":20},
         "colorScale":["#D9534F"],
+        "selectionColor":"#FF2112",
         "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 3, filter:12 },
@@ -93,6 +95,7 @@ var charts = [{
         "highlight" : "single",
         "barGap":0.2,
         "colorScale":["#5CB85C"],
+        "selectionColor":"#5BF85C",
         "padding":{"top":0,"left":100,"bottom":0,"right":20},
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
@@ -132,6 +135,7 @@ var charts = [{
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "selectionColor":"#5BF85C",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
@@ -171,6 +175,7 @@ var charts = [{
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#D9534F"],
+            "selectionColor":"#FF2112",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
@@ -210,6 +215,7 @@ var charts = [{
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#D9534F"],
+            "selectionColor":"#FF2112",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
@@ -249,6 +255,7 @@ var charts = [{
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "selectionColor":"#5BF85C",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
@@ -287,6 +294,7 @@ var charts = [{
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#D9534F"],
+            "selectionColor":"#FF2112",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
@@ -324,6 +332,7 @@ var charts = [{
             hoverCursor:"pointer",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "selectionColor":"#5BF85C",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
@@ -363,6 +372,7 @@ var charts = [{
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "selectionColor":"#5BF85C",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
@@ -401,6 +411,7 @@ var charts = [{
             "highlight" : "single",
             "barGap":0.2,
             "colorScale":["#D9534F"],
+            "selectionColor":"#FF2112",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
@@ -438,6 +449,7 @@ var charts = [{
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "selectionColor":"#5BF85C",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
@@ -473,6 +485,7 @@ var charts = [{
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "selectionColor":"#5BF85C",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
@@ -509,6 +522,7 @@ var charts = [{
             "xTitle":"Duration",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "selectionColor":"#5BF85C",
             "padding":{"top":0,"left":100,"bottom":0,"right":20},
             "charts":[{type: "bar",  y : "sessionCount"}]},
         types: [
