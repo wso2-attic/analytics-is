@@ -370,8 +370,9 @@ function successOnData(response) {
         }
 
         if (chartFailure) {
-            $('#canvasSuccess').css({"height": "32%"});
-            $('#canvasFailure').css({"height": "32%"});
+            $('.successChart').css({"height": "50%"});
+            $('.failureChart').css({"height": "50%"});
+            $(".failureChart").show();
             gadgetUtil.fetchData(gadgetContext, {
                 type: functionTypeFailure,
                 timeFrom: listnedTimeFromValue,
@@ -382,8 +383,8 @@ function successOnData(response) {
                 count: 10
             }, failureOnData, failureOnError);
         } else {
-            $("#canvasFailure").css({"display": "none"});
-            $('#canvasSuccess').css({"height": "60%"});
+            $(".failureChart").hide();
+            $('.successChart').css({"height": "100%"});
             //$('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 

@@ -51,16 +51,16 @@
 
                   <ul class="nav nav-tabs" role="tablist" id="nav-tabs" style="height:20px;"><li>&nbsp;</li></ul>
 
-                  <div class="tab-content" style="height:calc(100% - 90px);">
-                        <div role="tabpanel" class="tab-pane active" id="home">
-                          <div class="successChart">
-                              <div id="canvasSuccess"></div>
-                              <div id="idSuccessPaginate"></div>
+                  <div class="tab-content" style="height:calc(100% - 81px); overflow: hidden;">
+                        <div role="tabpanel" class="tab-pane active" id="home" style="height:100%">
+                          <div class="successChart" style="height:50%">
+                              <div id="canvasSuccess" style="height:calc(100% - 35px)"></div>
+                              <div id="idSuccessPaginate" style="height:35px"></div>
                           </div>
 
-                          <div class="failureChart">
-                              <div id="canvasFailure"></div>
-                              <div id="idFailurePaginate"></div>
+                          <div class="failureChart" style="height:50%">
+                              <div id="canvasFailure" style="height:calc(100% - 35px)"></div>
+                              <div id="idFailurePaginate" style="height:35px"></div>
                           </div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="profile">
@@ -81,7 +81,7 @@
                           </div>
                       </div>
 
-                      <div class="residentIdp"></div>
+                      <div class="residentIdp" style="display: none;"></div>
                   </div>
 
             </body>

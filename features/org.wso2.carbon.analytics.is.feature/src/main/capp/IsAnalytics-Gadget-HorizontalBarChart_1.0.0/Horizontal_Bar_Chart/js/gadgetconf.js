@@ -1,3 +1,5 @@
+var chartPadding = {"top":10,"left":100,"bottom":40,"right":20};
+
 var charts = [{
     name: ROLE_PER_USER_AUTHENTICATION_SUCCESS_COUNT,
     columns: ["authSuccessCount", "username"],
@@ -18,7 +20,7 @@ var charts = [{
         "highlight" : "single",
         "colorScale":["#5CB85C"],
         "selectionColor":"#5BF85C",
-        "padding":{"top":0,"left":100,"bottom":0,"right":20},
+        "padding":chartPadding,
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 2, filter:12 },
@@ -55,7 +57,7 @@ var charts = [{
         "yTitle":"failureAttempts",
         "highlight" : "single",
         "barGap":0.2,
-        "padding":{"top":0,"left":100,"bottom":0,"right":20},
+        "padding":chartPadding,
         "colorScale":["#D9534F"],
         "selectionColor":"#FF2112",
         "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
@@ -96,7 +98,7 @@ var charts = [{
         "barGap":0.2,
         "colorScale":["#5CB85C"],
         "selectionColor":"#5BF85C",
-        "padding":{"top":0,"left":100,"bottom":0,"right":20},
+        "padding":chartPadding,
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 4, filter:13 },
@@ -136,7 +138,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#5CB85C"],
             "selectionColor":"#5BF85C",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 6, filter:15 },
@@ -176,7 +178,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#D9534F"],
             "selectionColor":"#FF2112",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 5, filter:13 },
@@ -216,7 +218,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#D9534F"],
             "selectionColor":"#FF2112",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 7, filter:15 },
@@ -256,7 +258,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#5CB85C"],
             "selectionColor":"#5BF85C",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 9, filter:14 }
@@ -295,7 +297,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#D9534F"],
             "selectionColor":"#FF2112",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 10, filter:14 }
@@ -333,7 +335,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#5CB85C"],
             "selectionColor":"#5BF85C",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 16, filter:13 },
@@ -373,7 +375,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#5CB85C"],
             "selectionColor":"#5BF85C",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_RESIDENT_IDP, type: 18, filter:17 }
@@ -412,7 +414,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#D9534F"],
             "selectionColor":"#FF2112",
-            "padding":{"top":0,"left":100,"bottom":0,"right":20},
+            "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_RESIDENT_IDP, type: 19, filter:17 }
