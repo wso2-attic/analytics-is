@@ -323,6 +323,15 @@ function GadgetUtil() {
         return urlParams;
     }
 
+    this.escapeHtml = function(stringToSanitize) {
+        return stringToSanitize
+             .replace(/&/g, "&amp;")
+             .replace(/</g, "&lt;")
+             .replace(/>/g, "&gt;")
+             .replace(/"/g, "&quot;")
+             .replace(/'/g, "&#039;");
+     }
+
 }
 
 var gadgetUtil = new GadgetUtil();
