@@ -46,9 +46,9 @@ var ROLE_PER_IDENTITY_PROVIDER_AUTHENTICATION_FAILURE_COUNT = "identityProviderA
 var ROLE_PER_SERVICE_PROVIDER_FIRST_LOGIN_COUNT = "serviceProviderAuthenticationFirstLoginSuccessCount";
 var ROLE_PER_USERSTORE_AUTHENTICATION_SUCCESS_COUNT = "userstoreAuthenticationSuccessCount";
 var ROLE_PER_USERSTORE_AUTHENTICATION_FAILURE_COUNT = "userstoreAuthenticationFailureCount";
-var ROLE_TOP_LONGEST_SESSIONS = "topLongestSessionsSuccessCount";
-var ROLE_PER_USER_AVERAGE_SESSION_DURATION = "userSessionDurationSuccessCount";
-var ROLE_SESSION_COUNT_OVER_TIME = "sessionCountSuccessCount";
+var ROLE_TOP_LONGEST_SESSIONS = "topLongestSessions";
+var ROLE_PER_USER_AVERAGE_SESSION_DURATION = "userSessionDuration";
+var ROLE_SESSION_COUNT_OVER_TIME = "sessionCount";
 var ROLE_SESSION_CHANGE_OVER_TIME = "sessionChangeCount";
 var ROLE_LATENCY = "latency";
 var ROLE_RATE = "rate";
@@ -58,6 +58,8 @@ var PARAM_TYPE = "type";
 var PARAM_GADGET_ROLE = "role";
 
 var RESIDENT_IDP_PAGE_URL = BASE_URL + TYPE_RESIDENT_IDP;
+var FEDERATED_IDP_PAGE_URL = BASE_URL + TYPE_LANDING;
+var SESSIONS_PAGE_URL = BASE_URL + TYPE_SESSIONS;
 
 var PARENT_WINDOW = window.parent.document;
 
