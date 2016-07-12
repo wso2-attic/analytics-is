@@ -61,17 +61,15 @@
 
     if (connector != null && loggedInUser != null) {
 
-        var categoryPath = [];
+        var result = null;
+        var query = null;
+        var resp = null;
 
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
-        var additionalParameters = request.getParameter("listnedAdditionalUserPrefs");
-        var idpTypeFilter = request.getParameter("idpType");
+        var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
+        var idpType = request.getParameter("idpType");
         var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
-
-        if (!additionalParameters) {
-            additionalParameters = "";
-        }
 
         switch (type) {
             case TYPE_OVERALL_AUTH_SUCCESS_AND_FAILURE:
@@ -83,8 +81,18 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                var additionalParameters = "";
 
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
+                if (listnedAdditionalUserPrefs != "") {
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
                     query = stringify({
                         tableName: tableName,
                         groupByField: "facetStartTime",
@@ -151,21 +159,47 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
-                    scoreFunction = "authStepSuccessCount";
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                    query = stringify({
+                        fieldName: "userName", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authStepSuccessCount",
+                        start: start,
+                        count: length
+                    });
                 } else {
-                    scoreFunction = "authSuccessCount";
+                    query = stringify({
+                        fieldName: "userName", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authSuccessCount",
+                        start: start,
+                        count: length
+                    });
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, scoreFunction, start, length);
 
-                var obj = queryResult[0];
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
+                var categoryCount = dataPoints.categoryCount;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -176,7 +210,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_USER_AUTH_FAILURE:
@@ -192,14 +226,35 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, "authFailureCount", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "userName", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction: "authFailureCount", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+
+
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -210,7 +265,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_SERVICE_PROVIDER_AUTH_SUCCESS:
@@ -226,21 +281,50 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
-                    scoreFunction = "authStepSuccessCount";
-                } else {
-                    scoreFunction = "authSuccessCount";
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, scoreFunction, start, length);
+                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                    query = stringify({
+                        fieldName: "serviceProvider", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
+                                idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authStepSuccessCount",
+                        start: start,
+                        count: length
+                    });
 
-                var obj = queryResult[0];
+                }
+                else {
+                    query = stringify({
+                        fieldName: "serviceProvider", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
+                                idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authSuccessCount", //score function
+                        start: start,
+                        count: length
+                    });
+                }
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+
+
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -251,7 +335,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_SERVICE_PROVIDER_AUTH_FAILURE:
@@ -267,14 +351,34 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFailureCount", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
+                            idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction: "authFailureCount", //score function
+                    start: start,
+                    count: length
+                });
+
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -285,7 +389,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_ROLE_AUTH_SUCCESS:
@@ -301,17 +405,44 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
-                    scoreFunction = "authStepSuccessCount";
-                } else {
-                    scoreFunction = "authSuccessCount";
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, scoreFunction, start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                    query = stringify({
+                        fieldName: "role", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authStepSuccessCount",
+                        start: start,
+                        count: length
+                    });
+                } else {
+                    query = stringify({
+                        fieldName: "role", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authSuccessCount", //score function
+                        start: start,
+                        count: length
+                    });
+                }
+
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -322,7 +453,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_ROLE_AUTH_FAILURE:
@@ -338,10 +469,31 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "authFailureCount", start, length);
+                var additionalParameters = "";
 
-                var obj = queryResult[0];
+                if (listnedAdditionalUserPrefs != "") {
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                query = stringify({
+                    fieldName: "role", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction: "authFailureCount", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -352,7 +504,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_IDENTITY_PROVIDER_AUTH_SUCCESS:
@@ -367,21 +519,45 @@
                 }
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
-                    scoreFunction = "authStepSuccessCount";
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                if (listnedAdditionalUserPrefs != "") {
+                    query = stringify({
+                        fieldName: "identityProvider", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authStepSuccessCount",
+                        start: start,
+                        count: length
+                    });
                 } else {
-                    scoreFunction = "authSuccessCount";
+                    query = stringify({
+                        fieldName: "identityProvider", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authSuccessCount", //score function
+                        start: start,
+                        count: length
+                    });
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, scoreFunction, start, length);
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
 
-                var obj = queryResult[0];
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -392,7 +568,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_IDENTITY_PROVIDER_AUTH_FAILURE:
@@ -408,14 +584,32 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, "authFailureCount", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "identityProvider", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction: "authFailureCount", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -426,14 +620,14 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
 
                 var columns = ["userName", "serviceProvider", "identityProvider", "rolesCommaSeperated"
-                    , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
+                    , "remoteIp", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
@@ -442,6 +636,17 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
                 var query = stringify({
                     "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter +
@@ -504,14 +709,32 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, "", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "userName", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -535,10 +758,30 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "", start, length);
+                var additionalParameters = "";
 
-                var obj = queryResult[0];
+                if (listnedAdditionalUserPrefs != "") {
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                query = stringify({
+                    fieldName: "role", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -562,14 +805,30 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, "", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "identityProvider", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -593,14 +852,31 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" +
+                            idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -624,10 +900,29 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, "", start, length);
+                var additionalParameters = "";
 
-                var obj = queryResult[0];
+                if (listnedAdditionalUserPrefs != "") {
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                query = stringify({
+                    fieldName: "userStoreDomain", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters, //search query, optional
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -651,21 +946,44 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
-                    scoreFunction = "authStepSuccessCount";
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
+
+                if (listnedAdditionalUserPrefs != "" && listnedAdditionalUserPrefs.indexOf("identityProvider") > -1) {
+                    query = stringify({
+                        fieldName: "userStoreDomain", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authStepSuccessCount", //score function
+                        start: start,
+                        count: length
+                    });
                 } else {
-                    scoreFunction = "authSuccessCount";
+                    query = stringify({
+                        fieldName: "userStoreDomain", //field which is indexed as a FACET
+                        categoryPath: [], //Path being drilled down, optional
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        //search query, optional
+                        scoreFunction: "authSuccessCount", //score function
+                        start: start,
+                        count: length
+                    });
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, scoreFunction, start, length);
-
-                var obj = queryResult[0];
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -676,7 +994,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_PER_USERSTORE_AUTH_FAILURE:
@@ -692,14 +1010,32 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
-                if (additionalParameters != "") {
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, "authFailureCount", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "userStoreDomain", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    //search query, optional
+                    scoreFunction: "authFailureCount", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -710,13 +1046,13 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
                 var columns = ["userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
-                    , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
+                    , "remoteIp", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
@@ -725,6 +1061,16 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+
+                var additionalParameters = "";
+                if (listnedAdditionalUserPrefs != "") {
+                    additionalParameters = listnedAdditionalUserPrefs;
+                }
+
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
                 var query = stringify({
                     "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
@@ -785,10 +1131,25 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter;
-                var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFirstSuccessCount", start, length);
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                var obj = queryResult[0];
+                query = stringify({
+                    fieldName: "serviceProvider", //field which is indexed as a FACET
+                    categoryPath: [], //Path being drilled down, optional
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter, //search query, optional
+                    scoreFunction: "authFirstSuccessCount", //score function
+                    start: start,
+                    count: length
+                });
+
+                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+
+                var categoryCount = dataPoints.categoryCount;
+                var obj = dataPoints.categories;
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
@@ -799,7 +1160,7 @@
                     }
                 }
                 result.push(dataPointsArray);
-                result.push(queryResult[1]);
+                result.push(categoryCount);
                 break;
             }
 
@@ -816,38 +1177,44 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
-                if (additionalParameters != "") {
-                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+
+                var additionalParameters = "";
+
+                if (listnedAdditionalUserPrefs != "") {
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
+                    additionalParameters = listnedAdditionalUserPrefs;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                
-                var scoreFunctions = ["authSuccessCount", "authFailureCount"]
+                var idpTypeFilter = "";
+                if (idpType != "") {
+                    idpTypeFilter = idpType;
+                }
 
-                for (var i = 0; i < scoreFunctions.length; i++) {
+                var query = stringify({
+                    query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    "start": start,
+                    "count": length
+                });
 
-                    var queryResult = common.getDrillDownResult(tableName, "region", categoryPath, queryString, scoreFunctions[i], start, length);
+                var resp = connector.search(loggedInUser, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
 
-                    var obj = queryResult[0];
-
-                    if ( i == 0) {
-                        for (var key in obj) {
-                            if (obj.hasOwnProperty(key) && key != "EMPTY_FACET_VALUE!") {
-                                result.push({
-                                    "region": key,
-                                    "authSuccessCount": obj[key]
-                                });
-                            }
+                for (var i = 0; i < dataPoints.length; i++) {
+                    if(dataPoints[i].values.region != ""){
+                        var success = dataPoints[i].values.authSuccessCount;
+                        var falure  = dataPoints[i].values.authFailureCount;
+                        for (var j = 0; j < result.length; j++) {
+                            if (result[j].region == dataPoints[i].values.region) {
+                                var success = success + result[j].authSuccessCount;
+                                var falure  = falure + result[j].authFailureCount;
+                                result.splice(j,1);
+                            }                            
                         }
-                    } else if (i == 1) {
-                        for (var key in obj) {
-                            if (obj.hasOwnProperty(key) && key != "EMPTY_FACET_VALUE!") {
-                                result.push({
-                                    "region": key,
-                                    "authFailureCount": obj[key]
-                                });
-                            }
-                        }
+                        result.push({
+                            "region": dataPoints[i].values.region,
+                            "authSuccessCount": success,
+                            "authFailureCount": falure,
+                        });                     
                     }                   
                 }
 

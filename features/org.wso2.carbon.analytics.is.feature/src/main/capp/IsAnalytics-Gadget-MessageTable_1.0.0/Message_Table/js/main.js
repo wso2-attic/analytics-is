@@ -92,7 +92,7 @@ $(function() {
                 { title: "Roles" },
                 { title: "Ip" },
                 { title: "Region" },
-                { title: "Authentication Success", "bSortable": false },
+                { title: "Authentication Success" },
                 { title: "Timestamp" }
 
             ],
