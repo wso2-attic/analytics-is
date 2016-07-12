@@ -11,7 +11,7 @@ $(document).ready(function () {
     for (var key in historyParms) {
         if (historyParms.hasOwnProperty(key)) {
 
-            if(key != "persistTimeFrom" && key != "persistTimeTo" && key !="editor"){
+            if(key != "persistTimeFrom" && key != "persistTimeTo" && key !="editor" && key !="shared"){
 
                 var historyParamVal = historyParms[key].toString();
                 addUserPrefsToGlobalArray(historyParamVal.split("_")[1],key,historyParamVal.split("_")[0]);
