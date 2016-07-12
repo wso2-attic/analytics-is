@@ -90,9 +90,6 @@ $(function () {
         if (instanceType == "IDENTITYPROVIDER") {
             $(".residentIdp").append("<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>");
         }
-    } else if (page == TYPE_SESSIONS) {
-        $('#autocomplete-search-box').hide();
-        gadgetContext = SESSION_CONTEXT;
     }
 
     if (instanceType == "SERVICEPROVIDER") {
@@ -386,11 +383,7 @@ function successOnData(response) {
             }, failureOnData, failureOnError);
         } else {
             $("#canvasFailure").css({"display": "none"});
-            if(page == TYPE_SESSIONS) {
-                $('#canvasSuccess').css({"height": "90%"});
-            } else {
-                $('#canvasSuccess').css({"height": "60%"});
-            }
+            $('#canvasSuccess').css({"height": "60%"});
             //$('.bkWrapColor').css({"background-color":"#d6d6c2"});
             drawChartSuccess();
 

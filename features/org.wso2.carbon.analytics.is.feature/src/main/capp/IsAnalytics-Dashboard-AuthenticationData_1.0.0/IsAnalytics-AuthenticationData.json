@@ -1692,12 +1692,12 @@
                   {
                      "id":"azzz9yhlu97u8t7gquu0g4x6r",
                      "content":{
-                        "id":"Horizontal_Bar_Chart",
-                        "title":"Horizontal_Bar_Chart",
+                        "id":"Session_Bar_Chart",
+                        "title":"Session_Bar_Chart",
                         "type":"gadget",
                         "thumbnail":"store://gadget/usa-business-revenue/index.png",
                         "data":{
-                           "url":"store://gadget/Horizontal_Bar_Chart/index.xml"
+                           "url":"store://gadget/Session_Bar_Chart/index.xml"
                         },
                         "toolbarButtons":{
                            "default":{
@@ -1719,27 +1719,6 @@
                                     "event":"chart-zoomed"
                                  }
                               ]
-                           },
-                           "subscriberUserPref":{
-                              "type":"selectedUser",
-                              "description":"Used to listen to Any message of type state",
-                              "on":[
-
-                              ]
-                           },
-                           "subscriberUserPrefDeletion":{
-                              "type":"deletedUserPref",
-                              "description":"Used to listen to Any message of type state"
-                           }
-                        },
-                        "notify":{
-                           "publisherUser":{
-                              "type":"selectedUser",
-                              "description":"This notifies selected User to further drill down"
-                           },
-                           "publisherFilterDeletion":{
-                              "type":"deletedFilter",
-                              "description":"Used to notify the filter deletion"
                            }
                         },
                         "styles":{
@@ -1771,12 +1750,12 @@
                   {
                      "id":"fie9iw5m968fw6ewqz6jlqsemi",
                      "content":{
-                        "id":"Horizontal_Bar_Chart",
-                        "title":"Horizontal_Bar_Chart",
+                        "id":"Session_Bar_Chart",
+                        "title":"Session_Bar_Chart",
                         "type":"gadget",
                         "thumbnail":"store://gadget/usa-business-revenue/index.png",
                         "data":{
-                           "url":"store://gadget/Horizontal_Bar_Chart/index.xml"
+                           "url":"store://gadget/Session_Bar_Chart/index.xml"
                         },
                         "toolbarButtons":{
                            "default":{
@@ -1798,27 +1777,6 @@
                                     "event":"chart-zoomed"
                                  }
                               ]
-                           },
-                           "subscriberUserPref":{
-                              "type":"selectedUser",
-                              "description":"Used to listen to Any message of type state",
-                              "on":[
-
-                              ]
-                           },
-                           "subscriberUserPrefDeletion":{
-                              "type":"deletedUserPref",
-                              "description":"Used to listen to Any message of type state"
-                           }
-                        },
-                        "notify":{
-                           "publisherUser":{
-                              "type":"selectedUser",
-                              "description":"This notifies selected User to further drill down"
-                           },
-                           "publisherFilterDeletion":{
-                              "type":"deletedFilter",
-                              "description":"Used to notify the filter deletion"
                            }
                         },
                         "styles":{
@@ -1850,12 +1808,12 @@
                   {
                      "id":"mmp68zbzgy6l4b5a99pddvx6r",
                      "content":{
-                        "id":"Horizontal_Bar_Chart",
-                        "title":"Horizontal_Bar_Chart",
+                        "id":"Session_Bar_Chart",
+                        "title":"Session_Bar_Chart",
                         "type":"gadget",
                         "thumbnail":"store://gadget/usa-business-revenue/index.png",
                         "data":{
-                           "url":"store://gadget/Horizontal_Bar_Chart/index.xml"
+                           "url":"store://gadget/Session_Bar_Chart/index.xml"
                         },
                         "toolbarButtons":{
                            "default":{
@@ -1877,27 +1835,6 @@
                                     "event":"chart-zoomed"
                                  }
                               ]
-                           },
-                           "subscriberUserPref":{
-                              "type":"selectedUser",
-                              "description":"Used to listen to Any message of type state",
-                              "on":[
-
-                              ]
-                           },
-                           "subscriberUserPrefDeletion":{
-                              "type":"deletedUserPref",
-                              "description":"Used to listen to Any message of type state"
-                           }
-                        },
-                        "notify":{
-                           "publisherUser":{
-                              "type":"selectedUser",
-                              "description":"This notifies selected User to further drill down"
-                           },
-                           "publisherFilterDeletion":{
-                              "type":"deletedFilter",
-                              "description":"Used to notify the filter deletion"
                            }
                         },
                         "styles":{

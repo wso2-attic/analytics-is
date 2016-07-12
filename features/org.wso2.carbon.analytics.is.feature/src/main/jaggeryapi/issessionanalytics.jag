@@ -53,8 +53,6 @@
 
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
-        var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-        var idpType = request.getParameter("idpType");
         var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
         switch (type) {          
