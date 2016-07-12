@@ -146,7 +146,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             throws AnalyticsServiceException, AnalyticsException, InterruptedException, RemoteException,
                    AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException {
 
-        Thread.sleep(100000);
+        Thread.sleep(25000);
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-AuthenticationData");
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
