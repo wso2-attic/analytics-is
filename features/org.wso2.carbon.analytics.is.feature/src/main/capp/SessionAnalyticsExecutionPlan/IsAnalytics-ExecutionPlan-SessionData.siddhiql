@@ -16,7 +16,7 @@ define stream SessionStatPerMinute (bucketId long, bucketStart long, bucketEnd l
 @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVE_COUNT', primary.keys = 'id', indices = 'id', wait.for.indexing = 'true', merge.schema = 'false')
 define table activeSessionCountTable(id string, activeCount long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVE_SESSIONS', primary.keys = 'sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, year, month, day, hour, minute, action, userName, userstoreDomain, IP, region, tenantDomain, rememberMeFlag, userAgent',  wait.for.indexing = 'false')
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS', primary.keys = 'sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, year, month, day, hour, minute, action, userName, userstoreDomain, IP, region, tenantDomain, rememberMeFlag, userAgent',  wait.for.indexing = 'false')
 define table activeSessionsTable (sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, year int, month int, day int, hour int, minute int, action int, userName string, userstoreDomain string, IP string, region string, tenantDomain string, rememberMeFlag bool, userAgent string);
 
 @Export('org.wso2.is.analytics.stream.SessionInfo:1.0.0')
