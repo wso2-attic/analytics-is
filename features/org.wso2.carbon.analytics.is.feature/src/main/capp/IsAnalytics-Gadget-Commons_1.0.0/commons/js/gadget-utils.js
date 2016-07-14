@@ -374,13 +374,6 @@ $(document).ready(function() {
 
 });
 
-var readyInterval = setInterval(function() {
-    if (document.readyState == "complete") {
-        $(gadgetUtil.getGadgetWrapper()).removeClass('loading');
-        clearInterval(readyInterval);
-    }
-}, 100);
-
 $(window).resize(function(){
     mediaScreenSize();
 });
