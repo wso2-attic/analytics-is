@@ -119,6 +119,8 @@ public class ISSessionAnalyticsTestCase extends DASIntegrationTest {
                     "127.0.0.1",
                     "NOT_AVAILABLE",
                     TENANT_DOMAIN[idx],
+                    "travelocity.com",
+                    "Google",
                     RAND.nextBoolean(),
                     "Firefox",
                     System.currentTimeMillis()

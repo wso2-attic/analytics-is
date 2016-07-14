@@ -82,6 +82,22 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>serviceProvider</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>identityProviders</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>rememberMeFlag</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
