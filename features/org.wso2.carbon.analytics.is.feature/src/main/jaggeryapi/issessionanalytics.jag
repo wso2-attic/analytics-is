@@ -308,7 +308,7 @@
                 var count = connector.searchCount(loggedInUser, tableName, query);
 
                 // querying for active session count
-                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVE_COUNT";
+                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS";
 
                 queryActiveSessions = stringify({
                     query: "*:*",
@@ -316,9 +316,8 @@
                     count: length
                 });
 
-                var respActiveCount = connector.search(loggedInUser, tableNameActiveSessions, queryActiveSessions);
-                var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
-                var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
+                var respActiveCount = connector.searchCount(loggedInUser, tableNameActiveSessions, queryActiveSessions);
+                var activeCount = JSON.parse(respActiveCount.getMessage());
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
