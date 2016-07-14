@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <artifacts>
-    <artifact name="org.wso2.carbon.analytics.is" version="1.0.0" type="carbon/application">
-        <!-- Gadgets -->
+    <artifact name="org.wso2.carbon.analytics.is" version="1.0.0" type="carbon/application">        
         <dependency artifact="AnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionAnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
+        <!-- Gadgets -->
         <dependency artifact="IsAnalytics-Gadget-Commons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-DateRangePicker" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-AreaChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -12,10 +13,12 @@
         <dependency artifact="IsAnalytics-Gadget-MessageTable" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-UserPreferences" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-LineChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <!--offline-->
         <dependency artifact="AuthenticationManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AuthenticationStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <!--realtime-->
         <dependency artifact="AnalyticsAuthenticationEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionActiveStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -41,7 +44,6 @@
         <dependency artifact="ISUserStoreStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-ExecutionPlan-SessionData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
-        <!--dependency artifact="IsAnalytics-ExecutionPlan-SessionInfo" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/-->
         <dependency artifact="IsAnalytics-ExecutionPlan-AuthenticationData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
         <!-- Dashboard Definition -->
         <dependency artifact="IsAnalytics-Dashboard-AuthenticationData" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>

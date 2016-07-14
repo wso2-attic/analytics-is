@@ -34,6 +34,14 @@
             <Type>LONG</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>endTimestamp</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>LONG</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>year</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
@@ -74,12 +82,20 @@
             <Type>INTEGER</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>action</Name>
+            <Name>duration</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>true</EnableScoreParam>
+            <Type>LONG</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>isActive</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
-            <Type>INTEGER</Type>
+            <Type>BOOLEAN</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>userName</Name>
@@ -114,6 +130,22 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>serviceProvider</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>identityProviders</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>rememberMeFlag</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
@@ -121,17 +153,9 @@
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>
         </ColumnDefinition>
-        <ColumnDefinition>
-            <Name>userAgent</Name>
-            <IsFacet>true</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>false</IsPrimaryKey>
-            <EnableScoreParam>false</EnableScoreParam>
-            <Type>STRING</Type>
-        </ColumnDefinition>
     </TableSchema>
     <Source>
-        <StreamId>org.wso2.is.analytics.stream.ActiveSessions:1.0.0</StreamId>
+        <StreamId>org.wso2.is.analytics.stream.SessionInfo:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
     <RecordStoreName>EVENT_STORE</RecordStoreName>

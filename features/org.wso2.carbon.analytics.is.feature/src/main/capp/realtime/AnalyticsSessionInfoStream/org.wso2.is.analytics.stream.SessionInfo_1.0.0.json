@@ -69,6 +69,14 @@
       "type": "STRING"
     },
     {
+      "name": "serviceProvider",
+      "type": "STRING"
+    },
+    {
+      "name": "identityProviders",
+      "type": "STRING"
+    },
+    {
       "name": "rememberMeFlag",
       "type": "BOOL"
     }
