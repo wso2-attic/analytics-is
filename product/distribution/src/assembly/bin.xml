@@ -290,6 +290,17 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/sharedstore/layout</outputDirectory>
         </fileSet>
 
+        <!-- Copying capps to distribution -->
+        <fileSet>
+            <directory>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/capps/
+            </directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/capps</outputDirectory>
+            <includes>
+                <include>**/*.car</include>
+            </includes>
+        </fileSet>
+
     </fileSets>
 
     <files>
