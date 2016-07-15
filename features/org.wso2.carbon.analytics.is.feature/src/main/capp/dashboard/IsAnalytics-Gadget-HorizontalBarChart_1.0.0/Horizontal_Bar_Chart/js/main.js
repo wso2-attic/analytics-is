@@ -347,15 +347,6 @@ function onChange() {
         count: 10
     }, successOnData, successOnError);
 
-    gadgetUtil.fetchData(gadgetContext, {
-        type: filterType,
-        timeFrom: listnedTimeFromValue,
-        timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
-        idpType: idpTypeFilter,
-        start: 0,
-        count: 10
-    }, processSuggestionsList, successOnError);
 };
 
 
