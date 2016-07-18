@@ -251,6 +251,9 @@ function onData(response) {
             failed: allData[2]
         };
 
+        var maxSuccessCount = allData[3];
+        var maxFailureCount = allData[4];
+
         //gadgets.Hub.publish(TOPIC_STAT_PUBLISHER, message);
         loadStats(message);
 
@@ -263,6 +266,9 @@ function onData(response) {
         //finally draw the chart on the given canvas
         chart.chartConfig.width = $("#canvas").width();
         chart.chartConfig.height = $("#canvas").height();
+        if((maxSuccessCount + maxFailureCount) < 10) {
+            chart.chartConfig.yTicks = maxSuccessCount + maxFailureCount;
+        }
 
         var vg = new vizg(chart.schema, chart.chartConfig);
         $("#canvas").empty();
