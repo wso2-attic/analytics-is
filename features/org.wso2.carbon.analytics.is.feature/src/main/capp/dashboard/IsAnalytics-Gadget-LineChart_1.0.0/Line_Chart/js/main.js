@@ -113,7 +113,8 @@ function onData(response) {
         loadStats(data);
         
         //perform necessary transformation on input data
-        chart.schema[0].data = chart.processData(data);
+        var processedData = chart.processData(data);
+        chart.schema[0].data = processedData;
         //sort the timestamps
         chart.schema[0].data.sort(function(a, b) {
             return a[1] - b[1];
@@ -121,6 +122,14 @@ function onData(response) {
         //finally draw the chart on the given canvas
         chart.chartConfig.width = $('body').width();
         chart.chartConfig.height = $('body').height();
+
+        var maxCount = 0;
+        for(var i=0; i<processedData.length; i++) {
+            maxCount = Math.max(maxCount, processedData[i][0]);
+        }
+        if(maxCount < 10) {
+            chart.chartConfig.yTicks = maxCount;
+        }
 
         var vg = new vizg(chart.schema, chart.chartConfig);
         $("#canvas").empty();
