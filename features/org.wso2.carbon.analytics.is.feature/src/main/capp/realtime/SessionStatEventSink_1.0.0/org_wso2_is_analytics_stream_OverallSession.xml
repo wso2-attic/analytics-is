@@ -4,8 +4,8 @@
         <ColumnDefinition>
             <Name>meta_tenantId</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>true</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
+            <EnableIndexing>false</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>INTEGER</Type>
         </ColumnDefinition>
