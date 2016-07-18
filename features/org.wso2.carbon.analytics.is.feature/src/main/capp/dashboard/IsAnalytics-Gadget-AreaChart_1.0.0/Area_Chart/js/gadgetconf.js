@@ -41,6 +41,8 @@ var charts = [{
         var tableData = [];
         var overallAuthSuccessCount = 0;
         var overallAuthFailureCount = 0;
+        var maxSuccessCount = 0;
+        var maxFailureCount = 0;
 
         data.forEach(function(row, i) {
             var timestamp = row['timestamp'];
@@ -48,6 +50,8 @@ var charts = [{
             var faultCount = row["faultsCount"];
             overallAuthSuccessCount += successCount;
             overallAuthFailureCount += faultCount;
+            maxSuccessCount = Math.max(maxSuccessCount, successCount);
+            maxFailureCount = Math.max(maxFailureCount, faultCount);
 
             tableData.push([successCount, timestamp, "AUTHSUCCESS"]);
             tableData.push([-faultCount,timestamp , "AUTHFAULT"]);
@@ -55,6 +59,8 @@ var charts = [{
         result.push(tableData);
         result.push(overallAuthSuccessCount);
         result.push(overallAuthFailureCount);
+        result.push(maxSuccessCount);
+        result.push(maxFailureCount);
 
         return result;
     }
