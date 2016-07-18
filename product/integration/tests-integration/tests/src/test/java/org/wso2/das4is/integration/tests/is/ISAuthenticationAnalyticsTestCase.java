@@ -119,7 +119,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
 
                 count++;
 
-                Event event = new Event(streamId, System.currentTimeMillis(), null, null, payload);
+                Event event = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null, payload);
                 sampleEventList.add(event);
             }
             dataPublisherClient.publish(sampleEventList);

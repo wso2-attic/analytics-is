@@ -2,6 +2,14 @@
 <EventStoreConfiguration>
     <TableSchema>
         <ColumnDefinition>
+            <Name>meta_tenantId</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>true</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>INTEGER</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>bucketId</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
