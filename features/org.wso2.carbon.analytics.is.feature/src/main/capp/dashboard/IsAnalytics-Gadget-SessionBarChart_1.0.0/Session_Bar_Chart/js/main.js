@@ -136,6 +136,9 @@ function drawChartSuccess(response) {
     //finally draw the chart on the given canvas
     chart.chartConfig.width = $("#canvas").width();
     chart.chartConfig.height = $("#canvas").height();
+    if(chart.mode == "SESSION_COUNT_OVER_TIME" && successDataObj[0][0].sessionCount < 10) {
+        chart.chartConfig.yTicks = successDataObj[0][0].sessionCount;
+    }
 
     var vg = new vizg(chart.schema, chart.chartConfig);
     $("#canvas").empty();
