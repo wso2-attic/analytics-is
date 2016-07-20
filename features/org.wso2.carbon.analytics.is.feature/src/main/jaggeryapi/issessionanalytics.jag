@@ -79,6 +79,10 @@
                 var dataPoints = JSON.parse(resp.getMessage());
                 var obj = dataPoints.categories;
 
+                if(Object.keys(obj).length == 0) {
+                    break;
+                }
+
                 var sessionIds = [];
                 var queryString = "";
                 for (var key in obj) {
