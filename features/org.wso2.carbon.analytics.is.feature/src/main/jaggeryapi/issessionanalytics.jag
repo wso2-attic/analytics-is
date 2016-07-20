@@ -105,15 +105,15 @@
                 var dataPoints = JSON.parse(resp.getMessage());
                 var count = connector.searchCount(loggedInUser, tableName, query).getMessage();
 
-                for (i = 0; i < dataPoints.length; i++) {
+                for (var i = 0; i < dataPoints.length; i++) {
                     var temp = [];
                     if (dataPoints[i] != null) {
-                        var index = start + i + 1;
                         var username = dataPoints[i]["values"]["userName"];
                         var duration = dataPoints[i]["values"]["duration"];
                         data.push({
-                            "username": username + " " + index,
-                            "duration": duration / 1000
+                            "username": username,
+                            "duration": duration / 1000,
+                            "sessionId": i
                         });
                     }
                 }
