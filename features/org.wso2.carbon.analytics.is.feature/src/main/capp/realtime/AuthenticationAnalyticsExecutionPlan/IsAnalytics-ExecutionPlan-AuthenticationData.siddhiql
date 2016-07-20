@@ -39,12 +39,12 @@ from InStream
 select meta_tenantId, eventId,userName,userStoreDomain, tenantDomain, remoteIp, "N/A" as region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse(authStepSuccess == false, 1, 0) as failureValue,ifThenElse(authStepSuccess == true, 1, 0) as stepSuccessValue,ifThenElse(authStepSuccess == true AND isFirstLogin == true, 1, 0) as firstLoginValue,identityProviderType, _timestamp as eventTime, _timestamp
 insert into countStream;
 
+
+-- Per Second -------------
+
 from countStream
 select meta_tenantId, eventId,userName,userStoreDomain, tenantDomain, remoteIp, region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin, successValue, failureValue, stepSuccessValue, firstLoginValue,identityProviderType, eventTime as batchEndTime, _timestamp
 insert into countWindow;
-
-
--- Per Second -------------
 
 from countWindow#isAnalytics:duplicator(rolesCommaSeperated)
 select meta_tenantId, _timestamp, userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain,successValue, failureValue,stepSuccessValue, identityProviderType,batchEndTime
