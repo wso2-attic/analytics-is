@@ -25,7 +25,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>wso2analytics-is</artifactId>
+    <artifactId>wso2is-analytics</artifactId>
     <packaging>jar</packaging>
  
     <build>
@@ -94,14 +94,14 @@
                                 <mkdir dir="${tempdir}" />
                                 <unzip dest="${tempdir}">
                                     <fileset dir="target">
-                                        <include name="wso2analytics-is-${project.version}.zip" />
+                                        <include name="wso2is-analytics-${project.version}.zip" />
                                     </fileset>
                                 </unzip>
                                 <copy todir="target/wso2carbon-core-${carbon.kernel.version}/repository/components" overwrite="true">
-                                    <fileset dir="${tempdir}/wso2analytics-is-${project.version}/repository/components">
+                                    <fileset dir="${tempdir}/wso2is-analytics-${project.version}/repository/components">
                                     </fileset>
                                 </copy>
-                                <delete file="target/wso2analytics-is-${project.version}.zip" />
+                                <delete file="target/wso2is-analytics-${project.version}.zip" />
                                 <delete dir="${tempdir}" />
                             </tasks>
                         </configuration>
@@ -185,7 +185,7 @@
                                 <delete dir="target/dependency-maven-plugin-markers" />
                                 <delete dir="target/maven-archiver" />
                                 <delete dir="target/wso2carbon-core-${carbon.kernel.version}" />
-                                <delete file="target/wso2analytics-is-${project.version}.jar" />
+                                <delete file="target/wso2is-analytics-${project.version}.jar" />
                                 <delete dir="target/sources" />
                                 <delete dir="target/site" />
                                 <delete dir="src/site" />
