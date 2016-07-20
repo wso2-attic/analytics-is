@@ -37,7 +37,16 @@ $(function() {
         }
     }
 
-    if(page.name == TYPE_LANDING) {
+    if (page.name == TYPE_LANDING || page.name == TYPE_RESIDENT_IDP) {
+        var idpFilter = "";
+
+        if(page.name == TYPE_LANDING) {
+            idpFilter = " AND identityProviderType:\"FEDERATED\"";
+            
+        } else if(page.name == TYPE_RESIDENT_IDP) {
+            idpFilter = " AND identityProviderType:\"LOCAL\"";
+        }
+
         oTable = $('#tblMessages').DataTable({
             dom: '<"dataTablesTop"' +
                 'f' +
@@ -57,9 +66,9 @@ $(function() {
                 { title: "Roles" },
                 { title: "Ip" },
                 { title: "Region" },
-                { title: "Authentication Success" },
+                { title: "Authentication Step Success" },
+                { title: "Overall Success" },
                 { title: "Timestamp" }
-
             ],
             "ajax": {
                 "url" : AUTHENTICATION_CONTEXT,
@@ -68,45 +77,11 @@ $(function() {
                     d.timeFrom = parseInt(listnedTimeFromValue);
                     d.timeTo = parseInt(listnedTimeToValue);
                     d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
-                    d.idpType = " AND identityProviderType:\"FEDERATED\"";
+                    d.idpType = idpFilter;
                 }
             }
         });
-    } else if(page.name == TYPE_RESIDENT_IDP) {
-        oTable = $('#tblMessages').DataTable({
-            dom: '<"dataTablesTop"' +
-                'f' +
-                '<"dataTables_toolbar">' +
-                '>' +
-                'rt' +
-                '<"dataTablesBottom"' +
-                'lip' +
-                '>',
-            "processing": true,
-            "serverSide": true,
-            "searching": false,
-            "columns" : [
-                { title: "User Name" },
-                { title: "Service Provider" },
-                { title: "Userstore" },
-                { title: "Roles" },
-                { title: "Ip" },
-                { title: "Region" },
-                { title: "Authentication Success" },
-                { title: "Timestamp" }
 
-            ],
-            "ajax": {
-                "url" : AUTHENTICATION_CONTEXT,
-                "data" : function (d) {
-                    d.type = page.type;
-                    d.timeFrom = parseInt(listnedTimeFromValue);
-                    d.timeTo = parseInt(listnedTimeToValue);
-                    d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
-                    d.idpType = " AND identityProviderType:\"LOCAL\"";
-                }
-            }
-        });
     } else if(page.name == TYPE_SESSIONS) {
         oTable = $('#tblMessages').DataTable({
             dom: '<"dataTablesTop"' +
