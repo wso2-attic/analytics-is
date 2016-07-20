@@ -51,6 +51,10 @@
         var query = null;
         var resp = null;
 
+        var user = carbon.server.tenantUser(loggedInUser);
+        var tenantId = user.tenantId;
+        var tenantFilter = " AND meta_tenantId : [ "+ tenantId +" TO " +tenantId + " ] ";
+
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
         var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
@@ -69,7 +73,7 @@
                 query = stringify({
                     fieldName: "sessionId", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
                     scoreFunction: "duration", //score function
                     start: start,
                     count: length
@@ -144,7 +148,7 @@
                     tableName: tableName,
                     groupByField: "userName",
                     aggregateLevel: 0,
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
                     aggregateFields: [
                         {
                             fieldName: "duration",
@@ -234,7 +238,7 @@
                             "to":9223372036854775807
                         }
                     ],
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)"
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter
                 });
 
                 resp = connector.drillDownRangeCount(loggedInUser, tableName, query);
@@ -268,7 +272,7 @@
                 query = stringify({
                     fieldName: "userName", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter,
                 });
 
                 resp = connector.drillDownCategories(loggedInUser, tableName, query);
@@ -305,7 +309,7 @@
 
 
                 query = stringify({
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter,
                     start: start,
                     count: length
                 });
@@ -378,7 +382,7 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]",
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter ,
                     "start": start,
                     "count": length,
                     "sortBy": [
