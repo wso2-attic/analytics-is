@@ -60,6 +60,7 @@ $(function() {
             "serverSide": true,
             "searching": false,
             "columns" : [
+                { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
                 { title: "Identity Provider" },

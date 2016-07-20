@@ -719,7 +719,7 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
-                var columns = ["contextId", "userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
+                 var columns = ["contextId", "userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
                     , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
