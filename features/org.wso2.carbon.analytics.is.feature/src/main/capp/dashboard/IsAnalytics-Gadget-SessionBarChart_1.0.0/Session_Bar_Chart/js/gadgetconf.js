@@ -1,11 +1,11 @@
 var charts = [
     {
         name: ROLE_TOP_LONGEST_SESSIONS,
-        columns: ["duration", "username"],
+        columns: ["duration", "username", "sessionId"],
         schema: [{
             "metadata": {
-                "names": ["duration", "username"],
-                "types": ["linear","ordinal"]
+                "names": ["duration", "username", "sessionId"],
+                "types": ["linear","ordinal","ordinal"]
             },
             "data": []
         }],
@@ -17,8 +17,9 @@ var charts = [
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
+            "legend":false,
             "padding":{"top":10,"left":100,"bottom":40,"right":30},
-            "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
+            "charts":[{type: "bar",  y : "duration", orientation : "left", mode:"group", color:"sessionId"}]},
         types: [
             { name: TYPE_SESSIONS, type: 21 }
         ],
@@ -29,7 +30,8 @@ var charts = [
             data.forEach(function(row, i) {
                 var duration = row['duration'];
                 var username = row['username'];
-                result.push([duration, username]);
+                var sessionId = row['sessionId'];
+                result.push([duration, username, sessionId]);
             });
             return result;
         }
