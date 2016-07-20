@@ -51,12 +51,14 @@ $(function() {
             "serverSide": true,
             "searching": false,
             "columns" : [
+                { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
                 { title: "Identity Provider" },
                 { title: "Roles" },
                 { title: "Ip" },
                 { title: "Region" },
+                { title: "Step Success" },
                 { title: "Authentication Success" },
                 { title: "Timestamp" }
 
@@ -86,12 +88,14 @@ $(function() {
             "serverSide": true,
             "searching": false,
             "columns" : [
+                { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
                 { title: "Userstore" },
                 { title: "Roles" },
                 { title: "Ip" },
                 { title: "Region" },
+                { title: "Step Success" },
                 { title: "Authentication Success" },
                 { title: "Timestamp" }
 
