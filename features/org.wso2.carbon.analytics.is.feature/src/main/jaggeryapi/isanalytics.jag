@@ -2,7 +2,7 @@
 (function () {
 
     var log = new Log();
-    var carbon = require('carbon');    
+    var carbon = require('carbon');
     var timeRangeUtil = Packages.org.wso2.analytics.shared.util.time.TimeRangeUtils;
     var common = require('isanalytics-common.jag');
 
@@ -30,8 +30,8 @@
     var TYPE_USERSTORE_LIST = 17;
     var TYPE_PER_USERSTORE_AUTH_SUCCESS = 18;
     var TYPE_PER_USERSTORE_AUTH_FAILURE = 19;
-    var TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP = 20;   
-    var TYPE_PER_USER_REGION = 25;   
+    var TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP = 20;
+    var TYPE_PER_USER_REGION = 25;
 
     response.contentType = CONTENT_TYPE_JSON;
 
@@ -62,6 +62,9 @@
     if (connector != null && loggedInUser != null) {
 
         var categoryPath = [];
+        var user = carbon.server.tenantUser(loggedInUser);
+        var tenantId = user.tenantId;
+        var tenantFilter = " AND meta_tenantId : [ "+ tenantId +" TO " +tenantId + " ] ";
 
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
@@ -76,6 +79,7 @@
         switch (type) {
             case TYPE_OVERALL_AUTH_SUCCESS_AND_FAILURE:
             {
+
                 result = [];
 
                 if (timeUnit == "SECOND") {
@@ -88,7 +92,7 @@
                     query = stringify({
                         tableName: tableName,
                         groupByField: "facetStartTime",
-                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters,
                         aggregateFields: [
                             {
                                 fields: ["authStepSuccessCount"],
@@ -106,7 +110,7 @@
                     query = stringify({
                         tableName: tableName,
                         groupByField: "facetStartTime",
-                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters,
                         aggregateFields: [
                             {
                                 fields: ["authSuccessCount"],
@@ -162,7 +166,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -196,7 +200,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -237,7 +241,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -271,7 +275,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -308,7 +312,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -338,7 +342,7 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -378,7 +382,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -412,7 +416,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -432,7 +436,7 @@
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
 
-                var columns = ["contextId", "userName", "serviceProvider", "identityProvider", "rolesCommaSeperated"
+                var columns = ["userName", "serviceProvider", "identityProvider", "rolesCommaSeperated"
                     , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -444,7 +448,7 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter +
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter +
                             additionalParameters,
                     "start": start,
                     "count": length,
@@ -508,7 +512,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -535,7 +539,7 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -566,7 +570,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -597,7 +601,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -624,7 +628,7 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -662,7 +666,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -696,7 +700,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -715,7 +719,7 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
-                var columns = ["contextId", "userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
+                 var columns = ["userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
                     , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -727,7 +731,7 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters,
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters,
                     "start": start,
                     "count": length,
                     "sortBy": [
@@ -785,7 +789,7 @@
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFirstSuccessCount", start, length);
 
                 var obj = queryResult[0];
@@ -820,8 +824,8 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + idpTypeFilter + additionalParameters;
-                
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+
                 var scoreFunctions = ["authSuccessCount", "authFailureCount"]
 
                 for (var i = 0; i < scoreFunctions.length; i++) {
@@ -848,11 +852,11 @@
                                 });
                             }
                         }
-                    }                   
+                    }
                 }
 
                 break;
-            }            
+            }
             default:
             {
                 result = '{ "status": "Failed", "message": "Unidentified operation" }';

@@ -2,15 +2,14 @@ var configs = [{
         name: TYPE_LANDING,
         type: 11,
         columns: [
-            { name: "contextId", label: "Context ID", type: "ordinal" },
             { name: "userName", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "identityProvider", label: "Identity Provider", type: "ordinal" },
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
-            { name: "authStepSuccess", label: "Step Success", type: "ordinal" },
-            { name: "authenticationSuccess", label: "Authentication Success", type: "ordinal" },
+            { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
+            { name: "authenticationSuccess", label: "Overall Success", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     },
@@ -18,15 +17,14 @@ var configs = [{
         name: TYPE_RESIDENT_IDP,
         type: 20,
         columns: [
-            { name: "contextId", label: "Context ID", type: "ordinal" },
             { name: "userName", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "userstore", label: "Userstore", type: "ordinal" },
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
-            { name: "authStepSuccess", label: "Step Success", type: "ordinal" },
-            { name: "authenticationSuccess", label: "Authentication Success", type: "ordinal" },
+            { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
+            { name: "authenticationSuccess", label: "Overall Success", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     },
