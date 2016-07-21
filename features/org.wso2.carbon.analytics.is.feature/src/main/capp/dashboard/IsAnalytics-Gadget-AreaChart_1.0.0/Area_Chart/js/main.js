@@ -6,6 +6,7 @@ var TOPIC_REGION = "publisherRegion";
 var listnedTimeFromValue;
 var listnedTimeToValue;
 var listnedAdditionalUserPrefs = "";
+var listnedAdditionalUserPrefsForMap = "";
 var globalUniqueArray = [];
 var rangeStart;
 var rangeEnd;
@@ -142,18 +143,23 @@ gadgets.HubSettings.onConnect = function() {
         }
         globalUniqueArray.splice(index, 1);
         listnedAdditionalUserPrefs = "";
+        listnedAdditionalUserPrefsForMap ="";
 
         for(i=0;i<globalUniqueArray.length;i++){
             if(globalUniqueArray[i][2] == "USERNAME"){
-                listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs += " AND userName:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefsForMap += " AND userName:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs += " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefsForMap += " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "ROLE"){
-                listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefsForMap += " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-                listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefsForMap += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "REGION"){
-                listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs += " AND region:\""+globalUniqueArray[i][1]+"\"";
             }
         }
 
@@ -187,18 +193,23 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
     }
 
     listnedAdditionalUserPrefs = "";
+    listnedAdditionalUserPrefsForMap = "";
 
     for(i=0;i<globalUniqueArray.length;i++){
         if(globalUniqueArray[i][2] == "USERNAME"){
-            listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs += " AND userName:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefsForMap += " AND userName:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
-            listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs += " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefsForMap += " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "ROLE"){
-            listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefsForMap += " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
-            listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefsForMap += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "REGION"){
-            listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs += " AND region:\""+globalUniqueArray[i][1]+"\"";
         }
     }
 }
@@ -222,7 +233,7 @@ function onDataChanged() {
         type: 25,
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
+        listnedAdditionalUserPrefs: listnedAdditionalUserPrefsForMap,
         idpType:idpTypeFilter,
         start:0,
         count:10
@@ -362,6 +373,8 @@ function loadMap(data) {
                 gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
 
                 gadgets.Hub.publish(TOPIC_REGION, message);
+
+                onDataChanged();
             }           
         }
     }
