@@ -44,6 +44,7 @@ $(function() {
         if(page.name == TYPE_LANDING) {
             idpFilter = " AND identityProviderType:\"FEDERATED\"";
             columns = [
+                { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
                 { title: "Identity Provider" },
@@ -58,6 +59,7 @@ $(function() {
         } else if(page.name == TYPE_RESIDENT_IDP) {
             idpFilter = " AND identityProviderType:\"LOCAL\"";
             columns = [
+                { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
                 { title: "Userstore" },
@@ -85,6 +87,23 @@ $(function() {
             "serverSide": true,
             "searching": false,
             "columns" : columns,
+            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                if ( aData[7] == true && aData[8] == true )
+                {
+                   $('td', nRow).eq(8).html(
+                    '<div><div style="width: 10%;height:38px;float:left;background-color:#5CB85C;margin:-8px"></div><div style="width: 90%;float:right;text-align: center;margin:-8px;vertical-align:middle;">Success</div></div>'
+                    );
+                }
+                else if ( aData[7] == false && aData[8] == false)
+                {
+                    $('td', nRow).eq(8).html(
+                        '<div><div style="width: 10%;height:38px;float:left;background-color:#D9534F;margin:-8px"></div><div style="width: 90%;float:right;text-align: center;margin:-8px;vertical-align:middle;">Failure</div><div>'
+                        );
+                }
+                else {
+                    $('td', nRow).eq(8).html('<div><div>');
+                }
+            },
             "ajax": {
                 "url" : AUTHENTICATION_CONTEXT,
                 "data" : function (d) {
