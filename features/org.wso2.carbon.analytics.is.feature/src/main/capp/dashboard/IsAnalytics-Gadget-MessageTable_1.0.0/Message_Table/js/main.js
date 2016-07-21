@@ -52,7 +52,7 @@ $(function() {
                 { title: "Ip" },
                 { title: "Region" },
                 { title: "Authentication Step Success" },
-                { title: "Overall Success" },
+                { title: "Overall Authentication" },
                 { title: "Timestamp" }
             ];
             
@@ -67,7 +67,7 @@ $(function() {
                 { title: "Ip" },
                 { title: "Region" },
                 { title: "Authentication Step Success" },
-                { title: "Overall Success" },
+                { title: "Overall Authentication" },
                 { title: "Timestamp" }
             ];
         }
