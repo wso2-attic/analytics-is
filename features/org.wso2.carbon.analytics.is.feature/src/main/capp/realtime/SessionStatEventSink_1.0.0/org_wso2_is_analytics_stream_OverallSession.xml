@@ -126,5 +126,5 @@
         <StreamId>org.wso2.is.analytics.stream.OverallSession:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
-    <RecordStoreName>EVENT_STORE</RecordStoreName>
+    <RecordStoreName>EVENT_STORE_WO</RecordStoreName>
 </EventStoreConfiguration>
