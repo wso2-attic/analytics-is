@@ -91,14 +91,14 @@ $(function() {
                 if ( aData[7] == true && aData[8] == true )
                 {
                    $('td', nRow).eq(8).html(
-                    '<div><div style="width: 10%;height:38px;float:left;background-color:#5CB85C;margin:-8px"></div><div style="width: 90%;float:right;text-align: center;margin:-8px;vertical-align:middle;">Success</div></div>'
+                    '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
                     );
                 }
                 else if ( aData[7] == false && aData[8] == false)
                 {
                     $('td', nRow).eq(8).html(
-                        '<div><div style="width: 10%;height:38px;float:left;background-color:#D9534F;margin:-8px"></div><div style="width: 90%;float:right;text-align: center;margin:-8px;vertical-align:middle;">Failure</div><div>'
-                        );
+                    '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
+                    );
                 }
                 else {
                     $('td', nRow).eq(8).html('<div><div>');
