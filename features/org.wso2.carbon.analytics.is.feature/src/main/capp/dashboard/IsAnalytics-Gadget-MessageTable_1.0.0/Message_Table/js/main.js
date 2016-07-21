@@ -85,6 +85,19 @@ $(function() {
             "serverSide": true,
             "searching": false,
             "columns" : columns,
+            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                if ( aData[6] == true && aData[7] == true )
+                {
+                   $('td', nRow).eq(7).html('<div><div style="width: 5%;height:35px;float:left;background-color:#5CB85C;"></div><div style="width: 95%;float:right;text-align: center;">Success</div></div>');
+                }
+                else if ( aData[6] == false && aData[7] == false)
+                {
+                    $('td', nRow).eq(7).html('<div><div style="width: 5%;height:35px;float:left;background-color:#D9534F;"></div><div style="width: 95%;float:right;text-align: center;">Failure</div><div>');
+                }
+                else {
+                    $('td', nRow).eq(7).html('<div><div>');
+                }
+            },
             "ajax": {
                 "url" : AUTHENTICATION_CONTEXT,
                 "data" : function (d) {
