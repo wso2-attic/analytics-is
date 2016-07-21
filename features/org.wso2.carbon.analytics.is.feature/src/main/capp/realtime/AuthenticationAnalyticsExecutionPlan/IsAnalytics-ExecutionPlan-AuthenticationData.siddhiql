@@ -46,8 +46,8 @@ from countStream
 select meta_tenantId, eventId,userName,userStoreDomain, tenantDomain, remoteIp, region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeperated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin, successValue, failureValue, stepSuccessValue, firstLoginValue,identityProviderType, eventTime as batchEndTime, _timestamp
 insert into countWindow;
 
-from countWindow#isAnalytics:duplicator(rolesCommaSeperated)
-select meta_tenantId, _timestamp, userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain,successValue, failureValue,stepSuccessValue, identityProviderType,batchEndTime
+from countStream#isAnalytics:duplicator(rolesCommaSeperated)
+select meta_tenantId, _timestamp, userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain,successValue, failureValue,stepSuccessValue, identityProviderType,eventTime as batchEndTime
 insert into countMaxDuplicatedTimestampStream;
 
 from countWindow
@@ -70,7 +70,7 @@ select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(b
 group by meta_tenantId, userStoreDomain,identityProviderType
 insert into perSecondUserStoreStream;
 
-from countMaxDuplicatedTimestampStream
+from countMaxDuplicatedTimestampStream#window.externalTimeBatch(batchEndTime, 1 sec, 0, 10 sec, true)
 select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute, userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getSecondStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getSecondStartingTime(batchEndTime) as _timestamp
 group by meta_tenantId, userName,role,serviceProvider,identityProvider,remoteIp,userStoreDomain,identityProviderType
 insert into perSecondRoleStream;
