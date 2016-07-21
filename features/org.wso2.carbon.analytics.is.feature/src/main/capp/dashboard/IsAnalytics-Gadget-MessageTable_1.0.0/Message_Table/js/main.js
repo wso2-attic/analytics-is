@@ -44,6 +44,7 @@ $(function() {
         if(page.name == TYPE_LANDING) {
             idpFilter = " AND identityProviderType:\"FEDERATED\"";
             columns = [
+                { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
                 { title: "Identity Provider" },
@@ -58,6 +59,7 @@ $(function() {
         } else if(page.name == TYPE_RESIDENT_IDP) {
             idpFilter = " AND identityProviderType:\"LOCAL\"";
             columns = [
+                { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
                 { title: "Userstore" },
@@ -86,16 +88,16 @@ $(function() {
             "searching": false,
             "columns" : columns,
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                if ( aData[6] == true && aData[7] == true )
+                if ( aData[7] == true && aData[8] == true )
                 {
-                   $('td', nRow).eq(7).html('<div><div style="width: 5%;height:35px;float:left;background-color:#5CB85C;"></div><div style="width: 95%;float:right;text-align: center;">Success</div></div>');
+                   $('td', nRow).eq(8).html('<div><div style="width: 5%;height:35px;float:left;background-color:#5CB85C;"></div><div style="width: 95%;float:right;text-align: center;">Success</div></div>');
                 }
-                else if ( aData[6] == false && aData[7] == false)
+                else if ( aData[7] == false && aData[8] == false)
                 {
-                    $('td', nRow).eq(7).html('<div><div style="width: 5%;height:35px;float:left;background-color:#D9534F;"></div><div style="width: 95%;float:right;text-align: center;">Failure</div><div>');
+                    $('td', nRow).eq(8).html('<div><div style="width: 5%;height:35px;float:left;background-color:#D9534F;"></div><div style="width: 95%;float:right;text-align: center;">Failure</div><div>');
                 }
                 else {
-                    $('td', nRow).eq(7).html('<div><div>');
+                    $('td', nRow).eq(8).html('<div><div>');
                 }
             },
             "ajax": {
