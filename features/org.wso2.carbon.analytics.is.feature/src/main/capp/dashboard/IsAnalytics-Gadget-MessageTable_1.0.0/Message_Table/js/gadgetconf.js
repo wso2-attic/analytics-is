@@ -10,7 +10,7 @@ var configs = [{
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
             { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
-            { name: "authenticationSuccess", label: "Overall Success", type: "ordinal" },
+            { name: "authenticationSuccess", label: "Overall Authentication", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     },
@@ -26,7 +26,7 @@ var configs = [{
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
             { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
-            { name: "authenticationSuccess", label: "Overall Success", type: "ordinal" },
+            { name: "authenticationSuccess", label: "Overall Authentication", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     },
