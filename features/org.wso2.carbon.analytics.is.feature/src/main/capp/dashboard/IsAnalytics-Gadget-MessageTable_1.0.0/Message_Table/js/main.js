@@ -39,12 +39,35 @@ $(function() {
 
     if (page.name == TYPE_LANDING || page.name == TYPE_RESIDENT_IDP) {
         var idpFilter = "";
+        var columns = [];
 
         if(page.name == TYPE_LANDING) {
             idpFilter = " AND identityProviderType:\"FEDERATED\"";
+            columns = [
+                { title: "User Name" },
+                { title: "Service Provider" },
+                { title: "Identity Provider" },
+                { title: "Roles" },
+                { title: "Ip" },
+                { title: "Region" },
+                { title: "Authentication Step Success" },
+                { title: "Overall Success" },
+                { title: "Timestamp" }
+            ];
             
         } else if(page.name == TYPE_RESIDENT_IDP) {
             idpFilter = " AND identityProviderType:\"LOCAL\"";
+            columns = [
+                { title: "User Name" },
+                { title: "Service Provider" },
+                { title: "Userstore" },
+                { title: "Roles" },
+                { title: "Ip" },
+                { title: "Region" },
+                { title: "Authentication Step Success" },
+                { title: "Overall Success" },
+                { title: "Timestamp" }
+            ];
         }
 
         oTable = $('#tblMessages').DataTable({
@@ -59,18 +82,7 @@ $(function() {
             "processing": true,
             "serverSide": true,
             "searching": false,
-            "columns" : [
-                { title: "Context ID" },
-                { title: "User Name" },
-                { title: "Service Provider" },
-                { title: "Identity Provider" },
-                { title: "Roles" },
-                { title: "Ip" },
-                { title: "Region" },
-                { title: "Authentication Step Success" },
-                { title: "Overall Success" },
-                { title: "Timestamp" }
-            ],
+            "columns" : columns,
             "ajax": {
                 "url" : AUTHENTICATION_CONTEXT,
                 "data" : function (d) {
@@ -82,7 +94,6 @@ $(function() {
                 }
             }
         });
-
     } else if(page.name == TYPE_SESSIONS) {
         oTable = $('#tblMessages').DataTable({
             dom: '<"dataTablesTop"' +
@@ -121,8 +132,6 @@ $(function() {
             }
         });
     }
-
-
 
     $('#tblMessages tbody').on('click', 'tr', function() {
         var id = $(this).find("td:first").html();
