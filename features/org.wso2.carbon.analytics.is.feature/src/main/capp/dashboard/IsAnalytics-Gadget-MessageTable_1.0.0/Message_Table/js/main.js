@@ -90,11 +90,15 @@ $(function() {
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                 if ( aData[7] == true && aData[8] == true )
                 {
-                   $('td', nRow).eq(8).html('<div><div style="width: 5%;height:35px;float:left;background-color:#5CB85C;"></div><div style="width: 95%;float:right;text-align: center;">Success</div></div>');
+                   $('td', nRow).eq(8).html(
+                    '<div><div style="width: 10%;height:38px;float:left;background-color:#5CB85C;margin:-8px"></div><div style="width: 90%;float:right;text-align: center;margin:-8px;vertical-align:middle;">Success</div></div>'
+                    );
                 }
                 else if ( aData[7] == false && aData[8] == false)
                 {
-                    $('td', nRow).eq(8).html('<div><div style="width: 5%;height:35px;float:left;background-color:#D9534F;"></div><div style="width: 95%;float:right;text-align: center;">Failure</div><div>');
+                    $('td', nRow).eq(8).html(
+                        '<div><div style="width: 10%;height:38px;float:left;background-color:#D9534F;margin:-8px"></div><div style="width: 90%;float:right;text-align: center;margin:-8px;vertical-align:middle;">Failure</div><div>'
+                        );
                 }
                 else {
                     $('td', nRow).eq(8).html('<div><div>');
