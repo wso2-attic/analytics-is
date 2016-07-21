@@ -2,6 +2,7 @@ var configs = [{
         name: TYPE_LANDING,
         type: 11,
         columns: [
+            { name: "contextId", label: "Context ID", type: "ordinal" },
             { name: "userName", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "identityProvider", label: "Identity Provider", type: "ordinal" },
@@ -17,6 +18,7 @@ var configs = [{
         name: TYPE_RESIDENT_IDP,
         type: 20,
         columns: [
+            { name: "contextId", label: "Context ID", type: "ordinal" },
             { name: "userName", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "userstore", label: "Userstore", type: "ordinal" },

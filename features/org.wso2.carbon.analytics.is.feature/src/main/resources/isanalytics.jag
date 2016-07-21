@@ -436,8 +436,8 @@
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
 
-                var columns = ["userName", "serviceProvider", "identityProvider", "rolesCommaSeperated"
-                    , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
+                var columns = ["contextId", "userName", "serviceProvider", "identityProvider", "rolesCommaSeperated"
+                    , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
@@ -719,8 +719,8 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
-                var columns = ["userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
-                    , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
+                 var columns = ["contextId", "userName", "serviceProvider", "userStoreDomain", "rolesCommaSeperated"
+                    , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
