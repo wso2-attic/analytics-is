@@ -133,6 +133,10 @@
                       {
                         "from": "h8upxvub6e7e3ik9",
                         "event": "publisherUser"
+                      },
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherRegion"
                       }
                     ]
                   },
@@ -1197,6 +1201,10 @@
                       {
                         "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
                         "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
                       }
                     ]
                   },
