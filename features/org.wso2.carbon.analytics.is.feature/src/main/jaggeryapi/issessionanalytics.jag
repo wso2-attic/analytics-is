@@ -309,7 +309,13 @@
                 query = stringify({
                     query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter,
                     start: start,
-                    count: length
+                    count: length,
+                    "sortBy": [
+                        {
+                            "field": "bucketStart",
+                            "sortType": "ASC"
+                        }
+                    ]
                 });
 
                 var resp = connector.search(loggedInUser, tableName, query);
@@ -356,8 +362,9 @@
 
                 result.push(data);
                 result.push({
-                    "activeCount": activeCount
-                });
+                    "activeCount": activeCount,
+                    "timeUnit":timeUnit
+            });
 
                 break;
             }

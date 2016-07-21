@@ -22,8 +22,37 @@ var charts = [{
         var result = [];
         var schema = this.schema;
         var columns = this.columns;
-        var data = data[0];
-        data.forEach(function(row) {
+        var timeUnit = data[1].timeUnit;
+        var dataPoints = data[0];
+        var minTimestamp = data[0].timestamp;
+        var maxTimestamp = data[data.length-1].timestamp;
+        var previousTimestamp = [];
+        previousTimestamp["New"] = minTimestamp;
+        previousTimestamp["Active"] = minTimestamp;
+        previousTimestamp["Terminated"] = minTimestamp;
+
+        var step;
+        if(timeUnit == "MINUTE") {
+            step = 60000;
+        } else if(timeUnit == "HOUR") {
+            step = 3600000;
+        } else if(timeUnit == "DAY") {
+            step = 86400000;
+        } else if(timeUnit == "MONTH") {
+            step = 2628000000;
+        } else if(timeUnit == "YEAR") {
+            step = 31540000000;
+        }
+
+        dataPoints.forEach(function(row) {
+            if((row.timestamp - previousTimestamp[row.sessionType]) > step) {
+                var previousT = previousTimestamp[row.sessionType];
+                for(var t=(previousT - previousT%step + step); t<row.timestamp; t=t+step) {
+                    var zeroValuePoint = [0, t, row.sessionType];
+                    result.push(zeroValuePoint);
+                }
+            }
+            previousTimestamp[row.sessionType] = row.timestamp;
             var record = [row.sessionCount, row.timestamp, row.sessionType];
             result.push(record);
         });
