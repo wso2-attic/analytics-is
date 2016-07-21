@@ -48,6 +48,8 @@ $(function() {
         }
 
         oTable = $('#tblMessages').DataTable({
+            scrollY: 500,
+            scrollX: true,
             dom: '<"dataTablesTop"' +
                 'f' +
                 '<"dataTables_toolbar">' +
@@ -85,6 +87,8 @@ $(function() {
 
     } else if(page.name == TYPE_SESSIONS) {
         oTable = $('#tblMessages').DataTable({
+            scrollY: 600,
+            scrollX: true,
             dom: '<"dataTablesTop"' +
                 'f' +
                 '<"dataTables_toolbar">' +
