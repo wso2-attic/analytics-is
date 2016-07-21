@@ -4,6 +4,7 @@
     var log = new Log();
     var carbon = require('carbon');
     var timeRangeUtil = Packages.org.wso2.analytics.shared.util.time.TimeRangeUtils;
+    var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
     var common = require('isanalytics-common.jag');
 
     var CONTENT_TYPE_JSON = "application/json";
@@ -65,6 +66,7 @@
         var user = carbon.server.tenantUser(loggedInUser);
         var tenantId = user.tenantId;
         var tenantFilter = " AND meta_tenantId : [ "+ tenantId +" TO " +tenantId + " ] ";
+        var superTenantId = MultitenantConstants.SUPER_TENANT_ID;
 
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
@@ -126,7 +128,7 @@
                     });
                 }
 
-                resp = connector.searchWithAggregates(loggedInUser, tableName, query);
+                resp = connector.searchWithAggregates(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
 
                 for (var i = 0; i < dataPoints.length; i++) {
@@ -460,10 +462,10 @@
                     ]
                 });
 
-                var resp = connector.search(loggedInUser, tableName, query);
+                var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
 
-                var count = connector.searchCount(loggedInUser, tableName, query);
+                var count = connector.searchCount(superTenantId, tableName, query);
                 var limit = count.getMessage();
 
                 for (i = 0; i < dataPoints.length; i++) {
@@ -742,9 +744,9 @@
                     ]
                 });
 
-                var resp = connector.search(loggedInUser, tableName, query);
+                var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
-                var count = connector.searchCount(loggedInUser, tableName, query);
+                var count = connector.searchCount(superTenantId, tableName, query);
                 var limit = count.getMessage();
 
                 for (i = 0; i < dataPoints.length; i++) {

@@ -2,6 +2,7 @@
     var JSUtils = Packages.org.wso2.carbon.analytics.jsservice.Utils;
     var AnalyticsCachedJSServiceConnector = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector;
     var AnalyticsCache = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector.AnalyticsCache;
+    var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
     var configs = require('/configs/designer.json');
 
     var AUTHORIZATION_HEADER = "Authorization";
@@ -9,6 +10,7 @@
     var USERNAME = "username";
     var TENANT_DOMAIN = "domain";
     var CONST_AT = "@";
+    var superTenantId = MultitenantConstants.SUPER_TENANT_ID;
 
     function getLoggedInUser(){
     	var authParam = request.getHeader(AUTHORIZATION_HEADER);
@@ -63,7 +65,7 @@
     	}
     	
 
-        var resp = getConnector().drillDownCategories(getLoggedInUser(), tableName, query);
+        var resp = getConnector().drillDownCategories(superTenantId, tableName, query);
 
         var dataPoints = JSON.parse(resp.getMessage());
 
