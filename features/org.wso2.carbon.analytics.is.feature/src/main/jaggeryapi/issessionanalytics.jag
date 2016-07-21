@@ -82,50 +82,48 @@
                 resp = connector.drillDownCategories(loggedInUser, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var obj = dataPoints.categories;
+                var count = Object.keys(obj).length;
 
-                if(Object.keys(obj).length == 0) {
-                    break;
-                }
-
-                var escape = function (text) {
-                    return text.replace(/[-[/\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-                };
-                var sessionIds = [];
-                var queryString = "";
-                for (var key in obj) {
-                    sessionIds.push(key);
-                    if(queryString.length != 0) {
-                        queryString += " OR ";
-                    }
-                    queryString += "sessionId:" + escape(key); //adding "" because sessionId could contain special characters
-                }
-
-                query = stringify({
-                    query: queryString,
-                    start: start,
-                    count: length,
-                    "sortBy": [
-                        {
-                            "field": "duration",
-                            "sortType": "DESC"
+                if(count != 0) {
+                    var escape = function (text) {
+                        return text.replace(/[-[/\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                    };
+                    var sessionIds = [];
+                    var queryString = "";
+                    for (var key in obj) {
+                        sessionIds.push(key);
+                        if(queryString.length != 0) {
+                            queryString += " OR ";
                         }
-                    ]
-                });
+                        queryString += "sessionId:" + escape(key); //adding "" because sessionId could contain special characters
+                    }
 
-                resp = connector.search(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
-                var count = connector.searchCount(loggedInUser, tableName, query).getMessage();
+                    query = stringify({
+                        query: queryString,
+                        start: start,
+                        count: length,
+                        "sortBy": [
+                            {
+                                "field": "duration",
+                                "sortType": "DESC"
+                            }
+                        ]
+                    });
 
-                for (var i = 0; i < dataPoints.length; i++) {
-                    var temp = [];
-                    if (dataPoints[i] != null) {
-                        var username = dataPoints[i]["values"]["userName"];
-                        var duration = dataPoints[i]["values"]["duration"];
-                        data.push({
-                            "username": username,
-                            "duration": duration / 1000,
-                            "sessionId": i
-                        });
+                    resp = connector.search(loggedInUser, tableName, query);
+                    var dataPoints = JSON.parse(resp.getMessage());
+
+                    for (var i = 0; i < dataPoints.length; i++) {
+                        var temp = [];
+                        if (dataPoints[i] != null) {
+                            var username = dataPoints[i]["values"]["userName"];
+                            var duration = dataPoints[i]["values"]["duration"];
+                            data.push({
+                                "username": username,
+                                "duration": duration / 1000,
+                                "sessionId": i
+                            });
+                        }
                     }
                 }
                 result.push(data);
