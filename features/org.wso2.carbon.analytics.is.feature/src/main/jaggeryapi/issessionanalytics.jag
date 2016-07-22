@@ -300,8 +300,6 @@
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
-                } else if (timeUnit == "DAY" || timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "HOUR";
                 }
 
                 // querying for session change
@@ -309,7 +307,7 @@
 
 
                 query = stringify({
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter,
+                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter,
                     start: start,
                     count: length,
                     "sortBy": [
