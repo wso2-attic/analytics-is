@@ -10,6 +10,8 @@ var charts = [{
     }],
     chartConfig: {
         x: "timestamp",
+        "xTitle":"Time",
+        "yTitle":"Session Count",
         charts: [{ type: "line", range:"true",  y : "sessionCount", color: "sessionType" }],
         padding: { "top": 30, "left": 60, "bottom": 60, "right": 350 },
         rangeColor:"#737373",
