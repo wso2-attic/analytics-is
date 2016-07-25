@@ -131,6 +131,18 @@
                 resp = connector.searchWithAggregates(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
 
+                // sort by timestamp
+                var insert = function (array, rightIndex, value) {
+                    for (var j = rightIndex; j > 0 && array[j - 1].values.facetStartTime[0] > value.values.facetStartTime[0]; j--) {
+                        array[j] = array[j - 1];
+                    }
+                    array[j] = value;
+                };
+
+                for (var i = 0; i < dataPoints.length; i++) {
+                    insert(dataPoints, i, dataPoints[i]);
+                }
+
                 for (var i = 0; i < dataPoints.length; i++) {
                     var obj = dataPoints[i];
                     // overallAuthSuccessCount += obj.values.total_authSuccessCount;
@@ -139,7 +151,8 @@
                     result.push({
                         "timestamp": obj.values.facetStartTime[0],
                         "successCount": obj.values.total_authSuccessCount,
-                        "faultsCount": obj.values.total_authFailiureCount
+                        "faultsCount": obj.values.total_authFailiureCount,
+			            "timeUnit":timeUnit
                     });
                 }
                 break;
