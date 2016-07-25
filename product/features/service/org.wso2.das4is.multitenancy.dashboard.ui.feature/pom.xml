@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.wso2.das4is.multitenancy.dashboard.ui.feature</artifactId>
     <packaging>pom</packaging>
-    <name>WSO2 Data Analytics Server - Multi-tenant Dashboard Feature</name>
+    <name>WSO2 Analytics IS - Multi-tenant Dashboard Feature</name>
     <url>http://wso2.org</url>
 
     <dependencies>

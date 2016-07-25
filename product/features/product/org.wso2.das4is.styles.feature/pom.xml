@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.wso2.das4is.styles.feature</artifactId>
     <packaging>pom</packaging>
-    <name>WSO2 Data Analytics Server - Product Style Feature</name>
+    <name>WSO2 Analytics IS - Product Style Feature</name>
 
     <dependencies>
         <dependency>

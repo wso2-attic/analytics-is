@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>das4is-integration-ui-tests</artifactId>
     <packaging>pom</packaging>
-    <name>WSO2 Data Analytics Server - Integration UI</name>
+    <name>WSO2 Analytics IS - Integration UI</name>
 
     <modules>
         <module>tests-ui</module>
