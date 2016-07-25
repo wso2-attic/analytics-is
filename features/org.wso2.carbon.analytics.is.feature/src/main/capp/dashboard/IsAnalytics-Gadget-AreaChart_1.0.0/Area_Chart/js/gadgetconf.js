@@ -43,6 +43,21 @@ var charts = [{
         var overallAuthFailureCount = 0;
         var maxSuccessCount = 0;
         var maxFailureCount = 0;
+        var timeUnit = data[0].timeUnit;
+        var previousTimestamp = data[0].timestamp;
+
+        var step;
+        if(timeUnit == "MINUTE") {
+            step = 60000;
+        } else if(timeUnit == "HOUR") {
+            step = 3600000;
+        } else if(timeUnit == "DAY") {
+            step = 86400000;
+        } else if(timeUnit == "MONTH") {
+            step = 2628000000;
+        } else if(timeUnit == "YEAR") {
+            step = 31540000000;
+        }
 
         data.forEach(function(row, i) {
             var timestamp = row['timestamp'];
@@ -52,6 +67,14 @@ var charts = [{
             overallAuthFailureCount += faultCount;
             maxSuccessCount = Math.max(maxSuccessCount, successCount);
             maxFailureCount = Math.max(maxFailureCount, faultCount);
+
+            if((row['timestamp'] - previousTimestamp) > step) {
+                for(var t=(previousTimestamp - previousTimestamp%step + step); t<row.timestamp; t=t+step) {
+                    tableData.push([0, t, "AUTHSUCCESS"]);
+                    tableData.push([0, t, "AUTHFAULT"]);
+                }
+            }
+            previousTimestamp = row.timestamp;
 
             tableData.push([successCount, timestamp, "AUTHSUCCESS"]);
             tableData.push([-faultCount,timestamp , "AUTHFAULT"]);
