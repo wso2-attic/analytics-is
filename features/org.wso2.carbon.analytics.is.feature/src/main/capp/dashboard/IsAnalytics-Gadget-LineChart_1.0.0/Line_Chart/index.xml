@@ -32,8 +32,11 @@
         <body>
             <div class="row no-gutter">
                 <div class="col-10">
+                    <span class="fw fw-stack" id="back" data-toggle="tooltip" title="Previous Time Range">
+                        <i class="fw fw-left-arrow fw-stack-1x"></i>
+                        <i class="fw fw-circle-outline fw-stack-2x"></i>
+                    </span>
                     <div id="canvas" style="height:90%;"></div>
-                    <input type="button" id="back" value="" title="Previous Time Range"/>
                 </div>
                 <div class="col-2 stats-total add-padding-top-5x">
                     <h4 style="text-align: center;">ACTIVE SESSIONS</h4>
