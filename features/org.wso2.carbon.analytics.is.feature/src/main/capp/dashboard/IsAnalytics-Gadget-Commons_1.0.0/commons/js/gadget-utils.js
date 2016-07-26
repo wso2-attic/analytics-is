@@ -98,7 +98,7 @@ function GadgetUtil() {
             pageName = lastSegment.substr(0, lastSegment.indexOf('?'));
         }
         if(!pageName || pageName === DASHBOARD_NAME) {
-            pageName = TYPE_LANDING;
+            pageName = TYPE_RESIDENT_IDP;
         }
         return pageName;
     };
