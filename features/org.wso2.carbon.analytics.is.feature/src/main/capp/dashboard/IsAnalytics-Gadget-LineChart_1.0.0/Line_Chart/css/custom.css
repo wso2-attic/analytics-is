@@ -1,0 +1,42 @@
+body.dark svg.marks .mark-group .background {
+    fill: #121822;
+}
+
+body.dark svg.marks .mark-group .mark-text text {
+    fill: #7D8596;
+}
+
+body.dark svg.marks .mark-group .mark-rule line {
+    stroke: #E3E5E6;
+}
+
+#back {
+    position: relative;
+    z-index: 1000;
+    display: none;
+    float: right;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    margin: 0px;
+    background: #ffffff url("../images/back-icon.png") no-repeat 1px;
+}
+
+body.drak .chart-label {
+    color: #ECEEF3;
+}
+
+body.dark svg.marks .mark-group .background {
+    fill: #1E2531 !important;
+}
+
+body.dark svg.marks .mark-group .mark-text text {
+    fill: #7D8596 !important;
+}
+
+body.dark svg.marks .mark-group .mark-rule line {
+    stroke: #E3E5E6 !important;
+}

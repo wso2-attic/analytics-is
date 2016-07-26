@@ -1,0 +1,90 @@
+{
+  "name": "org.wso2.is.analytics.stream.SessionInfo",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "metaData": [
+    {
+      "name": "tenantId",
+      "type": "INT"
+    }
+  ],
+  "payloadData": [
+    {
+      "name": "sessionId",
+      "type": "STRING"
+    },
+    {
+      "name": "startTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "renewTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "terminationTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "endTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "year",
+      "type": "INT"
+    },
+    {
+      "name": "month",
+      "type": "INT"
+    },
+    {
+      "name": "day",
+      "type": "INT"
+    },
+    {
+      "name": "hour",
+      "type": "INT"
+    },
+    {
+      "name": "minute",
+      "type": "INT"
+    },
+    {
+      "name": "duration",
+      "type": "LONG"
+    },
+    {
+      "name": "isActive",
+      "type": "BOOL"
+    },
+    {
+      "name": "userName",
+      "type": "STRING"
+    },
+    {
+      "name": "userstoreDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "IP",
+      "type": "STRING"
+    },
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "serviceProvider",
+      "type": "STRING"
+    },
+    {
+      "name": "identityProviders",
+      "type": "STRING"
+    },
+    {
+      "name": "rememberMeFlag",
+      "type": "BOOL"
+    }
+  ]
+}

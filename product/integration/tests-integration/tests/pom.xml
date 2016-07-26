@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>WSO2 Data Analytics Server - Integration Test Module</name>
+    <name>WSO2 Analytics IS - Integration Test Module</name>
     <artifactId>org.wso2.das4is.integration.tests</artifactId>
     <packaging>jar</packaging>
 
@@ -45,10 +45,6 @@
         <dependency>
             <groupId>org.wso2.carbon.automationutils</groupId>
             <artifactId>org.wso2.carbon.integration.common.extensions</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.wso2.carbon.automationutils</groupId>
-            <artifactId>org.wso2.carbon.integration.common.utils</artifactId>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.automationutils</groupId>
@@ -95,6 +91,16 @@
             <groupId>org.jacoco</groupId>
             <artifactId>org.jacoco.agent</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.wso2.carbon.automationutils</groupId>
+            <artifactId>org.wso2.carbon.integration.common.utils</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -120,7 +126,7 @@
                         <property>
                             <name>carbon.zip</name>
                             <value>
-                                ${basedir}/../../../distribution/target/wso2analytics-is-${project.version}.zip
+                                ${basedir}/../../../distribution/target/wso2is-analytics-${project.version}.zip
                             </value>
                         </property>
                         <property>
@@ -179,7 +185,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>org.wso2.carbon.analytics.is</groupId>
-                                    <artifactId>wso2analytics-is</artifactId>
+                                    <artifactId>wso2is-analytics</artifactId>
                                     <version>${project.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
@@ -217,7 +223,7 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/target/tobeCopied/wso2analytics-is-${project.version}/repository/resources/security/
+                                        ${basedir}/target/tobeCopied/wso2is-analytics-${project.version}/repository/resources/security/
                                     </directory>
                                     <includes>
                                         <include>**/*.jks</include>
@@ -238,7 +244,7 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/target/tobeCopied/wso2analytics-is-${project.version}/repository/resources/security/
+                                        ${basedir}/target/tobeCopied/wso2is-analytics-${project.version}/repository/resources/security/
                                     </directory>
                                     <includes>
                                         <include>**/*.jks</include>
@@ -259,7 +265,7 @@
                             <resources>
                                 <resource>
                                     <directory>
-                                        ${basedir}/target/tobeCopied/wso2analytics-is-${project.version}/repository/conf/axis2/
+                                        ${basedir}/target/tobeCopied/wso2is-analytics-${project.version}/repository/conf/axis2/
                                     </directory>
                                     <includes>
                                         <include>**/*.xml</include>

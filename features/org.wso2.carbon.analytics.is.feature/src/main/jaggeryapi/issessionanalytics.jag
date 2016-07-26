@@ -4,6 +4,7 @@
     var log = new Log();
     var carbon = require('carbon');    
     var timeRangeUtil = Packages.org.wso2.analytics.shared.util.time.TimeRangeUtils;
+    var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
     var common = require('isanalytics-common.jag');
     
     var CONTENT_TYPE_JSON = "application/json";
@@ -51,10 +52,13 @@
         var query = null;
         var resp = null;
 
+        var user = carbon.server.tenantUser(loggedInUser);
+        var tenantId = user.tenantId;
+        var tenantFilter = " AND meta_tenantId : [ "+ tenantId +" TO " +tenantId + " ] ";
+        var superTenantId = MultitenantConstants.SUPER_TENANT_ID;
+
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
-        var listnedAdditionalUserPrefs = request.getParameter("listnedAdditionalUserPrefs");
-        var idpType = request.getParameter("idpType");
         var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
         switch (type) {          
@@ -71,52 +75,57 @@
                 query = stringify({
                     fieldName: "sessionId", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
                     scoreFunction: "duration", //score function
                     start: start,
                     count: length
                 });
 
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                resp = connector.drillDownCategories(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var obj = dataPoints.categories;
+                var count = Object.keys(obj).length;
 
-                var sessionIds = [];
-                var queryString = "";
-                for (var key in obj) {
-                    sessionIds.push(key);
-                    if(queryString.length != 0) {
-                        queryString += " OR ";
-                    }
-                    queryString += "sessionId:" + key;
-                }
-
-                query = stringify({
-                    query: queryString,
-                    start: start,
-                    count: length,
-                    "sortBy": [
-                        {
-                            "field": "duration",
-                            "sortType": "DESC"
+                if(count != 0) {
+                    var escape = function (text) {
+                        return text.replace(/[-[/\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+                    };
+                    var sessionIds = [];
+                    var queryString = "";
+                    for (var key in obj) {
+                        sessionIds.push(key);
+                        if(queryString.length != 0) {
+                            queryString += " OR ";
                         }
-                    ]
-                });
+                        queryString += "sessionId:" + escape(key); //adding "" because sessionId could contain special characters
+                    }
 
-                resp = connector.search(loggedInUser, tableName, query);
-                var dataPoints = JSON.parse(resp.getMessage());
-                var count = connector.searchCount(loggedInUser, tableName, query).getMessage();
+                    query = stringify({
+                        query: queryString,
+                        start: start,
+                        count: length,
+                        "sortBy": [
+                            {
+                                "field": "duration",
+                                "sortType": "DESC"
+                            }
+                        ]
+                    });
 
-                for (i = 0; i < dataPoints.length; i++) {
-                    var temp = [];
-                    if (dataPoints[i] != null) {
-                        var index = start + i + 1;
-                        var username = dataPoints[i]["values"]["userName"];
-                        var duration = dataPoints[i]["values"]["duration"];
-                        data.push({
-                            "username": username + " " + index,
-                            "duration": duration / 1000
-                        });
+                    resp = connector.search(superTenantId, tableName, query);
+                    var dataPoints = JSON.parse(resp.getMessage());
+
+                    for (var i = 0; i < dataPoints.length; i++) {
+                        var temp = [];
+                        if (dataPoints[i] != null) {
+                            var username = dataPoints[i]["values"]["userName"];
+                            var duration = dataPoints[i]["values"]["duration"];
+                            data.push({
+                                "username": username,
+                                "duration": duration / 1000,
+                                "sessionId": i
+                            });
+                        }
                     }
                 }
                 result.push(data);
@@ -131,29 +140,25 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                if (timeUnit == "SECOND" || timeUnit == "MINUTE") {
-                    timeUnit = "HOUR";
-                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "DAY";
-                }
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+                var timeNow = new Date().getTime();
 
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
 
                 query = stringify({
                     tableName: tableName,
                     groupByField: "userName",
                     aggregateLevel: 0,
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
                     aggregateFields: [
                         {
-                            fieldName: "averageSession",
+                            fieldName: "duration",
                             aggregate: "AVG",
                             alias: "averageSession"
                         }
                     ]
                 });
 
-                resp = connector.searchWithAggregates(loggedInUser, tableName, query);
+                resp = connector.searchWithAggregates(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var count = dataPoints.length;
 
@@ -233,10 +238,10 @@
                             "to":9223372036854775807
                         }
                     ],
-                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)"
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter
                 });
 
-                resp = connector.drillDownRangeCount(loggedInUser, tableName, query);
+                resp = connector.drillDownRangeCount(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
 
                 for (var i=0; i<dataPoints.length; i++) {
@@ -261,15 +266,16 @@
                     timeUnit = "DAY";
                 }
 
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONAGGREGATESTATPER" + timeUnit;
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+                var timeNow = new Date().getTime();
 
                 query = stringify({
                     fieldName: "userName", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter,
                 });
 
-                resp = connector.drillDownCategories(loggedInUser, tableName, query);
+                resp = connector.drillDownCategories(superTenantId, tableName, query);
 
                 var dataPoints = JSON.parse(resp.getMessage());
 
@@ -294,8 +300,6 @@
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
-                } else if (timeUnit == "DAY" || timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "HOUR";
                 }
 
                 // querying for session change
@@ -303,17 +307,23 @@
 
 
                 query = stringify({
-                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "] AND bucketEnd : [" + timeFrom + " TO " + timeTo + "]",
+                    query: "bucketStart : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter,
                     start: start,
-                    count: length
+                    count: length,
+                    "sortBy": [
+                        {
+                            "field": "bucketStart",
+                            "sortType": "ASC"
+                        }
+                    ]
                 });
 
-                var resp = connector.search(loggedInUser, tableName, query);
+                var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
-                var count = connector.searchCount(loggedInUser, tableName, query);
+                var count = connector.searchCount(superTenantId, tableName, query);
 
                 // querying for active session count
-                var tableNameActiveSessions = "IS-SESSION-ACTIVE-COUNT";
+                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS";
 
                 queryActiveSessions = stringify({
                     query: "*:*",
@@ -321,9 +331,8 @@
                     count: length
                 });
 
-                var respActiveCount = connector.search(loggedInUser, tableNameActiveSessions, queryActiveSessions);
-                var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
-                var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
+                var respActiveCount = connector.searchCount(superTenantId, tableNameActiveSessions, queryActiveSessions);
+                var activeCount = JSON.parse(respActiveCount.getMessage());
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
@@ -353,8 +362,9 @@
 
                 result.push(data);
                 result.push({
-                    "activeCount": activeCount
-                });
+                    "activeCount": activeCount,
+                    "timeUnit":timeUnit
+            });
 
                 break;
             }
@@ -370,19 +380,28 @@
                 var draw = request.getParameter("draw");
 
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                if(sortByColumnNo == 6 || sortByColumnNo == 10) {
+                    sortByColumnNo = 0;
+                }
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]",
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter ,
                     "start": start,
-                    "count": length
+                    "count": length,
+                    "sortBy": [
+                        {
+                            "field": columns[sortByColumnNo],
+                            "sortType": sortType
+                        }
+                    ]
                 });
 
-                var resp = connector.search(loggedInUser, tableName, query);
+                var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
 
-                var count = connector.searchCount(loggedInUser, tableName, query);
+                var count = connector.searchCount(superTenantId, tableName, query);
                 var limit = count.getMessage();
 
                 for (i = 0; i < dataPoints.length; i++) {
@@ -391,7 +410,19 @@
                     for (j = 0; j < columns.length; j++) {
                         var column = columns[j];
                         if (dataPoints[i] != null) {
-                            if (column == "_timestamp") {
+                            if (column == "startTimestamp") {
+                                var value = dataPoints[i]["values"]["startTimestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else if (column == "terminationTimestamp") {
+                                var value = dataPoints[i]["values"]["terminationTimestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else if (column == "endTimestamp") {
+                                var value = dataPoints[i]["values"]["endTimestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else if (column == "_timestamp") {
                                 var value = dataPoints[i]["timestamp"];
                                 var date = new Date(value);
                                 temp.push(date.toLocaleString());
@@ -408,7 +439,7 @@
                 result["data"] = data;
 
                 if (dataPoints.length < length) {
-                    limit = start + length;
+                    limit = start + dataPoints.length;
                 }
                 result["recordsFiltered"] = limit;
                 result["recordsTotal"] = limit;

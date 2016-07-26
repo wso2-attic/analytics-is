@@ -1,0 +1,2109 @@
+{
+  "id": "IsAnalytics-AuthenticationData",
+  "title": "Security Analytics",
+  "description": "",
+  "permissions": {
+    "viewers": [
+      "Internal\/everyone"
+    ],
+    "editors": [
+      "Internal\/everyone"
+    ],
+    "owners": [
+      "Internal\/everyone"
+    ]
+  },
+  "shareDashboard": true,
+  "pages": [
+    {
+      "id": "landing",
+      "title": "Federated Identity Provider",
+      "layout": {
+        "content": {
+          "loggedIn": {
+            "blocks": [
+              {
+                "id": "a",
+                "x": 0,
+                "y": 0,
+                "width": 5,
+                "height": 2,
+                "banner": false
+              },
+              {
+                "id": "b",
+                "x": 0,
+                "y": 7,
+                "width": 4,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "c",
+                "x": 5,
+                "y": 0,
+                "width": 7,
+                "height": 2,
+                "banner": false
+              },
+              {
+                "id": "d",
+                "x": 0,
+                "y": 2,
+                "width": 12,
+                "height": 5,
+                "banner": false
+              },
+              {
+                "id": "e",
+                "x": 4,
+                "y": 7,
+                "width": 4,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "9be09f79efae623af8732e70e3a7748d",
+                "x": 8,
+                "y": 7,
+                "width": 4,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "88f6587ccd5fe2c53e58669764db1d21",
+                "x": 0,
+                "y": 14,
+                "width": 12,
+                "height": 9,
+                "banner": false
+              }
+            ]
+          }
+        },
+        "fluidLayout": false
+      },
+      "isanon": false,
+      "content": {
+        "default": {
+          "d": [
+            {
+              "id": "1khk4b6quayvi",
+              "content": {
+                "id": "Area_Chart",
+                "title": "Area Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Area_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "rasj2ysd6x8kou0engm7eewmi",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUser": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "yrwm7vn8b8v0lik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h8upxvub6e7e3ik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherSliderDateRange": {
+                    "type": "dateRange",
+                    "description": "This notifies date ranges generated in Slider"
+                  },
+                  "publisherRegion": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Login attempts over time"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "overallAuthCount",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en": "Login Attempts OverTime",
+                  "en-US": "Login attempts over time"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "c": [
+            {
+              "id": "rasj2ysd6x8kou0engm7eewmi",
+              "content": {
+                "id": "Date_Range_Picker",
+                "title": "Date Range Picker",
+                "type": "gadget",
+                "category": "Widgets",
+                "thumbnail": "store:\/\/gadget\/Date_Range_Picker\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "styles": {
+                  "no_heading": true,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Date Range Picker"
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherSliderDateRange"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisher": {
+                    "type": "dateRange",
+                    "description": "This notifies date ranges generated in Date Range Picker"
+                  }
+                },
+                "options": {
+                  
+                },
+                "locale_titles": {
+                  "en-US": "Date Range Picker",
+                  "en": "Date Range Picker"
+                },
+                "settings": {
+                  
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "id": "z498yf32b0fqolxr",
+              "content": {
+                "id": "Horizontal_Bar_Chart",
+                "title": "Horizontal_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "rasj2ysd6x8kou0engm7eewmi",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "yrwm7vn8b8v0lik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h8upxvub6e7e3ik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUser": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  },
+                  "publisherFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to notify the filter deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "By Service Provider"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "serviceProviderAuthentication",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en": "Top Service Providers",
+                  "en-US": "By Service Provider"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "e": [
+            {
+              "id": "yrwm7vn8b8v0lik9",
+              "content": {
+                "id": "Horizontal_Bar_Chart",
+                "title": "Horizontal_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "rasj2ysd6x8kou0engm7eewmi",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h8upxvub6e7e3ik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUser": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  },
+                  "publisherFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to notify the filter deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "By identity provider"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "identityProviderAuthentication",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en": "Top Identity Providers",
+                  "en-US": "By identity provider"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "f": [
+            
+          ],
+          "9be09f79efae623af8732e70e3a7748d": [
+            {
+              "id": "h8upxvub6e7e3ik9",
+              "content": {
+                "id": "Horizontal_Bar_Chart",
+                "title": "Horizontal_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "rasj2ysd6x8kou0engm7eewmi",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "yrwm7vn8b8v0lik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUser": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  },
+                  "publisherFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to notify the filter deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "By User"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "userAuthentication",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en": "Top Users",
+                  "en-US": "By User"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "88f6587ccd5fe2c53e58669764db1d21": [
+            {
+              "id": "3fq71k7bdl3szo6z8yk2owdn29",
+              "content": {
+                "id": "Message_Table",
+                "title": "Messages",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Message_Table\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "rasj2ysd6x8kou0engm7eewmi",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUser": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "yrwm7vn8b8v0lik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h8upxvub6e7e3ik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Data table"
+                },
+                "options": {
+                  
+                },
+                "locale_titles": {
+                  "en-US": "Data table",
+                  "en": "Data Table"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "bd38337e04fb000995a6e2f275f062c1": [
+            
+          ],
+          "a": [
+            {
+              "id": "UserPreferences-0",
+              "content": {
+                "id": "UserPreferences",
+                "title": "User Preferences",
+                "type": "gadget",
+                "thumbnail": "fs:\/\/gadget\/UserPreferences\/index.png",
+                "data": {
+                  "url": "fs:\/\/gadget\/UserPreferences\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "yrwm7vn8b8v0lik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h8upxvub6e7e3ik9",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "1khk4b6quayvi",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to listen to filter deletion",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFilterDeletion"
+                      },
+                      {
+                        "from": "yrwm7vn8b8v0lik9",
+                        "event": "publisherFilterDeletion"
+                      },
+                      {
+                        "from": "h8upxvub6e7e3ik9",
+                        "event": "publisherFilterDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "This notifies user pref deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "User Preferences"
+                },
+                "options": {
+                  "dataSource": {
+                    "type": "STRING",
+                    "title": "Data Source",
+                    "value": "\/portal\/gadgets\/bar-chart\/datasource\/dataFile4.jag",
+                    "options": [
+                      
+                    ],
+                    "required": false
+                  },
+                  "updateGraph": {
+                    "type": "STRING",
+                    "title": "Update Interval (s)",
+                    "value": "No",
+                    "options": [
+                      
+                    ],
+                    "required": false
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "User Preferences"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ]
+        },
+        "anon": {
+          
+        }
+      }
+    },
+    {
+      "id": "residentidp",
+      "title": "Resident Identity Provider",
+      "layout": {
+        "content": {
+          "loggedIn": {
+            "blocks": [
+              {
+                "id": "a",
+                "x": 0,
+                "y": 1,
+                "width": 12,
+                "height": 2,
+                "banner": false
+              },
+              {
+                "id": "b",
+                "x": 0,
+                "y": 0,
+                "width": 12,
+                "height": 1,
+                "banner": false
+              },
+              {
+                "id": "c",
+                "x": 0,
+                "y": 3,
+                "width": 12,
+                "height": 5,
+                "banner": false
+              },
+              {
+                "id": "d",
+                "x": 0,
+                "y": 8,
+                "width": 3,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "e",
+                "x": 6,
+                "y": 8,
+                "width": 3,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "f",
+                "x": 9,
+                "y": 8,
+                "width": 3,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "d398e3980610fb81bc26923a4565db4c",
+                "x": 3,
+                "y": 8,
+                "width": 3,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "e3030dfe5265b566c31ab084d7c2af13",
+                "x": 0,
+                "y": 15,
+                "width": 12,
+                "height": 10,
+                "banner": false
+              }
+            ]
+          }
+        },
+        "fluidLayout": false
+      },
+      "isanon": false,
+      "content": {
+        "default": {
+          "d": [
+            {
+              "id": "pkfi0yr94symuhza75hh69a4i",
+              "content": {
+                "id": "Horizontal_Bar_Chart",
+                "title": "Horizontal_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "mf1ics9isk65aqtres4079zfr",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "80gxrmh8jewdhg7nq5fqiwwmi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h1y8qah8okurg3mded9w45cdi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUser": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  },
+                  "publisherFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to notify the filter deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "By Service Provider"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "serviceProviderAuthentication",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "By Service Provider",
+                  "en": "Top Service Providers"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "e": [
+            {
+              "id": "80gxrmh8jewdhg7nq5fqiwwmi",
+              "content": {
+                "id": "Horizontal_Bar_Chart",
+                "title": "Horizontal_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "mf1ics9isk65aqtres4079zfr",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "pkfi0yr94symuhza75hh69a4i",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h1y8qah8okurg3mded9w45cdi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUser": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  },
+                  "publisherFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to notify the filter deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "By Role"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "roleAuthentication",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "By Role",
+                  "en": "Top roles"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "f": [
+            {
+              "id": "5v7p2z6gt5fxox6zfw50b8d7vi",
+              "content": {
+                "id": "Horizontal_Bar_Chart",
+                "title": "Horizontal_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "mf1ics9isk65aqtres4079zfr",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "pkfi0yr94symuhza75hh69a4i",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "80gxrmh8jewdhg7nq5fqiwwmi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h1y8qah8okurg3mded9w45cdi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUser": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  },
+                  "publisherFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to notify the filter deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "By User"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "userAuthentication",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "By User",
+                  "en": "Top Users"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "c": [
+            {
+              "id": "8savkfnl0qfky2co07k1g1ra4i",
+              "content": {
+                "id": "Area_Chart",
+                "title": "Area Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Area_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "mf1ics9isk65aqtres4079zfr",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUser": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "pkfi0yr94symuhza75hh69a4i",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "80gxrmh8jewdhg7nq5fqiwwmi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherSliderDateRange": {
+                    "type": "dateRange",
+                    "description": "This notifies date ranges generated in Slider"
+                  },
+                  "publisherRegion": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Login attempts over time"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "overallAuthCount",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "Login attempts over time",
+                  "en": "Login Attempts OverTime"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "id": "mf1ics9isk65aqtres4079zfr",
+              "content": {
+                "id": "Date_Range_Picker",
+                "title": "Date Range Picker",
+                "type": "gadget",
+                "category": "Widgets",
+                "thumbnail": "store:\/\/gadget\/Date_Range_Picker\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "styles": {
+                  "no_heading": true,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Date Range Picker"
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherSliderDateRange"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisher": {
+                    "type": "dateRange",
+                    "description": "This notifies date ranges generated in Date Range Picker"
+                  }
+                },
+                "options": {
+                  
+                },
+                "locale_titles": {
+                  "en-US": "Date Range Picker",
+                  "en": "Date Range Picker"
+                },
+                "settings": {
+                  
+                }
+              }
+            }
+          ],
+          "98682a866d6c23f539e63cc3161a3df9": [
+            
+          ],
+          "d398e3980610fb81bc26923a4565db4c": [
+            {
+              "id": "h1y8qah8okurg3mded9w45cdi",
+              "content": {
+                "id": "Horizontal_Bar_Chart",
+                "title": "Horizontal_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Horizontal_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "mf1ics9isk65aqtres4079zfr",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "pkfi0yr94symuhza75hh69a4i",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "80gxrmh8jewdhg7nq5fqiwwmi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUser": {
+                    "type": "selectedUser",
+                    "description": "This notifies selected User to further drill down"
+                  },
+                  "publisherFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to notify the filter deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "By Userstore"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "userstoreAuthentication",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "By Userstore",
+                  "en": "Top User stores"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "e3030dfe5265b566c31ab084d7c2af13": [
+            {
+              "id": "9946as6t2i8u8c472atbg9zfr",
+              "content": {
+                "id": "Message_Table",
+                "title": "Messages",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Message_Table\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherSliderDateRange"
+                      },
+                      {
+                        "from": "mf1ics9isk65aqtres4079zfr",
+                        "event": "publisher"
+                      }
+                    ]
+                  },
+                  "subscriberUser": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "pkfi0yr94symuhza75hh69a4i",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "80gxrmh8jewdhg7nq5fqiwwmi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h1y8qah8okurg3mded9w45cdi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "UserPreferences-0",
+                        "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Data table"
+                },
+                "options": {
+                  
+                },
+                "locale_titles": {
+                  "en-US": "Data table",
+                  "en": "Messages"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ],
+          "a": [
+            {
+              "id": "UserPreferences-0",
+              "content": {
+                "id": "UserPreferences",
+                "title": "User Preferences",
+                "type": "gadget",
+                "thumbnail": "fs:\/\/gadget\/UserPreferences\/index.png",
+                "data": {
+                  "url": "fs:\/\/gadget\/UserPreferences\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [
+                    
+                  ],
+                  "isDropdownView": false
+                },
+                "listen": {
+                  "subscriberUserPref": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "pkfi0yr94symuhza75hh69a4i",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "80gxrmh8jewdhg7nq5fqiwwmi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "h1y8qah8okurg3mded9w45cdi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "8savkfnl0qfky2co07k1g1ra4i",
+                        "event": "publisherRegion"
+                      }
+                    ]
+                  },
+                  "subscriberFilterDeletion": {
+                    "type": "deletedFilter",
+                    "description": "Used to listen to filter deletion",
+                    "on": [
+                      {
+                        "from": "pkfi0yr94symuhza75hh69a4i",
+                        "event": "publisherFilterDeletion"
+                      },
+                      {
+                        "from": "80gxrmh8jewdhg7nq5fqiwwmi",
+                        "event": "publisherFilterDeletion"
+                      },
+                      {
+                        "from": "5v7p2z6gt5fxox6zfw50b8d7vi",
+                        "event": "publisherFilterDeletion"
+                      },
+                      {
+                        "from": "h1y8qah8okurg3mded9w45cdi",
+                        "event": "publisherFilterDeletion"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisherUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "This notifies user pref deletion"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "User Preferences"
+                },
+                "options": {
+                  "dataSource": {
+                    "type": "STRING",
+                    "title": "Data Source",
+                    "value": "\/portal\/gadgets\/bar-chart\/datasource\/dataFile4.jag",
+                    "options": [
+                      
+                    ],
+                    "required": false
+                  },
+                  "updateGraph": {
+                    "type": "STRING",
+                    "title": "Update Interval (s)",
+                    "value": "No",
+                    "options": [
+                      
+                    ],
+                    "required": false
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "User Preferences"
+                },
+                "settings": {
+                  "priority": "5"
+                }
+              }
+            }
+          ]
+        },
+        "anon": {
+          
+        }
+      }
+    },
+    {
+      "id": "sessions",
+      "title": "Sessions",
+      "layout": {
+        "content": {
+          "loggedIn": {
+            "blocks": [
+              {
+                "id": "a",
+                "x": 0,
+                "y": 8,
+                "width": 4,
+                "height": 6,
+                "banner": false
+              },
+              {
+                "id": "b",
+                "x": 4,
+                "y": 8,
+                "width": 4,
+                "height": 6,
+                "banner": false
+              },
+              {
+                "id": "998f8c4369999fe741470253dad8b22c",
+                "x": 8,
+                "y": 8,
+                "width": 4,
+                "height": 6,
+                "banner": false
+              },
+              {
+                "id": "1703d4f37a49e0fcef6ccb4a1bf26095",
+                "x": 0,
+                "y": 0,
+                "width": 12,
+                "height": 1,
+                "banner": false
+              },
+              {
+                "id": "98f8cff23011ddb5a3d10f9a060bc23c",
+                "x": 0,
+                "y": 1,
+                "width": 12,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "2727c687f79a61f7a640534159abeec6",
+                "x": 0,
+                "y": 15,
+                "width": 12,
+                "height": 11,
+                "banner": false
+              }
+            ]
+          }
+        },
+        "fluidLayout": false
+      },
+      "isanon": false,
+      "content": {
+        "default": {
+          "a": [
+            {
+              "id": "azzz9yhlu97u8t7gquu0g4x6r",
+              "content": {
+                "id": "Session_Bar_Chart",
+                "title": "Session_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Session_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  }
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "hcs95c0d5n9gj33tv2bg9zfr",
+                        "event": "publisher"
+                      },
+                      {
+                        "from": "Line_Chart-0",
+                        "event": "chart-zoomed"
+                      }
+                    ]
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "titlePosition": "left",
+                  "title": "Top Longest Sessions"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "topLongestSessions",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "Top Longest Sessions"
+                },
+                "settings": {
+                  
+                }
+              }
+            }
+          ],
+          "b": [
+            {
+              "id": "fie9iw5m968fw6ewqz6jlqsemi",
+              "content": {
+                "id": "Session_Bar_Chart",
+                "title": "Session_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Session_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  }
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "hcs95c0d5n9gj33tv2bg9zfr",
+                        "event": "publisher"
+                      },
+                      {
+                        "from": "Line_Chart-0",
+                        "event": "chart-zoomed"
+                      }
+                    ]
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "titlePosition": "left",
+                  "title": "Average session duration"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "userSessionDuration",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "Average session duration"
+                },
+                "settings": {
+                  
+                }
+              }
+            }
+          ],
+          "998f8c4369999fe741470253dad8b22c": [
+            {
+              "id": "mmp68zbzgy6l4b5a99pddvx6r",
+              "content": {
+                "id": "Session_Bar_Chart",
+                "title": "Session_Bar_Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Session_Bar_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  }
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "hcs95c0d5n9gj33tv2bg9zfr",
+                        "event": "publisher"
+                      },
+                      {
+                        "from": "Line_Chart-0",
+                        "event": "chart-zoomed"
+                      }
+                    ]
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "titlePosition": "left",
+                  "title": "Session count"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "sessionCount",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "Session count"
+                },
+                "settings": {
+                  
+                }
+              }
+            }
+          ],
+          "1703d4f37a49e0fcef6ccb4a1bf26095": [
+            {
+              "id": "hcs95c0d5n9gj33tv2bg9zfr",
+              "content": {
+                "id": "Date_Range_Picker",
+                "title": "Date Range Picker",
+                "type": "gadget",
+                "category": "Widgets",
+                "thumbnail": "store:\/\/gadget\/Date_Range_Picker\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  }
+                },
+                "styles": {
+                  "no_heading": true,
+                  "borders": false,
+                  "title": "Date Range Picker"
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "Line_Chart-0",
+                        "event": "chart-zoomed"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "publisher": {
+                    "type": "dateRange",
+                    "description": "This notifies date ranges generated in Date Range Picker"
+                  }
+                },
+                "options": {
+                  
+                },
+                "locale_titles": {
+                  
+                }
+              }
+            }
+          ],
+          "98f8cff23011ddb5a3d10f9a060bc23c": [
+            {
+              "id": "Line_Chart-0",
+              "content": {
+                "id": "Line_Chart",
+                "title": "Line Chart",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Line_Chart\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  }
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "This notifies message generated in publisher",
+                    "on": [
+                      {
+                        "from": "hcs95c0d5n9gj33tv2bg9zfr",
+                        "event": "publisher"
+                      }
+                    ]
+                  }
+                },
+                "notify": {
+                  "chart-zoomed": {
+                    "type": "dateRange",
+                    "description": "This notifies message generated in publisher"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Session Change Over Time"
+                },
+                "options": {
+                  "role": {
+                    "type": "STRING",
+                    "title": "Gadet Role",
+                    "value": "sessionChangeCount",
+                    "options": [
+                      
+                    ],
+                    "required": true
+                  }
+                },
+                "locale_titles": {
+                  "en-US": "Session Change Over Time"
+                },
+                "settings": {
+                  
+                }
+              }
+            }
+          ],
+          "2727c687f79a61f7a640534159abeec6": [
+            {
+              "id": "Message_Table-0",
+              "content": {
+                "id": "Message_Table",
+                "title": "Messages",
+                "type": "gadget",
+                "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
+                "data": {
+                  "url": "store:\/\/gadget\/Message_Table\/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  }
+                },
+                "listen": {
+                  "subscriber": {
+                    "type": "dateRange",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "hcs95c0d5n9gj33tv2bg9zfr",
+                        "event": "publisher"
+                      },
+                      {
+                        "from": "Line_Chart-0",
+                        "event": "chart-zoomed"
+                      }
+                    ]
+                  },
+                  "subscriberUser": {
+                    "type": "selectedUser",
+                    "description": "Used to listen to Any message of type state",
+                    "on": [
+                      {
+                        "from": "azzz9yhlu97u8t7gquu0g4x6r",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "fie9iw5m968fw6ewqz6jlqsemi",
+                        "event": "publisherUser"
+                      },
+                      {
+                        "from": "mmp68zbzgy6l4b5a99pddvx6r",
+                        "event": "publisherUser"
+                      }
+                    ]
+                  },
+                  "subscriberUserPrefDeletion": {
+                    "type": "deletedUserPref",
+                    "description": "Used to listen to Any message of type state"
+                  }
+                },
+                "styles": {
+                  "no_heading": false,
+                  "hide_gadget": false,
+                  "titlePosition": "left",
+                  "title": "Data table"
+                },
+                "options": {
+                  
+                },
+                "locale_titles": {
+                  "en-US": "Data table"
+                },
+                "settings": {
+                  
+                }
+              }
+            }
+          ]
+        },
+        "anon": {
+          
+        }
+      }
+    }
+  ],
+  "identityServerUrl": "",
+  "accessTokenUrl": "",
+  "apiKey": "",
+  "apiSecret": "",
+  "theme": "",
+  "isUserCustom": false,
+  "isEditorEnable": true,
+  "banner": {
+    "globalBannerExists": false,
+    "customBannerExists": false
+  },
+  "landing": "landing",
+  "isanon": false,
+  "menu": [
+    {
+      "id": "landing",
+      "isanon": false,
+      "ishidden": false,
+      "title": "Federated Identity Provider",
+      "subordinates": [
+        
+      ]
+    },
+    {
+      "id": "residentidp",
+      "isanon": false,
+      "ishidden": false,
+      "title": "Resident Identity Provider",
+      "subordinates": [
+        
+      ]
+    },
+    {
+      "id": "sessions",
+      "isanon": false,
+      "ishidden": false,
+      "title": "Sessions",
+      "subordinates": [
+        
+      ]
+    }
+  ],
+  "hideAllMenuItems": false,
+  "defaultPriority": "5"
+}

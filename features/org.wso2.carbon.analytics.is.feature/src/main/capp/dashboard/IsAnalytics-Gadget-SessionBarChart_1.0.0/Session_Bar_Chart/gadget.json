@@ -1,0 +1,21 @@
+{
+    "id": "Session_Bar_Chart",
+    "title": "Session_Bar_Chart",
+    "type": "gadget",
+    "thumbnail": "store://gadget/usa-business-revenue/index.png",
+    "data": {
+        "url": "store://gadget/Session_Bar_Chart/index.xml"
+    },
+    "toolbarButtons":{
+        "default":{
+            "maximize": false,
+            "configurations": false
+        }
+    },
+    "listen": {
+        "subscriber": {
+            "type": "dateRange",
+            "description": "Used to listen to Any message of type state"
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "id":"UserPreferences",
+    "title":"User Preferences",
+    "type":"gadget",
+    "thumbnail":"store://gadget/UserPreferences/index.png",
+    "data":{
+        "url":"store://gadget/UserPreferences/index.xml"
+    },
+    "toolbarButtons":{
+        "default":{
+            "maximize": false,
+            "configurations": false
+        }
+    },
+    "listen": {
+        "subscriberUserPref": {
+            "type": "selectedUser",
+            "description": "Used to listen to Any message of type state"
+        },
+        "subscriberFilterDeletion": {
+            "type": "deletedFilter",
+            "description": "Used to listen to filter deletion"
+        }
+    },
+    "notify": {
+        "publisherUserPrefDeletion": {
+            "type": "deletedUserPref",
+            "description": "This notifies user pref deletion"
+        }
+    }
+}

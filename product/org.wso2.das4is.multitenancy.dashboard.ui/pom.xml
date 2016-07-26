@@ -26,7 +26,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.wso2.das4is.multitenancy.dashboard.ui</artifactId>
     <packaging>bundle</packaging>
-    <name>WSO2 Data Analytics Server - Multi-tenant Dashboard</name>
+    <name>WSO2 Analytics IS - Multi-tenant Dashboard</name>
     <build>
 
         <plugins>

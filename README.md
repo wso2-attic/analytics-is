@@ -30,7 +30,7 @@ WSO2 IS Analytics Server
 
 ## Introducing WSO2 IS Analytics Server ##
 
-WSO2 IS Analytics Server is powered by WSO2 Data Analytics Server that combines real-time, batch, interactive, and predictive (via machine learning) analysis of data into one integrated platform to support the multiple demands of Internet of Things (IoT) solutions, as well as mobile and Web apps.
+WSO2 IS Analytics Server is powered by WSO2 IS Analytics  that combines real-time, batch, interactive, and predictive (via machine learning) analysis of data into one integrated platform to support the multiple demands of Internet of Things (IoT) solutions, as well as mobile and Web apps.
 
  IS Analytics can be used to monitor authentication related analytics for residence and federated authentication scenarios.
 

@@ -1,0 +1,32 @@
+{
+  "id": "Date_Range_Picker",
+  "title": "Date Range Picker",
+  "type": "gadget",
+  "category": "Widgets",
+  "thumbnail": "store://gadget/Date_Range_Picker/index.png",
+  "data": {
+    "url": "store://gadget/Date_Range_Picker/index.xml"
+  },
+  "toolbarButtons":{
+    "default":{
+        "maximize": false,
+        "configurations": false
+    }
+  },
+  "styles": {
+    "borders": false,
+    "title": false
+  },
+  "listen": {
+    "subscriber": {
+      "type": "dateRange",
+      "description": "Used to listen to Any message of type state"
+    }
+  },
+  "notify": {
+      "publisher": {
+          "type": "dateRange",
+          "description": "This notifies date ranges generated in Date Range Picker"
+      }
+  }
+}

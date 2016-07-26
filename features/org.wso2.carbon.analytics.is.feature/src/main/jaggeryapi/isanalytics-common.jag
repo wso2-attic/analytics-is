@@ -2,6 +2,7 @@
     var JSUtils = Packages.org.wso2.carbon.analytics.jsservice.Utils;
     var AnalyticsCachedJSServiceConnector = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector;
     var AnalyticsCache = Packages.org.wso2.carbon.analytics.jsservice.AnalyticsCachedJSServiceConnector.AnalyticsCache;
+    var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
     var configs = require('/configs/designer.json');
 
     var AUTHORIZATION_HEADER = "Authorization";
@@ -9,6 +10,7 @@
     var USERNAME = "username";
     var TENANT_DOMAIN = "domain";
     var CONST_AT = "@";
+    var superTenantId = MultitenantConstants.SUPER_TENANT_ID;
 
     function getLoggedInUser(){
     	var authParam = request.getHeader(AUTHORIZATION_HEADER);
@@ -40,6 +42,38 @@
 	        application.put("AnalyticsWebServiceCache", cache);
 	    }
 	    return new AnalyticsCachedJSServiceConnector(cache);
+    };
+
+        function getDrillDownResult(tableName, fieldName, categoryPath, queryString, scoreFunction, start, count){
+    	if (scoreFunction != "") {
+    		var query = stringify({
+                fieldName: fieldName, //field which is indexed as a FACET
+                categoryPath: categoryPath, //Path being drilled down, optional
+                query: queryString,
+                scoreFunction: scoreFunction,
+                start: start,
+                count: count
+            });
+    	} else {
+    		var query = stringify({
+                fieldName: fieldName, //field which is indexed as a FACET
+                categoryPath: categoryPath, //Path being drilled down, optional
+                query: queryString,
+                start: start,
+                count: count
+            });
+    	}
+    	
+
+        var resp = getConnector().drillDownCategories(superTenantId, tableName, query);
+
+        var dataPoints = JSON.parse(resp.getMessage());
+
+        var obj = dataPoints.categories;
+        var categoryCount = dataPoints.categoryCount;
+
+        return [obj, categoryCount];
+
     };
     
  %>
