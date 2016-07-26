@@ -123,7 +123,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
                 sampleEventList.add(event);
             }
             dataPublisherClient.publish(sampleEventList);
-            Thread.sleep(25000);
+            Thread.sleep(35000);
             dataPublisherClient.shutdown();
             Thread.sleep(10000);
 
