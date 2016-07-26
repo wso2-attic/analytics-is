@@ -10,19 +10,19 @@ body.dark svg.marks .mark-group .mark-rule line {
     stroke: #E3E5E6;
 }
 
-#back {
-    position: relative;
-    z-index: 1000;
+#back, #back:focus, #back:hover {
+    position: absolute;
+    top: 20px;
+    left: 62px;
+    font-size: 12px;
+    z-index: 100000;
     display: none;
-    float: right;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    width: 20px;
-    height: 20px;
-    padding: 0px;
-    margin: 0px;
-    background: #ffffff url("../images/back-icon.png") no-repeat 1px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+#back:hover {
+    opacity: 1;
 }
 
 body.drak .chart-label {
