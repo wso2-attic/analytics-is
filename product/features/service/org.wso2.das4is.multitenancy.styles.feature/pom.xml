@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.wso2.das4is.multitenancy.style.feature</artifactId>
     <packaging>pom</packaging>
-    <name>WSO2 Data Analytics Server - Multi-tenant Style Feature</name>
+    <name>WSO2 Analytics IS - Multi-tenant Style Feature</name>
 
     <dependencies>
         <dependency>

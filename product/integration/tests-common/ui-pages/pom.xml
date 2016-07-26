@@ -9,7 +9,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <name>WSO2 Data Analytics Server - Integration Test UI Pages</name>
+    <name>WSO2 IS Analytics - Integration Test UI Pages</name>
     <packaging>jar</packaging>
     <artifactId>ui-pages</artifactId>
     <dependencies>

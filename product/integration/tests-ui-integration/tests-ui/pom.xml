@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>org.wso2.das4is.ui.integration.test</artifactId>
     <packaging>jar</packaging>
-    <name>WSO2 Data Analytics Server - Integration Test UI</name>
+    <name>WSO2 IS Analytics - Integration Test UI</name>
 
     <build>
         <plugins>

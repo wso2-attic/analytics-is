@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <name>WSO2 Data Analytics Server - Integration Test Module</name>
+    <name>WSO2 Analytics IS - Integration Test Module</name>
     <artifactId>org.wso2.das4is.integration.tests</artifactId>
     <packaging>jar</packaging>
 
