@@ -91,14 +91,17 @@ function GadgetUtil() {
     this.getCurrentPageName = function() {
         var pageName,type;
         var href = parent.window.location.href;
-        var lastSegment = href.substr(href.lastIndexOf('/') + 1);
-        if (lastSegment.indexOf('?') == -1) {
-            pageName = lastSegment;
-        } else {
-            pageName = lastSegment.substr(0, lastSegment.indexOf('?'));
-        }
-        if(!pageName || pageName === DASHBOARD_NAME) {
+        var dashboardNameEndIndex = href.indexOf(DASHBOARD_NAME) + DASHBOARD_NAME.length;
+        var substrAfterDashboardName = href.substr(dashboardNameEndIndex + 1);        // additional +1 for /
+        if(substrAfterDashboardName.indexOf('?') == 0 || substrAfterDashboardName == null || substrAfterDashboardName.trim() == "") {
             pageName = TYPE_RESIDENT_IDP;
+        } else {
+            var indexOfSeparator = substrAfterDashboardName.indexOf('/');
+            if(indexOfSeparator == -1) {
+                pageName = substrAfterDashboardName;
+            } else {
+                pageName = substrAfterDashboardName.substr(0, indexOfSeparator);
+            }
         }
         return pageName;
     };
