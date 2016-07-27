@@ -85,7 +85,7 @@ insert into perSecondRegionStream;
 -- Per Minute ---------------
 
 from perSecondAuthenticationStatStream
-select meta_tenantId, str:concat(facetStartTime, '_' , userName, '_', rolesCommaSeperated, '_', serviceProvider, '_', identityProvider, '_', remoteIp , '_' , userStoreDomain , '_' , identityProviderType) as uniqueId, year, month, day, hour, minute, userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, authSuccessCount, authFailureCount, authStepSuccessCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , userName, '_', rolesCommaSeperated, '_', serviceProvider, '_', identityProvider, '_', remoteIp , '_' , userStoreDomain , '_' , identityProviderType) as uniqueId, year, month, day, hour, minute, userName,rolesCommaSeperated,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, authSuccessCount, authFailureCount, authStepSuccessCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
 insert into perSecondAuthenticationStatStreamWithUniqueId;
 
 from perSecondAuthenticationStatStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, batchEndTime, 60 sec, 59999 millisec, 10 sec, true)
@@ -96,7 +96,7 @@ insert into PerMinAuthenticationStatStream;
 ---------
 
 from perSecondUserStream
-select meta_tenantId, str:concat(facetStartTime, '_' , userName, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, userName, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , userName, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, userName, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
 insert into perSecondUserStreamWithUniqueId;
 
 from perSecondUserStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, batchEndTime, 60 sec, 59999 millisec, 10 sec, true)
@@ -107,7 +107,7 @@ insert into PerMinUserStream;
 ----------
 
 from perSecondIdentityProviderStream
-select meta_tenantId, str:concat(facetStartTime, '_' , identityProvider, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,identityProvider, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , identityProvider, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,identityProvider, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
 insert into perSecondIdentityProviderStreamWithUniqueId;
 
 from perSecondIdentityProviderStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, batchEndTime, 60 sec, 59999 millisec, 10 sec, true)
@@ -118,7 +118,7 @@ insert into PerMinIdentityProviderStream;
 ------------
 
 from perSecondUserStoreStream
-select meta_tenantId, str:concat(facetStartTime, '_' , userStoreDomain, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,userStoreDomain, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , userStoreDomain, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,userStoreDomain, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
 insert into perSecondUserStoreStreamWithUniqueId;
 
 
@@ -130,7 +130,7 @@ insert into PerMinUserStoreStream;
 -------------
 
 from perSecondRoleStream
-select meta_tenantId, str:concat(facetStartTime, '_' , userName, '_', role, '_', serviceProvider, '_', identityProvider, '_', remoteIp , '_', userStoreDomain, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, authSuccessCount, authFailureCount, authStepSuccessCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , userName, '_', role, '_', serviceProvider, '_', identityProvider, '_', remoteIp , '_', userStoreDomain, '_', identityProviderType) as uniqueId, year, month, day, hour, minute,userName,role,serviceProvider,identityProvider,remoteIp,region,userStoreDomain, authSuccessCount, authFailureCount, authStepSuccessCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
 insert into perSecondRoleStreamWithUniqueId;
 
 from perSecondRoleStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, batchEndTime, 60 sec, 59999 millisec, 10 sec, true)
@@ -141,7 +141,7 @@ insert into PerMinRoleStream;
 --------------
 
 from perSecondserviceProviderStream
-select meta_tenantId, str:concat(facetStartTime, '_' , serviceProvider, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, serviceProvider, authSuccessCount, authFailureCount, authFirstSuccessCount, facetStartTime,identityProviderType, _timestamp as batchEndTime, _timestamp
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , serviceProvider, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, serviceProvider, authSuccessCount, authFailureCount, authFirstSuccessCount, facetStartTime,identityProviderType, _timestamp as batchEndTime, _timestamp
 insert into perSecondserviceProviderStreamWithUniqueId;
 
 from perSecondserviceProviderStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, batchEndTime, 60 sec, 59999 millisec, 10 sec, true)
@@ -152,7 +152,7 @@ insert into PerMinserviceProviderStream;
 ---------------
 
 from perSecondRegionStream
-select meta_tenantId, str:concat(facetStartTime, '_' , remoteIp, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, remoteIp,region, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , remoteIp, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, remoteIp,region, authSuccessCount, authFailureCount, facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
 insert into perSecondRegionStreamWithUniqueId;
 
 from perSecondRegionStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, batchEndTime, 60 sec, 59999 millisec, 10 sec, true)
