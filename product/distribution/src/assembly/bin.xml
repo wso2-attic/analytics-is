@@ -256,7 +256,19 @@
         </fileSet>
 
 
-        <!-- Copying dbscripts related to metrics feature -->
+        <!-- Copying dbscripts related to identity and metrics  feature -->
+
+        <fileSet>
+            <directory>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/
+            </directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/dbscripts/identity</outputDirectory>
+            <includes>
+                <include>**/*.sql</include>
+            </includes>
+        </fileSet>
+
+
         <fileSet>
             <directory>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/metrics/
