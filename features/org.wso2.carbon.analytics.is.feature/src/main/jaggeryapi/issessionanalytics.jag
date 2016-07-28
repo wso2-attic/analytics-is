@@ -372,7 +372,7 @@
             {
 
                 var columns = ["sessionId", "userName", "startTimestamp", "terminationTimestamp", "endTimestamp", "duration",
-                    "isActive", "userstoreDomain", "IP", "tenantDomain", "rememberMeFlag", "_timestamp"];
+                    "isActive", "userstoreDomain", "tenantDomain", "IP", "rememberMeFlag", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
