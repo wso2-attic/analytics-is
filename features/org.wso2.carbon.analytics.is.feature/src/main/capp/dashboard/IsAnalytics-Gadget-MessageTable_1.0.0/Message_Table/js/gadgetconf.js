@@ -7,6 +7,7 @@ var configs = [{
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "identityProvider", label: "Identity Provider", type: "ordinal" },
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
+            { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
             { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
@@ -22,6 +23,7 @@ var configs = [{
             { name: "userName", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "userstore", label: "Userstore", type: "ordinal" },
+            { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
@@ -42,8 +44,8 @@ var configs = [{
             { name: "duration", label: "Duration", type: "ordinal" },
             { name: "isActive", label: "Is Active", type: "ordinal" },
             { name: "userstoreDomain", label: "Userstore Domain", type: "ordinal" },
-            { name: "IP", label: "IP", type: "ordinal" },
             { name: "tenantDomain", label: "Tenant Domain", type: "ordinal" },
+            { name: "IP", label: "IP", type: "ordinal" },
             { name: "rememberMeFlag", label: "Remember Me Flag", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
