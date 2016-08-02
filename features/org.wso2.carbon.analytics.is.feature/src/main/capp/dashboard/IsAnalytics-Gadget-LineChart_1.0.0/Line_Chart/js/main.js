@@ -120,8 +120,8 @@ function onData(response) {
             return a[1] - b[1];
         });
         //finally draw the chart on the given canvas
-        chart.chartConfig.width = $('body').width();
-        chart.chartConfig.height = $('body').height();
+        chart.chartConfig.width = $("#canvas").width();
+        chart.chartConfig.height = $("#canvas").height();
 
         var maxCount = 0;
         for(var i=0; i<processedData.length; i++) {

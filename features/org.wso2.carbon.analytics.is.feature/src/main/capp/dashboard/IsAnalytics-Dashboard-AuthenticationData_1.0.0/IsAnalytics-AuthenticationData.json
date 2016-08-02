@@ -2073,23 +2073,23 @@
     "globalBannerExists": false,
     "customBannerExists": false
   },
-  "landing": "landing",
+  "landing": "residentidp",
   "isanon": false,
   "menu": [
-    {
-      "id": "landing",
-      "isanon": false,
-      "ishidden": false,
-      "title": "Federated Identity Provider",
-      "subordinates": [
-        
-      ]
-    },
     {
       "id": "residentidp",
       "isanon": false,
       "ishidden": false,
       "title": "Resident Identity Provider",
+      "subordinates": [
+
+      ]
+    },
+    {
+      "id": "landing",
+      "isanon": false,
+      "ishidden": false,
+      "title": "Federated Identity Provider",
       "subordinates": [
         
       ]

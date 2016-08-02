@@ -43,8 +43,13 @@ var charts = [{
         var overallAuthFailureCount = 0;
         var maxSuccessCount = 0;
         var maxFailureCount = 0;
-        var timeUnit = data[0].timeUnit;
-        var previousTimestamp = data[0].timestamp;
+        var timeUnit;
+        var previousTimestamp;
+
+        if(data.length > 0) {
+            timeUnit = data[0].timeUnit;
+            previousTimestamp = data[0].timestamp;
+        }
 
         var step;
         if(timeUnit == "MINUTE") {

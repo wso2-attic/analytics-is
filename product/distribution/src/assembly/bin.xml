@@ -130,17 +130,6 @@
                 <include>**/analytics-eventsink-config.xml</include>
             </includes>
         </fileSet>
-        <!-- Log analyzer webapp -->
-        <!--<fileSet>
-            <directory>
-                src/DASLog
-            </directory>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/log-analyzer</outputDirectory>
-            <includes>
-                <include>**/*</include>
-            </includes>
-        </fileSet>-->
-
         <!-- CEP -->
 
         <!--creating an empty input event adaptors directory-->
@@ -266,7 +255,20 @@
             </excludes>
         </fileSet>
 
-        <!-- Copying dbscripts related to metrics feature -->
+
+        <!-- Copying dbscripts related to identity and metrics  feature -->
+
+        <fileSet>
+            <directory>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/identity/
+            </directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/dbscripts/identity</outputDirectory>
+            <includes>
+                <include>**/*.sql</include>
+            </includes>
+        </fileSet>
+
+
         <fileSet>
             <directory>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/dbscripts/metrics/
