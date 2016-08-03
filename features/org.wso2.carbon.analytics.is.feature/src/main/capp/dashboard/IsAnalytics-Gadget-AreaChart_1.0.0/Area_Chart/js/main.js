@@ -446,7 +446,7 @@ function loadMap(data) {
     worldFailedChart.draw("#mapFailDiv",[{type:"click", callback:mapCallBack}]);
 }
 
-document.body.onmouseup = function() {
+document.body.onmouseup = function(event) {
 
     if((rangeStart) && (rangeEnd) && (rangeStart.toString() !== rangeEnd.toString())){
 

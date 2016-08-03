@@ -155,7 +155,7 @@ function onError(msg) {
 //     // }
 // });
 
-document.body.onmouseup = function() {
+document.body.onmouseup = function(event) {
     // var div = document.getElementById("dChart");
     // div.innerHTML = "<p> Start : " + rangeStart + "</p>" + "<p> End : " + rangeEnd + "</p>";
 
