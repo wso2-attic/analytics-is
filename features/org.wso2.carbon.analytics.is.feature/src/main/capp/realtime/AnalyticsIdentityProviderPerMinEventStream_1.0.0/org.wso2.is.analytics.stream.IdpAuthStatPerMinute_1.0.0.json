@@ -43,6 +43,10 @@
             "type": "LONG"
         },
         {
+            "name": "authStepSuccessCount",
+            "type": "LONG"
+        },
+        {
             "name": "facetStartTime",
             "type": "STRING"
         },
@@ -56,3 +60,4 @@
         }
     ]
 }
+

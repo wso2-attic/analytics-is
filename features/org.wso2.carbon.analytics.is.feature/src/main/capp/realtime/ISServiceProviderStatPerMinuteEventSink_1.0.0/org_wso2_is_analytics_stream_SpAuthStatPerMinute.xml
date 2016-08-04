@@ -82,6 +82,14 @@
             <Type>LONG</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>authStepSuccessCount</Name>
+            <IsFacet>false</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>true</EnableScoreParam>
+            <Type>LONG</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>facetStartTime</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
