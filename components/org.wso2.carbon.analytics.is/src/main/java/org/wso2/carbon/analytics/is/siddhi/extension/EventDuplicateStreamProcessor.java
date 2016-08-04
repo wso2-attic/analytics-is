@@ -95,7 +95,7 @@ public class EventDuplicateStreamProcessor extends StreamProcessor {
 
         } else {
             throw new ExecutionPlanValidationException("Event Duplicate stream Processor should only have one/two " +
-                    "parameter (<string> rolesCommaSeperated (and <string> delimiter), " +
+                    "parameter (<string> rolesCommaSeparated (and <string> delimiter), " +
                     "but found " + attributeExpressionExecutors.length + " input attributes");
         }
 
@@ -112,8 +112,8 @@ public class EventDuplicateStreamProcessor extends StreamProcessor {
         synchronized (this) {
             while (streamEventChunk.hasNext()) {
                 StreamEvent streamEvent = streamEventChunk.next();
-                String rolesCommaSeperated = (String) expressionExecutor.execute(streamEvent);
-                String[] roles = rolesCommaSeperated.split(delimiter);
+                String rolesCommaSeparated = (String) expressionExecutor.execute(streamEvent);
+                String[] roles = rolesCommaSeparated.split(delimiter);
                 for (String role : roles) {
                     StreamEvent clonedEvent = streamEventCloner.copyStreamEvent(streamEvent);
                     complexEventPopulater.populateComplexEvent(clonedEvent, new Object[] { role });

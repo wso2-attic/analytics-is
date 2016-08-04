@@ -118,7 +118,7 @@
                     for (var i = 0; i < dataPoints.length; i++) {
                         var temp = [];
                         if (dataPoints[i] != null) {
-                            var username = dataPoints[i]["values"]["userName"];
+                            var username = dataPoints[i]["values"]["username"];
                             var duration = dataPoints[i]["values"]["duration"];
                             data.push({
                                 "username": username,
@@ -146,7 +146,7 @@
 
                 query = stringify({
                     tableName: tableName,
-                    groupByField: "userName",
+                    groupByField: "username",
                     aggregateLevel: 0,
                     query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
                     aggregateFields: [
@@ -165,7 +165,7 @@
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
                     if (dataPoints[i] != null) {
-                        var username = dataPoints[i]["values"]["userName"];
+                        var username = dataPoints[i]["values"]["username"];
                         var duration = dataPoints[i]["values"]["averageSession"];
                         data.push({
                             "username": username,
@@ -270,7 +270,7 @@
                 var timeNow = new Date().getTime();
 
                 query = stringify({
-                    fieldName: "userName", //field which is indexed as a FACET
+                    fieldName: "username", //field which is indexed as a FACET
                     categoryPath: [], //Path being drilled down, optional
                     query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter,
                 });
@@ -284,7 +284,7 @@
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         result.push({
-                            "userName": key
+                            "username": key
                         });
                     }
                 }
@@ -371,8 +371,8 @@
             case TYPE_SESSION_DATA_TABLE:
             {
 
-                var columns = ["sessionId", "userName", "startTimestamp", "terminationTimestamp", "endTimestamp", "duration",
-                    "isActive", "userstoreDomain", "tenantDomain", "IP", "rememberMeFlag", "_timestamp"];
+                var columns = ["sessionId", "username", "startTimestamp", "terminationTimestamp", "endTimestamp", "duration",
+                    "isActive", "userstoreDomain", "tenantDomain", "remoteIp", "rememberMeFlag", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));

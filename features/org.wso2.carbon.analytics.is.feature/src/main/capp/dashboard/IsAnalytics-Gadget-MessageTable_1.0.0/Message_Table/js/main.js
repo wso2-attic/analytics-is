@@ -221,11 +221,11 @@ gadgets.HubSettings.onConnect = function() {
 
         for(i=0;i<globalUniqueArray.length;i++){
             if(globalUniqueArray[i][2] == "USERNAME"){
-                listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND username:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "ROLE"){
-                listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
+                listnedAdditionalUserPrefs+= " AND rolesCommaSeparated:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "USERSTORE"){
@@ -267,11 +267,11 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
 
     for(i=0;i<globalUniqueArray.length;i++){
         if(globalUniqueArray[i][2] == "USERNAME"){
-            listnedAdditionalUserPrefs+= " AND userName:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND username:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "SERVICEPROVIDER"){
             listnedAdditionalUserPrefs+= " AND serviceProvider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "ROLE"){
-            listnedAdditionalUserPrefs+= " AND rolesCommaSeperated:\""+globalUniqueArray[i][1]+"\"";
+            listnedAdditionalUserPrefs+= " AND rolesCommaSeparated:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
             listnedAdditionalUserPrefs+= " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "USERSTORE"){

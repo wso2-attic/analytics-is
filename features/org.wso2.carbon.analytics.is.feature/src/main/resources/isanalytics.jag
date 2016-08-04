@@ -190,7 +190,7 @@
                 }
 
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, scoreFunction, start, length);
+                var queryResult = common.getDrillDownResult(tableName, "username", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
 
@@ -224,7 +224,7 @@
                 }
 
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, "authFailureCount", start, length);
+                var queryResult = common.getDrillDownResult(tableName, "username", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
 
@@ -459,7 +459,7 @@
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
 
-                var columns = ["contextId", "userName", "serviceProvider", "identityProvider", "rolesCommaSeperated",
+                var columns = ["contextId", "username", "serviceProvider", "identityProvider", "rolesCommaSeparated",
                     "tenantDomain" , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -540,14 +540,14 @@
                 }
 
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "userName", categoryPath, queryString, "", start, length);
+                var queryResult = common.getDrillDownResult(tableName, "username", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
 
                 for (var key in obj) {
                     if (obj.hasOwnProperty(key)) {
                         result.push({
-                            "userName": key
+                            "username": key
                         });
                     }
                 }
@@ -746,7 +746,7 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
-                 var columns = ["contextId", "userName", "serviceProvider", "userStoreDomain", "tenantDomain", "rolesCommaSeperated"
+                 var columns = ["contextId", "username", "serviceProvider", "userStoreDomain", "tenantDomain", "rolesCommaSeparated"
                     , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];

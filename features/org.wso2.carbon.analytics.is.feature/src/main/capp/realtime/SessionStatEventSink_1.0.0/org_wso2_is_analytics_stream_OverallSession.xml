@@ -50,7 +50,7 @@
             <Type>INTEGER</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>userName</Name>
+            <Name>username</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
@@ -66,7 +66,7 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>IP</Name>
+            <Name>remoteIp</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>false</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>

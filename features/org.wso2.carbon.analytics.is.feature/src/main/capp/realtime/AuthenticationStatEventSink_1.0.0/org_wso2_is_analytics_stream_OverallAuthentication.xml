@@ -42,7 +42,7 @@
             <Type>BOOLEAN</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>userName</Name>
+            <Name>username</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
@@ -130,7 +130,7 @@
             <Type>BOOLEAN</Type>
         </ColumnDefinition>
         <ColumnDefinition>
-            <Name>rolesCommaSeperated</Name>
+            <Name>rolesCommaSeparated</Name>
             <IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>

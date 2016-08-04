@@ -27,7 +27,7 @@
             "type": "BOOL"
         },
         {
-            "name": "userName",
+            "name": "username",
             "type": "STRING"
         },
         {
@@ -71,7 +71,7 @@
             "type": "BOOL"
         },
         {
-            "name": "rolesCommaSeperated",
+            "name": "rolesCommaSeparated",
             "type": "STRING"
         },
         {

@@ -7,12 +7,12 @@
 /* define streams/tables and write queries here ... */
 
 @Import('org.wso2.is.analytics.stream.OverallSession:1.0.0')
-define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long,  action int, userName string, userstoreDomain string, IP string, region string, tenantDomain string, rememberMeFlag bool, userAgent string, _timestamp long);
+define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long,  action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, rememberMeFlag bool, userAgent string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.SessionInfo:1.0.0')
-define stream RawSessionStream (meta_tenantId int, sessionId string, startTimestamp long, terminationTimestamp long, endTimestamp long, duration long, userName string, isActive bool, _timestamp long);
+define stream RawSessionStream (meta_tenantId int, sessionId string, startTimestamp long, terminationTimestamp long, endTimestamp long, duration long, username string, isActive bool, _timestamp long);
 
 from SessionStream
-select meta_tenantId, sessionId, startTimestamp, terminationTimestamp, ifThenElse(action == 0, terminationTimestamp, startTimestamp) as endTimestamp, ifThenElse(action == 0, convert(terminationTimestamp - startTimestamp, 'long'), 0l) as duration,  userName, convert(ifThenElse(action == 0, 0, 1), 'bool') as isActive, startTimestamp as _timestamp
+select meta_tenantId, sessionId, startTimestamp, terminationTimestamp, ifThenElse(action == 0, terminationTimestamp, startTimestamp) as endTimestamp, ifThenElse(action == 0, convert(terminationTimestamp - startTimestamp, 'long'), 0l) as duration,  username, convert(ifThenElse(action == 0, 0, 1), 'bool') as isActive, startTimestamp as _timestamp
 group by meta_tenantId
 insert into RawSessionStream;

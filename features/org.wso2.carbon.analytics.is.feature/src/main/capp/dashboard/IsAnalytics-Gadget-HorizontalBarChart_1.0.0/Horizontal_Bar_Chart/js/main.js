@@ -128,11 +128,11 @@ $(function () {
                         }
                         if (!alreadySelected) {
                             if (key == "USERNAME") {
-                                listnedAdditionalUserPrefs += " AND userName:\"" + historyParamVal.split("_")[0] + "\"";
+                                listnedAdditionalUserPrefs += " AND username:\"" + historyParamVal.split("_")[0] + "\"";
                             } else if (key == "SERVICEPROVIDER") {
                                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
                             } else if (key == "ROLE") {
-                                listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\"" + historyParamVal.split("_")[0] + "\"";
+                                listnedAdditionalUserPrefs += " AND rolesCommaSeparated:\"" + historyParamVal.split("_")[0] + "\"";
                             } else if (key == "IDENTITYPROVIDER") {
                                 listnedAdditionalUserPrefs += " AND identityProvider:\"" + historyParamVal.split("_")[0] + "\"";
                             } else if (key == "USERSTORE") {
@@ -208,11 +208,11 @@ gadgets.HubSettings.onConnect = function () {
         for (i = 0; i < globalUniqueArray.length; i++) {
 
             if (globalUniqueArray[i][2] == "USERNAME") {
-                listnedAdditionalUserPrefs += " AND userName:\"" + globalUniqueArray[i][1] + "\"";
+                listnedAdditionalUserPrefs += " AND username:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "SERVICEPROVIDER") {
                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "ROLE") {
-                listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\"" + globalUniqueArray[i][1] + "\"";
+                listnedAdditionalUserPrefs += " AND rolesCommaSeparated:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "IDENTITYPROVIDER") {
                 listnedAdditionalUserPrefs += " AND identityProvider:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "USERSTORE") {
@@ -261,13 +261,13 @@ gadgets.HubSettings.onConnect = function () {
 
         for (i = 0; i < globalUniqueArray.length; i++) {
             if (globalUniqueArray[i][2] == "USERNAME") {
-                listnedAdditionalUserPrefs += " AND userName:\"" + globalUniqueArray[i][1] + "\"";
+                listnedAdditionalUserPrefs += " AND username:\"" + globalUniqueArray[i][1] + "\"";
             }
             if (globalUniqueArray[i][2] == "SERVICEPROVIDER") {
                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
             }
             if (globalUniqueArray[i][2] == "ROLE") {
-                listnedAdditionalUserPrefs += " AND rolesCommaSeperated:\"" + globalUniqueArray[i][1] + "\"";
+                listnedAdditionalUserPrefs += " AND rolesCommaSeparated:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "IDENTITYPROVIDER") {
                 listnedAdditionalUserPrefs += " AND identityProvider:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "USERSTORE") {
@@ -706,7 +706,7 @@ var substringMatcher = function () {
         switch (filterType) {
             case 12:
             {
-                listnedAdditionalUserPrefs = " AND userName:" + escape(q) + "*";
+                listnedAdditionalUserPrefs = " AND username:" + escape(q) + "*";
                 break;
             }
             case 13:
