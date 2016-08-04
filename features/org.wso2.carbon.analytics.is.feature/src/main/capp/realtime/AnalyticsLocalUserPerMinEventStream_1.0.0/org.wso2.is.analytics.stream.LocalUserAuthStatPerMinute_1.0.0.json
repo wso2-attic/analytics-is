@@ -1,0 +1,62 @@
+{
+    "name": "org.wso2.is.analytics.stream.LocalUserAuthStatPerMinute",
+    "version": "1.0.0",
+    "nickName": "",
+    "description": "",
+    "metaData": [
+        {
+            "name": "tenantId",
+            "type": "INT"
+        }
+    ],
+    "payloadData": [
+        {
+            "name": "year",
+            "type": "INT"
+        },
+        {
+            "name": "month",
+            "type": "INT"
+        },
+        {
+            "name": "day",
+            "type": "INT"
+        },
+        {
+            "name": "hour",
+            "type": "INT"
+        },
+        {
+            "name": "minute",
+            "type": "INT"
+        },
+        {
+            "name": "localUsername",
+            "type": "STRING"
+        },
+        {
+            "name": "authSuccessCount",
+            "type": "LONG"
+        },
+        {
+            "name": "authFailureCount",
+            "type": "LONG"
+        },
+        {
+            "name": "authStepSuccessCount",
+            "type": "LONG"
+        },
+        {
+            "name": "facetStartTime",
+            "type": "STRING"
+        },
+        {
+            "name": "identityProviderType",
+            "type": "STRING"
+        },
+        {
+            "name": "_timestamp",
+            "type": "LONG"
+        }
+    ]
+}

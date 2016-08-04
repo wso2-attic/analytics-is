@@ -10,6 +10,9 @@
 @Import('org.wso2.is.analytics.stream.OverallAuthentication:1.0.0')
 define stream InStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
 
+@Export('org.wso2.is.analytics.stream.LocalUserAuthStatPerMinute:1.0.0')
+define stream PerMinLocalUsernameStream (meta_tenantId int, year int, month int, day int, hour int, minute int, localUsername string, authSuccessCount long, authFailureCount long, authStepSuccessCount long, facetStartTime string, identityProviderType string, _timestamp long);
+
 @Export('org.wso2.is.analytics.stream.SpAuthStatPerMinute:1.0.0')
 define stream PerMinserviceProviderStream (meta_tenantId int, year int, month int, day int, hour int, minute int, serviceProvider string, authSuccessCount long, authFailureCount long, authStepSuccessCount long, authFirstSuccessCount long, facetStartTime string, identityProviderType string, _timestamp long);
 
@@ -32,10 +35,10 @@ define stream PerMinIdentityProviderStream (meta_tenantId int, year int, month i
 define stream PerMinUserStream (meta_tenantId int, year int, month int, day int, hour int, minute int, username string, authSuccessCount long, authFailureCount long, authStepSuccessCount long, facetStartTime string, identityProviderType string,_timestamp long);
 
 
-define window countWindow (meta_tenantId int, eventId string, username string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, successValue int, failureValue int, stepSuccessValue int, firstLoginValue int, identityProviderType string, batchEndTime long, _timestamp long) externalTimeBatch(batchEndTime, 1 sec, 0, 10 sec, true);
+define window countWindow (meta_tenantId int, eventId string, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, successValue int, failureValue int, stepSuccessValue int, firstLoginValue int, identityProviderType string, batchEndTime long, _timestamp long) externalTimeBatch(batchEndTime, 1 sec, 0, 10 sec, true);
 
 from InStream
-select meta_tenantId, eventId,username,userStoreDomain, tenantDomain, remoteIp, "N/A" as region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeparated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse((authStepSuccess == false and eventType == 'step'), 1, 0) as failureValue,ifThenElse((authStepSuccess == true and eventType == 'step'), 1, 0) as stepSuccessValue,ifThenElse(authenticationSuccess == true AND isFirstLogin == true, 1, 0) as firstLoginValue,identityProviderType, _timestamp as eventTime, _timestamp
+select meta_tenantId, eventId,username,localUsername,userStoreDomain, tenantDomain, remoteIp, "N/A" as region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeparated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse((authStepSuccess == false and eventType == 'step'), 1, 0) as failureValue,ifThenElse((authStepSuccess == true and eventType == 'step'), 1, 0) as stepSuccessValue,ifThenElse(authenticationSuccess == true AND isFirstLogin == true, 1, 0) as firstLoginValue,identityProviderType, _timestamp as eventTime, _timestamp
 insert into countStream;
 
 
@@ -54,6 +57,11 @@ from countWindow
 select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,  username,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getSecondStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getSecondStartingTime(batchEndTime) as _timestamp
 group by meta_tenantId, username,identityProviderType
 insert into perSecondUserStream;
+
+from countWindow
+select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,  localUsername,sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount,sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getSecondStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getSecondStartingTime(batchEndTime) as _timestamp
+group by meta_tenantId, username,identityProviderType
+insert into perSecondLocalUsernameStream;
 
 from countWindow
 select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute, identityProvider,sum(stepSuccessValue) as authSuccessCount, sum(failureValue) as authFailureCount, sum(stepSuccessValue) as authStepSuccessCount, convert(isAnalytics:getSecondStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getSecondStartingTime(batchEndTime) as _timestamp
@@ -102,6 +110,17 @@ from perSecondUserStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, ba
 select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,username,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount,sum(authStepSuccessCount) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by meta_tenantId, username,identityProviderType
 insert into PerMinUserStream;
+
+---------
+
+from perSecondLocalUsernameStream
+select meta_tenantId, str:concat(meta_tenantId, '_' , facetStartTime, '_' , localUsername, '_', identityProviderType) as uniqueId, year, month, day, hour, minute, localUsername, authSuccessCount, authFailureCount, authStepSuccessCount,  facetStartTime, identityProviderType, _timestamp as batchEndTime, _timestamp
+insert into perSecondLocalUsernameStreamWithUniqueId;
+
+from perSecondLocalUsernameStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, batchEndTime, 60 sec, 59999 millisec, 10 sec, true)
+select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,localUsername,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount,sum(authStepSuccessCount) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
+group by meta_tenantId, localUsername,identityProviderType
+insert into PerMinLocalUsernameStream;
 
 ----------
 
@@ -158,5 +177,3 @@ from perSecondRegionStreamWithUniqueId#window.uniqueExternalTimeBatch(uniqueId, 
 select meta_tenantId, time:extract(batchEndTime, 'year') as year, time:extract(batchEndTime, 'month') as month, time:extract(batchEndTime, 'day') as day, time:extract(batchEndTime, 'hour') as hour, time:extract(batchEndTime, 'minute') as minute,remoteIp,region,sum(authSuccessCount) as authSuccessCount, sum(authFailureCount) as authFailureCount, sum(authStepSuccessCount) as authStepSuccessCount, convert(isAnalytics:getMinuteStartingTime(batchEndTime), 'string') as facetStartTime, identityProviderType, isAnalytics:getMinuteStartingTime(batchEndTime) as _timestamp
 group by meta_tenantId, remoteIp,identityProviderType
 insert into PerMinRegionStream;
-
-

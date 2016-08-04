@@ -10,6 +10,7 @@
         <dependency artifact="AnalyticsSessionActiveStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionInfoStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsUserPerMinEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AnalyticsLocalUserPerMinEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsUserStorePerMinEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsServiceProviderPerMinEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsIdentityProviderPerMinEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -27,6 +28,7 @@
         <dependency artifact="ISRoleStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="ISOverallStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="ISUserStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="ISLocalUserStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="ISUserStoreStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-ExecutionPlan-SessionData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
