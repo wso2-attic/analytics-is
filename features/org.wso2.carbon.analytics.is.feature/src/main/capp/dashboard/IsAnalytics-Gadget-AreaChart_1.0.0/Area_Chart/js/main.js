@@ -32,15 +32,18 @@ $(function() {
         $("#canvas").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
         return;
     }
-    if (page != TYPE_LANDING && page != TYPE_RESIDENT_IDP && qs[PARAM_ID] == null) {
+    if (page != TYPE_LANDING && page != TYPE_LOCAL && page != TYPE_EXTERNAL && qs[PARAM_ID] == null) {
         $("#canvas").html(gadgetUtil.getDefaultText());
         return;
     }
 
-    if(page == TYPE_RESIDENT_IDP) {
-        idpTypeFilter = " AND identityProviderType:\"LOCAL\"";
-    } else {
-        idpTypeFilter = " AND identityProviderType:\"FEDERATED\"";
+
+    if (page == TYPE_LOCAL) {
+        idpTypeFilter = "LOCAL";
+    } else if (page == TYPE_EXTERNAL) {
+        idpTypeFilter = "FEDERATED";
+    } else if (page == TYPE_LANDING) {
+        idpTypeFilter = "";
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -64,7 +67,7 @@ $(function() {
                 }
             }
         }
-        if(page == TYPE_RESIDENT_IDP) {
+        if(page == TYPE_LOCAL) {
             publishTimeRange = "true";
         }
     }

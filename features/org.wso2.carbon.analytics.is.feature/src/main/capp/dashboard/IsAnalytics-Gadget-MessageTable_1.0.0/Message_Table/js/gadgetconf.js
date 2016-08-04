@@ -16,7 +16,7 @@ var configs = [{
         ]
     },
     {
-        name: TYPE_RESIDENT_IDP,
+        name: TYPE_LOCAL,
         type: 20,
         columns: [
             { name: "contextId", label: "Context ID", type: "ordinal" },
@@ -25,6 +25,23 @@ var configs = [{
             { name: "userstore", label: "Userstore", type: "ordinal" },
             { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
             { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
+            { name: "remoteIp", label: "IP", type: "ordinal" },
+            { name: "region", label: "Region", type: "ordinal" },
+            { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
+            { name: "authenticationSuccess", label: "Overall Authentication", type: "ordinal" },
+            { name: "_timestamp", label: "Timestamp", type: "ordinal" }
+        ]
+    },
+    {
+        name: TYPE_EXTERNAL,
+        type: 11,
+        columns: [
+            { name: "contextId", label: "Context ID", type: "ordinal" },
+            { name: "userName", label: "User Name", type: "ordinal" },
+            { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
+            { name: "identityProvider", label: "Identity Provider", type: "ordinal" },
+            { name: "rolesCommaSeperated", label: "Roles", type: "ordinal" },
+            { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
             { name: "remoteIp", label: "IP", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
             { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },

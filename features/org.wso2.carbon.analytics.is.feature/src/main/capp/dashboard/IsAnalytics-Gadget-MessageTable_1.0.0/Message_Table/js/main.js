@@ -37,12 +37,12 @@ $(function() {
         }
     }
 
-    if (page.name == TYPE_LANDING || page.name == TYPE_RESIDENT_IDP) {
+    if (page.name == TYPE_LANDING || page.name == TYPE_LOCAL || page.name == TYPE_EXTERNAL) {
         var idpFilter = "";
         var columns = [];
 
         if(page.name == TYPE_LANDING) {
-            idpFilter = " AND identityProviderType:\"FEDERATED\"";
+            idpFilter = "";
             columns = [
                 { title: "Context ID" },
                 { title: "User Name" },
@@ -57,8 +57,8 @@ $(function() {
                 { title: "Timestamp" }
             ];
             
-        } else if(page.name == TYPE_RESIDENT_IDP) {
-            idpFilter = " AND identityProviderType:\"LOCAL\"";
+        } else if(page.name == TYPE_LOCAL) {
+            idpFilter = "LOCAL";
             columns = [
                 { title: "Context ID" },
                 { title: "User Name" },
@@ -72,6 +72,22 @@ $(function() {
                 { title: "Overall Authentication" },
                 { title: "Timestamp" }
             ];
+        } else if(page.name == TYPE_EXTERNAL) {
+            idpFilter = "FEDERATED";
+            columns = [
+                { title: "Context ID" },
+                { title: "User Name" },
+                { title: "Service Provider" },
+                { title: "Identity Provider" },
+                { title: "Roles" },
+                { title: "Tenant Domain"},
+                { title: "IP" },
+                { title: "Region" },
+                { title: "Authentication Step Success" },
+                { title: "Overall Authentication" },
+                { title: "Timestamp" }
+            ];
+
         }
 
         oTable = $('#tblMessages').DataTable({

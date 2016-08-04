@@ -71,7 +71,11 @@
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
         var additionalParameters = request.getParameter("listnedAdditionalUserPrefs");
-        var idpTypeFilter = request.getParameter("idpType");
+        var idpType = request.getParameter("idpType");
+        var idpTypeFilter = "";
+        if(idpType != "") {
+            idpTypeFilter = " AND identityProviderType:\"" + idpType + "\"";
+        }
         var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
 
         if (!additionalParameters) {
@@ -109,13 +113,17 @@
                         ]
                     });
                 } else {
+                    var successCountField = "authSuccessCount";
+                    if(idpType == "FEDERATED") {
+                        successCountField = "authStepSuccessCount";
+                    }
                     query = stringify({
                         tableName: tableName,
                         groupByField: "facetStartTime",
                         query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters,
                         aggregateFields: [
                             {
-                                fields: ["authSuccessCount"],
+                                fields: [successCountField],
                                 aggregate: "SUM",
                                 alias: "total_authSuccessCount"
                             },
@@ -175,7 +183,7 @@
                 }
 
                 var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
+                if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
                     scoreFunction = "authStepSuccessCount";
                 } else {
                     scoreFunction = "authSuccessCount";
@@ -250,7 +258,7 @@
                 }
 
                 var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
+                if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
                     scoreFunction = "authStepSuccessCount";
                 } else {
                     scoreFunction = "authSuccessCount";
@@ -391,7 +399,7 @@
                 }
 
                 var scoreFunction;
-                if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
+                if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
                     scoreFunction = "authStepSuccessCount";
                 } else {
                     scoreFunction = "authSuccessCount";

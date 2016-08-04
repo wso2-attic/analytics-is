@@ -83,13 +83,12 @@ $(function () {
 
     var instanceType = chartSuccess.mode;
 
-    if (page == TYPE_RESIDENT_IDP) {
-        idpTypeFilter = " AND identityProviderType:\"LOCAL\"";
+    if (page == TYPE_LOCAL) {
+        idpTypeFilter = "LOCAL";
+    } else if (page == TYPE_EXTERNAL) {
+        idpTypeFilter = "FEDERATED";
     } else if (page == TYPE_LANDING) {
-        idpTypeFilter = " AND identityProviderType:\"FEDERATED\"";
-        if (instanceType == "IDENTITYPROVIDER") {
-            $(".residentIdp").append("<a class='idResident' onclick='onResidentIdpClick();'>Resident Identity Provider</a>");
-        }
+        idpTypeFilter = "";
     }
 
     if (instanceType == "SERVICEPROVIDER") {
@@ -155,7 +154,7 @@ $(function () {
 
 
 function onResidentIdpClick() {
-    var targetUrl = RESIDENT_IDP_PAGE_URL;
+    var targetUrl = LOCAL_LOGIN_ATTEMPTS_PAGE_URL;
     var timeRangeUrlParam = "?persistTimeFrom="+listnedTimeFromValue+"&persistTimeTo="+listnedTimeToValue;
     parent.window.location = targetUrl + timeRangeUrlParam;
 };

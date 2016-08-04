@@ -24,7 +24,8 @@ var charts = [{
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 2, filter:12 },
-        { name: TYPE_RESIDENT_IDP, type: 2, filter:12 }
+        { name: TYPE_LOCAL, type: 2, filter:12 },
+        { name: TYPE_EXTERNAL, type: 2, filter:12 }
     ],
     mode: "USERNAME",
     colorCode: "SUCCESS",
@@ -63,7 +64,8 @@ var charts = [{
         "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 3, filter:12 },
-        { name: TYPE_RESIDENT_IDP, type: 3, filter:12 }
+        { name: TYPE_LOCAL, type: 3, filter:12 },
+        { name: TYPE_EXTERNAL, type: 3, filter:12 }
     ],
     mode: "USERNAME",
     colorCode: "FAILURE",
@@ -102,7 +104,8 @@ var charts = [{
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
         { name: TYPE_LANDING, type: 4, filter:13 },
-        { name: TYPE_RESIDENT_IDP, type: 4, filter:13 }
+        { name: TYPE_LOCAL, type: 4, filter:13 },
+        { name: TYPE_EXTERNAL, type: 4, filter:13}
     ],
     mode: "SERVICEPROVIDER",
     colorCode: "SUCCESS",
@@ -142,7 +145,7 @@ var charts = [{
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 6, filter:15 },
-            { name: TYPE_RESIDENT_IDP, type: 6, filter:15 }
+            { name: TYPE_LOCAL, type: 6, filter:15 }
         ],
         mode: "ROLE",
         isSelected: false,
@@ -182,7 +185,8 @@ var charts = [{
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 5, filter:13 },
-            { name: TYPE_RESIDENT_IDP, type: 5, filter:13 }
+            { name: TYPE_LOCAL, type: 5, filter:13 },
+            { name: TYPE_EXTERNAL, type: 5, filter:13 }
         ],
         mode: "SERVICEPROVIDER",
         isSelected: false,
@@ -222,7 +226,7 @@ var charts = [{
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 7, filter:15 },
-            { name: TYPE_RESIDENT_IDP, type: 7, filter:15 }
+            { name: TYPE_LOCAL, type: 7, filter:15 }
         ],
         mode: "ROLE",
         isSelected: false,
@@ -261,7 +265,8 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 9, filter:14 }
+            { name: TYPE_LANDING, type: 9, filter:14 },
+            { name: TYPE_EXTERNAL, type: 9, filter:14 }
         ],
         mode: "IDENTITYPROVIDER",
         isSelected: false,
@@ -300,7 +305,8 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 10, filter:14 }
+            { name: TYPE_LANDING, type: 10, filter:14 },
+            { name: TYPE_EXTERNAL, type: 10, filter:14 }
         ],
         mode: "IDENTITYPROVIDER",
         isSelected: false,
@@ -339,7 +345,8 @@ var charts = [{
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
             { name: TYPE_LANDING, type: 16, filter:13 },
-            { name: TYPE_RESIDENT_IDP, type: 16, filter:13 }
+            { name: TYPE_LOCAL, type: 16, filter:13 },
+            { name: TYPE_EXTERNAL, type: 16, filter:13 }
         ],
         mode: "FIRST_TIME_SERVICEPROVIDER",
         isSelected: false,
@@ -378,7 +385,7 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
-            { name: TYPE_RESIDENT_IDP, type: 18, filter:17 }
+            { name: TYPE_LOCAL, type: 18, filter:17 }
         ],
         mode: "USERSTORE",
         isSelected: false,
@@ -417,7 +424,7 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
-            { name: TYPE_RESIDENT_IDP, type: 19, filter:17 }
+            { name: TYPE_LOCAL, type: 19, filter:17 }
         ],
         mode: "USERSTORE",
         isSelected: false,

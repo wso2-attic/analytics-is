@@ -24,7 +24,8 @@ var DASHBOARD_NAME = "IsAnalytics-AuthenticationData";
 var BASE_URL = "/portal/dashboards/" + DASHBOARD_NAME + "/";
 
 var TYPE_LANDING = "landing";
-var TYPE_RESIDENT_IDP = "residentidp";
+var TYPE_LOCAL = "local";
+var TYPE_EXTERNAL = "external";
 var TYPE_SESSIONS = "sessions";
 var TYPE_PROXY = "proxy";
 var TYPE_API = "api";
@@ -57,8 +58,8 @@ var PARAM_ID = "id";
 var PARAM_TYPE = "type";
 var PARAM_GADGET_ROLE = "role";
 
-var RESIDENT_IDP_PAGE_URL = BASE_URL + TYPE_RESIDENT_IDP;
-var FEDERATED_IDP_PAGE_URL = BASE_URL + TYPE_LANDING;
+var LOCAL_LOGIN_ATTEMPTS_PAGE_URL = BASE_URL + TYPE_LOCAL;
+var EXTERNAL_LOGIN_ATTEMPTS_PAGE_URL = BASE_URL + TYPE_LANDING;
 var SESSIONS_PAGE_URL = BASE_URL + TYPE_SESSIONS;
 
 var PARENT_WINDOW = window.parent.document;
@@ -94,7 +95,7 @@ function GadgetUtil() {
         var dashboardNameEndIndex = href.indexOf(DASHBOARD_NAME) + DASHBOARD_NAME.length;
         var substrAfterDashboardName = href.substr(dashboardNameEndIndex + 1);        // additional +1 for /
         if(substrAfterDashboardName.indexOf('?') == 0 || substrAfterDashboardName == null || substrAfterDashboardName.trim() == "") {
-            pageName = TYPE_RESIDENT_IDP;
+            pageName = TYPE_LANDING;
         } else {
             var indexOfSeparator = substrAfterDashboardName.indexOf('?');
             if(indexOfSeparator == -1) {
@@ -141,7 +142,7 @@ function GadgetUtil() {
         var dashboardNameEndIndex = href.indexOf(DASHBOARD_NAME) + DASHBOARD_NAME.length;
         var substrAfterDashboardName = href.substr(dashboardNameEndIndex + 1);        // additional +1 for /
         if(substrAfterDashboardName.indexOf('?') == 0 || substrAfterDashboardName == null || substrAfterDashboardName.trim() == "") {
-            pageName = TYPE_RESIDENT_IDP;
+            pageName = TYPE_LANDING;
         } else {
             var indexOfSeparator = substrAfterDashboardName.indexOf('?');
             if(indexOfSeparator == -1) {
