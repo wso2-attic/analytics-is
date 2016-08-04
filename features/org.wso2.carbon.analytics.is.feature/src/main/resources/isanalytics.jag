@@ -469,10 +469,14 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters ;
+
+                if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
+                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + " AND eventType:\"step\" " + idpTypeFilter + additionalParameters ;
+                }
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter +
-                            additionalParameters,
+                    "query": queryString,
                     "start": start,
                     "count": length,
                     "sortBy": [

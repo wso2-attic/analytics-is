@@ -19,11 +19,19 @@
             "type": "STRING"
         },
         {
+            "name": "eventType",
+            "type": "STRING"
+        },
+        {
             "name": "authenticationSuccess",
             "type": "BOOL"
         },
         {
             "name": "userName",
+            "type": "STRING"
+        },
+        {
+            "name": "localUsername",
             "type": "STRING"
         },
         {
