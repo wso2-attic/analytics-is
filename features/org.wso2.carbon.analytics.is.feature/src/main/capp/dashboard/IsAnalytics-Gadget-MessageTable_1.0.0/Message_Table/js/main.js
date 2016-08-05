@@ -80,11 +80,9 @@ $(function() {
                 { title: "Service Provider" },
                 { title: "Identity Provider" },
                 { title: "Roles" },
-                { title: "Tenant Domain"},
                 { title: "IP" },
                 { title: "Region" },
                 { title: "Authentication Step Success" },
-                { title: "Overall Authentication" },
                 { title: "Timestamp" }
             ];
 

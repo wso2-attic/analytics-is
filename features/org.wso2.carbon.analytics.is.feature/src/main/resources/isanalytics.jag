@@ -32,6 +32,7 @@
     var TYPE_PER_USERSTORE_AUTH_SUCCESS = 18;
     var TYPE_PER_USERSTORE_AUTH_FAILURE = 19;
     var TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP = 20;
+    var TYPE_AUTHENTICATION_DATA_TABLE_EXTERNAL = 21;
     var TYPE_PER_USER_REGION = 25;
 
     response.contentType = CONTENT_TYPE_JSON;
@@ -189,8 +190,13 @@
                     scoreFunction = "authSuccessCount";
                 }
 
+                var userNameField = "username";
+                if(idpType == "FEDERATED") {
+                    userNameField = "localUsername";
+                }
+
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "username", categoryPath, queryString, scoreFunction, start, length);
+                var queryResult = common.getDrillDownResult(tableName, userNameField, categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
 
@@ -223,8 +229,13 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
+                var userNameField = "username";
+                if(idpType == "FEDERATED") {
+                    userNameField = "localUsername";
+                }
+
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "username", categoryPath, queryString, "authFailureCount", start, length);
+                var queryResult = common.getDrillDownResult(tableName, userNameField, categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
 
@@ -539,8 +550,13 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
+                var userNameField = "username";
+                if(idpType == "FEDERATED") {
+                    userNameField = "localUsername";
+                }
+
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
-                var queryResult = common.getDrillDownResult(tableName, "username", categoryPath, queryString, "", start, length);
+                var queryResult = common.getDrillDownResult(tableName, userNameField, categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
 
@@ -746,7 +762,7 @@
             }
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
-                 var columns = ["contextId", "username", "serviceProvider", "userStoreDomain", "tenantDomain", "rolesCommaSeparated"
+                var columns = ["contextId", "localUsername", "serviceProvider", "userStoreDomain", "tenantDomain", "rolesCommaSeparated"
                     , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
@@ -771,6 +787,71 @@
 
                 var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
+                var count = connector.searchCount(superTenantId, tableName, query);
+                var limit = count.getMessage();
+
+                for (i = 0; i < dataPoints.length; i++) {
+                    var temp = [];
+
+                    for (j = 0; j < columns.length; j++) {
+                        var column = columns[j];
+                        if (dataPoints[i] != null) {
+                            if (column == "_timestamp") {
+                                var value = dataPoints[i]["timestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else {
+                                var value = dataPoints[i]["values"][column];
+                                temp.push(value);
+                            }
+                        }
+                    }
+                    data.push(temp);
+                }
+
+                result["draw"] = draw;
+                result["data"] = data;
+
+                if (dataPoints.length < length) {
+                    limit = start + dataPoints.length;
+                }
+                result["recordsFiltered"] = limit;
+                result["recordsTotal"] = limit;
+                break;
+            }
+            case TYPE_AUTHENTICATION_DATA_TABLE_EXTERNAL:
+            {
+                var columns = ["contextId", "username", "serviceProvider", "identityProvider", "rolesCommaSeparated",
+                    "remoteIp", "region", "authStepSuccess", "_timestamp"];
+                var result = {};
+                var data = [];
+                var start = parseInt(request.getParameter("start"));
+                var length = parseInt(request.getParameter("length"));
+                var draw = request.getParameter("draw");
+                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                var sortType = request.getParameter("order[0][dir]").toUpperCase();
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters ;
+
+                if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
+                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + " AND eventType:\"step\" " + idpTypeFilter + additionalParameters ;
+                }
+
+                var query = stringify({
+                    "query": queryString,
+                    "start": start,
+                    "count": length,
+                    "sortBy": [
+                        {
+                            "field": columns[sortByColumnNo],
+                            "sortType": sortType
+                        }
+                    ]
+                });
+
+                var resp = connector.search(superTenantId, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+
                 var count = connector.searchCount(superTenantId, tableName, query);
                 var limit = count.getMessage();
 
@@ -895,7 +976,7 @@
                 log.debug("value of result: " + result);
             }
             var finalResult;
-            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP) {
+            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP || TYPE_AUTHENTICATION_DATA_TABLE_EXTERNAL) {
                 finalResult = result;
             } else {
                 finalResult = {
