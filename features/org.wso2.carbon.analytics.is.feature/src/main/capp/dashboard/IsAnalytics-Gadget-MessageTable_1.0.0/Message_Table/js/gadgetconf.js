@@ -20,7 +20,7 @@ var configs = [{
         type: 20,
         columns: [
             { name: "contextId", label: "Context ID", type: "ordinal" },
-            { name: "username", label: "User Name", type: "ordinal" },
+            { name: "localUsername", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "userstore", label: "Userstore", type: "ordinal" },
             { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
@@ -34,18 +34,16 @@ var configs = [{
     },
     {
         name: TYPE_EXTERNAL,
-        type: 11,
+        type: 21,
         columns: [
             { name: "contextId", label: "Context ID", type: "ordinal" },
             { name: "username", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
             { name: "identityProvider", label: "Identity Provider", type: "ordinal" },
             { name: "rolesCommaSeparated", label: "Roles", type: "ordinal" },
-            { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
             { name: "remoteIp", label: "remoteIp", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
             { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
-            { name: "authenticationSuccess", label: "Overall Authentication", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     },
