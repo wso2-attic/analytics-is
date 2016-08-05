@@ -104,20 +104,35 @@ $(function() {
             "searching": false,
             "columns" : columns,
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                if ( aData[8] == true && aData[9] == true )
-                {
-                   $('td', nRow).eq(9).html(
-                    '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
-                    );
-                }
-                else if ( aData[8] == false && aData[9] == false)
-                {
-                    $('td', nRow).eq(9).html(
-                    '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
-                    );
-                }
-                else {
-                    $('td', nRow).eq(9).html('<div><div>');
+                if(page.name == TYPE_EXTERNAL) {
+                    if ( aData[7] == true )
+                    {
+                        $('td', nRow).eq(7).html(
+                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
+                        );
+                    }
+                    else
+                    {
+                        $('td', nRow).eq(7).html(
+                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
+                        );
+                    }
+                } else {
+                    if ( aData[8] == true && aData[9] == true )
+                    {
+                        $('td', nRow).eq(9).html(
+                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
+                        );
+                    }
+                    else if ( aData[8] == false && aData[9] == false)
+                    {
+                        $('td', nRow).eq(9).html(
+                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
+                        );
+                    }
+                    else {
+                        $('td', nRow).eq(9).html('<div><div>');
+                    }
                 }
             },
             "ajax": {
