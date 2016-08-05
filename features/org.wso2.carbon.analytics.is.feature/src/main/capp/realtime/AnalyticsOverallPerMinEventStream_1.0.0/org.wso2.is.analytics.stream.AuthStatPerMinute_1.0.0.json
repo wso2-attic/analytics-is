@@ -35,6 +35,10 @@
             "type": "STRING"
         },
         {
+            "name": "localUsername",
+            "type": "STRING"
+        },
+        {
             "name": "rolesCommaSeparated",
             "type": "STRING"
         },

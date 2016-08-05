@@ -58,6 +58,14 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>localUsername</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>true</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>rolesCommaSeparated</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
