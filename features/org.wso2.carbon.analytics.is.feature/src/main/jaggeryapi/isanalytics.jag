@@ -178,6 +178,9 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
+                if(idpType == "LOCAL") {
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOCALUSERAUTHSTATPER" + timeUnit;
+                }
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -191,7 +194,7 @@
                 }
 
                 var userNameField = "username";
-                if(idpType == "FEDERATED") {
+                if(idpType == "LOCAL") {
                     userNameField = "localUsername";
                 }
 
@@ -224,13 +227,16 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
+                if(idpType == "LOCAL") {
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOCALUSERAUTHSTATPER" + timeUnit;
+                }
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
                 var userNameField = "username";
-                if(idpType == "FEDERATED") {
+                if(idpType == "LOCAL") {
                     userNameField = "localUsername";
                 }
 
