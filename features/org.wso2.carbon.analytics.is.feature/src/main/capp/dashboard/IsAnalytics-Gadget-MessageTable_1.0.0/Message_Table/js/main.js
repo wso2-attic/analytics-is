@@ -37,11 +37,11 @@ $(function() {
         }
     }
 
-    if (page.name == TYPE_LANDING || page.name == TYPE_LOCAL || page.name == TYPE_EXTERNAL) {
+    if (page.name == TYPE_OVERALL || page.name == TYPE_LOCAL || page.name == TYPE_FEDERATED) {
         var idpFilter = "";
         var columns = [];
 
-        if(page.name == TYPE_LANDING) {
+        if(page.name == TYPE_OVERALL) {
             idpFilter = "";
             columns = [
                 { title: "Context ID" },
@@ -67,11 +67,10 @@ $(function() {
                 { title: "Roles" },
                 { title: "IP" },
                 { title: "Region" },
-                { title: "Authentication Step Success" },
-                { title: "Overall Authentication" },
+                { title: "Local Authentication" },
                 { title: "Timestamp" }
             ];
-        } else if(page.name == TYPE_EXTERNAL) {
+        } else if(page.name == TYPE_FEDERATED) {
             idpFilter = "FEDERATED";
             columns = [
                 { title: "Context ID" },
@@ -103,7 +102,7 @@ $(function() {
             "searching": false,
             "columns" : columns,
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                if(page.name == TYPE_LANDING) {
+                if(page.name == TYPE_OVERALL) {
                     if ( aData[8] == true )
                     {
                         $('td', nRow).eq(8).html(
@@ -116,7 +115,7 @@ $(function() {
                             '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
                         );
                     }
-                } else if(page.name == TYPE_EXTERNAL) {
+                } else if(page.name == TYPE_FEDERATED) {
                     if ( aData[7] == true )
                     {
                         $('td', nRow).eq(7).html(
@@ -129,21 +128,18 @@ $(function() {
                             '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
                         );
                     }
-                } else {
-                    if ( aData[8] == true && aData[9] == true )
+                } else if(page.name == TYPE_LOCAL){
+                    if ( aData[8] == true )
                     {
-                        $('td', nRow).eq(9).html(
+                        $('td', nRow).eq(8).html(
                             '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
                         );
                     }
-                    else if ( aData[8] == false && aData[9] == false)
+                    else
                     {
-                        $('td', nRow).eq(9).html(
+                        $('td', nRow).eq(8).html(
                             '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
                         );
-                    }
-                    else {
-                        $('td', nRow).eq(9).html('<div><div>');
                     }
                 }
             },

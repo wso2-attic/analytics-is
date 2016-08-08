@@ -486,11 +486,13 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters ;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + additionalParameters ;
 
-                if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
-                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + " AND eventType:\"step\" " + idpTypeFilter + additionalParameters ;
+                if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1)) {
+                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + additionalParameters ;
                 }
+
+                queryString += " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true))";
 
                 var query = stringify({
                     "query": queryString,
@@ -769,7 +771,7 @@
             case TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP:
             {
                 var columns = ["contextId", "localUsername", "serviceProvider", "userStoreDomain", "tenantDomain", "rolesCommaSeparated"
-                    , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
+                    , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
@@ -778,9 +780,10 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+                var queryString = " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true)) ";
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters,
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + queryString + additionalParameters ,
                     "start": start,
                     "count": length,
                     "sortBy": [

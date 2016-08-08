@@ -1,5 +1,5 @@
 var configs = [{
-        name: TYPE_LANDING,
+        name: TYPE_OVERALL,
         type: 11,
         columns: [
             { name: "contextId", label: "Context ID", type: "ordinal" },
@@ -26,13 +26,12 @@ var configs = [{
             { name: "rolesCommaSeparated", label: "Roles", type: "ordinal" },
             { name: "remoteIp", label: "remoteIp", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
-            { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
-            { name: "authenticationSuccess", label: "Overall Authentication", type: "ordinal" },
+            { name: "authenticationSuccess", label: "Local Authentication", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]
     },
     {
-        name: TYPE_EXTERNAL,
+        name: TYPE_FEDERATED,
         type: 21,
         columns: [
             { name: "contextId", label: "Context ID", type: "ordinal" },
