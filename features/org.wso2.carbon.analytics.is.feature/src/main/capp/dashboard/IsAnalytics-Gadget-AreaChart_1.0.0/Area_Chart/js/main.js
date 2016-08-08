@@ -334,7 +334,7 @@ function loadStats(data){
     var configT = {
         charts: [{ type: "arc", x: "Rate", color: "Status", mode:"donut" }],
         innerRadius: 0.3,
-        padding: { top:0, right:70, bottom:0, left:10 },
+        padding: { top:10, right:70, bottom:10, left:10 },
         legend: true,
         percentage: true,
         colorScale: [successColor(), failColor()],
