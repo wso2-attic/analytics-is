@@ -150,7 +150,7 @@ function onError(msg) {
 };
 
 // $(window).resize(function() {
-//     // if (page != TYPE_LANDING && qs[PARAM_ID]) {
+//     // if (page != TYPE_OVERALL && qs[PARAM_ID]) {
 //         drawChart();
 //     // }
 // });

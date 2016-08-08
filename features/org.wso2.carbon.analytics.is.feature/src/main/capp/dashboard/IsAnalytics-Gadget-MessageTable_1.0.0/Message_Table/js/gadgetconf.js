@@ -1,5 +1,5 @@
 var configs = [{
-        name: TYPE_LANDING,
+        name: TYPE_OVERALL,
         type: 11,
         columns: [
             { name: "contextId", label: "Context ID", type: "ordinal" },
@@ -31,7 +31,7 @@ var configs = [{
         ]
     },
     {
-        name: TYPE_EXTERNAL,
+        name: TYPE_FEDERATED,
         type: 21,
         columns: [
             { name: "contextId", label: "Context ID", type: "ordinal" },

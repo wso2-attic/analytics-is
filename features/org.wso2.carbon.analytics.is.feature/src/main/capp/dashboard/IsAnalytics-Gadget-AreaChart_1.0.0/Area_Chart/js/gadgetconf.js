@@ -33,9 +33,9 @@ var charts = [{
         ]
     },
     types: [
-        { name: TYPE_LANDING, type: 1 },
+        { name: TYPE_OVERALL, type: 1 },
         { name: TYPE_LOCAL, type: 1 },
-        { name: TYPE_EXTERNAL, type: 1 }
+        { name: TYPE_FEDERATED, type: 1 }
     ],
     processData: function(data) {
         var result = [];

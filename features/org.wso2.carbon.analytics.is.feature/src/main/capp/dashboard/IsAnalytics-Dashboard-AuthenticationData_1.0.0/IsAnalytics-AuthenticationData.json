@@ -17,7 +17,75 @@
   "pages": [
     {
       "id": "landing",
-      "title": "Overall Authentication",
+      "title": "Authentication",
+      "layout": {
+        "content": {
+          "loggedIn": {
+            "blocks": [
+              {
+                "id": "a",
+                "x": 0,
+                "y": 0,
+                "width": 5,
+                "height": 2,
+                "banner": false
+              },
+              {
+                "id": "b",
+                "x": 0,
+                "y": 7,
+                "width": 6,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "c",
+                "x": 5,
+                "y": 0,
+                "width": 7,
+                "height": 2,
+                "banner": false
+              },
+              {
+                "id": "d",
+                "x": 0,
+                "y": 2,
+                "width": 12,
+                "height": 5,
+                "banner": false
+              },
+              {
+                "id": "9be09f79efae623af8732e70e3a7748d",
+                "x": 6,
+                "y": 7,
+                "width": 6,
+                "height": 7,
+                "banner": false
+              },
+              {
+                "id": "88f6587ccd5fe2c53e58669764db1d21",
+                "x": 0,
+                "y": 14,
+                "width": 12,
+                "height": 9,
+                "banner": false
+              }
+            ]
+          }
+        },
+        "fluidLayout": false
+      },
+      "isanon": false,
+      "content": {
+        "default": {
+        },
+        "anon": {
+        }
+      }
+    },
+    {
+      "id": "overall",
+      "title": "Overall Login Attempts",
       "layout": {
         "content": {
           "loggedIn": {
@@ -1522,8 +1590,8 @@
       }
     },
     {
-      "id": "external",
-      "title": "External Login Attempts",
+      "id": "federated",
+      "title": "Federated Login Attempts",
       "layout": {
         "content": {
           "loggedIn": {
@@ -2709,27 +2777,35 @@
       "id": "landing",
       "isanon": false,
       "ishidden": false,
-      "title": "Overall Login Attempts",
+      "title": "Authentication",
       "subordinates": [
+        {
+          "id": "overall",
+          "isanon": false,
+          "ishidden": false,
+          "title": "Overall Login Attempts",
+          "subordinates": [
 
-      ]
-    },
-    {
-      "id": "local",
-      "isanon": false,
-      "ishidden": false,
-      "title": "Local Login Attempts",
-      "subordinates": [
+          ]
+        },
+        {
+          "id": "local",
+          "isanon": false,
+          "ishidden": false,
+          "title": "Local Login Attempts",
+          "subordinates": [
 
-      ]
-    },
-    {
-      "id": "external",
-      "isanon": false,
-      "ishidden": false,
-      "title": "External Login Attempts",
-      "subordinates": [
-        
+          ]
+        },
+        {
+          "id": "federated",
+          "isanon": false,
+          "ishidden": false,
+          "title": "Federated Login Attempts",
+          "subordinates": [
+
+          ]
+        }
       ]
     },
     {
