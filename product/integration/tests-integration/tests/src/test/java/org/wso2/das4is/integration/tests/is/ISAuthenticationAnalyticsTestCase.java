@@ -109,13 +109,13 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             while (line != null) {
                 String[] eventObject = line.split(",");
                 line = br.readLine();
-                Object[] payload = new Object[]{eventObject[0], eventObject[1], Boolean.valueOf(eventObject[2]), eventObject[3], eventObject[4], eventObject[5],
-                        eventObject[6], eventObject[7], eventObject[8], eventObject[9], Boolean.valueOf(eventObject[10]),
-                        Boolean.valueOf(eventObject[11]), Boolean.valueOf(eventObject[12]), eventObject[13],
-                        eventObject[14], eventObject[15],
-                        Boolean.valueOf(eventObject[16]), eventObject[17], Boolean.valueOf(eventObject[18]),
-                        eventObject[19],
-                        Long.valueOf(eventObject[20])};
+                Object[] payload = new Object[]{eventObject[0], eventObject[1], eventObject[2], Boolean.valueOf(eventObject[3]), eventObject[4], eventObject[5], eventObject[6], eventObject[7],
+                        eventObject[8], eventObject[9], eventObject[10], eventObject[11], Boolean.valueOf(eventObject[12]),
+                        Boolean.valueOf(eventObject[13]), Boolean.valueOf(eventObject[14]), eventObject[15],
+                        eventObject[16], eventObject[17],
+                        Boolean.valueOf(eventObject[18]), eventObject[19], Boolean.valueOf(eventObject[20]),
+                        eventObject[21],
+                        Long.valueOf(eventObject[22])};
 
                 count++;
 
