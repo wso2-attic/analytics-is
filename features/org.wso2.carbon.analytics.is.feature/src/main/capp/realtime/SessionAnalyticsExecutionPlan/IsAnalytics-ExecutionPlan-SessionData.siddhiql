@@ -22,11 +22,15 @@ define table activeSessionCountTable(meta_tenantId int, id string, activeCount l
 @Export('org.wso2.is.analytics.stream.SessionInfo:1.0.0')
 define stream SessionStreamInfo (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, userName string, userstoreDomain string, IP string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool);
 
-from SessionStream [action == 1 OR action == 2]#window.timeBatch(1 sec)
+from SessionStream
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, action, userName, userstoreDomain, IP, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, time:timestampInMilliseconds() as _timestamp
+insert into IntermediateSessionStream;
+
+from IntermediateSessionStream [action == 1 OR action == 2]#window.timeBatch(1 sec)
 select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, action, userName, userstoreDomain, IP, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent
 insert into activeSessionsTable;
 
-from SessionStream [action == 0]
+from IntermediateSessionStream [action == 0]
 select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (terminationTimestamp - startTimestamp) as duration,  false as isActive, userName, userstoreDomain, IP, tenantDomain, serviceProvider, identityProviders, rememberMeFlag
 insert into SessionStreamInfo;
 
@@ -34,8 +38,8 @@ from SessionStreamInfo#window.timeBatch(1 sec)
 delete activeSessionsTable
 on activeSessionsTable.sessionId == sessionId AND activeSessionsTable.meta_tenantId == meta_tenantId;
 
-from SessionStream[action == 1 OR action == 0]#window.timeBatch(1 min, 0)
-select meta_tenantId, isAnalytics:getMinuteStartingTime(time:timestampInMilliseconds()) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'count' as id
+from IntermediateSessionStream[action == 1 OR action == 0]#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
+select meta_tenantId, (_timestamp - _timestamp%60000) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'count' as id
 group by meta_tenantId
 insert into BucketStream;
 
