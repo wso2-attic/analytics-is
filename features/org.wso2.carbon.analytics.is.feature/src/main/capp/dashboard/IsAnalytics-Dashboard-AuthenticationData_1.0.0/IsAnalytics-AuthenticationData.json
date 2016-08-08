@@ -17,7 +17,7 @@
   "pages": [
     {
       "id": "landing",
-      "title": "Authentication",
+      "title": "Login Attempts",
       "layout": {
         "content": {
           "loggedIn": {
@@ -85,7 +85,7 @@
     },
     {
       "id": "overall",
-      "title": "Overall Login Attempts",
+      "title": "Overall",
       "layout": {
         "content": {
           "loggedIn": {
@@ -714,7 +714,7 @@
     },
     {
       "id": "local",
-      "title": "Local Login Attempts",
+      "title": "Local",
       "layout": {
         "content": {
           "loggedIn": {
@@ -1591,7 +1591,7 @@
     },
     {
       "id": "federated",
-      "title": "Federated Login Attempts",
+      "title": "Federated",
       "layout": {
         "content": {
           "loggedIn": {
@@ -2777,13 +2777,13 @@
       "id": "landing",
       "isanon": false,
       "ishidden": false,
-      "title": "Authentication",
+      "title": "Login Attempts",
       "subordinates": [
         {
           "id": "overall",
           "isanon": false,
           "ishidden": false,
-          "title": "Overall Login Attempts",
+          "title": "Overall",
           "subordinates": [
 
           ]
@@ -2792,7 +2792,7 @@
           "id": "local",
           "isanon": false,
           "ishidden": false,
-          "title": "Local Login Attempts",
+          "title": "Local",
           "subordinates": [
 
           ]
@@ -2801,7 +2801,7 @@
           "id": "federated",
           "isanon": false,
           "ishidden": false,
-          "title": "Federated Login Attempts",
+          "title": "Federated",
           "subordinates": [
 
           ]
