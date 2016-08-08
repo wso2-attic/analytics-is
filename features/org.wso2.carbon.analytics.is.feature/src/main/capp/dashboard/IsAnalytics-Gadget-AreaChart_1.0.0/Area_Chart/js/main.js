@@ -32,7 +32,7 @@ $(function() {
         $("#canvas").html(gadgetUtil.getErrorText("Gadget initialization failed. Gadget role must be provided."));
         return;
     }
-    if (page != TYPE_LANDING && page != TYPE_LOCAL && page != TYPE_EXTERNAL && qs[PARAM_ID] == null) {
+    if (page != TYPE_OVERALL && page != TYPE_LOCAL && page != TYPE_FEDERATED && qs[PARAM_ID] == null) {
         $("#canvas").html(gadgetUtil.getDefaultText());
         return;
     }
@@ -40,9 +40,9 @@ $(function() {
 
     if (page == TYPE_LOCAL) {
         idpTypeFilter = "LOCAL";
-    } else if (page == TYPE_EXTERNAL) {
+    } else if (page == TYPE_FEDERATED) {
         idpTypeFilter = "FEDERATED";
-    } else if (page == TYPE_LANDING) {
+    } else if (page == TYPE_OVERALL) {
         idpTypeFilter = "";
     }
 

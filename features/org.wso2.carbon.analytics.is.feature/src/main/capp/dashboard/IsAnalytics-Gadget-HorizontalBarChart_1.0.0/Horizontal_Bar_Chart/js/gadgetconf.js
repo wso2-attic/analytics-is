@@ -23,9 +23,9 @@ var charts = [{
         "padding":chartPadding,
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
-        { name: TYPE_LANDING, type: 2, filter:12 },
+        { name: TYPE_OVERALL, type: 2, filter:12 },
         { name: TYPE_LOCAL, type: 2, filter:12 },
-        { name: TYPE_EXTERNAL, type: 2, filter:12 }
+        { name: TYPE_FEDERATED, type: 2, filter:12 }
     ],
     mode: "USERNAME",
     colorCode: "SUCCESS",
@@ -63,9 +63,9 @@ var charts = [{
         "selectionColor":"#FF2112",
         "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
     types: [
-        { name: TYPE_LANDING, type: 3, filter:12 },
+        { name: TYPE_OVERALL, type: 3, filter:12 },
         { name: TYPE_LOCAL, type: 3, filter:12 },
-        { name: TYPE_EXTERNAL, type: 3, filter:12 }
+        { name: TYPE_FEDERATED, type: 3, filter:12 }
     ],
     mode: "USERNAME",
     colorCode: "FAILURE",
@@ -103,9 +103,9 @@ var charts = [{
         "padding":chartPadding,
         "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
     types: [
-        { name: TYPE_LANDING, type: 4, filter:13 },
+        { name: TYPE_OVERALL, type: 4, filter:13 },
         { name: TYPE_LOCAL, type: 4, filter:13 },
-        { name: TYPE_EXTERNAL, type: 4, filter:13}
+        { name: TYPE_FEDERATED, type: 4, filter:13}
     ],
     mode: "SERVICEPROVIDER",
     colorCode: "SUCCESS",
@@ -144,7 +144,7 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 6, filter:15 },
+            { name: TYPE_OVERALL, type: 6, filter:15 },
             { name: TYPE_LOCAL, type: 6, filter:15 }
         ],
         mode: "ROLE",
@@ -184,9 +184,9 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 5, filter:13 },
+            { name: TYPE_OVERALL, type: 5, filter:13 },
             { name: TYPE_LOCAL, type: 5, filter:13 },
-            { name: TYPE_EXTERNAL, type: 5, filter:13 }
+            { name: TYPE_FEDERATED, type: 5, filter:13 }
         ],
         mode: "SERVICEPROVIDER",
         isSelected: false,
@@ -225,7 +225,7 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 7, filter:15 },
+            { name: TYPE_OVERALL, type: 7, filter:15 },
             { name: TYPE_LOCAL, type: 7, filter:15 }
         ],
         mode: "ROLE",
@@ -265,8 +265,8 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 9, filter:14 },
-            { name: TYPE_EXTERNAL, type: 9, filter:14 }
+            { name: TYPE_OVERALL, type: 9, filter:14 },
+            { name: TYPE_FEDERATED, type: 9, filter:14 }
         ],
         mode: "IDENTITYPROVIDER",
         isSelected: false,
@@ -305,8 +305,8 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authFailureCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 10, filter:14 },
-            { name: TYPE_EXTERNAL, type: 10, filter:14 }
+            { name: TYPE_OVERALL, type: 10, filter:14 },
+            { name: TYPE_FEDERATED, type: 10, filter:14 }
         ],
         mode: "IDENTITYPROVIDER",
         isSelected: false,
@@ -344,9 +344,9 @@ var charts = [{
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
-            { name: TYPE_LANDING, type: 16, filter:13 },
+            { name: TYPE_OVERALL, type: 16, filter:13 },
             { name: TYPE_LOCAL, type: 16, filter:13 },
-            { name: TYPE_EXTERNAL, type: 16, filter:13 }
+            { name: TYPE_FEDERATED, type: 16, filter:13 }
         ],
         mode: "FIRST_TIME_SERVICEPROVIDER",
         isSelected: false,
