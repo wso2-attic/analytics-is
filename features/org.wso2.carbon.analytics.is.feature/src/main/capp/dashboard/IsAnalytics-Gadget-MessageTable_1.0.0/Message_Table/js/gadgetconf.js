@@ -10,7 +10,6 @@ var configs = [{
             { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
             { name: "remoteIp", label: "remoteIp", type: "ordinal" },
             { name: "region", label: "Region", type: "ordinal" },
-            { name: "authStepSuccess", label: "Authentication Step Success", type: "ordinal" },
             { name: "authenticationSuccess", label: "Overall Authentication", type: "ordinal" },
             { name: "_timestamp", label: "Timestamp", type: "ordinal" }
         ]

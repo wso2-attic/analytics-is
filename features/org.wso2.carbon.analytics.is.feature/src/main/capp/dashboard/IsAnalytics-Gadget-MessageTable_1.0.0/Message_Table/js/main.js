@@ -52,7 +52,6 @@ $(function() {
                 { title: "Tenant Domain"},
                 { title: "IP" },
                 { title: "Region" },
-                { title: "Authentication Step Success" },
                 { title: "Overall Authentication" },
                 { title: "Timestamp" }
             ];
@@ -104,7 +103,20 @@ $(function() {
             "searching": false,
             "columns" : columns,
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                if(page.name == TYPE_EXTERNAL) {
+                if(page.name == TYPE_LANDING) {
+                    if ( aData[8] == true )
+                    {
+                        $('td', nRow).eq(8).html(
+                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
+                        );
+                    }
+                    else
+                    {
+                        $('td', nRow).eq(8).html(
+                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
+                        );
+                    }
+                } else if(page.name == TYPE_EXTERNAL) {
                     if ( aData[7] == true )
                     {
                         $('td', nRow).eq(7).html(

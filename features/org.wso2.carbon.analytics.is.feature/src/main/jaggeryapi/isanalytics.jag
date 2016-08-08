@@ -477,7 +477,7 @@
             {
 
                 var columns = ["contextId", "username", "serviceProvider", "identityProvider", "rolesCommaSeparated",
-                    "tenantDomain" , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
+                    "tenantDomain" , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));

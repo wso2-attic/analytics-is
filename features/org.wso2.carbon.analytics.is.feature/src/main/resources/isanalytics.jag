@@ -178,6 +178,9 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
+                if(idpType == "LOCAL") {
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOCALUSERAUTHSTATPER" + timeUnit;
+                }
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -191,7 +194,7 @@
                 }
 
                 var userNameField = "username";
-                if(idpType == "FEDERATED") {
+                if(idpType == "LOCAL") {
                     userNameField = "localUsername";
                 }
 
@@ -224,13 +227,16 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
+                if(idpType == "LOCAL") {
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOCALUSERAUTHSTATPER" + timeUnit;
+                }
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
                 var userNameField = "username";
-                if(idpType == "FEDERATED") {
+                if(idpType == "LOCAL") {
                     userNameField = "localUsername";
                 }
 
@@ -471,7 +477,7 @@
             {
 
                 var columns = ["contextId", "username", "serviceProvider", "identityProvider", "rolesCommaSeparated",
-                    "tenantDomain" , "remoteIp", "region", "authStepSuccess", "authenticationSuccess", "_timestamp"];
+                    "tenantDomain" , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];
                 var start = parseInt(request.getParameter("start"));
@@ -976,7 +982,7 @@
                 log.debug("value of result: " + result);
             }
             var finalResult;
-            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP || TYPE_AUTHENTICATION_DATA_TABLE_EXTERNAL) {
+            if (type == TYPE_AUTHENTICATION_DATA_TABLE || type == TYPE_AUTHENTICATION_DATA_TABLE_RESIDENT_IDP || type == TYPE_AUTHENTICATION_DATA_TABLE_EXTERNAL) {
                 finalResult = result;
             } else {
                 finalResult = {
