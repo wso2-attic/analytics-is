@@ -91,7 +91,7 @@ $(function () {
         idpTypeFilter = "";
     }
 
-    if (instanceType == "SERVICEPROVIDER") {
+    if (instanceType == "SERVICEPROVIDER" && page != TYPE_LOCAL) {
         $('#nav-tabs').html('<li role="presentation" class="active"><a href="javascript:void(0);" onclick="onSPChange(this)" data-provider="service">By All</a></li>'
             +'<li role="presentation"><a href="javascript:void(0);" data-provider="attempts" onclick="onSPChange(this)" >By First Logins</a></li>');
     }
