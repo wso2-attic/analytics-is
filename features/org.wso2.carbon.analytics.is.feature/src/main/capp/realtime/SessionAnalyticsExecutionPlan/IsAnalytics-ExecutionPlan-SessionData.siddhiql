@@ -30,6 +30,10 @@ from IntermediateSessionStream [action == 1 OR action == 2]#window.timeBatch(1 s
 select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, action, userName, userstoreDomain, IP, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent
 insert into activeSessionsTable;
 
+from IntermediateSessionStream [action == 1 OR action == 2]
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, convert(-1, 'long') as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (_timestamp - startTimestamp) as duration, true as isActive, userName, userstoreDomain, IP, tenantDomain, serviceProvider, identityProviders, rememberMeFlag
+insert into SessionStreamInfo;
+
 from IntermediateSessionStream [action == 0]
 select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (terminationTimestamp - startTimestamp) as duration,  false as isActive, userName, userstoreDomain, IP, tenantDomain, serviceProvider, identityProviders, rememberMeFlag
 insert into SessionStreamInfo;
