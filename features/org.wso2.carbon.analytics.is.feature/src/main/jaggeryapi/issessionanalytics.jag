@@ -416,16 +416,16 @@
                                 temp.push(date.toLocaleString());
                             } else if (column == "terminationTimestamp") {
                                 var value = dataPoints[i]["values"]["terminationTimestamp"];
+                                var date = new Date(value);
+                                temp.push(date.toLocaleString());
+                            } else if (column == "endTimestamp") {
+                                var value = dataPoints[i]["values"]["endTimestamp"];
                                 if (value == -1) {
                                     temp.push("Live");
                                 } else {
                                     var date = new Date(value);
                                     temp.push(date.toLocaleString());
                                 }
-                            } else if (column == "endTimestamp") {
-                                var value = dataPoints[i]["values"]["endTimestamp"];
-                                var date = new Date(value);
-                                temp.push(date.toLocaleString());
                             } else if (column == "_timestamp") {
                                 var value = dataPoints[i]["timestamp"];
                                 var date = new Date(value);
