@@ -6,6 +6,7 @@
 
         <!-- Gadgets -->
         <dependency artifact="IsAnalytics-Gadget-Commons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Gadget-Overview" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-DateRangePicker" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-AreaChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-HorizontalBarChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>

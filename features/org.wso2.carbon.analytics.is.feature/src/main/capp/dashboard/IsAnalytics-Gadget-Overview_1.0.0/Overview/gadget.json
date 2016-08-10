@@ -1,0 +1,15 @@
+{
+    "id": "Overview",
+    "title": "Overview",
+    "type": "gadget",
+    "thumbnail": "store://gadget/usa-business-revenue/index.png",
+    "data": {
+        "url": "store://gadget/Overview/index.xml"
+    },
+    "toolbarButtons":{
+        "default":{
+            "maximize": false,
+            "configurations": false
+        }
+    }
+}
