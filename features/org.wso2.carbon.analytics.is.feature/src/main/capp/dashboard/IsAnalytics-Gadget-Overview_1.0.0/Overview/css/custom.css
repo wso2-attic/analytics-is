@@ -24,5 +24,21 @@ body.dark .btn-default:hover {
 }
 
 .thumbnail {
-    padding: 10px;
+    padding: 20px 5px 5px 10px;
+    height: 100%;
+}
+
+.row {
+    display: table;
+    table-layout: fixed;
+}
+
+.col-4 {
+    display:table-cell;
+    vertical-align:middle;
+    float: none;
+}
+
+.caption > p {
+    height: 5%;
 }
