@@ -18,5 +18,5 @@ org.wso2.carbon.analytics.spark.core.internal.*
 org.wso2.carbon.analytics.spark.core.rdd.*
 org.wso2.carbon.analytics.spark.core.sources.*
 org.wso2.carbon.analytics.spark.core.util.*
-org.wso2.carbon.analytics.is.*
+org.wso2.analytics.is.*
 

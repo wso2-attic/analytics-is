@@ -1,0 +1,14 @@
+instructions.configure = \
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../deployment/);\
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../deployment/server/);\
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../deployment/server/carbonapps/);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is-1.0.0.car,target:${installFolder}/../../deployment/server/carbonapps/org_wso2_analytics_is-1.0.0.car,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/isanalytics.jag,target:${installFolder}/../../deployment/server/jaggeryapps/portal/controllers/apis/isanalytics.jag,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/issessionanalytics.jag,target:${installFolder}/../../deployment/server/jaggeryapps/portal/controllers/apis/issessionanalytics.jag,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/isanalytics-common.jag,target:${installFolder}/../../deployment/server/jaggeryapps/portal/controllers/apis/isanalytics-common.jag,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is-1.0.0.car,target:${installFolder}/../../../capps/org_wso2_analytics_is-1.0.0.car,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is_realtime-1.0.0.car,target:${installFolder}/../../../capps/org_wso2_analytics_is_realtime-1.0.0.car,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is_offline-1.0.0.car,target:${installFolder}/../../../capps/org_wso2_analytics_is_offline-1.0.0.car,overwrite:true);\
+
+instructions.uninstall = \
+org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/../../deployment/server/carbonapps/org_wso2_analytics_is-1.0.0.car,overwrite:true);\

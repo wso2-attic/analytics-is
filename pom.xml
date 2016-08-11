@@ -17,7 +17,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.wso2.carbon.analytics.is</groupId>
+    <groupId>org.wso2.analytics.is</groupId>
     <artifactId>wso2analytics-is-parent</artifactId>
     <packaging>pom</packaging>
     <version>5.2.0-SNAPSHOT</version>
@@ -110,35 +110,35 @@
                 <version>2.0.0.v200706191603</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.styles</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.multitenancy.styles</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.multitenancy.dashboard.ui</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.is</groupId>
-                <artifactId>org.wso2.carbon.analytics.is</artifactId>
+                <groupId>org.wso2.analytics.is</groupId>
+                <artifactId>org.wso2.analytics.is</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
             <!-- ************************ END - Vanilla carbon server + DAS style ************* -->
 
             <!-- START - Integration test dependencies -->
             <dependency>
-                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.integration.common.utils</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.is</groupId>
+                <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.integration.common.clients</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
@@ -424,8 +424,8 @@
                 <version>${carbon.analytics.shared.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.wso2.carbon.analytics.is</groupId>
-                <artifactId>org.wso2.carbon.analytics.is</artifactId>
+                <groupId>org.wso2.analytics.is</groupId>
+                <artifactId>org.wso2.analytics.is</artifactId>
                 <version>${is.analytics.version}</version>
             </dependency>
         </dependencies>
