@@ -407,7 +407,13 @@ function failureOnData(response) {
         }
 
         chartSuccess.chartConfig.yScaleDomain = [0, commonScaleDomain];
+        if(commonScaleDomain < 10) {
+            chartSuccess.chartConfig.yTicks = commonScaleDomain;
+        }
         chartFailure.chartConfig.yScaleDomain = [0, commonScaleDomain];
+        if(commonScaleDomain < 10) {
+            chartFailure.chartConfig.yTicks = commonScaleDomain;
+        }
 
         drawChartSuccess();
         drawChartFailure();
