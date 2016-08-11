@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.wso2.carbon.analytics.is</groupId>
+        <groupId>org.wso2.analytics.is</groupId>
         <artifactId>wso2analytics-is-parent</artifactId>
         <version>5.2.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
@@ -125,7 +125,7 @@
                                 <!-- END - Analytics features -->
 
                                 <featureArtifactDef>
-                                    org.wso2.carbon.analytics.is:org.wso2.carbon.analytics.is.feature:${is.analytics.version}
+                                    org.wso2.analytics.is:org.wso2.analytics.is.feature:${is.analytics.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.analytics:org.wso2.carbon.analytics.dashboard.ui.feature:${carbon.analytics.version}
@@ -155,7 +155,7 @@
                                     org.wso2.carbon:org.wso2.carbon.core.ui.feature:${carbon.kernel.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.analytics.is:org.wso2.das4is.styles.feature:${is.analytics.version}
+                                    org.wso2.analytics.is:org.wso2.das4is.styles.feature:${is.analytics.version}
                                 </featureArtifactDef>
 
                                 <!-- ********* START - Registry related  *********** -->
@@ -250,7 +250,7 @@
                                     org.wso2.carbon.identity:org.wso2.carbon.security.mgt.feature:${carbon.identity.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.carbon.analytics.is:org.wso2.das4is.multitenancy.dashboard.ui.feature:${is.analytics.version}
+                                    org.wso2.analytics.is:org.wso2.das4is.multitenancy.dashboard.ui.feature:${is.analytics.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.commons:org.wso2.carbon.tenant.mgt.common.feature:${carbon.commons.version}
@@ -430,7 +430,7 @@
                                     <version>${carbon.dashboard.version}</version>
                                 </feature>
                                 <feature>
-                                    <id>org.wso2.carbon.analytics.is.feature.group</id>
+                                    <id>org.wso2.analytics.is.feature.group</id>
                                     <version>${is.analytics.version}</version>
                                 </feature>
                                 <feature>

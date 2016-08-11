@@ -18,7 +18,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <parent>
-        <groupId>org.wso2.carbon.analytics.is</groupId>
+        <groupId>org.wso2.analytics.is</groupId>
         <artifactId>wso2analytics-is-multitenancy-features</artifactId>
         <version>5.2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
@@ -31,7 +31,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.wso2.carbon.analytics.is</groupId>
+            <groupId>org.wso2.analytics.is</groupId>
             <artifactId>org.wso2.das4is.multitenancy.styles</artifactId>
         </dependency>
     </dependencies>
@@ -52,7 +52,7 @@
                             <id>org.wso2.das4is.multitenancy.style</id>
                             <propertiesFile>../etc/feature.properties</propertiesFile>
                             <bundles>
-                                <bundleDef>org.wso2.carbon.analytics.is:org.wso2.das4is.multitenancy.styles</bundleDef>
+                                <bundleDef>org.wso2.analytics.is:org.wso2.das4is.multitenancy.styles</bundleDef>
                             </bundles>
                             <importFeatures>
                                 <importFeatureDef>org.wso2.carbon.core.ui:${carbon.kernel.version}</importFeatureDef>
