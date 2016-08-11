@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+    <ModulePrefs title="Publisher" description="Publisher">
+        <Require feature="pubsub-2"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="setprefs"/>
+    </ModulePrefs>
+    <UserPref name="role" display_name="Gadet Role" required="true" />
+    <Content type="html">
+        <![CDATA[
+        <head>
+
+          <link rel="stylesheet" type="text/css" href="/portal/libs/font-wso2_1.0.0/css/font-wso2.min.css" />
+          <link rel="stylesheet" type="text/css" href="/portal/libs/theme-wso2_1.0/css/theme-wso2.css" />
+          <link rel="stylesheet" type="text/css" href="../commons/css/gadget.css" />
+          <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+
+          <script src="../commons/js/jquery-1.10.2.js"></script>
+          <script src="../commons/js/moment.min.js"></script>
+          <script src="../commons/js/gadget-utils.js"></script>
+
+          <link rel="stylesheet" type="text/css" href="css/custom.css" />
+          <script src="js/main.js"></script>
+
+        </head>
+        <body>
+            <div class="row row-eq-height add-padding-2x" style="height:100%;">
+                <div class="col-4 add-padding-2x">
+                    <div class="thumbnail">
+                        <i class="fw fw-wso2-logo fw-5x"></i>
+                        <div class="caption">
+                            <h3>Overall Login Attempts</h3>
+                            <p>Analyze overall login attempts made via WSO2 Identity Server</p>
+                            <p><div id="overall" class="btn btn-default" role="button">&gt;&gt;</div></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 add-padding-2x">
+                    <div class="thumbnail">
+                        <i class="fw fw-wso2-logo fw-5x"></i>
+                        <div class="caption">
+                            <h3>Local Login Attempts</h3>
+                            <p>Analyze local login attempts made via WSO2 Identity Server</p>
+                            <p><div id="local" class="btn btn-default" role="button">&gt;&gt;</div></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 add-padding-2x">
+                    <div class="thumbnail">
+                    <i class="fw fw-wso2-logo fw-5x"></i>
+                    <div class="caption">
+                        <h3>Federated Login Attempts</h3>
+                        <p>Analyze federated login attempts made via WSO2 Identity Server</p>
+                        <p><div id="federated" class="btn btn-default" role="button">&gt;&gt;</div></p>
+                    </div>
+                </div>
+		  </div>
+        </body>
+        ]]>
+    </Content>
+</Module>

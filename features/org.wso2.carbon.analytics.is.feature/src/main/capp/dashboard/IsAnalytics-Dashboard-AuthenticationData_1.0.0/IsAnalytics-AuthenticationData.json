@@ -22,52 +22,13 @@
         "content": {
           "loggedIn": {
             "blocks": [
-              {
-                "id": "a",
-                "x": 0,
-                "y": 0,
-                "width": 5,
-                "height": 2,
-                "banner": false
-              },
-              {
-                "id": "b",
-                "x": 0,
-                "y": 7,
-                "width": 6,
-                "height": 7,
-                "banner": false
-              },
-              {
-                "id": "c",
-                "x": 5,
-                "y": 0,
-                "width": 7,
-                "height": 2,
-                "banner": false
-              },
+
               {
                 "id": "d",
                 "x": 0,
-                "y": 2,
+                "y": 1,
                 "width": 12,
                 "height": 5,
-                "banner": false
-              },
-              {
-                "id": "9be09f79efae623af8732e70e3a7748d",
-                "x": 6,
-                "y": 7,
-                "width": 6,
-                "height": 7,
-                "banner": false
-              },
-              {
-                "id": "88f6587ccd5fe2c53e58669764db1d21",
-                "x": 0,
-                "y": 14,
-                "width": 12,
-                "height": 9,
                 "banner": false
               }
             ]
@@ -78,6 +39,43 @@
       "isanon": false,
       "content": {
         "default": {
+          "d": [
+            {
+              "id": "Overview-0",
+              "content": {
+                "id": "Overview",
+                "title": "Overview",
+                "type": "gadget",
+                "thumbnail": "fs://gadget/usa-business-revenue/index.png",
+                "data": {
+                  "url": "fs://gadget/Overview/index.xml"
+                },
+                "toolbarButtons": {
+                  "default": {
+                    "maximize": false,
+                    "configurations": false
+                  },
+                  "custom": [],
+                  "isDropdownView": false
+                },
+                "styles": {
+                  "no_heading": true,
+                  "title": "Overview",
+                  "borders": true
+                },
+                "options": {
+                "role": {
+                  "type": "STRING",
+                  "title": "Gadet Role",
+                  "value": "",
+                  "options": [],
+                  "required": true
+                  }
+                },
+                "locale_titles": {}
+              }
+            }
+          ]
         },
         "anon": {
         }
