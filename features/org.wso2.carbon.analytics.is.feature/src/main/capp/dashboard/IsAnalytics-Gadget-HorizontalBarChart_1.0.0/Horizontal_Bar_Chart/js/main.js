@@ -566,7 +566,6 @@ function drawChartFailure() {
     //finally draw the chart on the given canvas
     chartFailure.chartConfig.width = $("#canvasFailure").width();
     chartFailure.chartConfig.height = $("#canvasFailure").height();
-
     var vg = new vizg(chartFailure.schema, chartFailure.chartConfig);
     $("#canvasFailure").empty();
     vg.draw("#canvasFailure", [
