@@ -187,7 +187,7 @@
         </ColumnDefinition>
     </TableSchema>
     <Source>
-        <StreamId>org.wso2.is.analytics.stream.OverallAuthentication:1.0.0</StreamId>
+        <StreamId>org.wso2.is.analytics.stream.ProcessedOverallAuthentication:1.0.0</StreamId>
     </Source>
     <MergeSchema>false</MergeSchema>
     <RecordStoreName>EVENT_STORE_WO</RecordStoreName>

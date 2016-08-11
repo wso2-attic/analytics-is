@@ -14,7 +14,6 @@
         <dependency artifact="IsAnalytics-Gadget-UserPreferences" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-LineChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <!--offline-->
-        <!--dependency artifact="AuthenticationManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/-->
         <dependency artifact="AuthenticationStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>

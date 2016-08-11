@@ -485,7 +485,7 @@
                 var draw = request.getParameter("draw");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + additionalParameters ;
 
                 if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1)) {
@@ -779,7 +779,7 @@
                 var draw = request.getParameter("draw");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 var queryString = " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true)) ";
 
                 var query = stringify({
@@ -839,7 +839,7 @@
                 var draw = request.getParameter("draw");
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
-                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION";
+                var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters ;
 
                 if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {

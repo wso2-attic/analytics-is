@@ -15,12 +15,12 @@
         <dependency artifact="IsAnalytics-Gadget-UserPreferences" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-Gadget-LineChart" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <!--offline-->
-        <!--dependency artifact="AuthenticationManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/-->
         <dependency artifact="AuthenticationStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <!--realtime-->
         <dependency artifact="AnalyticsAuthenticationEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AnalyticsAuthenticationProcessedEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionActiveStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsSessionInfoStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>

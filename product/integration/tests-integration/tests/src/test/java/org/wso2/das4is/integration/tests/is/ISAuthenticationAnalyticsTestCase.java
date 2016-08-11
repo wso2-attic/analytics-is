@@ -137,7 +137,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
 
     @Test(groups = "wso2.analytics.is", description = "Check Total Event Count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
-        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_OVERALLAUTHENTICATION", Long.MIN_VALUE, Long.MAX_VALUE);
+        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION", Long.MIN_VALUE, Long.MAX_VALUE);
         Assert.assertEquals(eventCount, 14549, "========== Total authentication event count is invalid ================");
     }
 
