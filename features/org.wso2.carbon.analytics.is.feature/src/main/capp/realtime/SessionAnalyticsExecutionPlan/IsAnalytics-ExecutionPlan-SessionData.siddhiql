@@ -8,34 +8,34 @@
 
 
 @Import('org.wso2.is.analytics.stream.OverallSession:1.0.0')
-define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, userName string, userstoreDomain string, IP string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
+define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.SessionStatPerMinute:1.0.0')
 define stream SessionStatPerMinute (meta_tenantId int, bucketId long, bucketStart long, bucketEnd long, year int, month int, day int, hour int, minute int, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS', primary.keys = 'meta_tenantId, sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, year, month, day, hour, minute, action, userName, userstoreDomain, IP, region, tenantDomain, rememberMeFlag, userAgent',  wait.for.indexing = 'false')
-define table activeSessionsTable (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, year int, month int, day int, hour int, minute int, action int, userName string, userstoreDomain string, IP string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string);
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS', primary.keys = 'meta_tenantId, sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, year, month, day, hour, minute, action, username, userstoreDomain, remoteIp, region, tenantDomain, rememberMeFlag, userAgent',  wait.for.indexing = 'false')
+define table activeSessionsTable (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, year int, month int, day int, hour int, minute int, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string);
 
 @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVECOUNT', primary.keys = 'meta_tenantId, id', indices = 'meta_tenantId, id, activeCount', wait.for.indexing = 'true', merge.schema = 'false')
 define table activeSessionCountTable(meta_tenantId int, id string, activeCount long);
 
 @Export('org.wso2.is.analytics.stream.SessionInfo:1.0.0')
-define stream SessionStreamInfo (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, userName string, userstoreDomain string, IP string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool);
+define stream SessionStreamInfo (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool);
 
 from SessionStream
-select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, action, userName, userstoreDomain, IP, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, time:timestampInMilliseconds() as _timestamp
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, action, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, time:timestampInMilliseconds() as _timestamp
 insert into IntermediateSessionStream;
 
 from IntermediateSessionStream [action == 1 OR action == 2]#window.timeBatch(1 sec)
-select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, action, userName, userstoreDomain, IP, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, action, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent
 insert into activeSessionsTable;
 
 from IntermediateSessionStream [action == 1 OR action == 2]
-select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, convert(-1, 'long') as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (_timestamp - startTimestamp) as duration, true as isActive, userName, userstoreDomain, IP, tenantDomain, serviceProvider, identityProviders, rememberMeFlag
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, convert(-1, 'long') as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (_timestamp - startTimestamp) as duration, true as isActive, username, userstoreDomain, remoteIp, tenantDomain, serviceProvider, identityProviders, rememberMeFlag
 insert into SessionStreamInfo;
 
 from IntermediateSessionStream [action == 0]
-select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (terminationTimestamp - startTimestamp) as duration,  false as isActive, userName, userstoreDomain, IP, tenantDomain, serviceProvider, identityProviders, rememberMeFlag
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (terminationTimestamp - startTimestamp) as duration,  false as isActive, username, userstoreDomain, remoteIp, tenantDomain, serviceProvider, identityProviders, rememberMeFlag
 insert into SessionStreamInfo;
 
 from SessionStreamInfo#window.timeBatch(1 sec)
