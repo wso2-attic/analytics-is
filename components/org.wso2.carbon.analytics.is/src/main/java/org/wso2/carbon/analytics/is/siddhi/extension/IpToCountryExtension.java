@@ -20,7 +20,7 @@
 package org.wso2.carbon.analytics.is.siddhi.extension;
 
 import org.wso2.carbon.analytics.shared.geolocation.exception.GeoLocationResolverException;
-import org.wso2.carbon.analytics.shared.geolocation.impl.GeoLocationResolverUDF;
+import org.wso2.carbon.analytics.shared.geolocation.impl.GeoLocationResolverUDFWithImprovedCache;
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.executor.function.FunctionExecutor;
@@ -28,7 +28,7 @@ import org.wso2.siddhi.query.api.definition.Attribute;
 
 public class IpToCountryExtension extends FunctionExecutor {
 
-    GeoLocationResolverUDF geoLocationResolverUDF = new GeoLocationResolverUDF();
+    GeoLocationResolverUDFWithImprovedCache geoLocationResolverUDF = new GeoLocationResolverUDFWithImprovedCache(); ;
 
     @Override
     protected void init(ExpressionExecutor[] expressionExecutors, ExecutionPlanContext executionPlanContext) {

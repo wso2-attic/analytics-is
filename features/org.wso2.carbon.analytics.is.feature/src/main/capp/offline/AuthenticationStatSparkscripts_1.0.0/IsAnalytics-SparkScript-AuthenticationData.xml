@@ -341,5 +341,5 @@
 
 
     </Script>
-    <CronExpression>0 0/2 * * * ?</CronExpression>
+    <CronExpression>0 0/5 * * * ?</CronExpression>
 </Analytics>
