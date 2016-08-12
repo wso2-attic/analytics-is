@@ -43,8 +43,8 @@
             {
               "id": "Overview-0",
               "content": {
-                "id": "Overview",
-                "title": "Overview",
+                "id": "IsAnalytics_Gadget_Overview",
+                "title": "IsAnalytics_Gadget_Overview",
                 "type": "gadget",
                 "thumbnail": "fs://gadget/usa-business-revenue/index.png",
                 "data": {
@@ -148,8 +148,8 @@
             {
               "id": "1khk4b6quayvi",
               "content": {
-                "id": "Area_Chart",
-                "title": "Area Chart",
+                "id": "IsAnalytics_Gadget_Area_Chart",
+                "title": "IsAnalytics_Gadget_Area Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -250,8 +250,8 @@
             {
               "id": "rasj2ysd6x8kou0engm7eewmi",
               "content": {
-                "id": "Date_Range_Picker",
-                "title": "Date Range Picker",
+                "id": "IsAnalytics_Gadget_Date_Range_Picker",
+                "title": "IsAnalytics_Gadget_Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
                 "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_Date_Range_Picker\/index.png",
@@ -309,8 +309,8 @@
             {
               "id": "z498yf32b0fqolxr",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -411,8 +411,8 @@
             {
               "id": "h8upxvub6e7e3ik9",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -513,7 +513,7 @@
             {
               "id": "3fq71k7bdl3szo6z8yk2owdn29",
               "content": {
-                "id": "Message_Table",
+                "id": "IsAnalytics_Gadget_Message_Table",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
@@ -604,7 +604,7 @@
             {
               "id": "UserPreferences-0",
               "content": {
-                "id": "UserPreferences",
+                "id": "IsAnalytics_Gadget_UserPreferences",
                 "title": "User Preferences",
                 "type": "gadget",
                 "thumbnail": "fs:\/\/gadget\/IsAnalytics_Gadget_UserPreferences\/index.png",
@@ -793,8 +793,8 @@
             {
               "id": "pkfi0yr94symuhza75hh69a4i",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -899,8 +899,8 @@
             {
               "id": "80gxrmh8jewdhg7nq5fqiwwmi",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -1005,8 +1005,8 @@
             {
               "id": "5v7p2z6gt5fxox6zfw50b8d7vi",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -1111,8 +1111,8 @@
             {
               "id": "8savkfnl0qfky2co07k1g1ra4i",
               "content": {
-                "id": "Area_Chart",
-                "title": "Area Chart",
+                "id": "IsAnalytics_Gadget_Area_Chart",
+                "title": "IsAnalytics_Gadget_Area Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -1213,7 +1213,7 @@
             {
               "id": "mf1ics9isk65aqtres4079zfr",
               "content": {
-                "id": "Date_Range_Picker",
+                "id": "IsAnalytics_Gadget_Date_Range_Picker",
                 "title": "Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
@@ -1275,8 +1275,8 @@
             {
               "id": "h1y8qah8okurg3mded9w45cdi",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -1381,7 +1381,7 @@
             {
               "id": "9946as6t2i8u8c472atbg9zfr",
               "content": {
-                "id": "Message_Table",
+                "id": "IsAnalytics_Gadget_Message_Table",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
@@ -1473,7 +1473,7 @@
             {
               "id": "UserPreferences-0",
               "content": {
-                "id": "UserPreferences",
+                "id": "IsAnalytics_Gadget_UserPreferences",
                 "title": "User Preferences",
                 "type": "gadget",
                 "thumbnail": "fs:\/\/gadget\/IsAnalytics_Gadget_UserPreferences\/index.png",
@@ -1662,7 +1662,7 @@
             {
               "id": "1khk4b6quayvi",
               "content": {
-                "id": "Area_Chart",
+                "id": "IsAnalytics_Gadget_Area_Chart",
                 "title": "Area Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
@@ -1764,7 +1764,7 @@
             {
               "id": "rasj2ysd6x8kou0engm7eewmi",
               "content": {
-                "id": "Date_Range_Picker",
+                "id": "IsAnalytics_Gadget_Date_Range_Picker",
                 "title": "Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
@@ -1823,8 +1823,8 @@
             {
               "id": "z498yf32b0fqolxr",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -1925,8 +1925,8 @@
             {
               "id": "yrwm7vn8b8v0lik9",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -2030,8 +2030,8 @@
             {
               "id": "h8upxvub6e7e3ik9",
               "content": {
-                "id": "Horizontal_Bar_Chart",
-                "title": "Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -2132,7 +2132,7 @@
             {
               "id": "3fq71k7bdl3szo6z8yk2owdn29",
               "content": {
-                "id": "Message_Table",
+                "id": "IsAnalytics_Gadget_Message_Table",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
@@ -2223,7 +2223,7 @@
             {
               "id": "UserPreferences-0",
               "content": {
-                "id": "UserPreferences",
+                "id": "IsAnalytics_Gadget_UserPreferences",
                 "title": "User Preferences",
                 "type": "gadget",
                 "thumbnail": "fs:\/\/gadget\/UserPreferences\/index.png",
@@ -2396,8 +2396,8 @@
             {
               "id": "azzz9yhlu97u8t7gquu0g4x6r",
               "content": {
-                "id": "Session_Bar_Chart",
-                "title": "Session_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Session_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Session_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -2454,8 +2454,8 @@
             {
               "id": "fie9iw5m968fw6ewqz6jlqsemi",
               "content": {
-                "id": "Session_Bar_Chart",
-                "title": "Session_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Session_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Session_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -2512,8 +2512,8 @@
             {
               "id": "mmp68zbzgy6l4b5a99pddvx6r",
               "content": {
-                "id": "Session_Bar_Chart",
-                "title": "Session_Bar_Chart",
+                "id": "IsAnalytics_Gadget_Session_Bar_Chart",
+                "title": "IsAnalytics_Gadget_Session_Bar_Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
@@ -2570,7 +2570,7 @@
             {
               "id": "hcs95c0d5n9gj33tv2bg9zfr",
               "content": {
-                "id": "Date_Range_Picker",
+                "id": "IsAnalytics_Gadget_Date_Range_Picker",
                 "title": "Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
@@ -2620,7 +2620,7 @@
             {
               "id": "Line_Chart-0",
               "content": {
-                "id": "Line_Chart",
+                "id": "IsAnalytics_Gadget_Line_Chart",
                 "title": "Line Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
@@ -2681,7 +2681,7 @@
             {
               "id": "Message_Table-0",
               "content": {
-                "id": "Message_Table",
+                "id": "IsAnalytics_Gadget_Message_Table",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
