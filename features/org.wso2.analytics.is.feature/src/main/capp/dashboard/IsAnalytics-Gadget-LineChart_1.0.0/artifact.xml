@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <artifact name="IsAnalytics-Gadget-LineChart" version="1.0.0" type="dashboards/gadget" serverRole="DataAnalyticsServer">
-    <file>Line_Chart</file>
+    <file>IsAnalytics_Gadget_LineChart</file>
 </artifact>
 
