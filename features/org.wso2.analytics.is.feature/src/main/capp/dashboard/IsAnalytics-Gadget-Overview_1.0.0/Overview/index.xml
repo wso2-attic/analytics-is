@@ -30,10 +30,10 @@
                         <i class="fw fw-wso2-logo fw-5x"></i>
                         <div class="caption">
                             <h3>Overall Login Attempts</h3>
-                            <p>Analyze overall login attempts made via WSO2 Identity Server.
+                            <p>Analyze overall login attempts made via WSO2 Identity Server.<br/>
                             This includes information about overall flows of authentication took place through Identity Server.
                             A collection of authentication steps is considered as an overall attempt </p>
-                            <p><div id="overall" class="btn btn-default" role="button">&gt;&gt;</div></p>
+                            <div id="overall" class="btn btn-default" role="button">&gt;&gt;</div>
                         </div>
                     </div>
                 </div>
@@ -42,10 +42,10 @@
                         <i class="fw fw-wso2-logo fw-5x"></i>
                         <div class="caption">
                             <h3>Local Login Attempts</h3>
-                            <p>Analyze local login attempts made via WSO2 Identity Server.
+                            <p>Analyze local login attempts made via WSO2 Identity Server.<br/>
                             Local login attempts include all login attempts which are done through resident IDP.
                             These statistics will give an idea on the involvement of resident IDP in an authentication flow.</p>
-                            <p><div id="local" class="btn btn-default" role="button">&gt;&gt;</div></p>
+                            <div id="local" class="btn btn-default" role="button">&gt;&gt;</div>
                         </div>
                     </div>
                 </div>
@@ -54,9 +54,9 @@
                     <i class="fw fw-wso2-logo fw-5x"></i>
                     <div class="caption">
                         <h3>Federated Login Attempts</h3>
-                        <p>Analyze federated login attempts made via WSO2 Identity Server.
+                        <p>Analyze federated login attempts made via WSO2 Identity Server.<br/>
                         This will give an idea about the authentication steps took place via federated identity providers.</p>
-                        <p><div id="federated" class="btn btn-default" role="button">&gt;&gt;</div></p>
+                        <div id="federated" class="btn btn-default" role="button">&gt;&gt;</div>
                     </div>
                 </div>
 		  </div>
