@@ -1,10 +1,10 @@
 {
-    "id": "Message_Table",
+    "id": "IsAnalytics_Gadget_MessageTable",
     "title": "Messages",
     "type": "gadget",
     "thumbnail": "store://gadget/usa-business-revenue/index.png",
     "data": {
-        "url": "store://gadget/Message_Table/index.xml"
+        "url": "store://gadget/IsAnalytics_Gadget_MessageTable/index.xml"
     },
     "toolbarButtons":{
         "default":{

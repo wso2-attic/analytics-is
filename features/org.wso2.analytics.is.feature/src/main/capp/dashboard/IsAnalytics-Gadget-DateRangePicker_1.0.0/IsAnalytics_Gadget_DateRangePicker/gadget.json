@@ -1,11 +1,11 @@
 {
-  "id": "Date_Range_Picker",
+  "id": "IsAnalytics_Gadget_DateRangePicker",
   "title": "Date Range Picker",
   "type": "gadget",
   "category": "Widgets",
-  "thumbnail": "store://gadget/Date_Range_Picker/index.png",
+  "thumbnail": "store://gadget/IsAnalytics_Gadget_DateRangePicker/index.png",
   "data": {
-    "url": "store://gadget/Date_Range_Picker/index.xml"
+    "url": "store://gadget/IsAnalytics_Gadget_DateRangePicker/index.xml"
   },
   "toolbarButtons":{
     "default":{

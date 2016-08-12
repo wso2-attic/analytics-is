@@ -1,10 +1,10 @@
 {
-    "id": "Line_Chart",
+    "id": "IsAnalytics_Gadget_LineChart",
     "title": "Line Chart",
     "type": "gadget",
     "thumbnail": "store://gadget/usa-business-revenue/index.png",
     "data": {
-        "url": "store://gadget/Line_Chart/index.xml"
+        "url": "store://gadget/IsAnalytics_Gadget_LineChart/index.xml"
     },
     "toolbarButtons":{
         "default":{

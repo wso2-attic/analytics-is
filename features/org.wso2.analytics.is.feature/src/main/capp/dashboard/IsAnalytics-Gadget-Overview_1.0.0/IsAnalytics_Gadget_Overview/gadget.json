@@ -1,10 +1,10 @@
 {
-    "id": "Overview",
-    "title": "Overview",
+    "id": "IsAnalytics_Gadget_Overview",
+    "title": "IsAnalytics_Gadget_Overview",
     "type": "gadget",
     "thumbnail": "store://gadget/usa-business-revenue/index.png",
     "data": {
-        "url": "store://gadget/Overview/index.xml"
+        "url": "store://gadget/IsAnalytics_Gadget_Overview/index.xml"
     },
     "toolbarButtons":{
         "default":{

@@ -1,10 +1,10 @@
 {
-    "id": "Horizontal_Bar_Chart",
-    "title": "Horizontal_Bar_Chart",
+    "id": "IsAnalytics_Gadget_HorizontalBarChart",
+    "title": "IsAnalytics_Gadget_HorizontalBarChart",
     "type": "gadget",
     "thumbnail": "store://gadget/usa-business-revenue/index.png",
     "data": {
-        "url": "store://gadget/Horizontal_Bar_Chart/index.xml"
+        "url": "store://gadget/IsAnalytics_Gadget_HorizontalBarChart/index.xml"
     },
     "toolbarButtons":{
         "default":{

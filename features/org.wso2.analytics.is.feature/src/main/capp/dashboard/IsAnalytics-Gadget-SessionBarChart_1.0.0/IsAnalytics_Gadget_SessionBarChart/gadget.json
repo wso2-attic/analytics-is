@@ -1,10 +1,10 @@
 {
-    "id": "Session_Bar_Chart",
-    "title": "Session_Bar_Chart",
+    "id": "IsAnalytics_Gadget_SessionBarChart",
+    "title": "IsAnalytics_Gadget_SessionBarChart",
     "type": "gadget",
     "thumbnail": "store://gadget/usa-business-revenue/index.png",
     "data": {
-        "url": "store://gadget/Session_Bar_Chart/index.xml"
+        "url": "store://gadget/IsAnalytics_Gadget_SessionBarChart/index.xml"
     },
     "toolbarButtons":{
         "default":{

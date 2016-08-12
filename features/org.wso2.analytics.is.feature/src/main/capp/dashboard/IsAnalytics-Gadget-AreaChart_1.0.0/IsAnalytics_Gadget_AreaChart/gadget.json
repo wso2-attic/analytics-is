@@ -1,10 +1,10 @@
 {
-    "id": "Area_Chart",
+    "id": "IsAnalytics_Gadget_AreaChart",
     "title": "Area Chart",
     "type": "gadget",
     "thumbnail": "store://gadget/usa-business-revenue/index.png",
     "data": {
-        "url": "store://gadget/Area_Chart/index.xml"
+        "url": "store://gadget/IsAnalytics_Gadget_AreaChart/index.xml"
     },
     "toolbarButtons":{
         "default":{

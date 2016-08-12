@@ -1,10 +1,10 @@
 {
-    "id":"UserPreferences",
+    "id":"IsAnalytics_Gadget_UserPreferences",
     "title":"User Preferences",
     "type":"gadget",
-    "thumbnail":"store://gadget/UserPreferences/index.png",
+    "thumbnail":"store://gadget/IsAnalytics_Gadget_UserPreferences/index.png",
     "data":{
-        "url":"store://gadget/UserPreferences/index.xml"
+        "url":"store://gadget/IsAnalytics_Gadget_UserPreferences/index.xml"
     },
     "toolbarButtons":{
         "default":{
