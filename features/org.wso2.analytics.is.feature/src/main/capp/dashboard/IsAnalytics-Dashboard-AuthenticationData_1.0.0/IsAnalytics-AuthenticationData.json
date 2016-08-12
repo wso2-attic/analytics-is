@@ -41,7 +41,7 @@
         "default": {
           "d": [
             {
-              "id": "Overview-0",
+              "id": "IsAnalytics_Gadget_Overview-0",
               "content": {
                 "id": "IsAnalytics_Gadget_Overview",
                 "title": "IsAnalytics_Gadget_Overview",
@@ -60,7 +60,7 @@
                 },
                 "styles": {
                   "no_heading": true,
-                  "title": "Overview",
+                  "title": "IsAnalytics_Gadget_Overview",
                   "borders": true
                 },
                 "options": {
@@ -148,12 +148,12 @@
             {
               "id": "1khk4b6quayvi",
               "content": {
-                "id": "IsAnalytics_Gadget_Area_Chart",
-                "title": "IsAnalytics_Gadget_Area Chart",
+                "id": "IsAnalytics_Gadget_AreaChart",
+                "title": "Area Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Area_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_AreaChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -203,7 +203,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -250,13 +250,13 @@
             {
               "id": "rasj2ysd6x8kou0engm7eewmi",
               "content": {
-                "id": "IsAnalytics_Gadget_Date_Range_Picker",
-                "title": "IsAnalytics_Gadget_Date Range Picker",
+                "id": "IsAnalytics_Gadget_DateRangePicker",
+                "title": "Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
-                "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_Date_Range_Picker\/index.png",
+                "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Date_Range_Picker\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -309,12 +309,12 @@
             {
               "id": "z498yf32b0fqolxr",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -364,7 +364,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -411,12 +411,12 @@
             {
               "id": "h8upxvub6e7e3ik9",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -466,7 +466,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -513,12 +513,12 @@
             {
               "id": "3fq71k7bdl3szo6z8yk2owdn29",
               "content": {
-                "id": "IsAnalytics_Gadget_Message_Table",
+                "id": "IsAnalytics_Gadget_MessageTable",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Message_Table\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_MessageTable\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -572,7 +572,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -602,7 +602,7 @@
           ],
           "a": [
             {
-              "id": "UserPreferences-0",
+              "id": "IsAnalytics_Gadget_UserPreferences-0",
               "content": {
                 "id": "IsAnalytics_Gadget_UserPreferences",
                 "title": "User Preferences",
@@ -793,12 +793,12 @@
             {
               "id": "pkfi0yr94symuhza75hh69a4i",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -852,7 +852,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -899,12 +899,12 @@
             {
               "id": "80gxrmh8jewdhg7nq5fqiwwmi",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -958,7 +958,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -1005,12 +1005,12 @@
             {
               "id": "5v7p2z6gt5fxox6zfw50b8d7vi",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1064,7 +1064,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -1111,12 +1111,12 @@
             {
               "id": "8savkfnl0qfky2co07k1g1ra4i",
               "content": {
-                "id": "IsAnalytics_Gadget_Area_Chart",
-                "title": "IsAnalytics_Gadget_Area Chart",
+                "id": "IsAnalytics_Gadget_AreaChart",
+                "title": "Area Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Area_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_AreaChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1166,7 +1166,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -1213,13 +1213,13 @@
             {
               "id": "mf1ics9isk65aqtres4079zfr",
               "content": {
-                "id": "IsAnalytics_Gadget_Date_Range_Picker",
+                "id": "IsAnalytics_Gadget_DateRangePicker",
                 "title": "Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
-                "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_Date_Range_Picker\/index.png",
+                "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Date_Range_Picker\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1275,12 +1275,12 @@
             {
               "id": "h1y8qah8okurg3mded9w45cdi",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1334,7 +1334,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -1381,12 +1381,12 @@
             {
               "id": "9946as6t2i8u8c472atbg9zfr",
               "content": {
-                "id": "IsAnalytics_Gadget_Message_Table",
+                "id": "IsAnalytics_Gadget_MessageTable",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Message_Table\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_MessageTable\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1444,7 +1444,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -1471,7 +1471,7 @@
           ],
           "a": [
             {
-              "id": "UserPreferences-0",
+              "id": "IsAnalytics_Gadget_UserPreferences-0",
               "content": {
                 "id": "IsAnalytics_Gadget_UserPreferences",
                 "title": "User Preferences",
@@ -1662,12 +1662,12 @@
             {
               "id": "1khk4b6quayvi",
               "content": {
-                "id": "IsAnalytics_Gadget_Area_Chart",
+                "id": "IsAnalytics_Gadget_AreaChart",
                 "title": "Area Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Area_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_AreaChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1717,7 +1717,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -1764,13 +1764,13 @@
             {
               "id": "rasj2ysd6x8kou0engm7eewmi",
               "content": {
-                "id": "IsAnalytics_Gadget_Date_Range_Picker",
+                "id": "IsAnalytics_Gadget_DateRangePicker",
                 "title": "Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
-                "thumbnail": "store:\/\/gadget\/Date_Range_Picker\/index.png",
+                "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1823,12 +1823,12 @@
             {
               "id": "z498yf32b0fqolxr",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1878,7 +1878,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -1925,12 +1925,12 @@
             {
               "id": "yrwm7vn8b8v0lik9",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -1980,7 +1980,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -2030,12 +2030,12 @@
             {
               "id": "h8upxvub6e7e3ik9",
               "content": {
-                "id": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Horizontal_Bar_Chart",
+                "id": "IsAnalytics_Gadget_HorizontalBarChart",
+                "title": "IsAnalytics_Gadget_HorizontalBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Horizontal_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_HorizontalBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2085,7 +2085,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -2132,12 +2132,12 @@
             {
               "id": "3fq71k7bdl3szo6z8yk2owdn29",
               "content": {
-                "id": "IsAnalytics_Gadget_Message_Table",
+                "id": "IsAnalytics_Gadget_MessageTable",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Message_Table\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_MessageTable\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2191,7 +2191,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "UserPreferences-0",
+                        "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
@@ -2221,14 +2221,14 @@
           ],
           "a": [
             {
-              "id": "UserPreferences-0",
+              "id": "IsAnalytics_Gadget_UserPreferences-0",
               "content": {
                 "id": "IsAnalytics_Gadget_UserPreferences",
                 "title": "User Preferences",
                 "type": "gadget",
-                "thumbnail": "fs:\/\/gadget\/UserPreferences\/index.png",
+                "thumbnail": "fs:\/\/gadget\/IsAnalytics_Gadget_UserPreferences\/index.png",
                 "data": {
-                  "url": "fs:\/\/gadget\/UserPreferences\/index.xml"
+                  "url": "fs:\/\/gadget\/IsAnalytics_Gadget_UserPreferences\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2396,12 +2396,12 @@
             {
               "id": "azzz9yhlu97u8t7gquu0g4x6r",
               "content": {
-                "id": "IsAnalytics_Gadget_Session_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Session_Bar_Chart",
+                "id": "IsAnalytics_Gadget_SessionBarChart",
+                "title": "IsAnalytics_Gadget_SessionBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Session_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_SessionBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2419,7 +2419,7 @@
                         "event": "publisher"
                       },
                       {
-                        "from": "Line_Chart-0",
+                        "from": "IsAnalytics_Gadget_LineChart-0",
                         "event": "chart-zoomed"
                       }
                     ]
@@ -2454,12 +2454,12 @@
             {
               "id": "fie9iw5m968fw6ewqz6jlqsemi",
               "content": {
-                "id": "IsAnalytics_Gadget_Session_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Session_Bar_Chart",
+                "id": "IsAnalytics_Gadget_SessionBarChart",
+                "title": "IsAnalytics_Gadget_SessionBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Session_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_SessionBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2477,7 +2477,7 @@
                         "event": "publisher"
                       },
                       {
-                        "from": "Line_Chart-0",
+                        "from": "IsAnalytics_Gadget_LineChart-0",
                         "event": "chart-zoomed"
                       }
                     ]
@@ -2512,12 +2512,12 @@
             {
               "id": "mmp68zbzgy6l4b5a99pddvx6r",
               "content": {
-                "id": "IsAnalytics_Gadget_Session_Bar_Chart",
-                "title": "IsAnalytics_Gadget_Session_Bar_Chart",
+                "id": "IsAnalytics_Gadget_SessionBarChart",
+                "title": "IsAnalytics_Gadget_SessionBarChart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Session_Bar_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_SessionBarChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2535,7 +2535,7 @@
                         "event": "publisher"
                       },
                       {
-                        "from": "Line_Chart-0",
+                        "from": "IsAnalytics_Gadget_LineChart-0",
                         "event": "chart-zoomed"
                       }
                     ]
@@ -2570,13 +2570,13 @@
             {
               "id": "hcs95c0d5n9gj33tv2bg9zfr",
               "content": {
-                "id": "IsAnalytics_Gadget_Date_Range_Picker",
+                "id": "IsAnalytics_Gadget_DateRangePicker",
                 "title": "Date Range Picker",
                 "type": "gadget",
                 "category": "Widgets",
-                "thumbnail": "store:\/\/gadget\/Date_Range_Picker\/index.png",
+                "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/Date_Range_Picker\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2595,7 +2595,7 @@
                     "description": "Used to listen to Any message of type state",
                     "on": [
                       {
-                        "from": "Line_Chart-0",
+                        "from": "IsAnalytics_Gadget_LineChart-0",
                         "event": "chart-zoomed"
                       }
                     ]
@@ -2618,14 +2618,14 @@
           ],
           "98f8cff23011ddb5a3d10f9a060bc23c": [
             {
-              "id": "Line_Chart-0",
+              "id": "IsAnalytics_Gadget_LineChart-0",
               "content": {
-                "id": "IsAnalytics_Gadget_Line_Chart",
+                "id": "IsAnalytics_Gadget_LineChart",
                 "title": "Line Chart",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Line_Chart\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_LineChart\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2679,14 +2679,14 @@
           ],
           "2727c687f79a61f7a640534159abeec6": [
             {
-              "id": "Message_Table-0",
+              "id": "IsAnalytics_Gadget_MessageTable-0",
               "content": {
-                "id": "IsAnalytics_Gadget_Message_Table",
+                "id": "IsAnalytics_Gadget_MessageTable",
                 "title": "Messages",
                 "type": "gadget",
                 "thumbnail": "store:\/\/gadget\/usa-business-revenue\/index.png",
                 "data": {
-                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_Message_Table\/index.xml"
+                  "url": "store:\/\/gadget\/IsAnalytics_Gadget_MessageTable\/index.xml"
                 },
                 "toolbarButtons": {
                   "default": {
@@ -2704,7 +2704,7 @@
                         "event": "publisher"
                       },
                       {
-                        "from": "Line_Chart-0",
+                        "from": "IsAnalytics_Gadget_LineChart-0",
                         "event": "chart-zoomed"
                       }
                     ]
