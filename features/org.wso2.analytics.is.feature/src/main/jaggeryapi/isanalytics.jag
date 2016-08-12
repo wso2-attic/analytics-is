@@ -905,8 +905,11 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
+                if (additionalParameters != "") {
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFirstSuccessCount", start, length);
 
                 var obj = queryResult[0];

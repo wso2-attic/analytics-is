@@ -51,10 +51,14 @@ $(function () {
         $(this).hide();
         $('#add-filter').show();
         $('#autocomplete-search-box .typeahead').prop('disabled', false);
+        var chartMode = chartSuccess.mode;
+        if(chartSuccess.mode == "FIRST_TIME_SERVICEPROVIDER") {
+            chartMode = "SERVICEPROVIDER";
+        }
         var message = {
             userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
-            mode: chartFailure.mode,
-            colorCode: chartFailure.colorCode
+            mode: chartMode,
+            colorCode: chartSuccess.colorCode
         };
         gadgets.Hub.publish("publisherFilterDeletion", message);
     });
@@ -63,12 +67,18 @@ $(function () {
         $('#remove-filter').show();
         $(this).hide();
         $('#autocomplete-search-box .typeahead').prop('disabled', true);
+        var userPrefValue = $('#autocomplete-search-box .typeahead.tt-input').val();
+        var chartMode = chartSuccess.mode;
+        if(chartSuccess.mode == "FIRST_TIME_SERVICEPROVIDER") {
+            chartMode = "SERVICEPROVIDER";
+        }
         var message = {
-            userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
-            mode: chartSuccess.mode,
+            userPrefValue: userPrefValue,
+            mode: chartMode,
             colorCode: chartSuccess.colorCode
         };
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
+        gadgetUtil.updateURLParam(chartMode, userPrefValue + "_" + chartSuccess.colorCode);
 
     });
 
@@ -93,7 +103,7 @@ $(function () {
 
     if (instanceType == "SERVICEPROVIDER" && page != TYPE_LOCAL) {
         $('#nav-tabs').html('<li role="presentation" class="active"><a href="javascript:void(0);" onclick="onSPChange(this)" data-provider="service">By All</a></li>'
-            +'<li role="presentation"><a href="javascript:void(0);" data-provider="attempts" onclick="onSPChange(this)" >By First Logins</a></li>');
+        +'<li role="presentation"><a href="javascript:void(0);" data-provider="attempts" onclick="onSPChange(this)" >By First Logins</a></li>');
     }
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -228,6 +238,10 @@ gadgets.HubSettings.onConnect = function () {
             $("#spLableId").hide();
         }
 
+        if(instanceType == "FIRST_TIME_SERVICEPROVIDER") {
+            instanceType = "SERVICEPROVIDER";
+        }
+
         var alreadySelected = false;
         for (var i = 0; i < globalUniqueArray.length; i++) {
             if (globalUniqueArray[i][2] == instanceType) {
@@ -284,6 +298,9 @@ gadgets.HubSettings.onConnect = function () {
         }
 
         var instanceType = chartSuccess.mode;
+        if(instanceType == "FIRST_TIME_SERVICEPROVIDER") {
+            instanceType = "SERVICEPROVIDER";
+        }
 
         if (instanceType != data.category) {
 
@@ -458,11 +475,11 @@ function drawChartSuccess() {
                             return true;
                         }
 
-                        /*if (current > 1) {
-                            return true;
-                        } else {
-                            return false;
-                        }*/
+                    /*if (current > 1) {
+                     return true;
+                     } else {
+                     return false;
+                     }*/
                     case "next":
                         if (totalPages > 1) {
                             return true;
@@ -494,13 +511,9 @@ function drawChartSuccess() {
     var vg = new vizg(chartSuccess.schema, chartSuccess.chartConfig);
     $("#canvasSuccess").empty();
 
-    if (chartFailure) {
-        vg.draw("#canvasSuccess", [
-            {type: "click", callback: typeSuccessCallbackmethod}
-        ]);
-    } else {
-        vg.draw("#canvasSuccess");
-    }
+    vg.draw("#canvasSuccess", [
+        {type: "click", callback: typeSuccessCallbackmethod}
+    ]);
 }
 
 
@@ -533,12 +546,12 @@ function drawChartFailure() {
                         }else{
                             return true;
                         }
-                        
-                        /*if (current > 1) {
-                            return true;
-                        } else {
-                            return false;
-                        }*/
+
+                    /*if (current > 1) {
+                     return true;
+                     } else {
+                     return false;
+                     }*/
                     case "next":
                         if (totalPages > 1) {
                             return true;
@@ -577,7 +590,7 @@ function drawChartFailure() {
 var typeSuccessCallbackmethod = function (event, item) {
 
     chartSuccess.isSelected = true;
-    if (chartFailure.isSelected) {
+    if (chartFailure && chartFailure.isSelected) {
         chartFailure.isSelected = false;
         refreshChart(chartFailure);
     }
@@ -620,13 +633,18 @@ var typeSuccessCallbackmethod = function (event, item) {
             $("#spLableId").hide();
         }
 
+        var chartMode = chartSuccess.mode;
+        if(chartSuccess.mode == "FIRST_TIME_SERVICEPROVIDER") {
+            chartMode = "SERVICEPROVIDER";
+        }
+
         var message = {
             userPrefValue: userPrefValue,
-            mode: chartSuccess.mode,
+            mode: chartMode,
             colorCode: chartSuccess.colorCode
         };
 
-        gadgetUtil.updateURLParam(chartSuccess.mode, userPrefValue + "_" + chartSuccess.colorCode);
+        gadgetUtil.updateURLParam(chartMode, userPrefValue + "_" + chartSuccess.colorCode);
 
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
 
@@ -800,6 +818,7 @@ function onSPChange(el) {
         $("#canvasSuccess").empty();
         $("#canvasFailure").empty();
         $(window.parent.document).find(".gadget-heading h1:contains('Top Service Providers'),h1:contains('TOP SERVICE PROVIDERS')").text("TOP SERVICE PROVIDER FIRST LOGIN");
+        createQueryStringWithUserPrefs();
         onChange();
     } else {
         $("#spLableId").val("Show First Login Success");
@@ -812,6 +831,49 @@ function onSPChange(el) {
         $("#canvasFailure").empty();
         $("#canvasFailure").css({"display": "block"});
         $(window.parent.document).find(".gadget-heading h1:contains('TOP SERVICE PROVIDER FIRST LOGIN')").text("TOP SERVICE PROVIDERS");
+        createQueryStringWithUserPrefs();
         onChange();
+    }
+}
+
+function createQueryStringWithUserPrefs() {
+    var instanceType = chartSuccess.mode;
+    var historyParms = gadgetUtil.getURLParams();
+    listnedAdditionalUserPrefs = "";
+
+    for (var key in historyParms) {
+        if (historyParms.hasOwnProperty(key)) {
+
+            if (Object.keys(historyParms).length > 2) {
+
+                var historyParamVal = historyParms[key].toString();
+
+                if(instanceType == "FIRST_TIME_SERVICEPROVIDER") {
+                    instanceType = "SERVICEPROVIDER";
+                }
+                if (key != instanceType) {
+                    var alreadySelected = false;
+                    for (i = 0; i < globalUniqueArray.length; i++) {
+                        if (globalUniqueArray[i][2] == instanceType) {
+                            alreadySelected = true;
+                            break;
+                        }
+                    }
+                    if (!alreadySelected) {
+                        if (key == "USERNAME") {
+                            listnedAdditionalUserPrefs += " AND username:\"" + historyParamVal.split("_")[0] + "\"";
+                        } else if (key == "ROLE") {
+                            listnedAdditionalUserPrefs += " AND rolesCommaSeparated:\"" + historyParamVal.split("_")[0] + "\"";
+                        } else if (key == "IDENTITYPROVIDER") {
+                            listnedAdditionalUserPrefs += " AND identityProvider:\"" + historyParamVal.split("_")[0] + "\"";
+                        } else if (key == "USERSTORE") {
+                            listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + historyParamVal.split("_")[0] + "\"";
+                        } else if (key == "REGION") {
+                            listnedAdditionalUserPrefs += " AND region:\"" + historyParamVal.split("_")[0] + "\"";
+                        }
+                    }
+                }
+            }
+        }
     }
 }
