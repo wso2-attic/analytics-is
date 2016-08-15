@@ -85,6 +85,10 @@
     {
       "name": "rememberMeFlag",
       "type": "BOOL"
+    },
+    {
+      "name": "username_tenantDomain_userstoreDomain_facet",
+      "type": "STRING"
     }
   ]
 }
