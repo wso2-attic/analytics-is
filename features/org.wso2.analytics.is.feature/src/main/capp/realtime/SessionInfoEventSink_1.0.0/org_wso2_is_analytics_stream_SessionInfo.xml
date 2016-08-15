@@ -161,6 +161,14 @@
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>
         </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>username_tenantDomain_userstoreDomain_facet</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
     </TableSchema>
     <Source>
         <StreamId>org.wso2.is.analytics.stream.SessionInfo:1.0.0</StreamId>

@@ -118,7 +118,7 @@
                     for (var i = 0; i < dataPoints.length; i++) {
                         var temp = [];
                         if (dataPoints[i] != null) {
-                            var username = dataPoints[i]["values"]["username"];
+                            var username = dataPoints[i]["values"]["username_tenantDomain_userstoreDomain_facet"];
                             var duration = dataPoints[i]["values"]["duration"];
                             data.push({
                                 "username": username,
@@ -146,7 +146,7 @@
 
                 query = stringify({
                     tableName: tableName,
-                    groupByField: "username",
+                    groupByField: "username_tenantDomain_userstoreDomain_facet",
                     aggregateLevel: 0,
                     query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
                     aggregateFields: [
@@ -165,7 +165,7 @@
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
                     if (dataPoints[i] != null) {
-                        var username = dataPoints[i]["values"]["username"];
+                        var username = dataPoints[i]["values"]["username_tenantDomain_userstoreDomain_facet"];
                         var duration = dataPoints[i]["values"]["averageSession"];
                         data.push({
                             "username": username,
