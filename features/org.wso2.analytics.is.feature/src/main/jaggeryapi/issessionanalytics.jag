@@ -28,6 +28,7 @@
         log.error("user is not authenticated!");
         response.status = HTTP_USER_NOT_AUTHENTICATED;
         print('{ "status": "Failed", "message": "User is not authenticated." }');
+        response.sendRedirect("/login-controller");
         return;
     }
 
