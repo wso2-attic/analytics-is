@@ -332,7 +332,7 @@
                     count: length
                 });
 
-                var respActiveCount = connector.search(loggedInUser, tableNameActiveSessions, queryActiveSessions);
+                var respActiveCount = connector.search(superTenantId, tableNameActiveSessions, queryActiveSessions);
                 var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
                 var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
 
