@@ -84,6 +84,7 @@ $(function() {
 
         }
 
+        $.fn.dataTable.ext.errMode = 'none';
         oTable = $('#tblMessages').DataTable({
             scrollY: 500,
             scrollX: true,
@@ -153,6 +154,7 @@ $(function() {
             }
         });
     } else if(page.name == TYPE_SESSIONS) {
+        $.fn.dataTable.ext.errMode = 'none';
         oTable = $('#tblMessages').DataTable({
             scrollY: 600,
             scrollX: true,
