@@ -247,6 +247,9 @@ function onDataChanged() {
 
 function onData(response) {
     try {
+        if(!response.message) {
+            parent.window.location = parent.window.location.href;
+        }
         var data = response.message;
         /*if (data.length == 0) {
          $('#canvas').html(gadgetUtil.getEmptyRecordsText());
