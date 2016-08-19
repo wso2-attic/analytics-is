@@ -443,7 +443,7 @@ function loadMap(data) {
         padding: { top:0, right:50, bottom:00, left:10 },
         renderer : "canvas",
         charts : [{type: "map",  y : "Logins", mapType : "world"}],
-        width: 350,
+        width: 340,
         height: 250,
         colorScale:["#f6d6d5","#D9534F"]
     };
