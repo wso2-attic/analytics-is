@@ -13,7 +13,7 @@ var charts = [{
         "xTitle":"Time",
         "yTitle":"Session Count",
         charts: [{ type: "line", range:"true",  y : "sessionCount", color: "sessionType" }],
-        padding: { "top": 30, "left": 60, "bottom": 60, "right": 350 },
+        padding: { "top": 30, "left": 60, "bottom": 60, "right": 20 },
         rangeColor:"#737373",
         range: true,
     },
