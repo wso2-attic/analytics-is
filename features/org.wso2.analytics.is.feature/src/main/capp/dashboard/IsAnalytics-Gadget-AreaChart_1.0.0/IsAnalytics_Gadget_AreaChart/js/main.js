@@ -333,19 +333,21 @@ function loadStats(data){
         },
         "data": [
             [parseFloat(success), "Success"],
-            [parseFloat(failed), "Failure"]
+            [parseFloat(failed), "Failures"]
         ]
     }];
 
     var configT = {
         charts: [{ type: "arc", x: "Rate", color: "Status", mode:"donut" }],
+        tooltip: {"enabled":true, "color":"#e5f2ff", "type":"symbol", "content":["Status","Rate"], "label":false},
+
         innerRadius: 0.3,
-        padding: { top:10, right:70, bottom:10, left:10 },
-        legend: true,
+        padding: { top:0, right:10, bottom:0, left:10 },
+        legend: false,
         percentage: true,
         colorScale: [successColor(), failColor()],
-        width: 260,
-        height: 160
+        width: ($( window ).width()/12 * 2),
+        height: 170
     }
 
     var chartT = new vizg(dataT, configT);
@@ -371,9 +373,9 @@ function loadMap(data) {
 
             if (region) {
                 var message = {
-                userPrefValue: region,
-                mode: map.mode,
-                colorCode:map.colorCode
+                    userPrefValue: region,
+                    mode: map.mode,
+                    colorCode:map.colorCode
                 };
 
                 gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
@@ -381,7 +383,7 @@ function loadMap(data) {
                 gadgets.Hub.publish(TOPIC_REGION, message);
 
                 onDataChanged();
-            }           
+            }
         }
     }
 
@@ -392,7 +394,7 @@ function loadMap(data) {
         }
         if (data.message[i].authFailureCount) {
             failedData.push([data.message[i].region, data.message[i].authFailureCount]);
-        }        
+        }
     }
 
 
@@ -410,10 +412,10 @@ function loadMap(data) {
         type: "map",
         x : "Country",
         legend : false,
-        padding: { top:0, right:50, bottom:00, left:10 },
+        padding: { top:20, right:50, bottom:20, left:10 },
         renderer : "canvas",
         charts : [{type: "map",  y : "Logins", mapType : "world"}],
-        width: 380,
+        width: 340,
         height: 250,
         colorScale:["#dcefdc","#5CB85C"]
     };
@@ -441,7 +443,7 @@ function loadMap(data) {
         padding: { top:0, right:50, bottom:00, left:10 },
         renderer : "canvas",
         charts : [{type: "map",  y : "Logins", mapType : "world"}],
-        width: 380,
+        width: 350,
         height: 250,
         colorScale:["#f6d6d5","#D9534F"]
     };
