@@ -95,6 +95,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
                     query = stringify({
@@ -179,6 +180,8 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
+
                 if(idpType == "LOCAL") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOCALUSERAUTHSTATPER" + timeUnit;
                 }
@@ -228,6 +231,8 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
+
                 if(idpType == "LOCAL") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOCALUSERAUTHSTATPER" + timeUnit;
                 }
@@ -270,6 +275,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -311,6 +317,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -345,6 +352,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 var scoreFunction;
                 if (additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) {
@@ -382,6 +390,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "authFailureCount", start, length);
@@ -411,6 +420,7 @@
                     timeUnit = "MINUTE";
                 }
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -452,6 +462,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -487,6 +498,8 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
+
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + additionalParameters ;
 
                 if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1)) {
@@ -554,6 +567,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -590,6 +604,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "", start, length);
@@ -617,6 +632,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_IDPAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -648,6 +664,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -679,6 +696,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, "", start, length);
@@ -706,6 +724,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -747,6 +766,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
@@ -781,6 +801,7 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
                 var queryString = " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true)) ";
 
                 var query = stringify({
@@ -841,6 +862,7 @@
                 var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters ;
 
                 if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
@@ -906,6 +928,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SPAUTHSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
@@ -941,6 +964,7 @@
                 }
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERREGIONSTATPER" + timeUnit;
+                timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
                 if (additionalParameters != "") {
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
