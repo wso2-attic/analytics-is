@@ -103,15 +103,15 @@ $(function() {
             "columns" : columns,
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                 if(page.name == TYPE_OVERALL) {
-                    if ( aData[7] == true )
+                    if ( aData[8] == true )
                     {
-                        $('td', nRow).eq(7).html(
+                        $('td', nRow).eq(8).html(
                             '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
                         );
                     }
                     else
                     {
-                        $('td', nRow).eq(7).html(
+                        $('td', nRow).eq(8).html(
                             '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
                         );
                     }
@@ -256,7 +256,7 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
             }else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
-                listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
+                listnedAdditionalUserPrefs += " AND isFirstLogin:true";
             }
         }
 
@@ -305,7 +305,7 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
             listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
         }else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
             listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
-            listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
+            listnedAdditionalUserPrefs += " AND isFirstLogin:true";
         }
     }
 
