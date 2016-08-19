@@ -172,7 +172,7 @@
         <ColumnDefinition>
             <Name>isFirstLogin</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>false</EnableIndexing>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>
