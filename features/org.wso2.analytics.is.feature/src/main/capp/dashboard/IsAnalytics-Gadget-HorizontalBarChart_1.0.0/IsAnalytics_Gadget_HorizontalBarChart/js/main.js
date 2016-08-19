@@ -51,13 +51,10 @@ $(function () {
         $(this).hide();
         $('#add-filter').show();
         $('#autocomplete-search-box .typeahead').prop('disabled', false);
-        var chartMode = chartSuccess.mode;
-        if(chartSuccess.mode == "FIRST_TIME_SERVICEPROVIDER") {
-            chartMode = "SERVICEPROVIDER";
-        }
+
         var message = {
             userPrefValue: $('#autocomplete-search-box .typeahead.tt-input').val(),
-            mode: chartMode,
+            mode: chartSuccess.mode,
             colorCode: chartSuccess.colorCode
         };
         gadgets.Hub.publish("publisherFilterDeletion", message);
@@ -68,13 +65,10 @@ $(function () {
         $(this).hide();
         $('#autocomplete-search-box .typeahead').prop('disabled', true);
         var userPrefValue = $('#autocomplete-search-box .typeahead.tt-input').val();
-        var chartMode = chartSuccess.mode;
-        if(chartSuccess.mode == "FIRST_TIME_SERVICEPROVIDER") {
-            chartMode = "SERVICEPROVIDER";
-        }
+
         var message = {
             userPrefValue: userPrefValue,
-            mode: chartMode,
+            mode: hartSuccess.mode,
             colorCode: chartSuccess.colorCode
         };
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
@@ -149,6 +143,7 @@ $(function () {
                                 listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + historyParamVal.split("_")[0] + "\"";
                             } else if (key == "FIRST_TIME_SERVICEPROVIDER") {
                                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
+                                listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
                             } else if (key == "REGION") {
                                 listnedAdditionalUserPrefs += " AND region:\"" + historyParamVal.split("_")[0] + "\"";
                             }
@@ -229,6 +224,7 @@ gadgets.HubSettings.onConnect = function () {
                 listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+                listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
             } else if (globalUniqueArray[i][2] == "REGION") {
                 listnedAdditionalUserPrefs += " AND region:\"" + globalUniqueArray[i][1] + "\"";
             }
@@ -236,10 +232,6 @@ gadgets.HubSettings.onConnect = function () {
 
         if (instanceType == "SERVICEPROVIDER" && listnedAdditionalUserPrefs != "") {
             $("#spLableId").hide();
-        }
-
-        if(instanceType == "FIRST_TIME_SERVICEPROVIDER") {
-            instanceType = "SERVICEPROVIDER";
         }
 
         var alreadySelected = false;
@@ -288,6 +280,7 @@ gadgets.HubSettings.onConnect = function () {
                 listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + globalUniqueArray[i][1] + "\"";
             } else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
                 listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+                listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
             } else if (globalUniqueArray[i][2] == "REGION") {
                 listnedAdditionalUserPrefs += " AND region:\"" + globalUniqueArray[i][1] + "\"";
             }
@@ -298,9 +291,6 @@ gadgets.HubSettings.onConnect = function () {
         }
 
         var instanceType = chartSuccess.mode;
-        if(instanceType == "FIRST_TIME_SERVICEPROVIDER") {
-            instanceType = "SERVICEPROVIDER";
-        }
 
         if (instanceType != data.category) {
 
@@ -633,18 +623,13 @@ var typeSuccessCallbackmethod = function (event, item) {
             $("#spLableId").hide();
         }
 
-        var chartMode = chartSuccess.mode;
-        if(chartSuccess.mode == "FIRST_TIME_SERVICEPROVIDER") {
-            chartMode = "SERVICEPROVIDER";
-        }
-
         var message = {
             userPrefValue: userPrefValue,
-            mode: chartMode,
+            mode: chartSuccess.mode,
             colorCode: chartSuccess.colorCode
         };
 
-        gadgetUtil.updateURLParam(chartMode, userPrefValue + "_" + chartSuccess.colorCode);
+        gadgetUtil.updateURLParam(chartSuccess.mode, userPrefValue + "_" + chartSuccess.colorCode);
 
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);
 
@@ -848,9 +833,6 @@ function createQueryStringWithUserPrefs() {
 
                 var historyParamVal = historyParms[key].toString();
 
-                if(instanceType == "FIRST_TIME_SERVICEPROVIDER") {
-                    instanceType = "SERVICEPROVIDER";
-                }
                 if (key != instanceType) {
                     var alreadySelected = false;
                     for (i = 0; i < globalUniqueArray.length; i++) {
@@ -870,6 +852,11 @@ function createQueryStringWithUserPrefs() {
                             listnedAdditionalUserPrefs += " AND userStoreDomain:\"" + historyParamVal.split("_")[0] + "\"";
                         } else if (key == "REGION") {
                             listnedAdditionalUserPrefs += " AND region:\"" + historyParamVal.split("_")[0] + "\"";
+                        } else if (key == "SERVICEPROVIDER") {
+                            listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
+                        } else if (key == "FIRST_TIME_SERVICEPROVIDER") {
+                            listnedAdditionalUserPrefs += " AND serviceProvider:\"" + historyParamVal.split("_")[0] + "\"";
+                            listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
                         }
                     }
                 }
