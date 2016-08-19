@@ -47,6 +47,7 @@ $(function() {
                 { title: "Context ID" },
                 { title: "User Name" },
                 { title: "Service Provider" },
+                { title: "Subject Step" },
                 { title: "Roles" },
                 { title: "Tenant Domain"},
                 { title: "IP" },

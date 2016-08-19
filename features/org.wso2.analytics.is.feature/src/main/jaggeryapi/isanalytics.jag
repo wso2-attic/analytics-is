@@ -477,7 +477,7 @@
             case TYPE_AUTHENTICATION_DATA_TABLE:
             {
 
-                var columns = ["contextId", "username", "serviceProvider", "rolesCommaSeparated",
+                var columns = ["contextId", "username", "serviceProvider", "identityProvider", "rolesCommaSeparated",
                     "tenantDomain" , "remoteIp", "region", "authenticationSuccess", "_timestamp"];
                 var result = {};
                 var data = [];

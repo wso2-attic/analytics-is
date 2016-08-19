@@ -5,6 +5,7 @@ var configs = [{
             { name: "contextId", label: "Context ID", type: "ordinal" },
             { name: "username", label: "User Name", type: "ordinal" },
             { name: "serviceProvider", label: "Service Provider", type: "ordinal" },
+            { name: "identityProvider", label: "Subject Step", type: "ordinal" },
             { name: "rolesCommaSeparated", label: "Roles", type: "ordinal" },
             { name: "tenantDomain", label: "Tenant Domain", type: "ordinal"},
             { name: "remoteIp", label: "remoteIp", type: "ordinal" },
