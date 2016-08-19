@@ -413,12 +413,20 @@ function failureOnData(response) {
             commonScaleDomain = maxFailureRcordValue;
         }
 
+        if(page == TYPE_LOCAL) {
+            chartSuccess.chartConfig.yTicks = 5;
+            chartFailure.chartConfig.yTicks = 5;
+        } else {
+            chartSuccess.chartConfig.yTicks = 10;
+            chartFailure.chartConfig.yTicks = 10;
+        }
+
         chartSuccess.chartConfig.yScaleDomain = [0, commonScaleDomain];
-        if(commonScaleDomain < 10) {
+        if(commonScaleDomain < chartSuccess.chartConfig.yTicks) {
             chartSuccess.chartConfig.yTicks = commonScaleDomain;
         }
         chartFailure.chartConfig.yScaleDomain = [0, commonScaleDomain];
-        if(commonScaleDomain < 10) {
+        if(commonScaleDomain < chartFailure.chartConfig.yTicks) {
             chartFailure.chartConfig.yTicks = commonScaleDomain;
         }
 
