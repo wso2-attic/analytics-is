@@ -254,6 +254,9 @@ gadgets.HubSettings.onConnect = function() {
                 listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "REGION"){
                 listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
+            }else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
+                listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+                listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
             }
         }
 
@@ -300,6 +303,9 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
             listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "REGION"){
             listnedAdditionalUserPrefs+= " AND region:\""+globalUniqueArray[i][1]+"\"";
+        }else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
+            listnedAdditionalUserPrefs += " AND serviceProvider:\"" + globalUniqueArray[i][1] + "\"";
+            listnedAdditionalUserPrefs += " AND NOT authFirstSuccessCount:0";
         }
     }
 
