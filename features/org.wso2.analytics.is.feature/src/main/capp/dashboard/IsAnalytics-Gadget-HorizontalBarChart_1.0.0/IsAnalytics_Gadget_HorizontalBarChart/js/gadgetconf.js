@@ -341,6 +341,7 @@ var charts = [{
             "barGap":0.2,
             "colorScale":["#5CB85C"],
             "selectionColor":"#5BF85C",
+            "highlight" : "single",
             "padding":chartPadding,
             "charts":[{type: "bar",  y : "authSuccessCount", orientation : "left"}]},
         types: [
