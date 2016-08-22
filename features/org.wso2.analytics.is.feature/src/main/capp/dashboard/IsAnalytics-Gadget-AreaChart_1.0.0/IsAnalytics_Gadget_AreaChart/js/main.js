@@ -161,6 +161,8 @@ gadgets.HubSettings.onConnect = function() {
             }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
                 listnedAdditionalUserPrefs += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
                 listnedAdditionalUserPrefsForMap += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+            }else if(globalUniqueArray[i][2] == "USERSTORE"){
+                listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
             }else if(globalUniqueArray[i][2] == "REGION"){
                 listnedAdditionalUserPrefs += " AND region:\""+globalUniqueArray[i][1]+"\"";
             }else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {
@@ -214,6 +216,8 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
         }else if(globalUniqueArray[i][2] == "IDENTITYPROVIDER"){
             listnedAdditionalUserPrefs += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
             listnedAdditionalUserPrefsForMap += " AND identityProvider:\""+globalUniqueArray[i][1]+"\"";
+        }else if(globalUniqueArray[i][2] == "USERSTORE"){
+            listnedAdditionalUserPrefs+= " AND userStoreDomain:\""+globalUniqueArray[i][1]+"\"";
         }else if(globalUniqueArray[i][2] == "REGION"){
             listnedAdditionalUserPrefs += " AND region:\""+globalUniqueArray[i][1]+"\"";
         }else if (globalUniqueArray[i][2] == "FIRST_TIME_SERVICEPROVIDER") {

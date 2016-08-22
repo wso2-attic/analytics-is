@@ -1156,6 +1156,10 @@
                         "event": "publisherUser"
                       },
                       {
+                        "from": "h1y8qah8okurg3mded9w45cdi",
+                        "event": "publisherUser"
+                      },
+                      {
                         "from": "8savkfnl0qfky2co07k1g1ra4i",
                         "event": "publisherRegion"
                       }
