@@ -417,6 +417,7 @@ function loadMap(data) {
     var configSuccessWorld = {
         type: "map",
         x : "Country",
+        highlight : "single",
         legend : false,
         padding: { top:20, right:50, bottom:20, left:10 },
         renderer : "canvas",
@@ -445,6 +446,7 @@ function loadMap(data) {
     var configFailedWorld = {
         type: "map",
         x : "Country",
+        highlight : "single",
         legend : false,
         padding: { top:0, right:50, bottom:00, left:10 },
         renderer : "canvas",
