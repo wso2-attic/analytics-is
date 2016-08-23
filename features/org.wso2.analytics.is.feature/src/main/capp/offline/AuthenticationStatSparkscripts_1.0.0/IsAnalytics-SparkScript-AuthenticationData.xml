@@ -4,27 +4,27 @@
     <Script>
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerMinute",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, day, hour, minute, username, identityProviderType", incrementalParams "isUserAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerHour USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerHour",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, day, hour, username, identityProviderType,facetStartTime,  _timestamp", incrementalParams "isUserAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerDay USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerDay",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, day, username, identityProviderType", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerMonth USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerMonth",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, username, identityProviderType", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isUserAuthenticationAnalyticsPerYear USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_UserAuthStatPerYear",
-        schema "meta_tenantId INT -i, year INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, username FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, username, identityProviderType", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isLocalUserAuthenticationAnalyticsPerMinute USING CarbonAnalytics
@@ -110,27 +110,27 @@
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerDay USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerDay",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, day, identityProvider, identityProviderType", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerMonth USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerMonth",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, identityProvider, identityProviderType", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerYear USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerYear",
-        schema "meta_tenantId INT -i, year INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, identityProvider, identityProviderType", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerMinute USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerMinute",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, minute INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, day, hour, minute, identityProvider, identityProviderType", incrementalParams "isIdentityProviderAuthenticationAnalyticsPerMinute, HOUR", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isIdentityProviderAuthenticationAnalyticsPerHour USING CarbonAnalytics
         OPTIONS (tableName "org_wso2_is_analytics_stream_IdpAuthStatPerHour",
-        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
+        schema "meta_tenantId INT -i, year INT -i, month INT -i, day INT -i, hour INT -i, identityProvider FACET -i, authSuccessCount LONG -sp,authFailureCount LONG -sp, authStepSuccessCount LONG -sp, authFirstSuccessCount LONG -sp, identityProviderType FACET -i, facetStartTime FACET -i, _timestamp LONG",
         primaryKeys "meta_tenantId, year, month, day, hour, identityProvider, identityProviderType,facetStartTime,  _timestamp", incrementalParams "isIdentityProviderAuthenticationAnalyticsPerHour, DAY", mergeSchema "false");
 
         CREATE TEMPORARY TABLE isAuthenticationAnalyticsPerDay USING CarbonAnalytics
@@ -232,20 +232,20 @@
         INSERT INTO TABLE isRoleAuthenticationAnalyticsPerYear SELECT meta_tenantId, year, username,role,serviceProvider,identityProvider,region,userStoreDomain,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), identityProviderType, cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isRoleAuthenticationAnalyticsPerMonth GROUP BY username, role, serviceProvider, identityProvider, region,userStoreDomain, year, identityProviderType, meta_tenantId;
 
 
-        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerHour SELECT meta_tenantId, year, month, day, hour, identityProvider,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), identityProviderType, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isIdentityProviderAuthenticationAnalyticsPerMinute GROUP BY identityProvider, year, month, day, hour, identityProviderType,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour), meta_tenantId;
+        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerHour SELECT meta_tenantId, year, month, day, hour, identityProvider,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isIdentityProviderAuthenticationAnalyticsPerMinute GROUP BY identityProvider, year, month, day, hour, identityProviderType,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour), meta_tenantId;
 
         INCREMENTAL_TABLE_COMMIT isIdentityProviderAuthenticationAnalyticsPerMinute;
 
-        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerDay SELECT meta_tenantId, year, month, day,identityProvider,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), identityProviderType, cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, getDateStartingTime(year, month, day) as _timestamp FROM isIdentityProviderAuthenticationAnalyticsPerHour GROUP BY identityProvider, year, month, day, identityProviderType, meta_tenantId;
+        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerDay SELECT meta_tenantId, year, month, day,identityProvider,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType, cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, getDateStartingTime(year, month, day) as _timestamp FROM isIdentityProviderAuthenticationAnalyticsPerHour GROUP BY identityProvider, year, month, day, identityProviderType, meta_tenantId;
 
         INCREMENTAL_TABLE_COMMIT isIdentityProviderAuthenticationAnalyticsPerHour;
 
 
-        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerMonth SELECT meta_tenantId, year, month,identityProvider,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), identityProviderType, cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, getMonthStartingTime(year, month) as _timestamp FROM isIdentityProviderAuthenticationAnalyticsPerDay GROUP BY identityProvider, year, month, identityProviderType, meta_tenantId;
+        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerMonth SELECT meta_tenantId, year, month,identityProvider,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType, cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, getMonthStartingTime(year, month) as _timestamp FROM isIdentityProviderAuthenticationAnalyticsPerDay GROUP BY identityProvider, year, month, identityProviderType, meta_tenantId;
 
 
 
-        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerYear SELECT meta_tenantId, year, identityProvider,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), identityProviderType, cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isIdentityProviderAuthenticationAnalyticsPerMonth GROUP BY identityProvider, year, identityProviderType, meta_tenantId;
+        INSERT INTO TABLE isIdentityProviderAuthenticationAnalyticsPerYear SELECT meta_tenantId, year, identityProvider,SUM(authSuccessCount),SUM(authFailureCount),SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType, cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isIdentityProviderAuthenticationAnalyticsPerMonth GROUP BY identityProvider, year, identityProviderType, meta_tenantId;
 
         INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerHour SELECT meta_tenantId, year, month, day, hour, serviceProvider,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType,cast(getHourStartingTime(year, month, day, hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day, hour) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMinute GROUP BY serviceProvider, year, month, day, hour, identityProviderType,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour), meta_tenantId;
 
@@ -263,19 +263,19 @@
         INSERT INTO TABLE isServiceProviderAuthenticationAnalyticsPerYear SELECT meta_tenantId, year, serviceProvider, SUM(authSuccessCount), SUM(authFailureCount), SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType, cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isServiceProviderAuthenticationAnalyticsPerMonth GROUP BY serviceProvider, year, identityProviderType, meta_tenantId;
 
 
-        INSERT INTO TABLE isUserAuthenticationAnalyticsPerHour SELECT meta_tenantId, year, month, day, hour, username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), identityProviderType, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isUserAuthenticationAnalyticsPerMinute GROUP BY username, year, month, day, hour, identityProviderType,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour), meta_tenantId;
+        INSERT INTO TABLE isUserAuthenticationAnalyticsPerHour SELECT meta_tenantId, year, month, day, hour, username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isUserAuthenticationAnalyticsPerMinute GROUP BY username, year, month, day, hour, identityProviderType,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour), meta_tenantId;
 
         INCREMENTAL_TABLE_COMMIT isUserAuthenticationAnalyticsPerMinute;
 
 
-        INSERT INTO TABLE isUserAuthenticationAnalyticsPerDay SELECT meta_tenantId, year, month, day,username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), identityProviderType, cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, getDateStartingTime(year, month, day) as _timestamp FROM isUserAuthenticationAnalyticsPerHour GROUP BY username, year, month, day, identityProviderType, meta_tenantId;
+        INSERT INTO TABLE isUserAuthenticationAnalyticsPerDay SELECT meta_tenantId, year, month, day,username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType, cast(getDateStartingTime(year, month, day) as STRING) as facetStartTime, getDateStartingTime(year, month, day) as _timestamp FROM isUserAuthenticationAnalyticsPerHour GROUP BY username, year, month, day, identityProviderType, meta_tenantId;
 
         INCREMENTAL_TABLE_COMMIT isUserAuthenticationAnalyticsPerHour;
 
-        INSERT INTO TABLE isUserAuthenticationAnalyticsPerMonth SELECT meta_tenantId, year, month,username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), identityProviderType,cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, getMonthStartingTime(year, month) as _timestamp FROM isUserAuthenticationAnalyticsPerDay GROUP BY username, year, month, identityProviderType, meta_tenantId;
+        INSERT INTO TABLE isUserAuthenticationAnalyticsPerMonth SELECT meta_tenantId, year, month,username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType,cast(getMonthStartingTime(year, month) as STRING) as facetStartTime, getMonthStartingTime(year, month) as _timestamp FROM isUserAuthenticationAnalyticsPerDay GROUP BY username, year, month, identityProviderType, meta_tenantId;
 
 
-        INSERT INTO TABLE isUserAuthenticationAnalyticsPerYear SELECT meta_tenantId, year, username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), identityProviderType , cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isUserAuthenticationAnalyticsPerMonth GROUP BY username, year, identityProviderType, meta_tenantId;
+        INSERT INTO TABLE isUserAuthenticationAnalyticsPerYear SELECT meta_tenantId, year, username,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), SUM(authFirstSuccessCount), identityProviderType , cast(getMonthStartingTime(year, 1) as STRING) as facetStartTime, getMonthStartingTime(year, 1) as _timestamp FROM isUserAuthenticationAnalyticsPerMonth GROUP BY username, year, identityProviderType, meta_tenantId;
 
 
         INSERT INTO TABLE isLocalUserAuthenticationAnalyticsPerHour SELECT meta_tenantId, year, month, day, hour, localUsername,SUM(authSuccessCount),SUM(authFailureCount), SUM(authStepSuccessCount), identityProviderType, cast(getHourStartingTime(year, month, day,hour) as STRING) as facetStartTime, getHourStartingTime(year, month, day,hour) as _timestamp  FROM isLocalUserAuthenticationAnalyticsPerMinute GROUP BY localUsername, year, month, day, hour, identityProviderType,cast(getHourStartingTime(year, month, day,hour) as STRING),getHourStartingTime(year, month, day,hour), meta_tenantId;

@@ -3,6 +3,7 @@ var TOPIC_USERNAME = "subscriberUser";
 var TOPIC_USERPREF_DELETION = "subscriberUserPrefDeletion";
 var TOPIC_SLIDER = "publisherSliderDateRange";
 var TOPIC_REGION = "publisherRegion";
+var TOPIC_FIRST_LOGIN = "subscriberFirstLogin";
 var listnedTimeFromValue;
 var listnedTimeToValue;
 var listnedAdditionalUserPrefs = "";
@@ -12,6 +13,7 @@ var rangeStart;
 var rangeEnd;
 var rangeHistoryArray = [];
 var idpTypeFilter = "";
+var firstLoginFilter = "";
 
 var page = gadgetUtil.getCurrentPageName();
 var qs = gadgetUtil.getQueryString();
@@ -135,6 +137,16 @@ gadgets.HubSettings.onConnect = function() {
         onDataChanged();
     });
 
+    gadgets.Hub.subscribe(TOPIC_FIRST_LOGIN, function (topic, data, subscriberData) {
+        var firstLogin = data.firstLogin;
+        if(firstLogin == "enable") {
+            firstLoginFilter = " AND NOT authFirstSuccessCount:0";
+        } else {
+            firstLoginFilter = "";
+        }
+        onDataChanged();
+    });
+
     gadgets.Hub.subscribe(TOPIC_USERPREF_DELETION, function(topic, data, subscriberData) {
 
         var index;
@@ -241,7 +253,8 @@ function onDataChanged() {
         timeFrom: listnedTimeFromValue,
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
-        idpType:idpTypeFilter
+        idpType:idpTypeFilter,
+        firstLogin:firstLoginFilter
     }, onData, onError);
 
     gadgetUtil.fetchData(AUTHENTICATION_CONTEXT, {
@@ -250,6 +263,7 @@ function onDataChanged() {
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs: listnedAdditionalUserPrefsForMap,
         idpType:idpTypeFilter,
+        firstLogin:firstLoginFilter,
         start:0,
         count:10
     }, loadMap, onError);

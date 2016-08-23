@@ -24,6 +24,10 @@
         "subscriberUserPrefDeletion": {
             "type": "deletedUserPref",
             "description": "Used to listen to Any message of type state"
+        },
+        "subscriberFirstLogin": {
+          "type": "firstLogin",
+          "description": "Used to notify the switching into first login"
         }
     }
 }
