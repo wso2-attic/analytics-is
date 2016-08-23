@@ -21,7 +21,7 @@
 var AUTHENTICATION_CONTEXT = "/portal/apis/isanalytics";
 var SESSION_CONTEXT = "/portal/apis/issessionanalytics";
 var DASHBOARD_NAME = "IsAnalytics-AuthenticationData";
-var BASE_URL = "/portal/dashboards/" + DASHBOARD_NAME + "/";
+var BASE_URL = getDashboardBaseUrl();
 
 var TYPE_OVERALL = "overall";
 var TYPE_LOCAL = "local";
@@ -65,9 +65,23 @@ var SESSIONS_PAGE_URL = BASE_URL + TYPE_SESSIONS;
 
 var PARENT_WINDOW = window.parent.document;
 
+function getDashboardBaseUrl() {
+    var currentUrl = window.parent.location.href;
+    var BaseUrlRegex = new RegExp(".*?(portal.*dashboards)");
+    var tenantBaseUrl = BaseUrlRegex.exec(currentUrl)[1];
+    return "/" + tenantBaseUrl + "/"  + DASHBOARD_NAME + "/";
+}
+
 function GadgetUtil() {
     var DEFAULT_START_TIME = new Date(moment().subtract(1, 'hours')).getTime();
     var DEFAULT_END_TIME = new Date(moment()).getTime();
+
+    this.isSharedDashboard = function () {
+        if (this.getQueryString().shared &&
+            (['true', 'false'].indexOf(this.getQueryString().shared) > -1)) {
+            return $.parseJSON(this.getQueryString().shared);
+        }
+    };
 
     this.getQueryString = function() {
         var queryStringKeyValue = window.parent.location.search.replace('?', '').split('&');
