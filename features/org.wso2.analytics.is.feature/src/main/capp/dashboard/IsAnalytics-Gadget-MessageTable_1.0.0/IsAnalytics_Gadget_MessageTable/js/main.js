@@ -235,7 +235,7 @@ gadgets.HubSettings.onConnect = function() {
     gadgets.Hub.subscribe(TOPIC_FIRST_LOGIN, function (topic, data, subscriberData) {
         var firstLogin = data.firstLogin;
         if(firstLogin == "enable") {
-            firstLoginFilter = " AND NOT authFirstSuccessCount:0";
+            firstLoginFilter = " AND isFirstLogin:true";
         } else {
             firstLoginFilter = "";
         }
