@@ -14,6 +14,7 @@ var rangeEnd;
 var rangeHistoryArray = [];
 var idpTypeFilter = "";
 var firstLoginFilter = "";
+var isMapClicked = false;
 
 var page = gadgetUtil.getCurrentPageName();
 var qs = gadgetUtil.getQueryString();
@@ -257,7 +258,7 @@ function onDataChanged(refreshMap) {
         firstLogin:firstLoginFilter
     }, onData, onError);
 
-    if(refreshMap == true) {
+    if(refreshMap == true && isMapClicked == false) {
         gadgetUtil.fetchData(AUTHENTICATION_CONTEXT, {
             type: 25,
             timeFrom: listnedTimeFromValue,
@@ -269,6 +270,8 @@ function onDataChanged(refreshMap) {
             count:10
         }, loadMap, onError);
     }
+
+    isMapClicked = false;
 
 };
 
@@ -355,15 +358,15 @@ function loadStats(data){
 
 //draw donuts
     var dataT = [{
-        "metadata": {
-            "names": ["Rate", "Status"],
-            "types": ["linear", "ordinal"]
-        },
-        "data": [
-            [parseFloat(success), "Success"],
-            [parseFloat(failed), "Failures"]
-        ]
-    }];
+                     "metadata": {
+                         "names": ["Rate", "Status"],
+                         "types": ["linear", "ordinal"]
+                     },
+                     "data": [
+                         [parseFloat(success), "Success"],
+                         [parseFloat(failed), "Failures"]
+                     ]
+                 }];
 
     var configT = {
         charts: [{ type: "arc", x: "Rate", color: "Status", mode:"donut" }],
@@ -395,6 +398,7 @@ function loadMap(data) {
 
 
     var mapCallBack = function(event, item) {
+
         if (item != null) {
             var region = item.datum.zipped.unitName;
             map.mode = "REGION";
@@ -407,10 +411,8 @@ function loadMap(data) {
                 };
 
                 gadgetUtil.updateURLParam(map.mode, region + "_" +map.colorCode);
-
+                isMapClicked = true;
                 gadgets.Hub.publish(TOPIC_REGION, message);
-
-                onDataChanged(false);
             }
         }
     }
