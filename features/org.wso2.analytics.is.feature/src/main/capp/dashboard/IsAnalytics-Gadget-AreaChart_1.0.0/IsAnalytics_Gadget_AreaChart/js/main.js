@@ -74,7 +74,7 @@ $(function() {
         }
     }
 
-    onDataChanged();
+    onDataChanged(true);
 
     $("#back").off().click(function (event) {
         if(rangeHistoryArray.length > 0) {
@@ -88,7 +88,7 @@ $(function() {
                 timeUnit: "Custom"
             };
             gadgets.Hub.publish(TOPIC_SLIDER, message);
-            onDataChanged();
+            onDataChanged(true);
 
             if(rangeHistoryArray.length == 0) {
                 $(this).hide();
@@ -120,21 +120,21 @@ gadgets.HubSettings.onConnect = function() {
             timeUnit: "Custom"
         };
         gadgets.Hub.publish(TOPIC_SLIDER, message);
-        onDataChanged();
+        onDataChanged(true);
     }
 
     gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function(topic, data, subscriberData) {
 
         listnedTimeFromValue = data.timeFrom;
         listnedTimeToValue = data.timeTo;
-        onDataChanged();
+        onDataChanged(true);
         $("#back").hide();
     });
 
     gadgets.Hub.subscribe(TOPIC_USERNAME, function(topic, data, subscriberData) {
 
         addUserPrefsToGlobalArray(topic,data.mode,data.userPrefValue);
-        onDataChanged();
+        onDataChanged(true);
     });
 
     gadgets.Hub.subscribe(TOPIC_FIRST_LOGIN, function (topic, data, subscriberData) {
@@ -144,7 +144,7 @@ gadgets.HubSettings.onConnect = function() {
         } else {
             firstLoginFilter = "";
         }
-        onDataChanged();
+        onDataChanged(true);
     });
 
     gadgets.Hub.subscribe(TOPIC_USERPREF_DELETION, function(topic, data, subscriberData) {
@@ -184,7 +184,7 @@ gadgets.HubSettings.onConnect = function() {
             }
         }
 
-        onDataChanged();
+        onDataChanged(true);
     });
 };
 
@@ -243,7 +243,7 @@ function addUserPrefsToGlobalArray(topic,mode,userPref){
 
 
 
-function onDataChanged() {
+function onDataChanged(refreshMap) {
 
     gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
     gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
@@ -257,16 +257,18 @@ function onDataChanged() {
         firstLogin:firstLoginFilter
     }, onData, onError);
 
-    gadgetUtil.fetchData(AUTHENTICATION_CONTEXT, {
-        type: 25,
-        timeFrom: listnedTimeFromValue,
-        timeTo: listnedTimeToValue,
-        listnedAdditionalUserPrefs: listnedAdditionalUserPrefsForMap,
-        idpType:idpTypeFilter,
-        firstLogin:firstLoginFilter,
-        start:0,
-        count:10
-    }, loadMap, onError);
+    if(refreshMap == true) {
+        gadgetUtil.fetchData(AUTHENTICATION_CONTEXT, {
+            type: 25,
+            timeFrom: listnedTimeFromValue,
+            timeTo: listnedTimeToValue,
+            listnedAdditionalUserPrefs: listnedAdditionalUserPrefsForMap,
+            idpType:idpTypeFilter,
+            firstLogin:firstLoginFilter,
+            start:0,
+            count:10
+        }, loadMap, onError);
+    }
 
 };
 
@@ -408,7 +410,7 @@ function loadMap(data) {
 
                 gadgets.Hub.publish(TOPIC_REGION, message);
 
-                onDataChanged();
+                onDataChanged(false);
             }
         }
     }
@@ -495,7 +497,7 @@ document.body.onmouseup = function(event) {
 
             listnedTimeFromValue = new Date(rangeStart).getTime();
             listnedTimeToValue = new Date(rangeEnd).getTime();
-            onDataChanged();
+            onDataChanged(true);
             var message = {
                 timeFrom: listnedTimeFromValue,
                 timeTo: listnedTimeToValue,
