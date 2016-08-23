@@ -207,6 +207,16 @@
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
+                  },
+                  "subscriberFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFirstLogin"
+                      }
+                    ]
                   }
                 },
                 "notify": {
@@ -378,6 +388,10 @@
                   "publisherFilterDeletion": {
                     "type": "deletedFilter",
                     "description": "Used to notify the filter deletion"
+                  },
+                  "publisherFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login"
                   }
                 },
                 "styles": {
@@ -468,6 +482,16 @@
                       {
                         "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  },
+                  "subscriberFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFirstLogin"
                       }
                     ]
                   }
@@ -574,6 +598,16 @@
                       {
                         "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  },
+                  "subscriberFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFirstLogin"
                       }
                     ]
                   }
@@ -1725,6 +1759,16 @@
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
+                  },
+                  "subscriberFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFirstLogin"
+                      }
+                    ]
                   }
                 },
                 "notify": {
@@ -1886,6 +1930,10 @@
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
+                  },
+                  "publisherFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login"
                   }
                 },
                 "notify": {
@@ -1986,6 +2034,16 @@
                       {
                         "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  },
+                  "subscriberFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFirstLogin"
                       }
                     ]
                   }
@@ -2093,6 +2151,16 @@
                         "event": "publisherUserPrefDeletion"
                       }
                     ]
+                  },
+                  "subscriberFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFirstLogin"
+                      }
+                    ]
                   }
                 },
                 "notify": {
@@ -2197,6 +2265,16 @@
                       {
                         "from": "IsAnalytics_Gadget_UserPreferences-0",
                         "event": "publisherUserPrefDeletion"
+                      }
+                    ]
+                  },
+                  "subscriberFirstLogin": {
+                    "type": "firstLogin",
+                    "description": "Used to notify the switching into first login",
+                    "on": [
+                      {
+                        "from": "z498yf32b0fqolxr",
+                        "event": "publisherFirstLogin"
                       }
                     ]
                   }

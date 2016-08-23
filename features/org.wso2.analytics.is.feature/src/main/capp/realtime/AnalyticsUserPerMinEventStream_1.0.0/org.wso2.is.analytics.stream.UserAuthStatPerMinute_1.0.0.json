@@ -47,6 +47,10 @@
             "type": "LONG"
         },
         {
+          "name": "authFirstSuccessCount",
+          "type": "LONG"
+        },
+        {
             "name": "facetStartTime",
             "type": "STRING"
         },

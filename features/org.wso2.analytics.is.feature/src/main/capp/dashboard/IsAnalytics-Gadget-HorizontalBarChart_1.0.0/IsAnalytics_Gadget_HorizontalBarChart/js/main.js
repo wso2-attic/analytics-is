@@ -2,6 +2,8 @@ var TOPIC_DATE_RANGE = "subscriber";
 var TOPIC_PUB_USERPREF = "publisherUser";
 var TOPIC_SUB_USERPREF = "subscriberUserPref";
 var TOPIC_USERPREF_DELETION = "subscriberUserPrefDeletion";
+var TOPIC_PUB_FIRST_LOGIN = "publisherFirstLogin";
+var TOPIC_SUB_FIRST_LOGIN = "subscriberFirstLogin";
 var listnedTimeFromValue;
 var listnedTimeToValue;
 var listnedAdditionalUserPrefs = "";
@@ -15,6 +17,7 @@ var successDataObj;
 var failureDataObj;
 var commonScaleDomain;
 var idpTypeFilter = "";
+var firstLoginFilter = "";
 var gadgetContext = AUTHENTICATION_CONTEXT;
 var href = parent.window.location.href;
 var hrefLastSegment = href.substr(href.lastIndexOf('/') + 1);
@@ -173,6 +176,7 @@ function successOnPaginationClicked(e, originalEvent, type, page) {
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
         idpType: idpTypeFilter,
+        firstLogin:firstLoginFilter,
         start: (page - 1) * 10,
         count: 10
     }, successOnData, successOnError);
@@ -188,6 +192,7 @@ function failureOnPaginationClicked(e, originalEvent, type, page) {
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
         idpType: idpTypeFilter,
+        firstLogin:firstLoginFilter,
         start: (page - 1) * 10,
         count: 10
     }, failureOnData, failureOnError);
@@ -244,6 +249,16 @@ gadgets.HubSettings.onConnect = function () {
         if (!alreadySelected) {
             onChange();
         }
+    });
+
+    gadgets.Hub.subscribe(TOPIC_SUB_FIRST_LOGIN, function (topic, data, subscriberData) {
+        var firstLogin = data.firstLogin;
+        if(firstLogin == "enable") {
+            firstLoginFilter = " AND NOT authFirstSuccessCount:0";
+        } else {
+            firstLoginFilter = "";
+        }
+        onChange();
     });
 
     gadgets.Hub.subscribe(TOPIC_USERPREF_DELETION, function (topic, data, subscriberData) {
@@ -349,6 +364,7 @@ function onChange() {
         timeTo: listnedTimeToValue,
         listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
         idpType: idpTypeFilter,
+        firstLogin:firstLoginFilter,
         start: 0,
         count: 10
     }, successOnData, successOnError);
@@ -376,6 +392,7 @@ function successOnData(response) {
                 timeTo: listnedTimeToValue,
                 listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
                 idpType: idpTypeFilter,
+                firstLogin:firstLoginFilter,
                 start: 0,
                 count: 10
             }, failureOnData, failureOnError);
@@ -758,6 +775,7 @@ var substringMatcher = function () {
             timeTo: listnedTimeToValue,
             listnedAdditionalUserPrefs: listnedAdditionalUserPrefs,
             idpType: idpTypeFilter,
+            firstLogin:firstLoginFilter,
             start: 0,
             count: 10
         }, function (response) {
@@ -813,6 +831,11 @@ function onSPChange(el) {
         $(window.parent.document).find(".gadget-heading h1:contains('Top Service Providers'),h1:contains('TOP SERVICE PROVIDERS')").text("TOP SERVICE PROVIDER FIRST LOGIN");
         createQueryStringWithUserPrefs();
         onChange();
+        var message = {
+            firstLogin: "enable"
+        };
+        gadgets.Hub.publish(TOPIC_PUB_FIRST_LOGIN, message);
+
     } else {
         $("#spLableId").val("Show First Login Success");
         chartSuccess = gadgetUtil.getChart("serviceProviderAuthenticationSuccessCount");
@@ -826,6 +849,10 @@ function onSPChange(el) {
         $(window.parent.document).find(".gadget-heading h1:contains('TOP SERVICE PROVIDER FIRST LOGIN')").text("TOP SERVICE PROVIDERS");
         createQueryStringWithUserPrefs();
         onChange();
+        var message = {
+            firstLogin: "disable"
+        };
+        gadgets.Hub.publish(TOPIC_PUB_FIRST_LOGIN, message);
     }
 }
 

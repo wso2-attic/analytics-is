@@ -9,7 +9,9 @@ var globalUniqueArray = [];
 var TOPIC_USERNAME = "subscriberUser";
 var TOPIC_USERPREF_DELETION = "subscriberUserPrefDeletion";
 var TOPIC = "subscriber";
+var TOPIC_FIRST_LOGIN = "subscriberFirstLogin";
 var listnedAdditionalUserPrefs = "";
+var firstLoginFilter = "";
 
 $(function() {
 
@@ -151,6 +153,7 @@ $(function() {
                     d.timeTo = parseInt(listnedTimeToValue);
                     d.listnedAdditionalUserPrefs = listnedAdditionalUserPrefs;
                     d.idpType = idpFilter;
+                    d.firstLogin = firstLoginFilter;
                 }
             }
         });
@@ -226,6 +229,16 @@ gadgets.HubSettings.onConnect = function() {
 
 
         addUserPrefsToGlobalArray(topic,data.mode,data.userPrefValue);
+        onDataChanged();
+    });
+
+    gadgets.Hub.subscribe(TOPIC_FIRST_LOGIN, function (topic, data, subscriberData) {
+        var firstLogin = data.firstLogin;
+        if(firstLogin == "enable") {
+            firstLoginFilter = " AND NOT authFirstSuccessCount:0";
+        } else {
+            firstLoginFilter = "";
+        }
         onDataChanged();
     });
 

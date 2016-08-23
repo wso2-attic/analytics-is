@@ -73,6 +73,7 @@
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
         var additionalParameters = request.getParameter("listnedAdditionalUserPrefs");
+        var firstLoginFilter = request.getParameter("firstLogin");
         var idpType = request.getParameter("idpType");
         var idpTypeFilter = "";
         if(idpType != "") {
@@ -101,7 +102,7 @@
                     query = stringify({
                         tableName: tableName,
                         groupByField: "facetStartTime",
-                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters,
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters,
                         aggregateFields: [
                             {
                                 fields: ["authStepSuccessCount"],
@@ -123,7 +124,7 @@
                     query = stringify({
                         tableName: tableName,
                         groupByField: "facetStartTime",
-                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters,
+                        query: "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters,
                         aggregateFields: [
                             {
                                 fields: [successCountField],
@@ -202,7 +203,7 @@
                     userNameField = "localUsername";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, userNameField, categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -246,7 +247,7 @@
                     userNameField = "localUsername";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, userNameField, categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -288,7 +289,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -323,7 +324,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -361,7 +362,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -392,7 +393,7 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -433,7 +434,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -468,7 +469,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -578,7 +579,7 @@
                     userNameField = "localUsername";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, userNameField, categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -606,7 +607,7 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPER" + timeUnit;
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "role", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -638,7 +639,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "identityProvider", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -670,7 +671,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -698,7 +699,7 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_USERSTOREAUTHSTATPER" + timeUnit;
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, "", start, length);
 
                 var obj = queryResult[0];
@@ -737,7 +738,7 @@
                     scoreFunction = "authSuccessCount";
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, scoreFunction, start, length);
 
                 var obj = queryResult[0];
@@ -772,7 +773,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "userStoreDomain", categoryPath, queryString, "authFailureCount", start, length);
 
                 var obj = queryResult[0];
@@ -805,7 +806,7 @@
                 var queryString = " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true)) ";
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + queryString + additionalParameters ,
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + queryString + additionalParameters ,
                     "start": start,
                     "count": length,
                     "sortBy": [
@@ -863,10 +864,10 @@
                 var sortType = request.getParameter("order[0][dir]").toUpperCase();
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters ;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters ;
 
                 if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1) || idpType == "FEDERATED") {
-                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + " AND eventType:\"step\" " + idpTypeFilter + additionalParameters ;
+                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + " AND eventType:\"step\" " + idpTypeFilter + firstLoginFilter + additionalParameters ;
                 }
 
                 var query = stringify({
@@ -933,7 +934,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
                 var queryResult = common.getDrillDownResult(tableName, "serviceProvider", categoryPath, queryString, "authFirstSuccessCount", start, length);
 
                 var obj = queryResult[0];
@@ -969,7 +970,7 @@
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPER" + timeUnit;
                 }
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + additionalParameters;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters;
 
                 var scoreFunctions = ["authSuccessCount", "authFailureCount"]
 
