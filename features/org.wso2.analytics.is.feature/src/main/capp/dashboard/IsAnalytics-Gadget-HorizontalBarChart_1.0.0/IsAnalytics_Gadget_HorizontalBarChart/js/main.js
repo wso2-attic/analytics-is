@@ -68,7 +68,7 @@ $(function () {
 
         var message = {
             userPrefValue: userPrefValue,
-            mode: hartSuccess.mode,
+            mode: chartSuccess.mode,
             colorCode: chartSuccess.colorCode
         };
         gadgets.Hub.publish(TOPIC_PUB_USERPREF, message);

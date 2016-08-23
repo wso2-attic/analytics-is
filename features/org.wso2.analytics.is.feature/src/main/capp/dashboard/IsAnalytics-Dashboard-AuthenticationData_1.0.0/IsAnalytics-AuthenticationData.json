@@ -2335,7 +2335,7 @@
     },
     {
       "id": "sessions",
-      "title": "Sessions",
+      "title": "Login Sessions",
       "layout": {
         "content": {
           "loggedIn": {
@@ -2814,7 +2814,7 @@
       "id": "sessions",
       "isanon": false,
       "ishidden": false,
-      "title": "Sessions",
+      "title": "Login Sessions",
       "subordinates": [
         
       ]
