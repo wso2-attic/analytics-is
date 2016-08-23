@@ -3,7 +3,7 @@ $(function(){
     $('#overall').click(function(){
         var targetUrl = OVERALL_LOGIN_ATTEMPTS_PAGE_URL;
         if(gadgetUtil.isSharedDashboard()){
-            targetUrl +=	SHARED_PARAM;
+            targetUrl += SHARED_PARAM;
         }
         parent.window.location = targetUrl;
     });
@@ -11,7 +11,7 @@ $(function(){
     $('#local').click(function(){
         var targetUrl = LOCAL_LOGIN_ATTEMPTS_PAGE_URL;
         if(gadgetUtil.isSharedDashboard()){
-            targetUrl +=	SHARED_PARAM;
+            targetUrl += SHARED_PARAM;
         }
         parent.window.location = targetUrl;
     });
@@ -19,7 +19,7 @@ $(function(){
     $('#federated').click(function(){
         var targetUrl = FEDERATED_LOGIN_ATTEMPTS_PAGE_URL;
         if(gadgetUtil.isSharedDashboard()){
-            targetUrl +=	SHARED_PARAM;
+            targetUrl += SHARED_PARAM;
         }
         parent.window.location = targetUrl;
     });
