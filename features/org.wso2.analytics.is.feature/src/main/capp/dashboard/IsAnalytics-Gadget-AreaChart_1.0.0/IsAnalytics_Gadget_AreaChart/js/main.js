@@ -354,7 +354,7 @@ function loadStats(data){
         tooltip: {"enabled":true, "color":"#e5f2ff", "type":"symbol", "content":["Status","Rate"], "label":false},
 
         innerRadius: 0.3,
-        padding: { top:0, right:10, bottom:0, left:10 },
+        padding: { top:10, right:10, bottom:10, left:10 },
         legend: false,
         percentage: true,
         colorScale: [successColor(), failColor()],
