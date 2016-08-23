@@ -501,10 +501,10 @@
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
-                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + additionalParameters ;
+                var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + firstLoginFilter + additionalParameters ;
 
                 if ((additionalParameters != "" && additionalParameters.indexOf("identityProvider") > -1)) {
-                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + additionalParameters ;
+                    queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + firstLoginFilter + additionalParameters ;
                 }
 
                 queryString += " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true))";
@@ -806,7 +806,7 @@
                 var queryString = " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true)) ";
 
                 var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + queryString + additionalParameters ,
+                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + queryString + additionalParameters ,
                     "start": start,
                     "count": length,
                     "sortBy": [
