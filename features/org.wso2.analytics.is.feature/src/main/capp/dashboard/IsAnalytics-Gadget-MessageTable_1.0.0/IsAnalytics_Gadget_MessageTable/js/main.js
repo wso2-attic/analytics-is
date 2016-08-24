@@ -172,7 +172,10 @@ $(function() {
                 '>',
             "processing": true,
             "serverSide": true,
-            "searching": false,
+            "searching": true,
+            "language": {
+                "searchPlaceholder": "Search by Username..."
+            },
             "columns" : [
                 { title: "Session ID" },
                 { title: "Username" },
@@ -196,6 +199,9 @@ $(function() {
                     d.timeTo = parseInt(listnedTimeToValue);
                 }
             }
+        });
+        $('#tblMessages_filter input').on( 'keyup', function () {
+            oTable.search( this.value ).draw();
         });
     }
 
