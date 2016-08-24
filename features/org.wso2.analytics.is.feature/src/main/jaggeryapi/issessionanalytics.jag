@@ -326,23 +326,6 @@
                 var dataPoints = JSON.parse(resp.getMessage());
                 var count = connector.searchCount(superTenantId, tableName, query);
 
-                // querying for active session count
-                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVECOUNT";
-
-                queryActiveSessions = stringify({
-                    query: "*:*",
-                    start: start,
-                    count: length
-                });
-
-                var respActiveCount = connector.search(superTenantId, tableNameActiveSessions, queryActiveSessions);
-                var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
-                var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
-
-                if(activeCount < 0) {
-                    activeCount = 0;
-                }
-
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
                     if (dataPoints[i] != null) {
@@ -370,11 +353,33 @@
                 }
 
                 result.push(data);
-                result.push({
-                    "activeCount": activeCount,
-                    "timeUnit":timeUnit
-            });
 
+                 // querying for active session count
+                                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVECOUNT";
+
+                                queryActiveSessions = stringify({
+                                    query: "*:*",
+                                    start: start,
+                                    count: length
+                                });
+
+                var respActiveCount = connector.search(superTenantId, tableNameActiveSessions, queryActiveSessions);
+		        if(respActiveCount.status == "success"){
+			        var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
+                	var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
+
+                	if(activeCount < 0) {
+                    	activeCount = 0;
+                	}
+
+		            result.push({
+                        "activeCount": activeCount,
+                        "timeUnit":timeUnit
+            	    });
+
+		        }else{
+                    result.push([]);
+		        }
                 break;
             }
             case TYPE_SESSION_DATA_TABLE:
