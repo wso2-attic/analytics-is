@@ -398,23 +398,34 @@
                     usernameFilter = "AND username:" + searchValue + "*";
                 }
 
-                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
-                var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
 
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
-                var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + usernameFilter,
-                    "start": start,
-                    "count": length,
-                    "sortBy": [
-                        {
-                            "field": columns[sortByColumnNo],
-                            "sortType": sortType
-                        }
-                    ]
-                });
+                var query;
+                if(request.getParameter("order[0][column]") != null) {
+                    var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                    var sortType = request.getParameter("order[0][dir]").toUpperCase();
+                    query = stringify({
+                        "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + usernameFilter,
+                        "start": start,
+                        "count": length,
+                        "sortBy": [
+                            {
+                                "field": columns[sortByColumnNo],
+                                "sortType": sortType
+                            }
+                        ]
+                    });
+                } else {
+                    query = stringify({
+                        "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + usernameFilter,
+                        "start": start,
+                        "count": length
+                    });
+                }
+
 
                 var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
