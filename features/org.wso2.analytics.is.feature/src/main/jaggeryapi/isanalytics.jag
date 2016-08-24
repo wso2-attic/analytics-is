@@ -496,8 +496,7 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("length"));
                 var draw = request.getParameter("draw");
-                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
-                var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
@@ -509,17 +508,29 @@
 
                 queryString += " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true))";
 
-                var query = stringify({
-                    "query": queryString,
-                    "start": start,
-                    "count": length,
-                    "sortBy": [
-                        {
-                            "field": columns[sortByColumnNo],
-                            "sortType": sortType
-                        }
-                    ]
-                });
+                var query;
+                if(request.getParameter("order[0][column]") != null) {
+                    var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                    var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
+                    query = stringify({
+                        "query": queryString,
+                        "start": start,
+                        "count": length,
+                        "sortBy": [
+                            {
+                                "field": columns[sortByColumnNo],
+                                "sortType": sortType
+                            }
+                        ]
+                    });
+                } else {
+                    query = stringify({
+                        "query": queryString,
+                        "start": start,
+                        "count": length
+                    });
+                }
 
                 var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
@@ -799,23 +810,35 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("length"));
                 var draw = request.getParameter("draw");
-                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
-                var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
                 var queryString = " AND ((eventType:step AND authStepSuccess:false) OR (eventType:overall AND authenticationSuccess:true)) ";
 
-                var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + queryString + additionalParameters ,
-                    "start": start,
-                    "count": length,
-                    "sortBy": [
-                        {
-                            "field": columns[sortByColumnNo],
-                            "sortType": sortType
-                        }
-                    ]
-                });
+                var query;
+                if(request.getParameter("order[0][column]") != null) {
+
+                    var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                    var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
+                    query = stringify({
+                        "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + queryString + additionalParameters ,
+                        "start": start,
+                        "count": length,
+                        "sortBy": [
+                            {
+                                "field": columns[sortByColumnNo],
+                                "sortType": sortType
+                            }
+                        ]
+                    });
+                } else {
+                    query = stringify({
+                        "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + queryString + additionalParameters ,
+                        "start": start,
+                        "count": length
+                    });
+                }
 
                 var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
@@ -860,8 +883,7 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("length"));
                 var draw = request.getParameter("draw");
-                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
-                var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
                 var queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + idpTypeFilter + firstLoginFilter + additionalParameters ;
@@ -870,17 +892,31 @@
                     queryString = "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + " AND eventType:\"step\" " + idpTypeFilter + firstLoginFilter + additionalParameters ;
                 }
 
-                var query = stringify({
-                    "query": queryString,
-                    "start": start,
-                    "count": length,
-                    "sortBy": [
-                        {
-                            "field": columns[sortByColumnNo],
-                            "sortType": sortType
-                        }
-                    ]
-                });
+                var query;
+                if(request.getParameter("order[0][column]") != null) {
+                    var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                    var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
+                    query = stringify({
+                        "query": queryString,
+                        "start": start,
+                        "count": length,
+                        "sortBy": [
+                            {
+                                "field": columns[sortByColumnNo],
+                                "sortType": sortType
+                            }
+                        ]
+                    });
+                } else {
+                    query = stringify({
+                        "query": queryString,
+                        "start": start,
+                        "count": length
+                    });
+                }
+
+
 
                 var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());

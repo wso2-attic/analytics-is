@@ -102,6 +102,7 @@ $(function() {
             "processing": true,
             "serverSide": true,
             "searching": false,
+            aaSorting: [],
             "columns" : columns,
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                 if(page.name == TYPE_OVERALL) {
@@ -174,10 +175,12 @@ $(function() {
             "serverSide": true,
             "searching": true,
             "language": {
+                "search": "",
                 "searchPlaceholder": "Search by Username..."
             },
+            aaSorting: [],
             "columns" : [
-                { title: "Session ID" },
+                { title: "Session ID", visible: false },
                 { title: "Username" },
                 { title: "Start Time" },
                 { title: "Termination Time" },
@@ -200,7 +203,7 @@ $(function() {
                 }
             }
         });
-        $('#tblMessages_filter input').on( 'keyup', function () {
+        $('#tblMessages_filter input').on('keyup', function () {
             oTable.search( this.value ).draw();
         });
     }
