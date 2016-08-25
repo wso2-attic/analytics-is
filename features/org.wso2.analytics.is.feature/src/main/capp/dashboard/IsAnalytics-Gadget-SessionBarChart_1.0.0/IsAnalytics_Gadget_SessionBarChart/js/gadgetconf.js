@@ -34,6 +34,17 @@ var charts = [
                 result.push([duration, username, sessionId]);
             });
             return result;
+        },
+        formatXLabels: function(data) {
+            var xScaleDomain = [];
+            data.forEach(function (row, i) {
+                if(row['username'].length > 12) {
+                    xScaleDomain.push(row['username'].substr(0, 10) + "..");
+                } else {
+                    xScaleDomain.push(row['username']);
+                }
+            });
+            return xScaleDomain;
         }
     },
     {
@@ -70,6 +81,17 @@ var charts = [
                 result.push([duration, username]);
             });
             return result;
+        },
+        formatXLabels: function(data) {
+            var xScaleDomain = [];
+            data.forEach(function (row, i) {
+                if(JSON.stringify(row['username'][0]).length > 12) {
+                    xScaleDomain.push(row['username'][0].substr(0, 10) + "..");
+                } else {
+                    xScaleDomain.push(row['username'][0]);
+                }
+            });
+            return xScaleDomain;
         }
     },
     {
@@ -106,6 +128,9 @@ var charts = [
                 result.push([sessionCount, timestamp]);
             });
             return result;
+        },
+        formatXLabels: function(data) {
+            return null;
         }
     }
 ];
