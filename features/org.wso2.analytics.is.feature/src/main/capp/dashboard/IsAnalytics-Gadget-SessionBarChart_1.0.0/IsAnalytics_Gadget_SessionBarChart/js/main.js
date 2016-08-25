@@ -139,6 +139,7 @@ function drawChartSuccess(response) {
     if(chart.mode == "SESSION_COUNT_OVER_TIME" && successDataObj[0][0].sessionCount < 10) {
         chart.chartConfig.yTicks = successDataObj[0][0].sessionCount;
     }
+    chart.chartConfig.xScaleDomain = chart.formatXLabels(successDataObj[0]);
 
     var vg = new vizg(chart.schema, chart.chartConfig);
     $("#canvas").empty();
