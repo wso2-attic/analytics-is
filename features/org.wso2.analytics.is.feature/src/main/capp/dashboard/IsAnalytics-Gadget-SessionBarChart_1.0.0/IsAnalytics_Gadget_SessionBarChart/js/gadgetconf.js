@@ -12,8 +12,9 @@ var charts = [
         "chartConfig":
         {
             "x":"xLabel",
+            "yTicks" : 5,
             "maxLength":"3000",
-            "yTitle":"Duration",
+            "yTitle":"Duration (s)",
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
@@ -56,8 +57,9 @@ var charts = [
         "chartConfig":
         {
             "x":"xLabel",
+            "yTicks":5,
             "maxLength":"3000",
-            "yTitle":"Duration",
+            "yTitle":"Duration (s)",
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
