@@ -199,12 +199,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                if (timeUnit == "SECOND" || timeUnit == "MINUTE") {
-                    timeUnit = "HOUR";
-                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "DAY";
-                }
-
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
