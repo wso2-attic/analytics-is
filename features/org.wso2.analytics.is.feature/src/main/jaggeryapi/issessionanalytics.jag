@@ -304,6 +304,8 @@
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
+                } else if (timeUnit == "YEAR") {
+                    timeUnit == "MONTH";
                 }
 
                 // querying for session change
