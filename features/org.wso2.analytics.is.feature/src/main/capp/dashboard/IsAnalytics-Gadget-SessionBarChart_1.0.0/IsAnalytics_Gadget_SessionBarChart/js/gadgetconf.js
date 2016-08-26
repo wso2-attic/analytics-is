@@ -63,7 +63,7 @@ var charts = [
             "xTitle":"Username",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
-            "padding":{"top":10,"left":120,"bottom":40,"right":30},
+            "padding":{"top":10,"left":120,"bottom":40,"right":0},
             "tooltip":{"enabled":true, "content":["username", "duration"] },
             "charts":[{type: "bar",  y : "duration", orientation : "left"}]},
         types: [
@@ -105,7 +105,7 @@ var charts = [
             "xTitle":"Duration",
             "barGap":0.2,
             "colorScale":["#5CB85C"],
-            "padding":{"top":10,"left":100,"bottom":40,"right":30},
+            "padding":{"top":10,"left":70,"bottom":40,"right":0},
             "charts":[{type: "bar",  y : "sessionCount"}]},
         types: [
             { name: TYPE_SESSIONS, type: 23 }
