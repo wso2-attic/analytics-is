@@ -27,8 +27,8 @@ overall success and failure login attempts and authentication attempts views for
 
 #How to Contribute
   
- Please report issues to our [ESB Analytics JIRA](https://wso2.org/jira/browse/ANLYIS)
- Send your pull requests to the [analytics-esb](https://github.com/wso2/analytics-esb) repository
+ Please report issues to our [IS Analytics JIRA](https://wso2.org/jira/browse/ANLYIS)
+ Send your pull requests to the [analytics-IS](https://github.com/wso2/analytics-is) repository
   
 #Contact us
   
