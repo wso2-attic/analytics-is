@@ -7,7 +7,7 @@
 
 WSO2 Identity Server Analytics can be used to monitor authentication related analytics for residence and federated authentication scenarios.
 
-WSO2 IS Analytics is powered by [WSO2 DAS](http://wso2.com/products/carbon/), the SOA middleware component platform. An open source product, WSO2 Carbon is available under the [Apache Software License (v2.0)](http://www.apache.org/licenses/LICENSE-2.0.html).
+WSO2 IS Analytics is powered by [WSO2 DAS](wso2.com/products/data-analytics-server/), the SOA middleware component platform. An open source product, WSO2 Carbon is available under the [Apache Software License (v2.0)](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 
 #Capabilities 
