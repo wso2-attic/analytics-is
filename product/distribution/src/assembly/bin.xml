@@ -165,15 +165,20 @@
             </excludes>
         </fileSet>
 
-        <!--creating an empty execution plans directory-->
         <fileSet>
-            <directory>.</directory>
-            <outputDirectory>
-                ${pom.artifactId}-${pom.version}/repository/deployment/server/executionplans
-            </outputDirectory>
-            <excludes>
-                <exclude>**/*</exclude>
-            </excludes>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/executionplans</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/executionplans</outputDirectory>
+            <includes>
+                <include>**/*.siddhiql</include>
+            </includes>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/template-manager/sparktemplates</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/template-manager/sparktemplates</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/resources/template-manager/templateconfigs</directory>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/resources/template-manager/templateconfigs</outputDirectory>
         </fileSet>
         
         <!-- Some war files related to CEP websockets -->
@@ -791,6 +796,14 @@
             </source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/template-manager/domain-template</outputDirectory>
             <filtered>true</filtered>
+        </file>
+        <file>
+            <source>
+                ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/template-manager/domain-template/is-analytics.xml
+            </source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/template-manager/domain-template</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
         </file>
 
         <!-- Cipher Tool Files -->

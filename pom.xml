@@ -487,6 +487,7 @@
         <carbon.dashboard.version>2.0.2-SNAPSHOT</carbon.dashboard.version>
         <carbon.metrics.version>1.2.2</carbon.metrics.version>
         <siddhi.version>3.1.2-SNAPSHOT</siddhi.version>
+        <analytics.apim.version>2.0.0</analytics.apim.version>
 
         <jaggery.version>0.12.6</jaggery.version>
         <jaggery.modules.carbon.version>1.5.4</jaggery.modules.carbon.version>

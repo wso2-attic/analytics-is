@@ -359,6 +359,9 @@
                                 <featureArtifactDef>
                                     org.wso2.ciphertool:org.wso2.ciphertool.feature:${cipher.tool.version}
                                 </featureArtifactDef>
+                                <featureArtifactDef>
+                                    org.wso2.analytics.apim:org.wso2.analytics.apim.spark.feature:${analytics.apim.version}
+                                </featureArtifactDef>
                                 <!-- END - Tools -->
                             </featureArtifacts>
                         </configuration>
@@ -378,6 +381,10 @@
                             </destination>
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
+                                <feature>
+                                    <id>org.wso2.analytics.apim.spark.feature.group</id>
+                                    <version>${analytics.apim.version}</version>
+                                </feature>
                                 <!-- START - Analytics Shared Features -->
                                 <feature>
                                     <id>org.wso2.analytics.shared.util.feature.group</id>
