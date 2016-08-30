@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<domain name="ISAnalytics">
+    <description>Real-time and batch IS Analytics.</description>
+    <scenarios>
+ <scenario type="ConfigureAccessToken">
+            <description>Configure access token to analyse data</description>
+            <templates>
+                <template type="batch">
+                    <executionParameters>
+                    <cron>0 0 12 1/7 * ? *</cron>
+
+                    <sparkScript>
+                        <![CDATA[
+                  create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_ANALYTICS_IS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
+
+create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_ANALYTICS_IS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "userId, clientId, scopes");
+
+INSERT INTO TABLE accessTokenRefreshAvrgTime
+      SELECT temp.userId, temp.clientId, temp.scopes, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $lowerPercentile) as minTimeDifference, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $upperPercentile) as maxTimeDifference
+      FROM
+         (SELECT userId, clientId,scopes, timeDifference
+          FROM accessTokenRefreshTime
+            WHERE timestamp >= offsetInDays(-7)) temp
+      GROUP BY userId, clientId, scopes;
+
+                 ]]>
+                    </sparkScript>
+
+                    </executionParameters>
+                </template>
+
+            </templates>
+
+            <parameters>
+                <parameter name="lowerPercentile" type="double">
+                    <displayName>Lower percentile</displayName>
+                    <description>Lower percentile (value between 0 and 1) to calculate minimum time difference</description>
+                    <defaultValue>0.10</defaultValue>
+                </parameter>
+
+
+                <parameter name="upperPercentile" type="double">
+                    <displayName>Upper percentile</displayName>
+                    <description>Upper percentile (value between 0 and 1) to calculate maximum time difference</description>
+                    <defaultValue>0.95</defaultValue>
+                </parameter>
+            </parameters>
+
+
+    </scenario>
+    </scenarios>
+    <streams>
+    </streams>
+</domain>
+
