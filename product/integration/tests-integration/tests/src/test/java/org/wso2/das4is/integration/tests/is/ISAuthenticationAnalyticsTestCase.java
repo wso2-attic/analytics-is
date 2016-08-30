@@ -82,7 +82,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         File targetFile = new File(rdbmsConfigLocation);
         serverManager.applyConfigurationWithoutRestart(sourceFile, targetFile, true);
         serverManager.restartGracefully();
-        Thread.sleep(150000);
+        Thread.sleep(300000);
         dataPublisherClient = new DataPublisherClient("tcp://localhost:9411");
         String apiConf = new File(analyticsDataConfigLocation).getAbsolutePath();
         analyticsDataAPI = new CarbonAnalyticsAPI(apiConf);
@@ -123,9 +123,9 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
                 sampleEventList.add(event);
             }
             dataPublisherClient.publish(sampleEventList);
-            Thread.sleep(35000);
+            Thread.sleep(50000);
             dataPublisherClient.shutdown();
-            Thread.sleep(10000);
+            Thread.sleep(30000);
 
         } catch (Throwable e) {
             log.error("Error when publishing sample authentication events", e);
@@ -148,6 +148,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
 
         Thread.sleep(25000);
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-AuthenticationData");
+        Thread.sleep(25000);
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
         fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
@@ -179,7 +180,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             throws AnalyticsServiceException, AnalyticsException, RemoteException,
                    AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
 
-        Thread.sleep(180000);
+        Thread.sleep(300000);
 
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
@@ -1080,7 +1081,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             throws AnalyticsServiceException, AnalyticsException, InterruptedException, RemoteException,
             AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException {
 
-        Thread.sleep(25000);
+        Thread.sleep(50000);
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
         fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
@@ -1110,7 +1111,7 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             throws AnalyticsServiceException, AnalyticsException, RemoteException,
             AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
 
-        Thread.sleep(180000);
+        Thread.sleep(300000);
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
         fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
