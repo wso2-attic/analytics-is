@@ -351,23 +351,17 @@
                 result.push(data);
 
                  // querying for active session count
-                                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVECOUNT";
+                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS";
 
-                                queryActiveSessions = stringify({
-                                    query: "*:*",
-                                    start: start,
-                                    count: length
-                                });
+                queryActiveSessions = stringify({
+                    query: "meta_tenantId : [ "+ tenantId +" TO " +tenantId + " ]",
+                    start: start,
+                    count: length
+                });
 
-                var respActiveCount = connector.search(superTenantId, tableNameActiveSessions, queryActiveSessions);
+                var respActiveCount = connector.searchCount(superTenantId, tableNameActiveSessions, queryActiveSessions);
 		        if(respActiveCount.status == "success"){
-			        var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
-                	var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
-
-                	if(activeCount < 0) {
-                    	activeCount = 0;
-                	}
-
+                    var activeCount = JSON.parse(respActiveCount.getMessage());
 		            result.push({
                         "activeCount": activeCount,
                         "timeUnit":timeUnit
