@@ -2,7 +2,7 @@
 <analytics-data-purging>
     <cron-expression>0 0 0 * * ?</cron-expression>
     <purge-include-tables>
-        <table>ORG_WSO2_ANALYTICS_IS_ACCESSTOKENREFRESHTIMEDIFFERENCE</table>
+        <table>ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE</table>
     </purge-include-tables>
     <data-retention-days>31</data-retention-days>
 </analytics-data-purging>

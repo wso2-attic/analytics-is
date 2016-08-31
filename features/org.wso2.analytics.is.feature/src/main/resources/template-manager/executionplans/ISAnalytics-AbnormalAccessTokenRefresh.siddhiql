@@ -9,19 +9,19 @@
 @Import('org.wso2.carbon.identity.oauth.token.issuance:1.0.0')
 define stream OAuthStream (user string, tenantDomain string, userstoreDomain string, clientId string, grantType string, tokenId string, authzScopes string, unAuthzScopes string, isSuccess bool, errorCode string, errorMsg string, accessTokenValidityMillis long, refreshTokenValidityMillis long, issuedTime long);
 
-@Export('org.wso2.analytics.is.alert.abnormalTokenRefresh:1.0.0')
+@Export('org.wso2.is.analytics.alert.abnormalTokenRefresh:1.0.0')
 define stream alert_abnormalTokenRefreshStream (userId string, tenantDomain string, scope string, timestamp long, alertTimestamp long, msg string, severity int, consumerKey string);
 
-@Export('org.wso2.analytics.is.allISAlertsStream:1.0.0')
+@Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
 define stream alert_allISAlertsStream (type string, tenantDomain string, msg string, severity int, alertTimestamp long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_ANALYTICS_IS_LASTACCESSTOKENREFRESHEVENTTABLE', primary.keys = 'userId, clientId, scopes', indices = 'userId, clientId, scopes, timestamp')
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_LASTACCESSTOKENREFRESHEVENTTABLE', primary.keys = 'userId, clientId, scopes', indices = 'userId, clientId, scopes, timestamp')
 define table LastAccessTokenRefreshTable (userId string, clientId string, scopes string, timestamp long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_ANALYTICS_IS_ACCESSTOKENREFRESHTIMEDIFFERENCE', indices = 'userId, clientId, scopes, timeDifference, timestamp')
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE', indices = 'userId, clientId, scopes, timeDifference, timestamp')
 define table AccessTokenRefreshTable (userId string, clientId string, scopes string, timeDifference long, timestamp long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_ANALYTICS_IS_ACCESSTOKENREFRESHSUMMARYTABLE', indices = 'userId, clientId, scopes, minTimeDifference, maxTimeDifference')
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE', indices = 'userId, clientId, scopes, minTimeDifference, maxTimeDifference')
 define table AccessTokenRefreshSummaryTable (userId string, clientId string, scopes string, minTimeDifference double, maxTimeDifference double);
 
 

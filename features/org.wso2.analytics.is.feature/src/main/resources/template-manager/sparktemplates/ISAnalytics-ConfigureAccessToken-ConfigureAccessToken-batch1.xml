@@ -3,9 +3,9 @@
     <CronExpression> 0 0 12 1/7 * ? * </CronExpression>
     <Editable>true</Editable>
     <Name>ISAnalytics-ConfigureAccessToken-ConfigureAccessToken-batch1</Name>
-    <Script>create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_ANALYTICS_IS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
+    <Script>create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
 
-create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_ANALYTICS_IS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "userId, clientId, scopes");
+create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "userId, clientId, scopes");
       
 INSERT INTO TABLE accessTokenRefreshAvrgTime
       SELECT temp.userId, temp.clientId, temp.scopes, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), 0.10) as minTimeDifference, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), 0.95) as maxTimeDifference
