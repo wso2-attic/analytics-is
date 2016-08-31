@@ -199,12 +199,6 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("count"));
 
-                if (timeUnit == "SECOND" || timeUnit == "MINUTE") {
-                    timeUnit = "HOUR";
-                } else if (timeUnit == "MONTH" || timeUnit == "YEAR") {
-                    timeUnit = "DAY";
-                }
-
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
@@ -304,6 +298,8 @@
 
                 if (timeUnit == "SECOND") {
                     timeUnit = "MINUTE";
+                } else if (timeUnit == "YEAR") {
+                    timeUnit == "MONTH";
                 }
 
                 // querying for session change
@@ -325,23 +321,6 @@
                 var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
                 var count = connector.searchCount(superTenantId, tableName, query);
-
-                // querying for active session count
-                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVECOUNT";
-
-                queryActiveSessions = stringify({
-                    query: "*:*",
-                    start: start,
-                    count: length
-                });
-
-                var respActiveCount = connector.search(superTenantId, tableNameActiveSessions, queryActiveSessions);
-                var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
-                var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
-
-                if(activeCount < 0) {
-                    activeCount = 0;
-                }
 
                 for (i = 0; i < dataPoints.length; i++) {
                     var temp = [];
@@ -370,11 +349,33 @@
                 }
 
                 result.push(data);
-                result.push({
-                    "activeCount": activeCount,
-                    "timeUnit":timeUnit
-            });
 
+                 // querying for active session count
+                                var tableNameActiveSessions = "ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVECOUNT";
+
+                                queryActiveSessions = stringify({
+                                    query: "*:*",
+                                    start: start,
+                                    count: length
+                                });
+
+                var respActiveCount = connector.search(superTenantId, tableNameActiveSessions, queryActiveSessions);
+		        if(respActiveCount.status == "success"){
+			        var dataPointsActiveCount = JSON.parse(respActiveCount.getMessage());
+                	var activeCount = dataPointsActiveCount[0]["values"]["activeCount"];
+
+                	if(activeCount < 0) {
+                    	activeCount = 0;
+                	}
+
+		            result.push({
+                        "activeCount": activeCount,
+                        "timeUnit":timeUnit
+            	    });
+
+		        }else{
+                    result.push([]);
+		        }
                 break;
             }
             case TYPE_SESSION_DATA_TABLE:
@@ -387,26 +388,40 @@
                 var start = parseInt(request.getParameter("start"));
                 var length = parseInt(request.getParameter("length"));
                 var draw = request.getParameter("draw");
-
-                var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
-                if(sortByColumnNo == 6 || sortByColumnNo == 10) {
-                    sortByColumnNo = 0;
+                var searchValue = request.getParameter("search[value]");
+                var usernameFilter = "";
+                if(searchValue != "") {
+                    usernameFilter = "AND username:" + searchValue + "*";
                 }
-                var sortType = request.getParameter("order[0][dir]").toUpperCase();
+
+
+
                 var tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
                 timeFrom = timeRangeUtil.getFloorValueForTimeStamp(timeFrom, timeUnit);
 
-                var query = stringify({
-                    "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter ,
-                    "start": start,
-                    "count": length,
-                    "sortBy": [
-                        {
-                            "field": columns[sortByColumnNo],
-                            "sortType": sortType
-                        }
-                    ]
-                });
+                var query;
+                if(request.getParameter("order[0][column]") != null) {
+                    var sortByColumnNo = parseInt(request.getParameter("order[0][column]"));
+                    var sortType = request.getParameter("order[0][dir]").toUpperCase();
+                    query = stringify({
+                        "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + usernameFilter,
+                        "start": start,
+                        "count": length,
+                        "sortBy": [
+                            {
+                                "field": columns[sortByColumnNo],
+                                "sortType": sortType
+                            }
+                        ]
+                    });
+                } else {
+                    query = stringify({
+                        "query": "_timestamp : [" + timeFrom + " TO " + timeTo + "]" + tenantFilter + usernameFilter,
+                        "start": start,
+                        "count": length
+                    });
+                }
+
 
                 var resp = connector.search(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());

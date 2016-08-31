@@ -9,3 +9,22 @@
 .dark .table-bordered {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+.dataTables_filter input {
+    display: block;
+    float: right;
+    width: 100%;
+}
+
+.dark .dataTables_filter input {
+    color: #ffffff;
+    float: right;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: left;
+}
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+    text-align: right;
+}
