@@ -2,6 +2,11 @@ instructions.configure = \
 org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../deployment/);\
 org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../deployment/server/);\
 org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../deployment/server/carbonapps/);\
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../resources/);\
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../resources/template-manager/);\
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../resources/template-manager/sparktemplates/);\
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../resources/template-manager/templateconfigs/);\
+org.eclipse.equinox.p2.touchpoint.natives.mkdir(path:${installFolder}/../../deployment/server/executionplans/);\
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is-1.0.0.car,target:${installFolder}/../../deployment/server/carbonapps/org_wso2_analytics_is-1.0.0.car,overwrite:true);\
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/isanalytics.jag,target:${installFolder}/../../deployment/server/jaggeryapps/portal/controllers/apis/isanalytics.jag,overwrite:true);\
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/issessionanalytics.jag,target:${installFolder}/../../deployment/server/jaggeryapps/portal/controllers/apis/issessionanalytics.jag,overwrite:true);\
@@ -9,6 +14,10 @@ org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../featur
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is-1.0.0.car,target:${installFolder}/../../../capps/org_wso2_analytics_is-1.0.0.car,overwrite:true);\
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is_realtime-1.0.0.car,target:${installFolder}/../../../capps/org_wso2_analytics_is_realtime-1.0.0.car,overwrite:true);\
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/org_wso2_analytics_is_offline-1.0.0.car,target:${installFolder}/../../../capps/org_wso2_analytics_is_offline-1.0.0.car,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/template-manager/sparktemplates/,target:${installFolder}/../../resources/template-manager/sparktemplates/,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/template-manager/templateconfigs/,target:${installFolder}/../../resources/template-manager/templateconfigs/,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/template-manager/executionplans/,target:${installFolder}/../../deployment/server/executionplans/,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/conf/template-manager/domain-template/is-analytics.xml,target:${installFolder}/../../conf/template-manager/domain-template/is-analytics.xml,overwrite:true);\
 
 instructions.uninstall = \
 org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/../../deployment/server/carbonapps/org_wso2_analytics_is-1.0.0.car,overwrite:true);\
