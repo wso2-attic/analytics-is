@@ -49,16 +49,16 @@
         <dependency artifact="IsAnalytics-ExecutionPlan-SessionData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
         <dependency artifact="IsAnalytics-ExecutionPlan-AuthenticationData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
 
-        <dependency artifact="org_wso2_analytics_is_alert_abnormalAccessTokenRefreshStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="org_wso2_analytics_is_store_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_alert_abnormalAccessTokenRefreshStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_store_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="org_wso2_identity_oauth_token_issuance" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="org_wso2_analytics_is_accessTokenRefresh_purge" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="org_wso2_carbon_identity_oauth_token_issuance_receiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="org_wso2_analytics_is_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="org_wso2_analytics_is_store_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="org_wso2_analytics_is_store_abnormalAccessTokenRefresh" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_accessTokenRefresh_purge" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Receiver-wso2event-TokenIssuance" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_store_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_store_abnormalAccessTokenRefresh" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="org_wso2_carbon_identity_store_oauth_token_issuance" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
-        <dependency artifact="org_wso2_analytics_is_allISAlertsStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_allISAlertsStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <!-- Dashboard Definition -->
         <dependency artifact="IsAnalytics-Dashboard-AuthenticationData" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
     </artifact>

@@ -1,5 +1,5 @@
 {
-  "name": "org.wso2.analytics.is.accessTokenRefreshTimeDifference",
+  "name": "org.wso2.is.analytics.accessTokenRefreshTimeDifference",
   "version": "1.0.0",
   "nickName": "",
   "description": "",

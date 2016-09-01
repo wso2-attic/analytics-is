@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <eventReceiver
-    name="org_wso2_carbon_identity_oauth_token_issuance_receiver"
+    name="IsAnalytics-Receiver-wso2event-TokenIssuance"
     statistics="disable" trace="disable" xmlns="http://wso2.org/carbon/eventreceiver">
     <from eventAdapterType="wso2event">
         <property name="events.duplicated.in.cluster">false</property>
