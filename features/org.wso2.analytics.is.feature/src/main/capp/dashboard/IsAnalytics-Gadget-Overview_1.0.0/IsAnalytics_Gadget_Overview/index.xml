@@ -44,7 +44,7 @@
                             <h4 id="totalCountOverall"></h4>
                             <div id="donutDivOverall"></div>
                         </div>
-                        <div id="overall" class="btn btn-link" role="button">See Overall Login Attempts</div>
+                        <div id="overall" class="btn btn-default" role="button">See More &gt;&gt;</div>
                     </div>
                 </div>
                 <div class="col-4 add-padding-2x">
@@ -60,7 +60,7 @@
                             <h4 id="totalCountLocal"></h4>
                             <div id="donutDivLocal"></div>
                         </div>
-                        <div id="local" class="btn btn-link" role="button">See Local Login Attempts</div>
+                        <div id="local" class="btn btn-default" role="button">See More &gt;&gt;</div>
                     </div>
                 </div>
                 <div class="col-4 add-padding-2x">
@@ -75,7 +75,7 @@
                         <h4 id="totalCountFederated"></h4>
                         <div id="donutDivFederated"></div>
                     </div>
-                    <div id="federated" class="btn btn-link" role="button">See Federated Login Attempts</div>
+                    <div id="federated" class="btn btn-default" role="button">See More &gt;&gt;</div>
                 </div>
 		  </div>
         </body>
