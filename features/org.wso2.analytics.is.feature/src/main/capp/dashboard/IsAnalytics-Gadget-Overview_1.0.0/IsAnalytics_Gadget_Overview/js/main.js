@@ -93,6 +93,10 @@ function loadFederatedStats(response) {
 }
 
 function loadStats(response, type){
+    if(!response.message) {
+        parent.window.location = parent.window.location.href;
+        return;
+    }
 
     var message = response.message;
 
