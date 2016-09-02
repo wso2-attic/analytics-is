@@ -13,14 +13,21 @@ body.dark .caption {
     color: #E3E5E6;
 }
 
-body.dark .btn-default {
+body.dark .btn-link {
     color: #FFF;
-    background-color: #1E2531;
 }
 
-body.dark .btn-default:hover {
-    background-color: #636C7C;
-    color: #FFF;
+body.dark .btn-link:hover {
+    color: #6B7992;
+}
+
+.btn-link:hover {
+    color: #6B7992;
+}
+
+.btn-link {
+    color: #1E2531;
+    text-decoration: underline;
 }
 
 .thumbnail {
@@ -40,5 +47,41 @@ body.dark .btn-default:hover {
 }
 
 .caption > p {
-    height: 40%;
+    height: 25%;
+}
+
+#donutDivOverall {
+    text-align: center;
+}
+
+#donutDivLocal {
+    text-align: center;
+}
+
+#donutDivFederated {
+    text-align: center;
+}
+
+#totalCountOverall {
+    text-align: center;
+}
+
+#totalCountLocal {
+    text-align: center;
+}
+
+#totalCountFederated {
+    text-align: center;
+}
+
+body.dark svg.marks .mark-group .background {
+    fill: #1E2531 !important;
+}
+
+body.dark svg.marks .mark-group .mark-text text {
+    fill: #7D8596 !important;
+}
+
+body.dark svg.marks .mark-group .mark-rule line {
+    stroke: #E3E5E6 !important;
 }
