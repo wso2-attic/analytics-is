@@ -359,18 +359,18 @@ function loadStats(data){
 //draw donuts
     var dataT = [{
                      "metadata": {
-                         "names": ["Rate", "Status"],
-                         "types": ["linear", "ordinal"]
+                         "names": ["Rate", "Status", "Percentage"],
+                         "types": ["linear", "ordinal", "ordinal"]
                      },
                      "data": [
-                         [parseFloat(success), "Success"],
-                         [parseFloat(failed), "Failures"]
+                         [parseFloat(success), "Success", (success/total*100).toFixed(2) + "%"],
+                         [parseFloat(failed), "Failures", (failed/total*100).toFixed(2) + "%"]
                      ]
                  }];
 
     var configT = {
         charts: [{ type: "arc", x: "Rate", color: "Status", mode:"donut" }],
-        tooltip: {"enabled":true, "color":"#e5f2ff", "type":"symbol", "content":["Status","Rate"], "label":false},
+        tooltip: {"enabled":true, "color":"#e5f2ff", "type":"symbol", "content":["Status","Rate","Percentage"], "label":false},
 
         innerRadius: 0.3,
         padding: { top:10, right:10, bottom:10, left:10 },
