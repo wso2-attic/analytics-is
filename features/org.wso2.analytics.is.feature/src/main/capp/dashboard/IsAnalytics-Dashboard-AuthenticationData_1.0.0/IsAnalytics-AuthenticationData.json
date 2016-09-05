@@ -23,11 +23,19 @@
                     "loggedIn": {
                         "blocks": [
                             {
+                                "id": "a",
+                                "x": 0,
+                                "y": 0,
+                                "width": 12,
+                                "height": 1,
+                                "banner": false
+                            },
+                            {
                                 "id": "d",
                                 "x": 0,
                                 "y": 1,
                                 "width": 12,
-                                "height": 6,
+                                "height": 8,
                                 "banner": false
                             }
                         ]
@@ -38,6 +46,44 @@
             "isanon": false,
             "content": {
                 "default": {
+                    "a": [
+                    {
+                      "id": "hcs95c0d5n9gj33tv2bg9zfr",
+                      "content": {
+                        "id": "IsAnalytics_Gadget_DateRangePicker",
+                        "title": "Date Range Picker",
+                        "type": "gadget",
+                        "category": "Widgets",
+                        "thumbnail": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.png",
+                        "data": {
+                          "url": "store:\/\/gadget\/IsAnalytics_Gadget_DateRangePicker\/index.xml"
+                        },
+                        "toolbarButtons": {
+                          "default": {
+                            "maximize": false,
+                            "configurations": false
+                          }
+                        },
+                        "styles": {
+                          "no_heading": true,
+                          "borders": false,
+                          "title": "Date Range Picker"
+                        },
+                        "notify": {
+                          "publisher": {
+                            "type": "dateRange",
+                            "description": "This notifies date ranges generated in Date Range Picker"
+                          }
+                        },
+                        "options": {
+
+                        },
+                        "locale_titles": {
+
+                        }
+                      }
+                    }
+                  ],
                     "d": [
                         {
                             "id": "IsAnalytics_Gadget_Overview-0",
@@ -63,6 +109,18 @@
                                     "no_heading": true,
                                     "title": "IsAnalytics_Gadget_Overview",
                                     "borders": true
+                                },
+                                "listen": {
+                                  "subscriber": {
+                                    "type": "dateRange",
+                                    "description": "Used to listen to Any message of type state",
+                                    "on": [
+                                      {
+                                        "from": "hcs95c0d5n9gj33tv2bg9zfr",
+                                        "event": "publisher"
+                                      }
+                                    ]
+                                  }
                                 },
                                 "options": {
                                     "role": {

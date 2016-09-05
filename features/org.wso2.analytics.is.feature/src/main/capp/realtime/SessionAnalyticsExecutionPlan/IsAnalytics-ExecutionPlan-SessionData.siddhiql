@@ -6,14 +6,14 @@
 
 /* define streams/tables and write queries here ... */
 
-
+@async(bufferSize='1024')
 @Import('org.wso2.is.analytics.stream.OverallSession:1.0.0')
 define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
 
 @Export('org.wso2.is.analytics.stream.SessionStatPerMinute:1.0.0')
 define stream SessionStatPerMinute (meta_tenantId int, bucketId long, bucketStart long, bucketEnd long, year int, month int, day int, hour int, minute int, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS', primary.keys = 'meta_tenantId, sessionId' , indices = 'sessionId , startTimestamp, renewTimestamp, terminationTimestamp, year, month, day, hour, minute, action, username, userstoreDomain, remoteIp, region, tenantDomain, rememberMeFlag, userAgent',  wait.for.indexing = 'false')
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVESESSIONS', primary.keys = 'meta_tenantId, sessionId' , indices = 'meta_tenantId, sessionId , startTimestamp, renewTimestamp, terminationTimestamp, year, month, day, hour, minute, action, username, userstoreDomain, remoteIp, region, tenantDomain, rememberMeFlag, userAgent',  wait.for.indexing = 'true', merge.schema = 'false')
 define table activeSessionsTable (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, year int, month int, day int, hour int, minute int, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
 
 @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_ACTIVECOUNT', primary.keys = 'meta_tenantId, id', indices = 'meta_tenantId, id, activeCount', wait.for.indexing = 'true', merge.schema = 'false')
@@ -38,7 +38,7 @@ from IntermediateSessionStream [action == 0]
 select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (terminationTimestamp - startTimestamp) as duration,  false as isActive, username, userstoreDomain, remoteIp, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, ifThenElse(userstoreDomain is null OR userstoreDomain == "" OR tenantDomain is null OR tenantDomain == "", username, str:concat(userstoreDomain, '/', username, '@', tenantDomain)) as usernameWithTenantDomainAndUserstoreDomain
 insert into SessionStreamInfo;
 
-from SessionStreamInfo#window.timeBatch(1 sec)
+from SessionStreamInfo[isActive == false]#window.timeBatch(1 sec)
 delete activeSessionsTable
 on activeSessionsTable.sessionId == sessionId AND activeSessionsTable.meta_tenantId == meta_tenantId;
 
