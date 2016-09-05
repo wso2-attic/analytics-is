@@ -19,6 +19,12 @@
           <script src="../IsAnalytics_Gadget_Commons/js/moment.min.js"></script>
           <script src="../IsAnalytics_Gadget_Commons/js/gadget-utils.js"></script>
 
+          <!-- Include VizGrammar -->
+          <script src="../IsAnalytics_Gadget_Commons/js/d3.min.js"></script>
+          <script src="../IsAnalytics_Gadget_Commons/js/vega.js"></script>
+          <script src="../IsAnalytics_Gadget_Commons/js/VizGrammar.min.js"></script>
+
+
           <link rel="stylesheet" type="text/css" href="css/custom.css" />
           <script src="js/main.js"></script>
 
@@ -27,37 +33,49 @@
             <div class="row row-eq-height add-padding-2x" style="height:100%;">
                 <div class="col-4 add-padding-2x">
                     <div class="thumbnail">
-                        <i class="fw fw-wso2-logo fw-5x"></i>
                         <div class="caption">
                             <h3>Overall Login Attempts</h3>
                             <p>Analyze overall login attempts made via WSO2 Identity Server.<br/>
                             This includes information about overall flows of authentication took place through Identity Server.
                             A collection of authentication steps is considered as an overall attempt </p>
-                            <div id="overall" class="btn btn-default" role="button">&gt;&gt;</div>
                         </div>
+                        <div>
+                            <h5 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h5>
+                            <h4 id="totalCountOverall"></h4>
+                            <div id="donutDivOverall"></div>
+                        </div>
+                        <div id="overall" class="btn btn-default" role="button">See More &gt;&gt;</div>
                     </div>
                 </div>
                 <div class="col-4 add-padding-2x">
                     <div class="thumbnail">
-                        <i class="fw fw-wso2-logo fw-5x"></i>
                         <div class="caption">
                             <h3>Local Login Attempts</h3>
                             <p>Analyze local login attempts made via WSO2 Identity Server.<br/>
                             Local login attempts include all login attempts which are done through resident IDP.
                             These statistics will give an idea on the involvement of resident IDP in an authentication flow.</p>
-                            <div id="local" class="btn btn-default" role="button">&gt;&gt;</div>
                         </div>
+                        <div>
+                            <h5 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h5>
+                            <h4 id="totalCountLocal"></h4>
+                            <div id="donutDivLocal"></div>
+                        </div>
+                        <div id="local" class="btn btn-default" role="button">See More &gt;&gt;</div>
                     </div>
                 </div>
                 <div class="col-4 add-padding-2x">
                     <div class="thumbnail">
-                    <i class="fw fw-wso2-logo fw-5x"></i>
                     <div class="caption">
                         <h3>Federated Login Attempts</h3>
                         <p>Analyze federated login attempts made via WSO2 Identity Server.<br/>
                         This will give an idea about the authentication steps took place via federated identity providers.</p>
-                        <div id="federated" class="btn btn-default" role="button">&gt;&gt;</div>
                     </div>
+                    <div>
+                        <h5 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h5>
+                        <h4 id="totalCountFederated"></h4>
+                        <div id="donutDivFederated"></div>
+                    </div>
+                    <div id="federated" class="btn btn-default" role="button">See More &gt;&gt;</div>
                 </div>
 		  </div>
         </body>

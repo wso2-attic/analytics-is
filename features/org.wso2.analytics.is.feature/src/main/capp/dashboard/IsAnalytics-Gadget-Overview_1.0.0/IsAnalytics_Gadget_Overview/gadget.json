@@ -11,5 +11,11 @@
             "maximize": false,
             "configurations": false
         }
+    },
+    "listen": {
+        "subscriber": {
+          "type": "dateRange",
+          "description": "Used to listen to Any message of type state"
+        }
     }
 }
