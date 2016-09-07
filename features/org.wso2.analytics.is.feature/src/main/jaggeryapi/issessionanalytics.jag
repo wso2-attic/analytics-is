@@ -365,6 +365,23 @@
                         "sessionType": "Terminated"
                     });
                 }
+                if(dataPoints.length > 0 && !common.isEndTimestampDataAvailable(timeTo, dataPoints[dataPoints.length-1]["values"]["bucketId"], timeUnit)) {
+                    data.push({
+                        "timestamp": timeTo,
+                        "sessionCount": 0,
+                        "sessionType": "Active"
+                    });
+                    data.push({
+                        "timestamp": timeTo,
+                        "sessionCount": 0,
+                        "sessionType": "New"
+                    });
+                    data.push({
+                        "timestamp": timeTo,
+                        "sessionCount": 0,
+                        "sessionType": "Terminated"
+                    });
+                }
 
                 result.push(data);
 

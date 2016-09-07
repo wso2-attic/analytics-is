@@ -176,6 +176,14 @@
                         "timeUnit":timeUnit
                     });
                 }
+                if(dataPoints.length > 0 && !common.isEndTimestampDataAvailable(timeTo, dataPoints[dataPoints.length-1].values.facetStartTime[0], timeUnit)) {
+                    result.push({
+                        "timestamp": timeTo,
+                        "successCount": 0,
+                        "faultsCount": 0,
+                        "timeUnit":timeUnit
+                    });
+                }
                 break;
             }
             case TYPE_PER_USER_AUTH_SUCCESS:
