@@ -15,6 +15,7 @@ var charts = [{
         "range":"true",
         "yTitle":"Authentication Attempts",
         "xTitle":"Time",
+        "xTicks":6,
         "colorScale":["#5CB85C","#D9534F"],
         "colorDomain":["SUCCESS","FAILURE"],
         "rangeColor":"#737373",

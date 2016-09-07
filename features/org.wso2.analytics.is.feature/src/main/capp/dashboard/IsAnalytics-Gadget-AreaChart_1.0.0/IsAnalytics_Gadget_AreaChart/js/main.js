@@ -317,6 +317,9 @@ function onData(response) {
         if((maxSuccessCount + maxFailureCount) < 10) {
             chart.chartConfig.yTicks = maxSuccessCount + maxFailureCount;
         }
+        if(allData[0] != "" && allData[0].length < 6) {
+            chart.chartConfig.xTicks = allData[0].length();
+        }
 
         var vg = new vizg(chart.schema, chart.chartConfig);
         $("#canvas").empty();

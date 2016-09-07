@@ -348,6 +348,24 @@
                     }
                 }
 
+                if(dataPoints.length > 0 && !common.isStartTimestampDataAvailable(timeFrom, dataPoints[0]["values"]["bucketId"], timeUnit)) {
+                    data.unshift({
+                        "timestamp": timeFrom,
+                        "sessionCount": 0,
+                        "sessionType": "Active"
+                    });
+                    data.unshift({
+                        "timestamp": timeFrom,
+                        "sessionCount": 0,
+                        "sessionType": "New"
+                    });
+                    data.unshift({
+                        "timestamp": timeFrom,
+                        "sessionCount": 0,
+                        "sessionType": "Terminated"
+                    });
+                }
+
                 result.push(data);
 
                  // querying for active session count

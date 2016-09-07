@@ -133,6 +133,9 @@ function onData(response) {
         if(maxCount < 10) {
             chart.chartConfig.yTicks = maxCount;
         }
+        if(processedData != "" && processedData.length < 10) {
+            chart.chartConfig.xTicks = allData[0].length();
+        }
 
         var vg = new vizg(chart.schema, chart.chartConfig);
         $("#canvas").empty();
