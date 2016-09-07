@@ -18,6 +18,7 @@
         <dependency artifact="AuthenticationStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AlertLongSessionsSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <!--realtime-->
         <dependency artifact="AnalyticsAuthenticationEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsAuthenticationProcessedEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -59,6 +60,9 @@
         <dependency artifact="org_wso2_is_analytics_store_abnormalAccessTokenRefresh" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="org_wso2_carbon_identity_store_oauth_token_issuance" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="org_wso2_is_analytics_allISAlertsStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
+        <dependency artifact="AlertLongSessionsEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AlertLongSessionsEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <!-- Dashboard Definition -->
         <dependency artifact="IsAnalytics-Dashboard-AuthenticationData" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
     </artifact>
