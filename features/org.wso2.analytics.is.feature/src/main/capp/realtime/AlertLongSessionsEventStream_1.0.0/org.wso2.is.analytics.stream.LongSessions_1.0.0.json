@@ -1,0 +1,24 @@
+{
+  "name": "org.wso2.is.analytics.stream.LongSessions",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "sessionId",
+      "type": "STRING"
+    },
+    {
+      "name": "username",
+      "type": "STRING"
+    },
+    {
+      "name": "duration",
+      "type": "LONG"
+    },
+    {
+      "name": "avgDuration",
+      "type": "DOUBLE"
+    }
+  ]
+}

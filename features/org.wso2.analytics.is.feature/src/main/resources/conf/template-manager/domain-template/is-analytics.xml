@@ -64,6 +64,56 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
 
 
     </scenario>
+
+        <scenario type="AlertLongSessions">
+            <description>Detects long session durations and alerts the user</description>
+            <templates>
+                <template type="realtime">
+                    <![CDATA[
+                        /* Enter a unique ExecutionPlan */
+                        @Plan:name('ISAnalytics-RealtimeAlerts-LongSessions')
+
+                        /* Enter a unique description for ExecutionPlan */
+                        @Plan:description('Detects long session durations and alerts the user')
+
+                        /* define streams/tables and write queries here ... */
+
+                        @Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
+                        define stream AlertLongSessions (sessionId string, username string, duration long, avgDuration double);
+
+                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'username', indices = 'username, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
+                        define table AverageSessionDurationTable(username string, avgDuration double);
+
+                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
+                        define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, usernameWithTenantDomainAndUserstoreDomain string);
+
+                        define trigger periodicalTriggerStream at every 5 min;
+
+                        from periodicalTriggerStream join SessionStreamInfoTable
+                        select *
+                        insert into SessionStreamInfoSummary;
+
+                        from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
+                        select sessionId, username, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration
+                        insert into FilterLongSessions;
+
+                        from FilterLongSessions as s join AverageSessionDurationTable as t
+                        on s.username == t.username and s.duration > t.avgDuration
+                        select sessionId, s.username, duration, t.avgDuration
+                        insert into AlertLongSessions;
+
+                 ]]>
+                </template>
+            </templates>
+            <parameters>
+                <parameter name="sessionDurationThreshold" type="long">
+                    <displayName>Session Duration Threshold Value (Milliseconds)</displayName>
+                    <description>Threshold value to filter long duration sessions</description>
+                    <defaultValue>900000</defaultValue>
+                </parameter>
+            </parameters>
+        </scenario>
+
     </scenarios>
     <streams>
     </streams>
