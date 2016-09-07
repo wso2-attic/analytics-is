@@ -28,7 +28,7 @@ import org.wso2.siddhi.query.api.definition.Attribute;
 
 public class IpToCountryExtension extends FunctionExecutor {
 
-    GeoLocationResolverUDFWithImprovedCache geoLocationResolverUDF = new GeoLocationResolverUDFWithImprovedCache(); ;
+    GeoLocationResolverUDFWithImprovedCache geoLocationResolverUDF = new GeoLocationResolverUDFWithImprovedCache();
 
     @Override
     protected void init(ExpressionExecutor[] expressionExecutors, ExecutionPlanContext executionPlanContext) {
