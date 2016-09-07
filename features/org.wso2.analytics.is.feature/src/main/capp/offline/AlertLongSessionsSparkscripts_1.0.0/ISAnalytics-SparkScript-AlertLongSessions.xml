@@ -13,7 +13,7 @@
         -i -f, _timestamp LONG -i", primaryKeys "meta_tenantId, sessionId", mergeSchema "false");
 
         CREATE TEMPORARY TABLE averageSessionDurationTable USING CarbonAnalytics OPTIONS (tableName
-        "ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION", schema "username STRING -i -f, avg_duration DOUBLE -i
+        "ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION", schema "username STRING -i -f, avgDuration DOUBLE -i
         -f", primaryKeys "username", mergeSchema "false");
 
         INSERT INTO TABLE averageSessionDurationTable SELECT username, AVG(duration) from rawSessionsTable group by

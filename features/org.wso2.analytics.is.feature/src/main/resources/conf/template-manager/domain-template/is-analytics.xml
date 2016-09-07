@@ -81,7 +81,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         @Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
                         define stream AlertLongSessions (sessionId string, username string, duration long, avgDuration double);
 
-                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'username', indices = 'username, avg_duration', wait.for.indexing = 'true', merge.schema = 'false')
+                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'username', indices = 'username, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
                         define table AverageSessionDurationTable(username string, avgDuration double);
 
                         @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
