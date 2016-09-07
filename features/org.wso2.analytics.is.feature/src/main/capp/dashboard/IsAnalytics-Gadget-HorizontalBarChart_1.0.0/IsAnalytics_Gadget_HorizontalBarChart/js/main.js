@@ -609,7 +609,7 @@ var typeSuccessCallbackmethod = function (event, item) {
         chartFailure.isSelected = false;
         refreshChart(chartFailure);
     }
-    var userPrefKey = chartSuccess.chartConfig.x;
+    var userPrefKey = chartSuccess.chartConfig.tooltip.content[0];
     var jsonObj = item.datum;
     var userPrefValue = "";
 
@@ -674,7 +674,7 @@ var typeFailureCallbackmethod = function (event, item) {
         refreshChart(chartSuccess);
     }
 
-    var userPrefKey = chartFailure.chartConfig.x;
+    var userPrefKey = chartFailure.chartConfig.tooltip.content[0];
     var jsonObj = item.datum;
     var userPrefValue;
 
