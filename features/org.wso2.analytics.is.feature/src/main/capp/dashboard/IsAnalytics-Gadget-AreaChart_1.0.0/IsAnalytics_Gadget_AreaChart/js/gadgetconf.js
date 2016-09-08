@@ -15,7 +15,9 @@ var charts = [{
         "range":"true",
         "yTitle":"Authentication Attempts",
         "xTitle":"Time",
+        "xTicks":6,
         "colorScale":["#5CB85C","#D9534F"],
+        "tooltip" : {"enabled":true, "color":"#e5f2ff", "type":"symbol", "content":["authActionCount","timeStamp","authActionType"], "label":true},
         "colorDomain":["SUCCESS","FAILURE"],
         "rangeColor":"#737373",
         "padding":{
@@ -76,14 +78,14 @@ var charts = [{
 
             if((row['timestamp'] - previousTimestamp) > step) {
                 for(var t=(previousTimestamp - previousTimestamp%step + step); t<row.timestamp; t=t+step) {
-                    tableData.push([0, t, "AUTHSUCCESS"]);
-                    tableData.push([0, t, "AUTHFAULT"]);
+                    tableData.push([0, t, "Success"]);
+                    tableData.push([0, t, "Failures"]);
                 }
             }
             previousTimestamp = row.timestamp;
 
-            tableData.push([successCount, timestamp, "AUTHSUCCESS"]);
-            tableData.push([-faultCount,timestamp , "AUTHFAULT"]);
+            tableData.push([successCount, timestamp, "Success"]);
+            tableData.push([-faultCount,timestamp , "Failures"]);
         });
         result.push(tableData);
         result.push(overallAuthSuccessCount);

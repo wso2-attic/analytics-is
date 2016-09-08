@@ -75,5 +75,47 @@
         return [obj, categoryCount];
 
     };
+
+    function isStartTimestampDataAvailable(startTimestamp, firstDataPointTimestamp, timeUnit) {
+
+        var startTimestampDataAvailable = true;
+        var step;
+        if(timeUnit == "MINUTE") {
+            step = 60000;
+        } else if(timeUnit == "HOUR") {
+            step = 3600000;
+        } else if(timeUnit == "DAY") {
+            step = 86400000;
+        } else if(timeUnit == "MONTH") {
+            step = 2628000000;
+        } else if(timeUnit == "YEAR") {
+            step = 31540000000;
+        }
+        if(startTimestamp < firstDataPointTimestamp && (firstDataPointTimestamp - startTimestamp) > step) {
+            startTimestampDataAvailable = false;
+        }
+        return startTimestampDataAvailable;
+    }
+
+    function isEndTimestampDataAvailable(endTimestamp, lastDataPointTimestamp, timeUnit) {
+
+        var endTimestampDataAvailable = true;
+        var step;
+        if(timeUnit == "MINUTE") {
+            step = 60000;
+        } else if(timeUnit == "HOUR") {
+            step = 3600000;
+        } else if(timeUnit == "DAY") {
+            step = 86400000;
+        } else if(timeUnit == "MONTH") {
+            step = 2628000000;
+        } else if(timeUnit == "YEAR") {
+            step = 31540000000;
+        }
+        if(endTimestamp > lastDataPointTimestamp && (endTimestamp - lastDataPointTimestamp) > step) {
+            endTimestampDataAvailable = false;
+        }
+        return endTimestampDataAvailable;
+    }
     
  %>

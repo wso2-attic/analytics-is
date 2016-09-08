@@ -19,6 +19,8 @@
 
 package org.wso2.analytics.is.siddhi.extension;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.analytics.shared.geolocation.exception.GeoLocationResolverException;
 import org.wso2.carbon.analytics.shared.geolocation.impl.GeoLocationResolverUDFWithImprovedCache;
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
@@ -28,7 +30,8 @@ import org.wso2.siddhi.query.api.definition.Attribute;
 
 public class IpToCountryExtension extends FunctionExecutor {
 
-    GeoLocationResolverUDFWithImprovedCache geoLocationResolverUDF = new GeoLocationResolverUDFWithImprovedCache(); ;
+    private static final Log log = LogFactory.getLog(IpToCountryExtension.class);
+    private GeoLocationResolverUDFWithImprovedCache geoLocationResolverUDF = new GeoLocationResolverUDFWithImprovedCache();
 
     @Override
     protected void init(ExpressionExecutor[] expressionExecutors, ExecutionPlanContext executionPlanContext) {
@@ -44,7 +47,8 @@ public class IpToCountryExtension extends FunctionExecutor {
         try {
             return geoLocationResolverUDF.getCountry(o.toString());
         } catch (GeoLocationResolverException e) {
-            return  "";
+            log.error("Exception when resolving the country for given IP : " + o.toString(), e);
+            return "";
         }
     }
 

@@ -109,39 +109,39 @@ $(function() {
                     if ( aData[8] == true )
                     {
                         $('td', nRow).eq(8).html(
-                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
+                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
                         );
                     }
                     else
                     {
                         $('td', nRow).eq(8).html(
-                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
+                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
                         );
                     }
                 } else if(page.name == TYPE_FEDERATED) {
                     if ( aData[6] == true )
                     {
                         $('td', nRow).eq(6).html(
-                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
+                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
                         );
                     }
                     else
                     {
                         $('td', nRow).eq(6).html(
-                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
+                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
                         );
                     }
                 } else if(page.name == TYPE_LOCAL){
                     if ( aData[8] == true )
                     {
                         $('td', nRow).eq(8).html(
-                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding:8px;">Success</div></div>'
+                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
                         );
                     }
                     else
                     {
                         $('td', nRow).eq(8).html(
-                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding:8px;">Failure</div></div>'
+                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
                         );
                     }
                 }
