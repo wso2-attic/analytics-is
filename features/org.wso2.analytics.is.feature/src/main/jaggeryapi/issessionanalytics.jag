@@ -368,7 +368,7 @@
                 if(dataPoints.length > 0 && !common.isEndTimestampDataAvailable(timeTo, dataPoints[dataPoints.length-1]["values"]["bucketId"], timeUnit)) {
                     data.push({
                         "timestamp": timeTo,
-                        "sessionCount": 0,
+                        "sessionCount": dataPoints[dataPoints.length-1]["values"]["activeSessionCount"],
                         "sessionType": "Active"
                     });
                     data.push({
