@@ -77,10 +77,10 @@ var charts = [
                 var duration = row['duration'];
                 var username = row['username'];
                 var xLabel;
-                if(row['username'][0].length > 12) {
-                    xLabel = row['username'][0].substr(0, 10) + "..";
+                if(row['username'].length > 12) {
+                    xLabel = row['username'].substr(0, 10) + "..";
                 } else {
-                    xLabel =row['username'][0];
+                    xLabel =row['username'];
                 }
                 result.push([duration, username, xLabel]);
             });

@@ -147,36 +147,57 @@
                 var timeNow = new Date().getTime();
 
                 query = stringify({
-                    tableName: tableName,
-                    groupByField: "usernameWithTenantDomainAndUserstoreDomain",
-                    aggregateLevel: 0,
+                    fieldName : "usernameWithTenantDomainAndUserstoreDomain",
+                    categoryPath : [],
                     query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
-                    aggregateFields: [
-                        {
-                            fieldName: "duration",
-                            aggregate: "AVG",
-                            alias: "averageSession"
-                        }
-                    ]
+                    scoreFunction : "duration",
+                    start: 0,
+                    count: 1000000
                 });
 
-                resp = connector.searchWithAggregates(superTenantId, tableName, query);
+                resp = connector.drillDownCategories(superTenantId, tableName, query);
                 var dataPoints = JSON.parse(resp.getMessage());
-                var count = dataPoints.length;
+                var obj = dataPoints.categories;
+                var count = Object.keys(obj).length;
 
-                for (i = 0; i < dataPoints.length; i++) {
-                    var temp = [];
-                    if (dataPoints[i] != null) {
-                        var username = dataPoints[i]["values"]["usernameWithTenantDomainAndUserstoreDomain"];
-                        var duration = dataPoints[i]["values"]["averageSession"];
-                        data.push({
-                            "username": username,
-                            "duration": duration / 1000
-                        });
+                var durations = [];
+
+                if(count != 0) {
+                    for (var key in obj) {
+                        durations[key] =  obj[key];
                     }
                 }
 
-                // sort average values
+                query = stringify({
+                    fieldName : "usernameWithTenantDomainAndUserstoreDomain",
+                    categoryPath : [],
+                    query: "startTimestamp : [" + 0 + " TO " + timeTo + "] AND (endTimestamp : [" + timeFrom + " TO " + timeNow + "] OR isActive:true)" + tenantFilter ,
+                    scoreFunction : 1,
+                    start: 0,
+                    count: 1000000
+                });
+
+                resp = connector.drillDownCategories(superTenantId, tableName, query);
+                var dataPoints = JSON.parse(resp.getMessage());
+                var obj = dataPoints.categories;
+                var count = Object.keys(obj).length;
+
+                if(count != 0) {
+                    for (var key in obj) {
+                        if(durations[key]) {
+                            var totalDuration = durations[key];
+                            var username = key;
+                            var duration = totalDuration / obj[key];
+                            data.push({
+                                "username": username + "",
+                                "duration": duration / 1000
+                            });
+                        }
+                    }
+                }
+
+                var count = Object.keys(data).length;
+
                 var insert = function (array, rightIndex, value) {
                     for (var j = rightIndex; j > 0 && array[j - 1]["duration"] < value["duration"]; j--) {
                         array[j] = array[j - 1];
