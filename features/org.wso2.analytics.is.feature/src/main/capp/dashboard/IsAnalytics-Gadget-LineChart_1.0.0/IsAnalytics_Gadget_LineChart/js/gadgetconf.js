@@ -14,8 +14,9 @@ var charts = [{
         "yTitle":"Session Count",
         charts: [{ type: "line", range:"true",  y : "sessionCount", color: "sessionType" }],
         padding: { "top": 30, "left": 60, "bottom": 60, "right": 20 },
+        colorDomain : ["Active", "New", "Terminated"],
         rangeColor:"#737373",
-        range: true,
+        range: true
     },
     types: [
         { name: TYPE_SESSIONS, type: 26 }

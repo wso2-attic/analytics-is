@@ -98,7 +98,7 @@ $(function () {
         idpTypeFilter = "";
     }
 
-    if (instanceType == "SERVICEPROVIDER" && page != TYPE_LOCAL) {
+    if (instanceType == "SERVICEPROVIDER" && page == TYPE_OVERALL) {
         $('#nav-tabs').html('<li role="presentation" class="active"><a href="javascript:void(0);" onclick="onSPChange(this)" data-provider="service">By All</a></li>'
         +'<li role="presentation"><a href="javascript:void(0);" data-provider="attempts" onclick="onSPChange(this)" >By First Logins</a></li>');
     }
@@ -609,7 +609,7 @@ var typeSuccessCallbackmethod = function (event, item) {
         chartFailure.isSelected = false;
         refreshChart(chartFailure);
     }
-    var userPrefKey = chartSuccess.chartConfig.x;
+    var userPrefKey = chartSuccess.chartConfig.tooltip.content[0];
     var jsonObj = item.datum;
     var userPrefValue = "";
 
@@ -674,7 +674,7 @@ var typeFailureCallbackmethod = function (event, item) {
         refreshChart(chartSuccess);
     }
 
-    var userPrefKey = chartFailure.chartConfig.x;
+    var userPrefKey = chartFailure.chartConfig.tooltip.content[0];
     var jsonObj = item.datum;
     var userPrefValue;
 
