@@ -130,6 +130,14 @@
             <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
+            <Name>region</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
             <Name>tenantDomain</Name>
             <IsFacet>true</IsFacet>
             <EnableIndexing>true</EnableIndexing>
@@ -160,6 +168,14 @@
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>BOOLEAN</Type>
+        </ColumnDefinition>
+        <ColumnDefinition>
+            <Name>userAgent</Name>
+            <IsFacet>true</IsFacet>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
+            <EnableScoreParam>false</EnableScoreParam>
+            <Type>STRING</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>usernameWithTenantDomainAndUserstoreDomain</Name>
