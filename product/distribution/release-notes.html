@@ -44,7 +44,7 @@
 		<li>Extract the downloaded zip</li>
 		<li>Go to the bin directory in the extracted folder</li>
 		<li>Run the wso2server.sh or wso2server.bat as appropriate</li>
-		<li>Point your browser to the URL https://localhost:9443/carbon</li>
+		<li>Point your browser to the URL https://localhost:9444/carbon</li>
 		<li>Use "admin", "admin" as the username and password to login as an admin</li>
 		<li>If you need to start the OSGi console with the server use the property
 			-DosgiConsole when starting the server. The INSTALL.txt file found on the
@@ -56,6 +56,29 @@
 	</ol>
 
 	<h2>What's New In This Release</h2>
+
+	<h3>Login Analytics</h3>
+
+	<p>Latest IS analytics version comes with the this new feature which enables users to view/analyze all the
+		authentication data where users logged in using SSO scenarios through different protocols
+		such as SAML2 Web SSO, OpenID Connect, Passive STS. This feature will also provide the ability to view
+		authentication data based on different attributes of the authentication events.
+
+		Furthermore, Users can drill down and analyze data based on following attributes of the authentication flow </p>
+	<ul>
+		<li> Service Providers</li>
+		<li> First Login</li>
+		<li> Identity Providers</li>
+		<li> User Roles</li>
+		<li> Users</li>
+		<li> Region</li>
+	</ul>
+
+	<h3>Session Data Analytics</h3>
+
+	<p>This feature will enable users to view/analyze the evolution of user sessions through Identity Server over
+		time.</p>
+
 	<ul>
 		<li>This release fixes the following bugs over Data Analytics Server 3.1.0 release. <a href="https://wso2.org/jira/browse/DAS-374?filter=13152">
             https://wso2.org/jira/browse/DAS-374?filter=13152</a></li>
