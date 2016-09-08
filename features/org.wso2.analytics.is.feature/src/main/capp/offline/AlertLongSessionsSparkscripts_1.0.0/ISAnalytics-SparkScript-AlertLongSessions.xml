@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Analytics>
-    <CronExpression>0 0/5 * * * ?</CronExpression>
+    <CronExpression>0 0/1 * * * ?</CronExpression>
     <Editable>true</Editable>
     <Name>ISAnalytics-SparkScript-AlertLongSessions</Name>
     <Script>
