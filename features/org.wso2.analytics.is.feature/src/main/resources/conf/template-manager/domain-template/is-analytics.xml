@@ -85,7 +85,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         define table AverageSessionDurationTable(username string, avgDuration double);
 
                         @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
-                        define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, usernameWithTenantDomainAndUserstoreDomain string);
+                        define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
 
                         define trigger periodicalTriggerStream at every 2 min;
 
