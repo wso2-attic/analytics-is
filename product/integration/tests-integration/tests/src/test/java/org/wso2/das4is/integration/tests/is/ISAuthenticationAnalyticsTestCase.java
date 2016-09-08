@@ -123,9 +123,9 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
                 sampleEventList.add(event);
             }
             dataPublisherClient.publish(sampleEventList);
-            Thread.sleep(50000);
+            Thread.sleep(60000);
             dataPublisherClient.shutdown();
-            Thread.sleep(30000);
+            Thread.sleep(40000);
 
         } catch (Throwable e) {
             log.error("Error when publishing sample authentication events", e);
