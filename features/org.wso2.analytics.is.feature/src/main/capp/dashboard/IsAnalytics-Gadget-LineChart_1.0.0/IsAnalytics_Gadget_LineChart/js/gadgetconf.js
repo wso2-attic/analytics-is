@@ -33,6 +33,7 @@ var charts = [{
         previousTimestamp["New"] = minTimestamp;
         previousTimestamp["Active"] = minTimestamp;
         previousTimestamp["Terminated"] = minTimestamp;
+        var previousActiveSessionCount = 0;
 
         var step;
         if(timeUnit == "MINUTE") {
@@ -51,11 +52,19 @@ var charts = [{
             if((row.timestamp - previousTimestamp[row.sessionType]) > step) {
                 var previousT = previousTimestamp[row.sessionType];
                 for(var t=(previousT - previousT%step + step); t<row.timestamp; t=t+step) {
-                    var zeroValuePoint = [0, t, row.sessionType];
-                    result.push(zeroValuePoint);
+                    if(row.sessionType == "Active") {
+                        var sameValuePoint = [previousActiveSessionCount, t, row.sessionType];
+                        result.push(sameValuePoint);
+                    } else {
+                        var zeroValuePoint = [0, t, row.sessionType];
+                        result.push(zeroValuePoint);
+                    }
                 }
             }
             previousTimestamp[row.sessionType] = row.timestamp;
+            if(row.sessionType == "Active") {
+                previousActiveSessionCount = row.sessionCount;
+            }
             var record = [row.sessionCount, row.timestamp, row.sessionType];
             result.push(record);
         });
