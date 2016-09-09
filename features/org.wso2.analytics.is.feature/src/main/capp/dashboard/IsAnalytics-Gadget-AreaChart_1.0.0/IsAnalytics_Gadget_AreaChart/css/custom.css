@@ -179,3 +179,15 @@ body.dark svg.marks .mark-group .mark-text text {
 body.dark svg.marks .mark-group .mark-rule line {
     stroke: #E3E5E6 !important;
 }
+
+#successPercent {
+    color: #5CB85C !important;
+    font-size: 11px;
+    text-align: center;
+}
+
+#failedPercent {
+    color: #D9534F !important;
+    font-size: 11px;
+    text-align: center;
+}

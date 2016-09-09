@@ -45,7 +45,9 @@
                 <div class="col-2 stats-total add-padding-left-3x add-padding-right-3x">
                     <h4 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h4>
                     <h1 id="totalCount" style="text-align: center;"></h1>
-                    <div id="donutDiv"></div>
+                    <div id="successPercent"></div>
+                    <div id="failedPercent"></div>
+                    <div id="donutDiv" style="text-align: center;"></div>
                 </div>
                 <div class="col-4 stats-total">
                     <div class="pull-right clearfix">
