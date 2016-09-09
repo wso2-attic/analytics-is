@@ -42,6 +42,8 @@
                         <div>
                             <h5 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h5>
                             <h4 id="totalCountOverall"></h4>
+                            <div id="successPercentOverall"></div>
+                            <div id="failedPercentOverall"></div>
                             <div id="donutDivOverall"></div>
                         </div>
                         <div id="overall" class="btn btn-default" role="button">See More &gt;&gt;</div>
@@ -58,6 +60,8 @@
                         <div>
                             <h5 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h5>
                             <h4 id="totalCountLocal"></h4>
+                            <div id="successPercentLocal"></div>
+                            <div id="failedPercentLocal"></div>
                             <div id="donutDivLocal"></div>
                         </div>
                         <div id="local" class="btn btn-default" role="button">See More &gt;&gt;</div>
@@ -73,6 +77,8 @@
                     <div>
                         <h5 style="text-align: center;">TOTAL LOGIN ATTEMPTS<span id="title"></span></h5>
                         <h4 id="totalCountFederated"></h4>
+                        <div id="successPercentFederated"></div>
+                        <div id="failedPercentFederated"></div>
                         <div id="donutDivFederated"></div>
                     </div>
                     <div id="federated" class="btn btn-default" role="button">See More &gt;&gt;</div>

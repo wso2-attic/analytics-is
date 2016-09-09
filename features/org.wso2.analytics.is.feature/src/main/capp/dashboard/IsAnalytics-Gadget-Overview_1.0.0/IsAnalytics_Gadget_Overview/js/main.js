@@ -110,6 +110,8 @@ function loadStats(response, type){
     var successPct = 100 - failedPct;
 
     $("#totalCount" + type).html(total);
+    $("#successPercent" + type).html((total > 0 ? "Success: " + parseFloat(successPct).toFixed(2) + "%" : ""));
+    $("#failedPercent" + type).html((total > 0 ? "Failure: " + parseFloat(failedPct).toFixed(2) + "%" : ""));
 
     if(total == 0) {
         $("#donutDiv").empty();
@@ -139,7 +141,7 @@ function loadStats(response, type){
             innerRadius: 0.3,
             padding: {top: 10, right: 10, bottom: 20, left: 10},
             legend: false,
-            percentage: true,
+            percentage: false,
             colorScale: [successColor(), failColor()],
             width: ($(window).width() / 12 * 2),
             height: 170

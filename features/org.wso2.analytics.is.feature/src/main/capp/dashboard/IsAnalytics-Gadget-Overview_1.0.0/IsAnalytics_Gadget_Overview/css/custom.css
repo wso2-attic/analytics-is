@@ -62,17 +62,17 @@ body.dark .btn-default:hover {
 
 #donutDivOverall {
     text-align: center;
-    height: 35%;
+    height: 30%;
 }
 
 #donutDivLocal {
     text-align: center;
-    height: 35%;
+    height: 30%;
 }
 
 #donutDivFederated {
     text-align: center;
-    height: 35%;
+    height: 30%;
 }
 
 #totalCountOverall {
@@ -85,6 +85,48 @@ body.dark .btn-default:hover {
 
 #totalCountFederated {
     text-align: center;
+}
+
+#successPercentOverall {
+    color: #5CB85C !important;
+    font-size: 11px;
+    text-align: center;
+    height: 15px;
+}
+
+#failedPercentOverall {
+    color: #D9534F !important;
+    font-size: 11px;
+    text-align: center;
+    height: 15px;
+}
+
+#successPercentLocal {
+    color: #5CB85C !important;
+    font-size: 11px;
+    text-align: center;
+    height: 15px;
+}
+
+#failedPercentLocal {
+    color: #D9534F !important;
+    font-size: 11px;
+    text-align: center;
+    height: 15px;
+}
+
+#successPercentFederated {
+    color: #5CB85C !important;
+    font-size: 11px;
+    text-align: center;
+    height: 15px;
+}
+
+#failedPercentFederated {
+    color: #D9534F !important;
+    font-size: 11px;
+    text-align: center;
+    height: 15px;
 }
 
 body.dark svg.marks .mark-group .background {
