@@ -185,7 +185,7 @@ $(function() {
                 { title: "Start Time" },
                 { title: "Termination Time" },
                 { title: "End Time" },
-                { title: "Duration" },
+                { title: "Duration (ms)" },
                 { title: "Is Active" },
                 { title: "Userstore Domain" },
                 { title: "Tenant Domain" },
