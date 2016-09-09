@@ -111,39 +111,43 @@ function loadStats(response, type){
 
     $("#totalCount" + type).html(total);
 
-    var successColor = function(){
-        return parseFloat(successPct) > 0 ? '#5CB85C' : '#353B48';
-    };
+    if(total == 0) {
+        $("#donutDiv").empty();
+    } else {
+        var successColor = function () {
+            return parseFloat(successPct) > 0 ? '#5CB85C' : '#353B48';
+        };
 
-    var failColor = function(){
-        return parseFloat(failedPct) > 0 ? '#D9534F' : '#353B48';
-    };
+        var failColor = function () {
+            return parseFloat(failedPct) > 0 ? '#D9534F' : '#353B48';
+        };
 
-    var dataT = [{
-        "metadata": {
-            "names": ["Rate", "Status"],
-            "types": ["linear", "ordinal"]
-        },
-        "data": [
-            [parseFloat(success), "Success"],
-            [parseFloat(failed), "Failures"]
-        ]
-    }];
+        var dataT = [{
+            "metadata": {
+                "names": ["Rate", "Status"],
+                "types": ["linear", "ordinal"]
+            },
+            "data": [
+                [parseFloat(success), "Success"],
+                [parseFloat(failed), "Failures"]
+            ]
+        }];
 
-    var configT = {
-        charts: [{ type: "arc", x: "Rate", color: "Status", mode:"donut" }],
-        tooltip: {"enabled":false},
-        innerRadius: 0.3,
-        padding: { top:10, right:10, bottom:20, left:10 },
-        legend: false,
-        percentage: true,
-        colorScale: [successColor(), failColor()],
-        width: ($( window ).width()/12 * 2),
-        height: 170
+        var configT = {
+            charts: [{type: "arc", x: "Rate", color: "Status", mode: "donut"}],
+            tooltip: {"enabled": false},
+            innerRadius: 0.3,
+            padding: {top: 10, right: 10, bottom: 20, left: 10},
+            legend: false,
+            percentage: true,
+            colorScale: [successColor(), failColor()],
+            width: ($(window).width() / 12 * 2),
+            height: 170
+        }
+
+        var chartT = new vizg(dataT, configT);
+        chartT.draw("#donutDiv" + type);
     }
-
-    var chartT = new vizg(dataT, configT);
-    chartT.draw("#donutDiv" + type);
 }
 
 function onError(msg) {
