@@ -347,9 +347,9 @@ function loadStats(data){
 
     $("#totalCount").html(total);
     $("#failedCount").html(failed);
-    $("#failedPercent").html(parseFloat(failedPct).toFixed(2));
     $("#successCount").html(success);
-    $("#successPercent").html(parseFloat(successPct).toFixed(2));
+    $("#successPercent").html("Success: " + (total > 0 ? parseFloat(successPct).toFixed(2) + "%" : ""));
+    $("#failedPercent").html("Failure: " + (total > 0 ? parseFloat(failedPct).toFixed(2) + "%" : ""));
 
     var successColor = function(){
         return parseFloat(successPct) > 0 ? '#5CB85C' : '#353B48';
@@ -376,12 +376,12 @@ function loadStats(data){
         tooltip: {"enabled":true, "color":"#e5f2ff", "type":"symbol", "content":["Status","Rate","Percentage"], "label":false},
 
         innerRadius: 0.3,
-        padding: { top:10, right:10, bottom:10, left:10 },
+        padding: { top:0, right:0, bottom:0, left:0 },
         legend: false,
-        percentage: true,
+        percentage: false,
         colorScale: [successColor(), failColor()],
         width: ($( window ).width()/12 * 2),
-        height: 170
+        height: 140
     }
 
     var chartT = new vizg(dataT, configT);

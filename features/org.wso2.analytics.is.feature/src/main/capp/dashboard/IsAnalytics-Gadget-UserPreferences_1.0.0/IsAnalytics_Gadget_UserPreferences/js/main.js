@@ -81,14 +81,7 @@ gadgets.HubSettings.onConnect = function() {
                 $("#userPrefs ul").empty();
 
                 for(i=0;i<globalUniquArray.length;i++){
-
-                    color = "";
-                    if(globalUniquArray[i][3] == "SUCCESS"){
-                        color = "#5CB85C";
-                    }else{
-                        color = "#D9534F";
-                    }
-                    $("#userPrefs ul").append('<li style="background-color:'+color+'">'+globalUniquArray[i][1]+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
+                    $("#userPrefs ul").append('<li style="background-color:#438CAD">'+globalUniquArray[i][1]+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
                 }
             }
 
@@ -109,14 +102,7 @@ function addUserPrefsToGlobalArray(colorCode,mode,userPrefValue){
 
     var isExist = false;
     var index = -1;
-    var color = "";
     var userPrefLabel;
-
-    if(colorCode == "SUCCESS"){
-        color = "#5CB85C";
-    }else{
-        color = "#D9534F";
-    }
 
     if(globalUniquArray.length != 0){
         for(i=0;i<globalUniquArray.length;i++){
@@ -136,14 +122,8 @@ function addUserPrefsToGlobalArray(colorCode,mode,userPrefValue){
 
             for(i=0;i<globalUniquArray.length;i++){
 
-                color = "";
-                if(globalUniquArray[i][3] == "SUCCESS"){
-                    color = "#5CB85C";
-                }else{
-                    color = "#D9534F";
-                }
                 userPrefLabel = gadgetUtil.escapeHtml(globalUniquArray[i][1]);
-                $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
+                $("#userPrefs ul").append('<li style="background-color:#438CAD">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
                 //$('#userPrefs').selectit('add', globalUniquArray[i][1]);
             }
         }else{
@@ -151,14 +131,14 @@ function addUserPrefsToGlobalArray(colorCode,mode,userPrefValue){
             var arry = ["Topic",userPrefValue,mode,colorCode];
             globalUniquArray.push(arry);
             userPrefLabel = gadgetUtil.escapeHtml(userPrefValue);
-            $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
+            $("#userPrefs ul").append('<li style="background-color:#438CAD">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
         }
 
     }else{
         var arry = ["Topic",userPrefValue,mode,colorCode]
         globalUniquArray.push(arry);
         userPrefLabel = gadgetUtil.escapeHtml(userPrefValue);
-        $("#userPrefs ul").append('<li style="background-color:'+color+'">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
+        $("#userPrefs ul").append('<li style="background-color:#438CAD">'+userPrefLabel+'<i class="icon fw fw-cancel" data-dismiss="tag"></i></li>');
     }
 
 }
