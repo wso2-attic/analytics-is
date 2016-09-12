@@ -125,9 +125,9 @@
                                 </bundleDef>
                             </bundles>
                             <importFeatures>
-                                <importFeatureDef>org.wso2.analytics.shared.util:${carbon.analytics.shared.version}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.analytics.shared.geolocation.udf:${carbon.analytics.shared.version}</importFeatureDef>
-                                <importFeatureDef>org.wso2.carbon.analytics.shared.spark.common.udf:${carbon.analytics.shared.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.analytics.shared.util:compatible:${carbon.analytics.shared.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.analytics.shared.geolocation.udf:compatible:${carbon.analytics.shared.version}</importFeatureDef>
+                                <importFeatureDef>org.wso2.carbon.analytics.shared.spark.common.udf:compatible:${carbon.analytics.shared.version}</importFeatureDef>
                             </importFeatures>
                         </configuration>
                     </execution>
