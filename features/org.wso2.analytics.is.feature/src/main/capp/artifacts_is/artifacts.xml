@@ -63,6 +63,10 @@
 
         <dependency artifact="AlertLongSessionsEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AlertLongSessionsEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
+        <dependency artifact="AlertLoginSuccessAfterMultipleFailuresEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AlertLoginSuccessAfterMultipleFailuresEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
         <!-- Dashboard Definition -->
         <dependency artifact="IsAnalytics-Dashboard-AuthenticationData" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
     </artifact>
