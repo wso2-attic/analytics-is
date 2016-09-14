@@ -113,7 +113,46 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                 </parameter>
             </parameters>
         </scenario>
+        <scenario type="ConfigureSuspiciousLoginDetection">
+            <description>Configure suspicious login success detection</description>
+            <templates>
+                <template type="realtime">
+                    <![CDATA[
+                       /* Enter a unique ExecutionPlan */
+                        @Plan:name('IsAnalytics-ExecutionPlan-LoginSuccessAfterMultipleFailures')
 
+                        /* Enter a unique description for ExecutionPlan */
+                        -- @Plan:description('ExecutionPlan')
+
+                        /* define streams/tables and write queries here ... */
+                        @Import('org.wso2.is.analytics.stream.OverallAuthentication:1.0.0')
+                        define stream AuthStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+
+                        @Export('org.wso2.is.analytics.stream.LoginSuccessAfterMultipleFailures:1.0.0')
+                        define stream LoginAlertStream (username string, severity int, msg string, tenantDomain string, _timestamp long);
+
+                        from every(e1=AuthStream) -> e2=AuthStream[authenticationSuccess == false AND e1.username == e2.username]<$minLoginFailures:> ->  e3=AuthStream[authenticationSuccess == true AND e2.username == e3.username]
+                        within $timeDuration min
+                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        output first every $timeDuration min
+                        insert into LoginAlertStream;
+                    ]]>
+                </template>
+            </templates>
+            <parameters>
+                <parameter name="minLoginFailures" type="int">
+                    <displayName>Minimum Login Failures</displayName>
+                    <description>Minimum number of login failures (which is followed by a successful login) to detect suspicious login.</description>
+                    <defaultValue>5</defaultValue>
+                </parameter>
+
+                <parameter name="timeDuration" type="int">
+                    <displayName>Time Duration</displayName>
+                    <description>Time duration(in minutes) within which the sequence of login failures followed by success event occurring.</description>
+                    <defaultValue>1</defaultValue>
+                </parameter>
+            </parameters>
+        </scenario>
     </scenarios>
     <streams>
     </streams>

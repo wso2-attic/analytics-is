@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<scenarioConfiguration  domain="ISAnalytics" name="ConfigureSuspiciousLoginDetection" scenario="ConfigureSuspiciousLoginDetection">
+    <description>Configure suspicious login success detection</description>
+    <parameterMap>
+        <entry>
+            <key>minLoginFailures</key>
+            <value>5</value>
+        </entry>
+        <entry>
+            <key>timeDuration</key>
+            <value>1</value>
+        </entry>
+    </parameterMap>
+</scenarioConfiguration>
