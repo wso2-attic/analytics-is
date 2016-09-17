@@ -3,6 +3,9 @@
     <artifact name="org.wso2.analytics.is" version="1.0.0" type="carbon/application">
         <dependency artifact="AnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionAnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AuthenticationRegionExcessLoginAlertStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AuthenticationSameAccountMultipleUsersLoginAlertStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AuthenticationUserExcessLoginAlertStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
 
         <!-- Gadgets -->
         <dependency artifact="IsAnalytics-Gadget-Commons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
