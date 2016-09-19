@@ -31,9 +31,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.rmi.RemoteException;
 
-public class ISAlertsAnalyticsTestCase extends DASIntegrationTest {
+public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
 
-    private static final Log log = LogFactory.getLog(ISAlertsAnalyticsTestCase.class);
+    private static final Log log = LogFactory.getLog(ISAlertLongSessionsAnalyticsTestCase.class);
     private ServerConfigurationManager serverManager;
     private DataPublisherClient dataPublisherClient;
     private AnalyticsDataAPI analyticsDataAPI;
@@ -65,7 +65,7 @@ public class ISAlertsAnalyticsTestCase extends DASIntegrationTest {
         analyticsDataAPI = new CarbonAnalyticsAPI(apiConf);
         initAnalyticsProcessorStub();
 
-        // configuring template manager
+        // configuring ISAnalytics-ConfigureAlertLongSessions template
         initEventProcessorStub();
         int activeExecutionPlanCount = getActiveExecutionPlanCount();
         initTemplateManagerStub();
