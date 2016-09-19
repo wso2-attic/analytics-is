@@ -65,7 +65,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
 
     </scenario>
 
-        <scenario type="AlertLongSessions">
+        <scenario type="ConfigureAlertLongSessions">
             <description>Detects long session durations and alerts the user</description>
             <templates>
                 <template type="realtime">
@@ -93,7 +93,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         select *
                         insert into SessionStreamInfoSummary;
 
-                        from SessionStreamInfoSummary [duration >= $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
+                        from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
                         select sessionId, username, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration
                         insert into FilterLongSessions;
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<scenarioConfiguration  domain="ISAnalytics" name="LongSessions" scenario="ConfigureAlertLongSessions">
+    <description>Detects long session durations and alerts the user</description>
+    <parameterMap>
+        <entry>
+            <key>sessionDurationThreshold</key>
+            <value>900000</value>
+        </entry>
+    </parameterMap>
+</scenarioConfiguration>
