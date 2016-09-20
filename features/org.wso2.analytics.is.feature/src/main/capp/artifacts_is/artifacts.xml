@@ -3,6 +3,9 @@
     <artifact name="org.wso2.analytics.is" version="1.0.0" type="carbon/application">
         <dependency artifact="AnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionAnalyticsConfigEventReceiver" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AuthenticationRegionExcessLoginAlertStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AuthenticationSameAccountMultipleUsersLoginAlertStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AuthenticationUserExcessLoginAlertStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
 
         <!-- Gadgets -->
         <dependency artifact="IsAnalytics-Gadget-Commons" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -18,6 +21,7 @@
         <dependency artifact="AuthenticationStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionStatSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="SessionManagementSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AlertLongSessionsSparkscripts" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <!--realtime-->
         <dependency artifact="AnalyticsAuthenticationEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AnalyticsAuthenticationProcessedEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
@@ -48,6 +52,24 @@
         <dependency artifact="SessionStatPerMinuteEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="IsAnalytics-ExecutionPlan-SessionData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
         <dependency artifact="IsAnalytics-ExecutionPlan-AuthenticationData" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
+
+        <dependency artifact="org_wso2_is_analytics_alert_abnormalAccessTokenRefreshStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_store_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_identity_oauth_token_issuance" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_accessTokenRefresh_purge" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-Receiver-wso2event-TokenIssuance" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_store_accessTokenRefreshTimeDifference" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_store_abnormalAccessTokenRefresh" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_carbon_identity_store_oauth_token_issuance" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="org_wso2_is_analytics_allISAlertsStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
+        <dependency artifact="AlertLongSessionsEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AlertLongSessionsEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
+        <dependency artifact="AlertLoginSuccessAfterMultipleFailuresEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="AlertLoginSuccessAfterMultipleFailuresEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+
         <!-- Dashboard Definition -->
         <dependency artifact="IsAnalytics-Dashboard-AuthenticationData" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
     </artifact>

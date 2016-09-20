@@ -1,0 +1,28 @@
+{
+  "name": "org.wso2.is.analytics.allISAlertsStream",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "type",
+      "type": "STRING"
+    },
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "msg",
+      "type": "STRING"
+    },
+    {
+      "name": "severity",
+      "type": "INT"
+    },
+    {
+      "name": "alertTimestamp",
+      "type": "LONG"
+    }
+  ]
+}

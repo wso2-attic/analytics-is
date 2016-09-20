@@ -1,0 +1,32 @@
+{
+  "name": "org.wso2.is.analytics.stream.SameAccountMultipleUsersLoginAlert",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "userStoreDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "username",
+      "type": "STRING"
+    },
+    {
+      "name": "prevRegion",
+      "type": "STRING"
+    },
+    {
+      "name": "newRegion",
+      "type": "STRING"
+    },
+    {
+      "name": "timestamp",
+      "type": "LONG"
+    }
+  ]
+}			                                    		
