@@ -102,8 +102,8 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
                 long currentTime = System.currentTimeMillis();
                 Object[] payload = new Object[]{
                         eventObject[0] + "",
-                        currentTime - 300000,
-                        currentTime - 300000,
+                        currentTime - 450000,
+                        currentTime - 450000,
                         currentTime + 900000,
                         Integer.valueOf(eventObject[1]),
                         eventObject[2],
@@ -128,15 +128,16 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
 
         //run spark scripts for session duration calculations
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-SessionManagement");
+        Thread.sleep(15000);
         analyticsStub.executeScriptInBackground("ISAnalytics-SparkScript-AlertLongSessions");
         //wait until execution plan is triggered
-        Thread.sleep(300000);
+        Thread.sleep(120000);
     }
 
     @Test(groups = "wso2.analytics.is", description = "Checking total long session count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
         long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS", Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 5, "========== Total long session count is invalid ==========");
+        Assert.assertEquals(eventCount, 2, "========== Total long session count is invalid ==========");
     }
 
     @AfterTest(alwaysRun = true)
