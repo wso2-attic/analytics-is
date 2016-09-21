@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <scenarioConfiguration  domain="ISAnalytics" name="UserExcessLoginAlert" scenario="UserExcessLoginAlert">
-    <description>Send alerts when authentication requests from a particular user exceed a certain number.</description>
+    <description>Send alerts when authentication requests from a particular user exceed a certain number</description>
     <parameterMap>
         <entry>
             <key>timeWindow</key>

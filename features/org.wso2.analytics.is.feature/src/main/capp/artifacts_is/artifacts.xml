@@ -69,6 +69,7 @@
 
         <dependency artifact="AlertLoginSuccessAfterMultipleFailuresEventStream" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
         <dependency artifact="AlertLoginSuccessAfterMultipleFailuresEventSink" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
+        <dependency artifact="IsAnalytics-ExecutionPlan-LoginSuccessAfterMultipleFailures" version="1.0.0" include="true" serverRole="ComplexEventProcessor"/>
 
         <!-- Dashboard Definition -->
         <dependency artifact="IsAnalytics-Dashboard-AuthenticationData" version="1.0.0" include="true" serverRole="DataAnalyticsServer"/>
