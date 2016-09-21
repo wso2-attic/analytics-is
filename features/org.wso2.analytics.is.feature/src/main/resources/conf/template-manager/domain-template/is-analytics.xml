@@ -267,7 +267,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
     <streams>
     </streams>
     <commonArtifacts>
-        <artifact type="eventStream">
+        <artifact type="eventstream">
             {
             "name": "org.wso2.is.analytics.stream.RegionExcessLoginAlert",
             "version": "1.0.0",
@@ -289,7 +289,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
             ]
             }
         </artifact>
-        <artifact type="eventStream">
+        <artifact type="eventstream">
             {
             "name": "org.wso2.is.analytics.stream.SameAccountMultipleUsersLoginAlert",
             "version": "1.0.0",
@@ -323,7 +323,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
             ]
             }
         </artifact>
-        <artifact type="eventStream">
+        <artifact type="eventstream">
             {
             "name": "org.wso2.is.analytics.stream.UserExcessLoginAlert",
             "version": "1.0.0",

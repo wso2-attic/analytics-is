@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<scenarioConfiguration  domain="ISAnalytics" name="LongSessions" scenario="ConfigureAlertLongSessions">
+<scenarioConfiguration  domain="ISAnalytics" name="ConfigureAlertLongSessions" scenario="ConfigureAlertLongSessions">
     <description>Configure long session duration detection</description>
     <parameterMap>
         <entry>
