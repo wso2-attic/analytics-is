@@ -132,23 +132,23 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         define stream LoginAlertStream (username string, severity int, msg string, tenantDomain string, _timestamp long);
 
                         /* Query for detecting login attempts with same username*/
-                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
+                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
                         output first every $timeDuration min
                         insert into LoginAlertStream;
 
-                        /* Query for detecting login attempts with different usernames but with same contextId*/
-                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.contextId == e2.contextId]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.contextId == e3.contextId]
+                        /* Query for detecting login attempts with same contextId*/
+                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.contextId == e2.contextId]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.contextId == e3.contextId]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same context-Id detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
                         output first every $timeDuration min
                         insert into LoginAlertStream;
 
-                        /* Query for detecting login attempts with different usernames but with same IP*/
-                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.remoteIp == e2.remoteIp]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.remoteIp == e3.remoteIp]
+                        /* Query for detecting login attempts from same IP*/
+                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.remoteIp == e2.remoteIp]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.remoteIp == e3.remoteIp]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures from same remote IP detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
                         output first every $timeDuration min
                         insert into LoginAlertStream;
                     ]]>
