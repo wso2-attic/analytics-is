@@ -131,7 +131,6 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             log.error("Error when publishing sample authentication events", e);
         }
 
-        System.out.println("TEST");
 
     }
 
