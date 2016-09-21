@@ -798,14 +798,6 @@
             <filtered>true</filtered>
         </file>
 
-        <!--Copying sample domain template file, sample for CEP Execution Manager -->
-        <file>
-            <source>
-                src/repository/conf/domain-template/temperature-analysis.xml
-            </source>
-            <outputDirectory>${pom.artifactId}-${pom.version}/repository/conf/template-manager/domain-template</outputDirectory>
-            <filtered>true</filtered>
-        </file>
         <file>
             <source>
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/conf/template-manager/domain-template/is-analytics.xml

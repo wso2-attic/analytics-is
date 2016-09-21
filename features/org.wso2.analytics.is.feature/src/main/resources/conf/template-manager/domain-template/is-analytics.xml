@@ -171,7 +171,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
         <scenario type="RegionExcessLoginAlert">
             <description>Send alerts when authentication requests from a particular region exceed a certain number</description>
             <templates>
-                <template type="realTime">
+                <template type="realtime">
                     <![CDATA[
                 @Plan:name('IsAnalytics-ExecutionPlan-AuthenticationData')
                 @import('org.wso2.is.analytics.stream.ProcessedOverallAuthentication:1.0.0')
@@ -205,7 +205,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
         <scenario type="UserExcessLoginAlert">
             <description>Send alerts when authentication requests from a particular user exceed a certain number</description>
             <templates>
-                <template type="realTime">
+                <template type="realtime">
                     <![CDATA[
                 @Plan:name('IsAnalytics-ExecutionPlan-AuthenticationData')
                 @Import('org.wso2.is.analytics.stream.ProcessedOverallAuthentication:1.0.0')
@@ -240,7 +240,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
         <scenario type="SameAccountMultipleUsersLoginAlert">
             <description>Send alerts when authentication requests from a particular user is coming from two different regions within a certain time period</description>
             <templates>
-                <template type="realTime">
+                <template type="realtime">
                     <![CDATA[
                 @Plan:name('IsAnalytics-ExecutionPlan-AuthenticationData')
                 @Import('org.wso2.is.analytics.stream.ProcessedOverallAuthentication:1.0.0')
