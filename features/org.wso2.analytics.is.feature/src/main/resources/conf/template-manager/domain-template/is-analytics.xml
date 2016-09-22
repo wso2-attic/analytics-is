@@ -65,8 +65,8 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
 
     </scenario>
 
-        <scenario type="AlertLongSessions">
-            <description>Detects long session durations and alerts the user</description>
+        <scenario type="ConfigureAlertLongSessions">
+            <description>Configure long session duration detection</description>
             <templates>
                 <template type="realtime">
                     <![CDATA[
@@ -93,7 +93,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         select *
                         insert into SessionStreamInfoSummary;
 
-                        from SessionStreamInfoSummary [duration >= $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
+                        from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
                         select sessionId, username, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration
                         insert into FilterLongSessions;
 
@@ -118,7 +118,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
             <templates>
                 <template type="realtime">
                     <![CDATA[
-                       /* Enter a unique ExecutionPlan */
+                        /* Enter a unique ExecutionPlan */
                         @Plan:name('IsAnalytics-ExecutionPlan-LoginSuccessAfterMultipleFailures')
 
                         /* Enter a unique description for ExecutionPlan */
@@ -131,9 +131,24 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         @Export('org.wso2.is.analytics.stream.LoginSuccessAfterMultipleFailures:1.0.0')
                         define stream LoginAlertStream (username string, severity int, msg string, tenantDomain string, _timestamp long);
 
-                        from every(e1=AuthStream) -> e2=AuthStream[authenticationSuccess == false AND e1.username == e2.username]<$minLoginFailures:> ->  e3=AuthStream[authenticationSuccess == true AND e2.username == e3.username]
+                        /* Query for detecting login attempts with same username*/
+                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        output first every $timeDuration min
+                        insert into LoginAlertStream;
+
+                        /* Query for detecting login attempts with same contextId*/
+                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.contextId == e2.contextId]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.contextId == e3.contextId]
+                        within $timeDuration min
+                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same context-Id detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        output first every $timeDuration min
+                        insert into LoginAlertStream;
+
+                        /* Query for detecting login attempts from same IP*/
+                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.remoteIp == e2.remoteIp]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.remoteIp == e3.remoteIp]
+                        within $timeDuration min
+                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures from same remote IP detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
                         output first every $timeDuration min
                         insert into LoginAlertStream;
                     ]]>
@@ -153,8 +168,191 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                 </parameter>
             </parameters>
         </scenario>
+        <scenario type="RegionExcessLoginAlert">
+            <description>Send alerts when authentication requests from a particular region exceed a certain number</description>
+            <templates>
+                <template type="realtime">
+                    <![CDATA[
+                @Plan:name('IsAnalytics-ExecutionPlan-AuthenticationData')
+                @import('org.wso2.is.analytics.stream.ProcessedOverallAuthentication:1.0.0')
+		        define stream OverallAuthenticationProcessedStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+                @Export('org.wso2.is.analytics.stream.RegionExcessLoginAlert:1.0.0')
+                define stream RegionExcessLoginAlert (region string, requestCount long, timestamp long);
+                from OverallAuthenticationProcessedStream#window.timeBatch($timeWindow)
+                select region, count(eventId) as requestCount, max(_timestamp) as timestamp
+                group by region
+                insert all events into perRegionOverallAuthenticationProcessedStream;
+                from perRegionOverallAuthenticationProcessedStream [ requestCount > $maxRequestCount]
+                select region, requestCount, timestamp
+                insert into RegionExcessLoginAlert;
+                 ]]>
+                </template>
+            </templates>
+            <parameters>
+                <parameter name="timeWindow" type="int">
+                    <displayName>Time Window</displayName>
+                    <description>Time window unit of monitoring events</description>
+                    <defaultValue>1000</defaultValue>
+                </parameter>
+                <parameter name="maxRequestCount" type="int">
+                    <displayName>Maximum Request Count</displayName>
+                    <description>Maximum request count allowed within the Time Window to avoid alerting</description>
+                    <defaultValue>100</defaultValue>
+                </parameter>
+            </parameters>
+        </scenario>
+
+        <scenario type="UserExcessLoginAlert">
+            <description>Send alerts when authentication requests from a particular user exceed a certain number</description>
+            <templates>
+                <template type="realtime">
+                    <![CDATA[
+                @Plan:name('IsAnalytics-ExecutionPlan-AuthenticationData')
+                @Import('org.wso2.is.analytics.stream.ProcessedOverallAuthentication:1.0.0')
+                define stream OverallAuthenticationProcessedStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+                @Export('org.wso2.is.analytics.stream.UserExcessLoginAlert:1.0.0')
+                define stream UserExcessLoginAlert (userStoreDomain string, tenantDomain string, username string, requestCount long, timestamp long);
+                define stream UserExcessLoginAlert (userStoreDomain string, tenantDomain string, username string, requestCount long, timestamp long);
+                from OverallAuthenticationProcessedStream#window.timeBatch($timeWindow)
+                select userStoreDomain, tenantDomain, username, count(eventId) as requestCount, max(_timestamp) as timestamp
+                group by userStoreDomain, tenantDomain, username
+                insert all events into perUserOverallAuthenticationProcessedStream;
+                from perUserOverallAuthenticationProcessedStream [ requestCount > $maxRequestCount]
+                select userStoreDomain, tenantDomain, username, requestCount, timestamp
+                insert into UserExcessLoginAlert;
+                 ]]>
+                </template>
+            </templates>
+            <parameters>
+                <parameter name="timeWindow" type="int">
+                    <displayName>Time Window</displayName>
+                    <description>Time window unit of monitoring events</description>
+                    <defaultValue>1000</defaultValue>
+                </parameter>
+                <parameter name="maxRequestCount" type="int">
+                    <displayName>Maximum Request Count</displayName>
+                    <description>Maximum request count allowed within the Time Window to avoid alerting</description>
+                    <defaultValue>100</defaultValue>
+                </parameter>
+            </parameters>
+        </scenario>
+
+        <scenario type="SameAccountMultipleUsersLoginAlert">
+            <description>Send alerts when authentication requests from a particular user is coming from two different regions within a certain time period</description>
+            <templates>
+                <template type="realtime">
+                    <![CDATA[
+                @Plan:name('IsAnalytics-ExecutionPlan-AuthenticationData')
+                @Import('org.wso2.is.analytics.stream.ProcessedOverallAuthentication:1.0.0')
+                define stream OverallAuthenticationProcessedStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+
+                @Export('org.wso2.is.analytics.stream.SameAccountMultipleUsersLoginAlert:1.0.0')
+                define stream SameAccountMultipleUsersLoginAlert (userStoreDomain string, tenantDomain string, username string, prevRegion string, newRegion string, timestamp long);
+                from every(e1=OverallAuthenticationProcessedStream) -> e2=OverallAuthenticationProcessedStream[ e1.userStoreDomain==userStoreDomain and e1.tenantDomain==tenantDomain and e1.username==username and e1.region!=region ]
+                    within $minRegionSwitchTime sec
+                select e1.userStoreDomain, e1.tenantDomain, e1.username, e1.region as prevRegion, e2.region as newRegion, e2._timestamp as timestamp
+                insert into SameAccountMultipleUsersLoginAlert;
+                 ]]>
+                </template>
+            </templates>
+            <parameters>
+                <parameter name="minRegionSwitchTime" type="int">
+                    <displayName>Minimum Region Switch Time</displayName>
+                    <description>Minimum switching time allowed to move between regions</description>
+                    <defaultValue>1000</defaultValue>
+                </parameter>
+            </parameters>
+        </scenario>
     </scenarios>
     <streams>
     </streams>
+    <commonArtifacts>
+        <artifact type="eventstream">
+            {
+            "name": "org.wso2.is.analytics.stream.RegionExcessLoginAlert",
+            "version": "1.0.0",
+            "nickName": "",
+            "description": "",
+            "payloadData": [
+            {
+            "name": "region",
+            "type": "STRING"
+            },
+            {
+            "name": "requestCount",
+            "type": "LONG"
+            },
+            {
+            "name": "timestamp",
+            "type": "LONG"
+            }
+            ]
+            }
+        </artifact>
+        <artifact type="eventstream">
+            {
+            "name": "org.wso2.is.analytics.stream.SameAccountMultipleUsersLoginAlert",
+            "version": "1.0.0",
+            "nickName": "",
+            "description": "",
+            "payloadData": [
+            {
+            "name": "userStoreDomain",
+            "type": "STRING"
+            },
+            {
+            "name": "tenantDomain",
+            "type": "STRING"
+            },
+            {
+            "name": "username",
+            "type": "STRING"
+            },
+            {
+            "name": "prevRegion",
+            "type": "STRING"
+            },
+            {
+            "name": "newRegion",
+            "type": "STRING"
+            },
+            {
+            "name": "timestamp",
+            "type": "LONG"
+            }
+            ]
+            }
+        </artifact>
+        <artifact type="eventstream">
+            {
+            "name": "org.wso2.is.analytics.stream.UserExcessLoginAlert",
+            "version": "1.0.0",
+            "nickName": "",
+            "description": "",
+            "payloadData": [
+            {
+            "name": "userStoreDomain",
+            "type": "STRING"
+            },
+            {
+            "name": "tenantDomain",
+            "type": "STRING"
+            },
+            {
+            "name": "username",
+            "type": "STRING"
+            },
+            {
+            "name": "requestCount",
+            "type": "LONG"
+            },
+            {
+            "name": "timestamp",
+            "type": "LONG"
+            }
+            ]
+            }
+        </artifact>
+    </commonArtifacts>
 </domain>
 
