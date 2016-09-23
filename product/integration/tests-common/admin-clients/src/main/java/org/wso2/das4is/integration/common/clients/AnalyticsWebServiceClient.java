@@ -27,6 +27,14 @@ import org.wso2.carbon.analytics.webservice.stub.beans.EventBean;
 import org.wso2.carbon.analytics.webservice.stub.beans.RecordBean;
 import org.wso2.carbon.analytics.webservice.stub.beans.StreamDefinitionBean;
 import org.wso2.carbon.analytics.webservice.stub.beans.ValuesBatchBean;
+import org.wso2.carbon.databridge.agent.AgentHolder;
+import org.wso2.carbon.databridge.agent.DataPublisher;
+import org.wso2.carbon.databridge.agent.exception.DataEndpointException;
+import org.wso2.carbon.databridge.commons.Event;
+import org.wso2.carbon.databridge.commons.utils.DataBridgeCommonsUtils;
+
+import java.io.File;
+import java.util.List;
 
 public class AnalyticsWebServiceClient {
 
@@ -121,5 +129,51 @@ public class AnalyticsWebServiceClient {
 
     public boolean isPaginationSupported(String tableName) throws Exception {
         return webServiceStub.isPaginationSupported(webServiceStub.getRecordStoreNameByTable(tableName));
+    }
+
+    public static class DataPublisherClient {
+
+        private static final String USERNAME = "admin";
+        private static final String PASSWORD = "admin";
+        private static final String URL = "tcp://localhost:9611";
+        private DataPublisher dataPublisher;
+
+        public DataPublisherClient(String url) throws Exception {
+            String resourceDir = new File(this.getClass().getClassLoader().getResource("datapublisher").toURI()).getAbsolutePath();
+            System.setProperty("Security.KeyStore.Location", resourceDir + File.separator + "wso2carbon.jks");
+            System.setProperty("javax.net.ssl.trustStore", resourceDir + File.separator + "client-truststore.jks");
+            System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
+            System.setProperty("Security.KeyStore.Password", "wso2carbon");
+            AgentHolder.setConfigPath(resourceDir + File.separator + "data-agent-config.xml");
+            this.dataPublisher = new DataPublisher(url, USERNAME, PASSWORD);
+        }
+
+        public DataPublisherClient() throws Exception {
+            String resourceDir = new File(this.getClass().getClassLoader().getResource("datapublisher").toURI()).getAbsolutePath();
+            System.setProperty("Security.KeyStore.Location", resourceDir + File.separator + "wso2carbon.jks");
+            System.setProperty("javax.net.ssl.trustStore", resourceDir + File.separator + "client-truststore.jks");
+            System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
+            System.setProperty("Security.KeyStore.Password", "wso2carbon");
+            AgentHolder.setConfigPath(resourceDir + File.separator + "data-agent-config.xml");
+            this.dataPublisher = new DataPublisher(URL, USERNAME, PASSWORD);
+        }
+
+        public void shutdown() throws DataEndpointException {
+            dataPublisher.shutdown();
+        }
+
+        public void publish(String streamName, String version, List<Event> events) throws DataEndpointException {
+            String streamId = DataBridgeCommonsUtils.generateStreamId(streamName, version);
+            for (Event event : events) {
+                event.setStreamId(streamId);
+                dataPublisher.publish(event);
+            }
+        }
+
+        public void publish(String streamName, String version, Event event) throws DataEndpointException {
+            String streamId = DataBridgeCommonsUtils.generateStreamId(streamName, version);
+            event.setStreamId(streamId);
+            dataPublisher.publish(event);
+        }
     }
 }
