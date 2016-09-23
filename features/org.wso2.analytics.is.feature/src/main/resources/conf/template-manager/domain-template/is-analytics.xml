@@ -212,7 +212,6 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                 define stream OverallAuthenticationProcessedStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
                 @Export('org.wso2.is.analytics.stream.UserExcessLoginAlert:1.0.0')
                 define stream UserExcessLoginAlert (userStoreDomain string, tenantDomain string, username string, requestCount long, timestamp long);
-                define stream UserExcessLoginAlert (userStoreDomain string, tenantDomain string, username string, requestCount long, timestamp long);
                 from OverallAuthenticationProcessedStream#window.timeBatch($timeWindow)
                 select userStoreDomain, tenantDomain, username, count(eventId) as requestCount, max(_timestamp) as timestamp
                 group by userStoreDomain, tenantDomain, username
