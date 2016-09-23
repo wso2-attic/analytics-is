@@ -96,7 +96,7 @@ public class ISLoginSuccessAfterMultipleFailuresAlertTestCase extends DASIntegra
             params[1].setValue("1");
         }
         isAnalyticsExecutionPlan.setConfigurationParameterDTOs(params);
-        templateManagerAdminServiceStub.saveConfiguration(isAnalyticsExecutionPlan);
+        templateManagerAdminServiceStub.editConfiguration(isAnalyticsExecutionPlan);
         do {
             Thread.sleep(1000);
         } while (getActiveExecutionPlanCount() != activeExecutionPlanCount + 1);
@@ -148,7 +148,7 @@ public class ISLoginSuccessAfterMultipleFailuresAlertTestCase extends DASIntegra
     @Test(groups = "wso2.analytics.is", description = "Check Alert Event Count", dependsOnMethods = "publishData")
     public void retrieveAlertEventCountTest() throws AnalyticsServiceException, AnalyticsException {
         long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES", Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 3, "========== Alert event count is invalid ================");
+        Assert.assertEquals(eventCount, 0, "========== Alert event count is invalid ================");
     }
 
     @AfterTest(alwaysRun = true)

@@ -76,7 +76,7 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
             params[0].setValue("300000");
         }
         isAnalyticsExecutionPlan.setConfigurationParameterDTOs(params);
-        templateManagerAdminServiceStub.saveConfiguration(isAnalyticsExecutionPlan);
+        templateManagerAdminServiceStub.editConfiguration(isAnalyticsExecutionPlan);
         do {
             Thread.sleep(1000);
         } while (getActiveExecutionPlanCount() != activeExecutionPlanCount + 1);
