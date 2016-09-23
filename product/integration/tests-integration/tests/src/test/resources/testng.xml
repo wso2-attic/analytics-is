@@ -13,8 +13,16 @@
         <!--</packages>-->
     <!--</test>-->
     <test name="is-analytics" preserve-order="true" parallel="false">
-        <packages>
+        <!--<packages>
             <package name="org.wso2.das4is.integration.tests.is"/>
-        </packages>
+        </packages>-->
+
+        <!-- Adding classes separately to preserve test build order -->
+        <classes>
+            <class name="org.wso2.das4is.integration.tests.is.ISAuthenticationAnalyticsTestCase"></class>
+            <class name="org.wso2.das4is.integration.tests.is.ISSessionAnalyticsTestCase"></class>
+            <class name="org.wso2.das4is.integration.tests.is.ISLoginSuccessAfterMultipleFailuresAlertTestCase"></class>
+            <class name="org.wso2.das4is.integration.tests.is.ISAlertLongSessionsAnalyticsTestCase"></class>
+        </classes>
     </test>
 </suite>
