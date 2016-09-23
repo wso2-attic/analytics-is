@@ -81,8 +81,8 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         @Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
                         define stream AlertLongSessions (sessionId string, username string, duration long, avgDuration double);
 
-                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'username', indices = 'username, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
-                        define table AverageSessionDurationTable(username string, avgDuration double);
+                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
+                        define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
 
                         @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
                         define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
@@ -94,14 +94,13 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         insert into SessionStreamInfoSummary;
 
                         from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
-                        select sessionId, username, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration
+                        select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
                         insert into FilterLongSessions;
 
                         from FilterLongSessions as s join AverageSessionDurationTable as t
-                        on s.username == t.username and s.duration > t.avgDuration
-                        select sessionId, s.username, duration, t.avgDuration
+                        on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain) and s.duration > t.avgDuration
+                        select s.sessionId, s.username, s.duration, t.avgDuration
                         insert into AlertLongSessions;
-
                  ]]>
                 </template>
             </templates>
@@ -113,6 +112,7 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                 </parameter>
             </parameters>
         </scenario>
+
         <scenario type="ConfigureSuspiciousLoginDetection">
             <description>Configure suspicious login success detection</description>
             <templates>
