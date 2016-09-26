@@ -14,10 +14,11 @@
         sessionId", mergeSchema "false");
 
         CREATE TEMPORARY TABLE averageSessionDurationTable USING CarbonAnalytics OPTIONS (tableName
-        "ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION", schema "username STRING -i -f, avgDuration DOUBLE -i
-        -f", primaryKeys "username", mergeSchema "false");
+        "ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION", schema "meta_tenantId INT -i -f, tenantDomain STRING -i
+        -f, username STRING -i -f, userstoreDomain STRING -i -f, avgDuration DOUBLE -i -f", primaryKeys "meta_tenantId,
+        tenantDomain, username, userstoreDomain", mergeSchema "false");
 
-        INSERT INTO TABLE averageSessionDurationTable SELECT username, AVG(duration) from rawSessionsTable group by
-        username;
+        INSERT INTO TABLE averageSessionDurationTable SELECT meta_tenantId, tenantDomain, username, userstoreDomain,
+        AVG(duration) from rawSessionsTable group by meta_tenantId, tenantDomain, username, userstoreDomain;
     </Script>
 </Analytics>
