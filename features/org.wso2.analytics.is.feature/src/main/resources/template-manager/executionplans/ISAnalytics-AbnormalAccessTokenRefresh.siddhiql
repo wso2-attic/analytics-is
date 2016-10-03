@@ -6,7 +6,7 @@
 
 /* define streams/tables and write queries here ... */
 
-@Import('org.wso2.carbon.identity.oauth.token.issuance:1.0.0')
+@Import('org.wso2.is.analytics.stream.OauthTokenIssuance:1.0.0')
 define stream OAuthStream (user string, tenantDomain string, userstoreDomain string, clientId string, grantType string, tokenId string, authzScopes string, unAuthzScopes string, isSuccess bool, errorCode string, errorMsg string, accessTokenValidityMillis long, refreshTokenValidityMillis long, issuedTime long);
 
 @Export('org.wso2.is.analytics.alert.abnormalTokenRefresh:1.0.0')
@@ -27,7 +27,7 @@ define table AccessTokenRefreshSummaryTable (userId string, clientId string, sco
 
 --- Filter out the successful token refresh events
 @info(name = 'query1')
-from OAuthStream[grantType == 'refreshToken' and isSuccess == true]
+from OAuthStream[grantType == 'refresh_token' and isSuccess == true]
 select str:concat(tenantDomain, '-', userstoreDomain , '-' , user) as userId, tenantDomain, clientId, authzScopes as scopes, issuedTime as timestamp
 insert into RefreshTokenStream;
 
