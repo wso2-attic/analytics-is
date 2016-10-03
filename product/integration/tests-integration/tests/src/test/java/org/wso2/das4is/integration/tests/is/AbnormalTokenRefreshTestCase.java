@@ -33,7 +33,7 @@ public class AbnormalTokenRefreshTestCase extends ISAnalyticsBaseTestCase {
 
     private static final Log log = LogFactory.getLog(AbnormalTokenRefreshTestCase.class);
 
-    private final String STREAM_NAME = "org.wso2.carbon.identity.oauth.token.issuance";
+    private final String STREAM_NAME = "org.wso2.is.analytics.stream.OauthTokenIssuance";
     private final String STREAM_VERSION = "1.0.0";
     private final String TEST_RESOURCE_PATH = "analytics/is/artifacts/abnormalTokenRefresh";
     private final String PUBLISHER_FILE = "logger_abnormalAccessTokenRefresh.xml";
@@ -44,9 +44,9 @@ public class AbnormalTokenRefreshTestCase extends ISAnalyticsBaseTestCase {
     private final String EXECUTION_PLAN_NAME = "ISAnalytics-AbnormalAccessTokenRefresh";
     private final int MAX_TRIES = 5;
     private long initialTimestamp;
-    private String BASE_EVENT_ONE_STRING = "is,carbon.super,home,s8SWbnmzQEgzMIsol7AHt9cjhEsa,refreshToken,id1232,ab," +
-            "c,true,200,success,86400,604800,";
-    private String BASE_EVENT_TWO_STRING = "is,carbon.super,home,h8jfbnghUKepMIulu43Ht9cjaRfh,refreshToken,id1242,ab," +
+    private String BASE_EVENT_ONE_STRING = "is,carbon.super,home,s8SWbnmzQEgzMIsol7AHt9cjhEsa,refresh_token,id1232," +
+            "ab,c,true,200,success,86400,604800,";
+    private String BASE_EVENT_TWO_STRING = "is,carbon.super,home,h8jfbnghUKepMIulu43Ht9cjaRfh,refresh_token,id1242,ab," +
             "c,true,200,success,86400,604800,";
 
     @BeforeClass(alwaysRun = true)
