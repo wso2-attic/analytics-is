@@ -26,20 +26,19 @@
                     <cron>0 0 12 1/7 * ? *</cron>
 
                     <sparkScript>
-                        <![CDATA[
-                  create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
+                    	<![CDATA[
+                    	create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "meta_tenantId INT, userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
 
-create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "userId, clientId, scopes");
+                    	create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "meta_tenantId INT -i, userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "meta_tenantId, userId, clientId, scopes");
 
-INSERT INTO TABLE accessTokenRefreshAvrgTime
-      SELECT temp.userId, temp.clientId, temp.scopes, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $lowerPercentile) as minTimeDifference, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $upperPercentile) as maxTimeDifference
-      FROM
-         (SELECT userId, clientId,scopes, timeDifference
-          FROM accessTokenRefreshTime
-            WHERE timestamp >= offsetInDays(-7)) temp
-      GROUP BY userId, clientId, scopes;
-
-                 ]]>
+                    	INSERT INTO TABLE accessTokenRefreshAvrgTime
+                    	SELECT temp.meta_tenantId, temp.userId, temp.clientId, temp.scopes, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $lowerPercentile) as minTimeDifference, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $upperPercentile) as maxTimeDifference
+                    	FROM
+                    	(SELECT meta_tenantId, userId, clientId, scopes, timeDifference
+                    	FROM accessTokenRefreshTime
+                    	WHERE timestamp >= offsetInDays(-$numberOfDays)) temp
+                    	GROUP BY meta_tenantId, userId, clientId, scopes;
+                    	]]>
                     </sparkScript>
 
                     </executionParameters>
@@ -53,55 +52,95 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                     <description>Lower percentile (value between 0 and 1) to calculate minimum time difference</description>
                     <defaultValue>0.10</defaultValue>
                 </parameter>
-
-
                 <parameter name="upperPercentile" type="double">
                     <displayName>Upper percentile</displayName>
                     <description>Upper percentile (value between 0 and 1) to calculate maximum time difference</description>
                     <defaultValue>0.95</defaultValue>
                 </parameter>
+                <parameter name="numberOfDays" type="int">
+                    <displayName>Number of days</displayName>
+                    <description>Number of days to be considered when calculating average</description>
+                    <defaultValue>7</defaultValue>
+                </parameter>
             </parameters>
-
-
     </scenario>
 
         <scenario type="ConfigureAlertLongSessions">
             <description>Configure long session duration detection</description>
+
+            <templates>
+                <template type="batch">
+                    <executionParameters>
+                    <cron>0 0/1 * * * ?</cron>
+
+                    <sparkScript>
+                    	<![CDATA[
+                    	CREATE TEMPORARY TABLE rawSessionsTable USING CarbonAnalytics OPTIONS (tableName
+                    	"ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO", schema "meta_tenantId INT -i -f, sessionId STRING -i -f,
+                    	startTimestamp LONG -i, renewTimestamp LONG -i, terminationTimestamp LONG -i, endTimestamp LONG -i, year INT,
+                    	month INT, day INT, hour INT, minute INT, duration LONG -f -sp, isActive BOOLEAN -i -f, username STRING -i -f,
+                    	userstoreDomain STRING -i -f, remoteIp STRING -i -f, region STRING -i, tenantDomain STRING -i -f,
+                    	serviceProvider STRING -i -f, identityProviders STRING -i -f, rememberMeFlag BOOLEAN -i -f, userAgent STRING -i
+                    	-f, usernameWithTenantDomainAndUserstoreDomain STRING -i -f, _timestamp LONG -i", primaryKeys "meta_tenantId,
+                    	sessionId", mergeSchema "false");
+
+                    	CREATE TEMPORARY TABLE averageSessionDurationTable USING CarbonAnalytics OPTIONS (tableName
+                    	"ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION", schema "meta_tenantId INT -i -f, tenantDomain STRING -i
+                    	-f, username STRING -i -f, userstoreDomain STRING -i -f, avgDuration DOUBLE -i -f", primaryKeys "meta_tenantId,
+                    	tenantDomain, username, userstoreDomain", mergeSchema "false");
+
+                    	INSERT INTO TABLE averageSessionDurationTable 
+                    	SELECT meta_tenantId, tenantDomain, username, userstoreDomain, AVG(duration) 
+                    	FROM rawSessionsTable
+                    	WHERE _timestamp >= offsetInDays(-$numberOfDays)) temp
+                    	GROUP BY meta_tenantId, tenantDomain, username, userstoreDomain;
+                    	]]>
+                    </sparkScript>
+
+                    </executionParameters>
+                </template>
+
+            </templates>
+
             <templates>
                 <template type="realtime">
-                    <![CDATA[
-                        /* Enter a unique ExecutionPlan */
-                        @Plan:name('ISAnalytics-RealtimeAlerts-LongSessions')
+                	<![CDATA[
+                	/* Enter a unique ExecutionPlan */
+                	@Plan:name('ISAnalytics-RealtimeAlerts-LongSessions')
 
-                        /* Enter a unique description for ExecutionPlan */
-                        @Plan:description('Detects long session durations and alerts the user')
+                	/* Enter a unique description for ExecutionPlan */
+                	@Plan:description('Detects long session durations and alerts the user')
 
-                        /* define streams/tables and write queries here ... */
+                	/* define streams/tables and write queries here ... */
 
-                        @Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
-                        define stream AlertLongSessions (sessionId string, username string, duration long, avgDuration double);
+                	@Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
+                	define stream AlertLongSessions (sessionId string, username string, duration long, avgDuration double);
 
-                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
-                        define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
+                	@from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
+                	define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
 
-                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
-                        define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
+                	@from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
+                	define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
 
-                        define trigger periodicalTriggerStream at every 2 min;
+                	define trigger periodicalTriggerStream at every 2 min;
 
-                        from periodicalTriggerStream join SessionStreamInfoTable
-                        select *
-                        insert into SessionStreamInfoSummary;
+                	from periodicalTriggerStream join SessionStreamInfoTable
+                	select *
+                	insert into SessionStreamInfoSummary;
 
-                        from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
-                        select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
-                        insert into FilterLongSessions;
+                	from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
+                	select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
+                	insert into FilterLongSessions;
 
-                        from FilterLongSessions as s join AverageSessionDurationTable as t
-                        on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain) and s.duration > t.avgDuration
-                        select s.sessionId, s.username, s.duration, t.avgDuration
-                        insert into AlertLongSessions;
-                 ]]>
+                	from FilterLongSessions as s join AverageSessionDurationTable as t
+                	on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain)
+                	select s.sessionId, s.username, s.duration, t.avgDuration
+                	insert into AlertLongSessionsTemp;
+
+                	from AlertLongSessionsTemp[duration > avgDuration * ($avgPercentageThreshold + 100.0) / 100.0]
+                	select sessionId, username, duration, avgDuration
+                	insert into AlertLongSessions;
+                	]]>
                 </template>
             </templates>
             <parameters>
@@ -109,6 +148,16 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                     <displayName>Session Duration Threshold Value (Milliseconds)</displayName>
                     <description>Threshold value to filter long duration sessions</description>
                     <defaultValue>900000</defaultValue>
+                </parameter>
+                <parameter name="avgPercentageThreshold" type="double">
+                    <displayName>Session Duration Threshold Percentage</displayName>
+                    <description>Threshold value to filter long duration sessions</description>
+                    <defaultValue>50.0</defaultValue>
+                </parameter>
+                <parameter name="numberOfDays" type="int">
+                    <displayName>Number of days</displayName>
+                    <description>Number of days to be considered when calculating average</description>
+                    <defaultValue>7</defaultValue>
                 </parameter>
             </parameters>
         </scenario>

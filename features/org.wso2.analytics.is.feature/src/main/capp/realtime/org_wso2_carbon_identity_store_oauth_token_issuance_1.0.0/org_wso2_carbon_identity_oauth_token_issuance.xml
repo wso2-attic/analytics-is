@@ -2,7 +2,16 @@
 <EventStoreConfiguration>
 	<TableSchema>
 		<ColumnDefinition>
+			<Name>meta_tenantId</Name>
+			<IsFacet>false</IsFacet>
+			<EnableIndexing>true</EnableIndexing>
+			<IsPrimaryKey>false</IsPrimaryKey>
+			<EnableScoreParam>false</EnableScoreParam>
+			<Type>INTEGER</Type>
+		</ColumnDefinition>
+		<ColumnDefinition>
 			<Name>user</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -10,6 +19,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>tenantDomain</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -17,6 +27,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>userstoreDomain</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -24,6 +35,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>clientId</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -31,6 +43,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>grantType</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -38,6 +51,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>tokenId</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -45,6 +59,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>authzScopes</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -52,6 +67,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>unAuthzScopes</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -59,6 +75,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>isSuccess</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -66,6 +83,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>errorCode</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -73,6 +91,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>errorMsg</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -80,6 +99,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>accessTokenValidityMillis</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -87,6 +107,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>refreshTokenValidityMillis</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -94,6 +115,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>issuedTime</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>

@@ -2,7 +2,16 @@
 <EventStoreConfiguration>
 	<TableSchema>
 		<ColumnDefinition>
+			<Name>meta_tenantId</Name>
+			<IsFacet>false</IsFacet>
+			<EnableIndexing>true</EnableIndexing>
+			<IsPrimaryKey>false</IsPrimaryKey>
+			<EnableScoreParam>false</EnableScoreParam>
+			<Type>INTEGER</Type>
+		</ColumnDefinition>
+		<ColumnDefinition>
 			<Name>userId</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -10,6 +19,7 @@
 		</ColumnDefinition>
         <ColumnDefinition>
             <Name>tenantDomain</Name>
+			<IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -17,6 +27,7 @@
         </ColumnDefinition>
 		<ColumnDefinition>
 			<Name>scope</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -24,6 +35,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>timestamp</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -31,6 +43,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>alertTimestamp</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -38,6 +51,7 @@
 		</ColumnDefinition>
 		<ColumnDefinition>
 			<Name>msg</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>
@@ -45,6 +59,7 @@
 		</ColumnDefinition>
         <ColumnDefinition>
             <Name>severity</Name>
+			<IsFacet>false</IsFacet>
             <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
@@ -52,6 +67,7 @@
         </ColumnDefinition>
         <ColumnDefinition>
 			<Name>consumerKey</Name>
+			<IsFacet>false</IsFacet>
 			<EnableIndexing>true</EnableIndexing>
 			<IsPrimaryKey>false</IsPrimaryKey>
 			<EnableScoreParam>false</EnableScoreParam>

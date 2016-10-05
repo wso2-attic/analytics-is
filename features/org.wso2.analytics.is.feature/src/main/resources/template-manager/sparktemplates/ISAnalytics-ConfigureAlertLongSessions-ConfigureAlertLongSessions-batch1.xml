@@ -14,6 +14,6 @@
         (SELECT meta_tenantId, userId, clientId, scopes, timeDifference
         FROM accessTokenRefreshTime
         WHERE timestamp >= offsetInDays(-$numberOfDays)) temp
-        GROUP BY userId, clientId, scopes;
+        GROUP BY meta_tenantId, userId, clientId, scopes;
     </Script>
 </Analytics>
