@@ -27,6 +27,7 @@
         <copy file="${jaggery-api-dir}/isanalytics.jag" todir="${res-dir}"/>
         <copy file="${jaggery-api-dir}/issessionanalytics.jag" todir="${res-dir}"/>
         <copy file="${jaggery-api-dir}/isanalytics-common.jag" todir="${res-dir}"/>
+        <copy file="${jaggery-api-dir}/isanalytics-alerts.jag" todir="${res-dir}"/>
     </target>
 
     <target name="zip" depends="clean,pre-configure">

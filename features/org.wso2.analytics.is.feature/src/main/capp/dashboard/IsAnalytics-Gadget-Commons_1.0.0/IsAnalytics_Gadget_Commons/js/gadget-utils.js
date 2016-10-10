@@ -20,6 +20,7 @@
 
 var AUTHENTICATION_CONTEXT = "/portal/apis/isanalytics";
 var SESSION_CONTEXT = "/portal/apis/issessionanalytics";
+var ALERTS_CONTEXT = "/portal/apis/isanalytics-alerts";
 var DASHBOARD_NAME = "IsAnalytics-AuthenticationData";
 var BASE_URL = getDashboardBaseUrl();
 
