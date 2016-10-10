@@ -1,0 +1,204 @@
+<%
+(function () {
+
+    var log = new Log();
+    var carbon = require('carbon');
+    var timeRangeUtil = Packages.org.wso2.analytics.shared.util.time.TimeRangeUtils;
+    var MultitenantConstants = Packages.org.wso2.carbon.base.MultitenantConstants;
+    var common = require('isanalytics-common.jag');
+
+    var CONTENT_TYPE_JSON = "application/json";
+    var ALERT_TYPE = "alertType";
+    var HTTP_INTERNAL_ERROR = 500;
+    var HTTP_USER_NOT_AUTHENTICATED = 403;
+
+    //alert types
+    var ALERT_TYPE_ALL = 0;
+
+    response.contentType = CONTENT_TYPE_JSON;
+    loggedInUser = "admin";
+    loggedInUser = common.getLoggedInUser();
+
+    if (loggedInUser == null) {
+        log.error("user is not authenticated!");
+        response.status = HTTP_USER_NOT_AUTHENTICATED;
+        print('{ "status": "Failed", "message": "User is not authenticated." }');
+        response.sendRedirect("/login-controller");
+        return;
+    }
+
+    var connector = common.getConnector();
+
+    var alertType = request.getParameter(ALERT_TYPE);
+
+    if (connector != null && loggedInUser != null) {
+
+        var categoryPath = [];
+        var user = carbon.server.tenantUser(loggedInUser);
+        var tenantId = user.tenantId;
+        var tenantFilter = " AND meta_tenantId : [ "+ tenantId +" TO " +tenantId + " ] ";
+        var superTenantId = MultitenantConstants.SUPER_TENANT_ID;
+
+        var timeFrom = request.getParameter("timeFrom");
+        var timeTo = request.getParameter("timeTo");
+        if(timeFrom == null || timeTo == null) {
+            var d = new Date();
+            if(timeTo == null) {
+                timeTo = d.getTime();
+            }
+            if(timeFrom == null) {
+               timeFrom = d.getTime() - 3600000;
+            }
+        }
+        var additionalParameters = request.getParameter("listnedAdditionalUserPrefs");
+        var firstLoginFilter = request.getParameter("firstLogin");
+        var idpType = request.getParameter("idpType");
+        var idpTypeFilter = "";
+        if(idpType != "") {
+            idpTypeFilter = " AND identityProviderType:\"" + idpType + "\"";
+        }
+        var timeUnit = timeRangeUtil.getSuitableTimeRangeUnit(timeFrom, timeTo);
+
+        if (!additionalParameters) {
+            additionalParameters = "";
+        }
+        var query = request.getParameter("query");
+        switch(query) {
+            case 'summery' :
+                result = {};
+                var data = getSummeryResult(timeFrom, timeTo);
+                populateResult(result, data, draw);
+                break;
+            default :
+                result = {};
+                var data = getAlertResult(timeFrom, timeTo, alertType);
+                populateResult(result, data, draw);
+                break;
+        }
+
+        var draw = request.getParameter("draw");
+
+        if (result) {
+            if (log.isDebugEnabled()) {
+                log.debug("value of result: " + result);
+            }
+            print(result);
+        }
+    }
+    else {
+        print('{ "status": "Failed", "statusCode": "500", "message": "AnalyticsCachedWebServiceConnector is unavailable" }');
+    }
+
+    function getSummeryResult(timeFrom, timeTo) {
+        var data = [];
+        var  providerConfig = {};
+        providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
+        providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
+        providerConfig.limit = "";
+        var timeNow = new Date().getTime();
+
+        var data = [];
+        var result = querySummeryResult(providerConfig, 10);
+        var categories = result.categories;
+
+        for(var key in categories){
+            var count = categories[key];
+            data.push({"key" : key, "display": key, "count": count});
+        }
+        return data;
+    }
+
+    function getAlertResult(timeFrom, timeTo, alertType) {
+
+        var data = [];
+        var  providerConfig = {};
+        providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
+        providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
+        if (alertType) {
+            providerConfig.query = providerConfig.query+", type: "+alertType;
+        }
+        providerConfig.limit = "";
+        var timeNow = new Date().getTime();
+
+        var data = [];
+        var result = queryAlertListResult(providerConfig, 10);
+        for (var i = 0; i < result.length; i++) {
+            var item = result[i];
+            data.push({
+               "timestamp": item.values.alertTimestamp,
+               "message": item.values.msg,
+               "alertType": item.values.type,
+               "severity" : item.values.severity
+            });
+        }
+        return data;
+    }
+
+    function populateResult(result, data, draw) {
+       result.draw = draw;
+       result.data = data;
+
+
+       result.recordsFiltered = data.length;
+       result.recordsTotal = data.length;
+    }
+
+    /**
+     * Returns Summery data.
+     * @param providerConfig
+     * @param limit
+     */
+    function querySummeryResult(providerConfig, limit) {
+        var tableName = providerConfig.tableName;
+        var query = providerConfig.query;
+        var limit = 100;
+        if (providerConfig.limit) {
+            limit = providerConfig.limit;
+        }
+
+        var dataQuery = {};
+        dataQuery.tableName = tableName;
+        dataQuery.fieldName = "type";
+        dataQuery.categoryPath =  [];
+        dataQuery.query = query;
+        dataQuery.scoreFunction = "1";
+
+        var result;
+        //if there's a filter present, we should perform a Lucene search instead of reading the table
+        var from = 0;
+        var to = 10;
+
+        result = connector.drillDownCategories(loggedInUser, tableName, stringify(dataQuery)).getMessage();
+        return JSON.parse(result);
+    };
+
+    /**
+     * Returns Detailed data.
+     * @param providerConfig
+     * @param limit
+     */
+    function queryAlertListResult(providerConfig, limit) {
+        var tableName = providerConfig.tableName;
+        var query = providerConfig.query;
+        var limit = 100;
+        if (providerConfig.limit) {
+            limit = providerConfig.limit;
+        }
+
+        var dataQuery = {};
+        dataQuery.tableName = tableName;
+        dataQuery.query = query;
+        dataQuery.count = limit;
+        dataQuery.start = 0;
+
+        var result;
+        //if there's a filter present, we should perform a Lucene search instead of reading the table
+        var from = 0;
+        var to = 10;
+
+        result = connector.search(loggedInUser, tableName, stringify(dataQuery)).getMessage();
+        return JSON.parse(result);
+    };
+}());
+
+%>
