@@ -38,6 +38,7 @@ public class TemplateManagerInitializerComponent {
 //        TemplateManagerInitializer templateManagerService = new TemplateManagerInitializer();
 //        ctx.getBundleContext().registerService(TemplateManagerInitializer.class.getName(),
 //                templateManagerService, null);
+
         if (log.isDebugEnabled()) {
             log.debug("Starting ISManagerInitilizerComponent#activate");
         }
@@ -55,7 +56,6 @@ public class TemplateManagerInitializerComponent {
     protected void unsetRegistryService(RegistryService registryService) {
         ServiceReferenceHolder.setRegistryService(null);
     }
-
 
 
 }

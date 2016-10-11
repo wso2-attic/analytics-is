@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
@@ -32,7 +31,7 @@
                     	create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "meta_tenantId INT -i, userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "meta_tenantId, userId, clientId, scopes");
 
                     	INSERT INTO TABLE accessTokenRefreshAvrgTime
-                    	SELECT temp.meta_tenantId, temp.userId, temp.clientId, temp.scopes, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $lowerPercentile) as minTimeDifference, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $upperPercentile) as maxTimeDifference
+                        SELECT temp.meta_tenantId, temp.userId, temp.clientId, temp.scopes, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($lowerPercentile as DOUBLE)) as minTimeDifference, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($upperPercentile as DOUBLE)) as maxTimeDifference
                     	FROM
                     	(SELECT meta_tenantId, userId, clientId, scopes, timeDifference
                     	FROM accessTokenRefreshTime
@@ -90,7 +89,9 @@
                     	tenantDomain, username, userstoreDomain", mergeSchema "false");
 
                     	INSERT INTO TABLE averageSessionDurationTable 
-                    	SELECT meta_tenantId, tenantDomain, username, userstoreDomain, AVG(duration) 
+                    	SELECT temp.meta_tenantId, temp.tenantDomain, temp.username, temp.userstoreDomain, AVG(duration) as avgDuration
+                    	FROM
+                    	(SELECT meta_tenantId, tenantDomain, username, userstoreDomain, duration
                     	FROM rawSessionsTable
                     	WHERE _timestamp >= offsetInDays(-$numberOfDays)) temp
                     	GROUP BY meta_tenantId, tenantDomain, username, userstoreDomain;
@@ -137,7 +138,7 @@
                 	select s.sessionId, s.username, s.duration, t.avgDuration
                 	insert into AlertLongSessionsTemp;
 
-                	from AlertLongSessionsTemp[duration > avgDuration * ($avgPercentageThreshold + 100.0) / 100.0]
+                	from AlertLongSessionsTemp[duration > (avgDuration * ($avgPercentageThreshold + 100.0) / 100.0)]
                 	select sessionId, username, duration, avgDuration
                 	insert into AlertLongSessions;
                 	]]>

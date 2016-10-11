@@ -1,5 +1,5 @@
 {
-  "name": "org.wso2.carbon.identity.oauth.token.issuance",
+  "name": "org.wso2.is.analytics.stream.OauthTokenIssuance",
   "version": "1.0.0",
   "nickName": "",
   "description": "",

@@ -9,11 +9,11 @@
         create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "meta_tenantId INT -i, userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "meta_tenantId, userId, clientId, scopes");
 
         INSERT INTO TABLE accessTokenRefreshAvrgTime
-        SELECT temp.meta_tenantId, temp.userId, temp.clientId, temp.scopes, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $lowerPercentile) as minTimeDifference, getpercentileValue(AVG(timeDifference), SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference)), $upperPercentile) as maxTimeDifference
+        SELECT temp.meta_tenantId, temp.userId, temp.clientId, temp.scopes, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast(0.1 as DOUBLE)) as minTimeDifference, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast(0.95 as DOUBLE)) as maxTimeDifference
         FROM
         (SELECT meta_tenantId, userId, clientId, scopes, timeDifference
         FROM accessTokenRefreshTime
-        WHERE timestamp >= offsetInDays(-$numberOfDays)) temp
-        GROUP BY userId, clientId, scopes;
+        WHERE timestamp >= offsetInDays(-7)) temp
+        GROUP BY meta_tenantId, userId, clientId, scopes;
     </Script>
 </Analytics>

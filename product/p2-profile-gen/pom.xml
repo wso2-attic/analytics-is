@@ -362,10 +362,10 @@
                                 <featureArtifactDef>
                                     org.wso2.ciphertool:org.wso2.ciphertool.feature:${cipher.tool.version}
                                 </featureArtifactDef>
+                                <!-- END - Tools -->
                                 <featureArtifactDef>
                                     org.wso2.analytics.apim:org.wso2.analytics.apim.spark.feature:${analytics.apim.version}
                                 </featureArtifactDef>
-                                <!-- END - Tools -->
                             </featureArtifacts>
                         </configuration>
                     </execution>
