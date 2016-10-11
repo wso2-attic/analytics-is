@@ -7,62 +7,62 @@
 /* define streams/tables and write queries here ... */
 
 @Import('org.wso2.is.analytics.stream.OauthTokenIssuance:1.0.0')
-define stream OAuthStream (user string, tenantDomain string, userstoreDomain string, clientId string, grantType string, tokenId string, authzScopes string, unAuthzScopes string, isSuccess bool, errorCode string, errorMsg string, accessTokenValidityMillis long, refreshTokenValidityMillis long, issuedTime long);
+define stream OAuthStream (meta_tenantId int, user string, tenantDomain string, userstoreDomain string, clientId string, grantType string, tokenId string, authzScopes string, unAuthzScopes string, isSuccess bool, errorCode string, errorMsg string, accessTokenValidityMillis long, refreshTokenValidityMillis long, issuedTime long);
 
 @Export('org.wso2.is.analytics.alert.abnormalTokenRefresh:1.0.0')
-define stream alert_abnormalTokenRefreshStream (userId string, tenantDomain string, scope string, timestamp long, alertTimestamp long, msg string, severity int, consumerKey string);
+define stream alert_abnormalTokenRefreshStream (meta_tenantId int, userId string, tenantDomain string, scope string, timestamp long, alertTimestamp long, msg string, severity int, consumerKey string);
 
 @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
-define stream alert_allISAlertsStream (type string, tenantDomain string, msg string, severity int, alertTimestamp long);
+define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_LASTACCESSTOKENREFRESHEVENTTABLE', primary.keys = 'userId, clientId, scopes', indices = 'userId, clientId, scopes, timestamp')
-define table LastAccessTokenRefreshTable (userId string, clientId string, scopes string, timestamp long);
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_LASTACCESSTOKENREFRESHEVENTTABLE', primary.keys = 'meta_tenantId, userId, clientId, scopes', indices = 'meta_tenantId, userId, clientId, scopes, timestamp')
+define table LastAccessTokenRefreshTable (meta_tenantId int, userId string, clientId string, scopes string, timestamp long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE', indices = 'userId, clientId, scopes, timeDifference, timestamp')
-define table AccessTokenRefreshTable (userId string, clientId string, scopes string, timeDifference long, timestamp long);
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE', indices = 'meta_tenantId, userId, clientId, scopes, timeDifference, timestamp')
+define table AccessTokenRefreshTable (meta_tenantId int, userId string, clientId string, scopes string, timeDifference long, timestamp long);
 
-@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE', indices = 'userId, clientId, scopes, minTimeDifference, maxTimeDifference')
-define table AccessTokenRefreshSummaryTable (userId string, clientId string, scopes string, minTimeDifference double, maxTimeDifference double);
+@from(eventtable = 'analytics.table', table.name = 'ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE', indices = 'meta_tenantId, userId, clientId, scopes, minTimeDifference, maxTimeDifference')
+define table AccessTokenRefreshSummaryTable (meta_tenantId int, userId string, clientId string, scopes string, minTimeDifference double, maxTimeDifference double);
 
 
 --- Filter out the successful token refresh events
 @info(name = 'query1')
 from OAuthStream[grantType == 'refresh_token' and isSuccess == true]
-select str:concat(tenantDomain, '-', userstoreDomain , '-' , user) as userId, tenantDomain, clientId, authzScopes as scopes, issuedTime as timestamp
+select meta_tenantId, str:concat(tenantDomain, '-', userstoreDomain, '-' , user) as userId, tenantDomain, clientId, authzScopes as scopes, issuedTime as timestamp
 insert into RefreshTokenStream;
 
 --- Calculate the time difference between consequent access token refreshes
 @info(name = 'query2')
 from RefreshTokenStream as rts join LastAccessTokenRefreshTable as lrt
-on rts.userId == lrt.userId and rts.clientId == lrt.clientId and rts.scopes == lrt.scopes
-select rts.userId as userId, rts.tenantDomain, rts.clientId as clientId, rts.scopes as scopes, (rts.timestamp - lrt.timestamp) as timeDifference, rts.timestamp as timestamp
+on rts.meta_tenantId == lrt.meta_tenantId and rts.userId == lrt.userId and rts.clientId == lrt.clientId and rts.scopes == lrt.scopes
+select rts.meta_tenantId as meta_tenantId, rts.userId as userId, rts.tenantDomain as tenantDomain, rts.clientId as clientId, rts.scopes as scopes, (rts.timestamp - lrt.timestamp) as timeDifference, rts.timestamp as timestamp
 insert into AccessTokenRefreshTimeStream;
 
 --- Test the events from abnormal refreshes
 @info(name = 'query3')
 from AccessTokenRefreshTimeStream as trs join AccessTokenRefreshSummaryTable as atst
-on trs.userId == atst.userId and trs.clientId == atst.clientId and trs.scopes == atst.scopes
-select trs.userId as userId, trs.tenantDomain, trs.clientId as consumerKey, trs.scopes as scopes, atst.minTimeDifference as minTimeDifference, atst.maxTimeDifference as maxTimeDifference, trs.timeDifference as timeDifference, trs.timestamp as timestamp
+on trs.meta_tenantId == atst.meta_tenantId and trs.userId == atst.userId and trs.clientId == atst.clientId and trs.scopes == atst.scopes
+select trs.meta_tenantId as meta_tenantId, trs.userId as userId, trs.tenantDomain as tenantDomain, trs.clientId as consumerKey, trs.scopes as scopes, atst.minTimeDifference as minTimeDifference, atst.maxTimeDifference as maxTimeDifference, trs.timeDifference as timeDifference, trs.timestamp as timestamp
 insert into AbnormalityTesterStream;
 
 @info(name = 'query4')
 from AbnormalityTesterStream[ timeDifference < minTimeDifference or timeDifference > maxTimeDifference]
-select userId, tenantDomain, scopes as scope, timestamp,(time:timestampInMilliseconds()) as alertTimestamp,str:concat('Abnormal access token refresh detected at: ', time:dateFormat(timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, 1 as severity, consumerKey
+select meta_tenantId, userId, tenantDomain, scopes as scope, timestamp,(time:timestampInMilliseconds()) as alertTimestamp,str:concat('Abnormal access token refresh detected at: ', time:dateFormat(timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, 1 as severity, consumerKey
 insert into alert_abnormalTokenRefreshStream;
 
 @info(name = 'query5')
 from alert_abnormalTokenRefreshStream
-select "AbnormalRefreshAlert" as type, tenantDomain, str:concat('Abnormal access token refresh detected by user:',userId,' using consumer key: ', consumerKey, ' at: ', time:dateFormat(timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+select meta_tenantId, "AbnormalRefreshAlert" as type, tenantDomain, str:concat('Abnormal access token refresh detected by user:',userId,' using consumer key: ', consumerKey, ' at: ', time:dateFormat(timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
 insert into alert_allISAlertsStream;
 
 -- Persist the time difference between consequent access token refreshes
 @info(name = 'query6')
 from AccessTokenRefreshTimeStream
-select userId, clientId, scopes, timeDifference, timestamp
+select meta_tenantId, userId, clientId, scopes, timeDifference, timestamp
 insert into AccessTokenRefreshTable;
 
 -- Persist the latest refresh token
 @info(name = 'query7')
 from RefreshTokenStream
-select userId, clientId, scopes, timestamp
+select meta_tenantId, userId, clientId, scopes, timestamp
 insert into LastAccessTokenRefreshTable;

@@ -10,5 +10,9 @@
 			<key>upperPercentile</key>
 			<value>0.95</value>
 		</entry>
+		<entry>
+			<key>numberOfDays</key>
+			<value>7</value>
+		</entry>
 	</parameterMap>
 </scenarioConfiguration>
