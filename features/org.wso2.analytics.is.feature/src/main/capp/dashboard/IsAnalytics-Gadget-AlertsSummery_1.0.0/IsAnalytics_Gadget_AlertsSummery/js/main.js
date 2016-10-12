@@ -60,7 +60,7 @@ $(document).ready(function () {
 
     $.fn.dataTable.ext.errMode = 'none';
     oTable = $('#tblAlerts').DataTable({
-        scrollY: 500,
+        scrollY: 100,
         scrollX: true,
         dom: '<"dataTablesTop"' +
         'f' +
@@ -94,6 +94,13 @@ $(document).ready(function () {
         publishData.alertType = key;
         if(key != null) {
             gadgets.Hub.publish(TOPIC_ALERT_TYPE, publishData);
+        }
+
+    } );
+    $('#tblAlerts tbody').on( 'click', 'tr', function () {
+        oTable.$('tr.selected').removeClass('selected');
+        if ( !$(this).hasClass('selected') ) {
+            $(this).addClass('selected');
         }
     } );
 });

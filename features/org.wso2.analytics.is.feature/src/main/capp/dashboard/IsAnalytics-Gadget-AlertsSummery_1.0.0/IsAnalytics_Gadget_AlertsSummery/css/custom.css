@@ -10,6 +10,16 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.dark .table-bordered >tbody .selected{
+    color:green;
+    font-style:italic;
+}
+
+.table-bordered >tbody .selected{
+    color:green;
+    font-style:italic;
+}
+
 .dataTables_filter input {
     display: block;
     float: right;
