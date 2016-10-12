@@ -1,0 +1,259 @@
+{
+    "id": "IsAnalytics-Alerts",
+    "title": "Security Alerts",
+    "description": "",
+    "permissions": {
+        "viewers": [
+            "Internal\/everyone"
+        ],
+        "editors": [
+            "Internal\/everyone"
+        ],
+        "owners": [
+            "Internal\/everyone"
+        ]
+    },
+    "shareDashboard": true,
+    "pages": [
+        {
+            "id": "alerts",
+            "title": "Alerts",
+            "layout": {
+                "content": {
+                    "loggedIn": {
+                        "blocks": [
+                            {
+                                "id": "cf51f1f78c5f61e408c4ae7fcdcf2261",
+                                "x": 0,
+                                "y": 3,
+                                "width": 12,
+                                "height": 8,
+                                "banner": false
+                            },
+                            {
+                                "id": "6762a81b03b56ebfb7941f9979a00aa9",
+                                "x": 5,
+                                "y": 0,
+                                "width": 7,
+                                "height": 2,
+                                "banner": false
+                            },
+                            {
+                                "id": "4f25b7a743184e57767a17e9eaf89bb1",
+                                "x": 0,
+                                "y": 0,
+                                "width": 5,
+                                "height": 3,
+                                "banner": false
+                            }
+                        ]
+                    }
+                },
+                "fluidLayout": false
+            },
+            "isanon": false,
+            "content": {
+                "default": {
+                    "4f25b7a743184e57767a17e9eaf89bb1": [
+                        {
+                            "id": "IsAnalytics_Gadget_AlertsSummery-0",
+                            "content": {
+                                "id": "IsAnalytics_Gadget_AlertsSummery",
+                                "title": "Alerts",
+                                "type": "gadget",
+                                "thumbnail": "fs://gadget/IsAnalytics_Gadget_AlertsSummery/index.png",
+                                "data": {
+                                    "url": "fs://gadget/IsAnalytics_Gadget_AlertsSummery/index.xml"
+                                },
+                                "toolbarButtons": {
+                                    "default": {
+                                        "maximize": false,
+                                        "configurations": false
+                                    },
+                                    "custom": [],
+                                    "isDropdownView": false
+                                },
+                                "listen": {
+                                    "subscriberDateRange": {
+                                        "type": "dateRange",
+                                        "description": "Used to listen to Any message of type state",
+                                        "on": [
+                                            {
+                                                "from": "IsAnalytics_Gadget_DateRangePicker-0",
+                                                "event": "publisher"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "notify": {
+                                    "publisherAlertType": {
+                                        "type": "alertType",
+                                        "description": "This selected Alert Type"
+                                    }
+                                },
+                                "styles": {
+                                    "no_heading": true,
+                                    "hide_gadget": false,
+                                    "titlePosition": "left",
+                                    "title": "Alerts"
+                                },
+                                "options": {},
+                                "locale_titles": {
+                                    "en-US": "Alerts"
+                                },
+                                "settings": {
+                                    "priority": "5",
+                                    "timeoutInterval": "60000"
+                                }
+                            }
+                        }
+                    ],
+                    "cf51f1f78c5f61e408c4ae7fcdcf2261": [
+                        {
+                            "id": "IsAnalytics_Gadget_AlertsView-0",
+                            "content": {
+                                "id": "IsAnalytics_Gadget_AlertsView",
+                                "title": "View Alerts",
+                                "type": "gadget",
+                                "thumbnail": "fs://gadget/IsAnalytics_Gadget_AlertsView/index.png",
+                                "data": {
+                                    "url": "fs://gadget/IsAnalytics_Gadget_AlertsView/index.xml"
+                                },
+                                "toolbarButtons": {
+                                    "default": {
+                                        "maximize": false,
+                                        "configurations": false
+                                    },
+                                    "custom": [],
+                                    "isDropdownView": false
+                                },
+                                "listen": {
+                                    "subscriberDateRange": {
+                                        "type": "dateRange",
+                                        "description": "Used to listen to Any message of type state",
+                                        "on": [
+                                            {
+                                                "from": "IsAnalytics_Gadget_DateRangePicker-0",
+                                                "event": "publisher"
+                                            }
+                                        ]
+                                    },
+                                    "subscriberAlertType": {
+                                        "type": "alertType",
+                                        "description": "Listens to the selected Alert Type",
+                                        "on": [
+                                            {
+                                                "from": "IsAnalytics_Gadget_AlertsSummery-0",
+                                                "event": "publisherAlertType"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "notify": {},
+                                "styles": {
+                                    "no_heading": false,
+                                    "hide_gadget": false,
+                                    "titlePosition": "left",
+                                    "title": "View Alerts"
+                                },
+                                "options": {},
+                                "locale_titles": {
+                                    "en-US": "View Alerts"
+                                },
+                                "settings": {
+                                    "priority": "5",
+                                    "timeoutInterval": "60000"
+                                }
+                            }
+                        }
+                    ],
+                    "6762a81b03b56ebfb7941f9979a00aa9": [
+                        {
+                            "id": "IsAnalytics_Gadget_DateRangePicker-0",
+                            "content": {
+                                "id": "IsAnalytics_Gadget_DateRangePicker",
+                                "title": "Date Range Picker",
+                                "type": "gadget",
+                                "category": "Widgets",
+                                "thumbnail": "fs://gadget/IsAnalytics_Gadget_DateRangePicker/index.png",
+                                "data": {
+                                    "url": "fs://gadget/IsAnalytics_Gadget_DateRangePicker/index.xml"
+                                },
+                                "toolbarButtons": {
+                                    "default": {
+                                        "maximize": false,
+                                        "configurations": false
+                                    },
+                                    "custom": [],
+                                    "isDropdownView": false
+                                },
+                                "styles": {
+                                    "no_heading": true,
+                                    "hide_gadget": false,
+                                    "titlePosition": "left",
+                                    "title": "Date Range Picker"
+                                },
+                                "listen": {
+                                    "subscriber": {
+                                        "type": "dateRange",
+                                        "description": "Used to listen to Any message of type state"
+                                    }
+                                },
+                                "notify": {
+                                    "publisher": {
+                                        "type": "dateRange",
+                                        "description": "This notifies date ranges generated in Date Range Picker"
+                                    }
+                                },
+                                "options": {},
+                                "locale_titles": {
+                                    "en-US": "Date Range Picker"
+                                },
+                                "settings": {
+                                    "priority": "5",
+                                    "timeoutInterval": "60000"
+                                }
+                            }
+                        }
+                    ]
+                },
+                "anon": {}
+            }
+        }
+    ],
+    "identityServerUrl": "",
+    "accessTokenUrl": "",
+    "apiKey": "",
+    "apiSecret": "",
+    "theme": "",
+    "isUserCustom": false,
+    "isEditorEnable": true,
+    "banner": {
+        "globalBannerExists": false,
+        "customBannerExists": false
+    },
+    "landing": "alerts",
+    "isanon": false,
+    "menu": [
+        {
+            "id": "alerts",
+            "isanon": false,
+            "ishidden": false,
+            "title": "Alerts",
+            "subordinates": [
+                {
+                    "id": "overall",
+                    "isanon": false,
+                    "ishidden": false,
+                    "title": "Alerts",
+                    "subordinates": [
+
+                    ]
+                }
+            ]
+        }
+    ],
+    "hideAllMenuItems": false,
+    "defaultPriority": "5"
+}
+
