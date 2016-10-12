@@ -52,7 +52,7 @@ insert into alert_abnormalTokenRefreshStream;
 
 @info(name = 'query5')
 from alert_abnormalTokenRefreshStream
-select meta_tenantId, "AbnormalRefreshAlert" as type, tenantDomain, str:concat('Abnormal access token refresh detected by user:',userId,' using consumer key: ', consumerKey, ' at: ', time:dateFormat(timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+select meta_tenantId, "AbnormalRefreshAlert" as type, tenantDomain, str:concat('Abnormal access token refresh detected by user:', userId,' using consumer key: ', consumerKey, ' at: ', time:dateFormat(timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
 insert into alert_allISAlertsStream;
 
 -- Persist the time difference between consequent access token refreshes
