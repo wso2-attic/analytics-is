@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifact name="IsAnalytics-Dashboard-Alerts" version="1.0.0" type="dashboards/dashboard" serverRole="DataAnalyticsServer">
+    <file>IsAnalytics-Alerts.json</file>
+</artifact>
