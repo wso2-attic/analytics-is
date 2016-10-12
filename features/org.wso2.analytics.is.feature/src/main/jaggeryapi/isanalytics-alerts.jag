@@ -11,16 +11,16 @@
     var ALERT_TYPE = "alertType";
     var HTTP_INTERNAL_ERROR = 500;
     var HTTP_USER_NOT_AUTHENTICATED = 403;
+    var alertTypeToTable = {};
 
     //alert types
     var ALERT_TYPE_ALL = 0;
 
     response.contentType = CONTENT_TYPE_JSON;
-    loggedInUser = "admin";
     loggedInUser = common.getLoggedInUser();
 
     if (loggedInUser == null) {
-        log.error("user is not authenticated!");
+        log.error("User is not authenticated!");
         response.status = HTTP_USER_NOT_AUTHENTICATED;
         print('{ "status": "Failed", "message": "User is not authenticated." }');
         response.sendRedirect("/login-controller");
@@ -109,14 +109,25 @@
     }
 
     function getAlertResult(timeFrom, timeTo, alertType) {
-
         var data = [];
         var  providerConfig = {};
-        providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
-        providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
-        if (alertType) {
-            providerConfig.query = providerConfig.query+", type: "+alertType;
+        switch (alertType) {
+            case "LoginSuccessAfterMultipleFailures":
+                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_LOGINSUCCESSAFTERMULTIPLEFAILURES";
+                break;
+            case "LongSessions":
+                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_LONGSESSIONS";
+                break;
+            case "AbnormalTokenRefresh":
+                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH";
+                break;
+            default:
+                alertType = "All";
+                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
+                break;
         }
+
+        providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
         providerConfig.limit = "";
         var timeNow = new Date().getTime();
 
@@ -124,14 +135,74 @@
         var result = queryAlertListResult(providerConfig, 10);
         for (var i = 0; i < result.length; i++) {
             var item = result[i];
-            data.push({
-               "timestamp": item.values.alertTimestamp,
-               "message": item.values.msg,
-               "alertType": item.values.type,
-               "severity" : item.values.severity
-            });
+            var record = convertToAlertRecord(item, alertType);
+            data.push(record);
         }
         return data;
+    }
+
+    function convertToAlertRecord (item, alertType) {
+        var result;
+        switch (alertType) {
+            case "LoginSuccessAfterMultipleFailures":
+                result =  {
+                             "timestamp": item.values.alertTimestamp,
+                             "sessionId": item.values.sessionId,
+                             "username": item.values.username,
+                             "message": item.values.msg,
+                             "tenantDomain": item.values.tenantDomain,
+                             "alertType": alertType,
+                             "severity" : item.values.severity
+                          };
+                break;
+            case "LongSessions":
+                result =  {
+                             "timestamp": item.values.alertTimestamp,
+                             "sessionId": item.values.sessionId,
+                             "username": item.values.username,
+                             "duration": item.values.duration,
+                             "avgDuration": item.values.avgDuration,
+                             "alertType": alertType
+                          };
+                break;
+            case "AbnormalTokenRefresh":
+                result =  {
+                             "timestamp": item.values.alertTimestamp,
+                             "userId" : item.values.userId,
+                             "tenantDomain" : item.values.tenantDomain,
+                             "scope" : item.values.scope,
+                             "consumerKey" : hideMiddleChars(item.values.consumerKey),
+                             "message": item.values.msg,
+                             "alertType": item.values.type,
+                             "severity" : item.values.severity
+                          };
+                break;
+            case "All":
+                result =  {
+                             "timestamp": item.values.alertTimestamp,
+                             "message": item.values.msg,
+                             "alertType": item.values.type,
+                             "severity" : item.values.severity
+                          };
+                break;
+            default:
+                result =  {
+                             "timestamp": item.values.alertTimestamp,
+                             "message": item.values.msg,
+                             "alertType": alertType,
+                          };
+                break;
+        }
+        return result;
+    }
+
+    function hideMiddleChars(str) {
+        var len = str.length;
+        var result = str;
+        if(len > 4) {
+            result = str.substring(0,2)+'xxxx'+str.substring(len-2,len);
+        }
+        return result;
     }
 
     function populateResult(result, data, draw) {
@@ -195,7 +266,6 @@
         //if there's a filter present, we should perform a Lucene search instead of reading the table
         var from = 0;
         var to = 10;
-
         result = connector.search(loggedInUser, tableName, stringify(dataQuery)).getMessage();
         return JSON.parse(result);
     };

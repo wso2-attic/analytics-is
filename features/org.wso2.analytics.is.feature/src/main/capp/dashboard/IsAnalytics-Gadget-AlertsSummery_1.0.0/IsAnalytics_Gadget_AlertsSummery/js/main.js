@@ -50,13 +50,13 @@ $(document).ready(function () {
     }
 
     var columns = [
-    { data: "display", title: "Alert Type",
-        "render": function(data, type, row) {
-            return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-'+data+'"></div><span class="col-xs-2">'+data+'</span></div>';
-        }
-    },
-    { data: "count", title: "Count" },
-        ] ;
+        { data: "display", title: "Alert Type",
+            "render": function(data, type, row) {
+                return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-'+data+'"></div><span class="col-xs-2">'+data+'</span></div>';
+            }
+        },
+        { data: "count", title: "Count" },
+    ] ;
 
     $.fn.dataTable.ext.errMode = 'none';
     oTable = $('#tblAlerts').DataTable({
@@ -82,7 +82,7 @@ $(document).ready(function () {
             "url" : ALERTS_CONTEXT,
             "data" : function (d) {
                 d.query = "summery",
-                d.timeFrom = parseInt(listnedTimeFromValue);
+                    d.timeFrom = parseInt(listnedTimeFromValue);
                 d.timeTo = parseInt(listnedTimeToValue);
             }
         }

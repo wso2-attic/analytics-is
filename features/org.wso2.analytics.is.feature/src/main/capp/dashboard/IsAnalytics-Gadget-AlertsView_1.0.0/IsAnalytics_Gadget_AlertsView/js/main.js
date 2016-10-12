@@ -51,24 +51,21 @@ $(document).ready(function () {
         }
     }
 
-    var columns = [
-    { data: "timestamp", title: "Timestamp",
-        "render": function(data, type, row) {
-            var date = new Date(data);
-            return date.toLocaleString("en-US");
-        }
-    },
-    { data: "message", title: "Message" },
-    { data: "alertType", title: "Alert Type",
-        "render": function(data, type, row) {
-            return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-'+data+'"></div><span class="col-xs-2">'+data+'</span></div>';
-        }
+    if(!selectedAlertType) {
+        selectedAlertType = "All";
     }
-    ] ;
+
+    var columns = getColumns(selectedAlertType);
 
     $.fn.dataTable.ext.errMode = 'none';
-    oTable = $('#tblAlerts').DataTable({
-        scrollY: 100,
+    oTable = createDataTable(columns, true);
+
+    oTable.draw();
+});
+
+function createDataTable(columns, destroy) {
+    var dataTable = $('#tblAlerts').DataTable({
+        scrollY: 300,
         scrollX: true,
         dom: '<"dataTablesTop"' +
         'f' +
@@ -89,6 +86,7 @@ $(document).ready(function () {
         "initComplete": function( settings, json ) {
             //$('[data-toggle="tooltip"]').tooltip();
         },
+        "bDestroy" : true,
         "ajax": {
             "url" : ALERTS_CONTEXT,
             "data" : function (d) {
@@ -100,14 +98,77 @@ $(document).ready(function () {
             }
         }
     });
+    return dataTable;
+}
+function getColumns(alertType) {
+    var result;
+    switch (alertType) {
+        case "AbnormalTokenRefresh":
+            result = [
+                { data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime},
+                { data: "userId", title: "User ID" },
+                { data: "tenantDomain", title: "Tenant Domain" },
+                { data: "scope", title: "Scope" },
+                { data: "consumerKey", title: "Key" },
+                { data: "message", title: "Message" }
+            ]
+            break;
+        case "LongSessions":
+            result = [
+                { data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime},
+                { data: "sessionId", title: "Session ID" },
+                { data: "username", title: "User" },
+                { data: "duration", title: "Duration" ,
+                    "render": renderDateTime},
+                { data: "avgDuration", title: "Avg. Duration",
+                    "render": renderDateTime}
+            ]
+            break;
+        case "LoginSuccessAfterMultipleFailures":
+            result = [
+                { data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime},
+                { data: "sessionId", title: "Session ID" },
+                { data: "username", title: "User" },
+                { data: "message", title: "Message" },
+                { data: "tenantDomain", title: "Tenant Domain" }
+            ]
+            break;
+        case "All":
+        default:
+            result = [
+                { data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime},
+                { data: "message", title: "Message" },
+                { data: "alertType", title: "Alert Type",
+                    "render": function(data, type, row) {
+                        return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-'+data+'"></div><span class="col-xs-2">'+data+'</span></div>';
+                    }
+                }
+            ]
+            break;
+    }
 
-});
+    return result;
+}
 
+function renderDateTime(data, type, row) {
+    var date = new Date(data);
+    return date.toLocaleString("en-US");
+}
+
+function onTypeChanged() {
+    oTable.destroy(true);
+    $('#canvas').html('<table id="tblAlerts" class="table table-striped table-bordered dataTable no-footer" cellspacing="0" width="100%"/>');
+    oTable = createDataTable(getColumns(selectedAlertType), true);
+    oTable.redraw();
+    oTable.ajax.reload();
+};
 
 function onDataChanged() {
-
-    oTable.clear();
-    oTable.ajax.reload().draw();
+    oTable.ajax.reload();
 };
 
 gadgets.HubSettings.onConnect = function() {
@@ -119,7 +180,7 @@ gadgets.HubSettings.onConnect = function() {
     });
     gadgets.Hub.subscribe(TOPIC_ALERT_TYPE, function(topic, data, subscriberData) {
         selectedAlertType = data.alertType;
-        onDataChanged();
+        onTypeChanged();
     });
 };
 
