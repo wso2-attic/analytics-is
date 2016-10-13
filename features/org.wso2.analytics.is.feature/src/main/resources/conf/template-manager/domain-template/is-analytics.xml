@@ -128,28 +128,28 @@
 
                         define trigger periodicalTriggerStream at every 2 min;
 
-                        @info(name = 'query1')
+                        @info(name = 'getDataFromSessionStreamInfoTable')
                         from periodicalTriggerStream join SessionStreamInfoTable
                         select *
                         insert into SessionStreamInfoSummary;
 
-                        @info(name = 'query2')
+                        @info(name = 'FilterLongSessions')
                         from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
                         select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
                         insert into FilterLongSessions;
 
-                        @info(name = 'query3')
+                        @info(name = 'getDataFromAverageSessionDurationTable')
                         from FilterLongSessions as s join AverageSessionDurationTable as t
                         on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain)
                         select s.meta_tenantId, s.tenantDomain, s.sessionId, s.username, s.duration, t.avgDuration
                         insert into AlertLongSessionsTemp;
 
-                        @info(name = 'query4')
+                        @info(name = 'DetectAbnormalLongSessions')
                         from AlertLongSessionsTemp[duration > (avgDuration * ($avgPercentageThreshold + 100.0) / 100.0)]
                         select meta_tenantId, tenantDomain, sessionId, username, duration, avgDuration
                         insert into AlertLongSessions;
 
-                        @info(name = 'query5')
+                        @info(name = 'SendingAlertsToAllISAlertsStream')
                         from AlertLongSessions
                         select meta_tenantId, "AbnormalLongSessionAlert" as type, tenantDomain, str:concat('Abnormal long session session of ', duration, ' milliseconds detected by user: ', username,' on session id: ', sessionId, '.') as msg, 3 as severity, (time:timestampInMilliseconds()) as alertTimestamp
                         insert into alert_allISAlertsStream;
