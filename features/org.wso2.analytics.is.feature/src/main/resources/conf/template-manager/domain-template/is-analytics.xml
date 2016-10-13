@@ -106,41 +106,53 @@
             <templates>
                 <template type="realtime">
                 	<![CDATA[
-                	/* Enter a unique ExecutionPlan */
-                	@Plan:name('ISAnalytics-RealtimeAlerts-LongSessions')
+                        /* Enter a unique ExecutionPlan */
+                        @Plan:name('ISAnalytics-RealtimeAlerts-LongSessions')
 
-                	/* Enter a unique description for ExecutionPlan */
-                	@Plan:description('Detects long session durations and alerts the user')
+                        /* Enter a unique description for ExecutionPlan */
+                        @Plan:description('Detects long session durations and alerts the user')
 
-                	/* define streams/tables and write queries here ... */
+                        /* define streams/tables and write queries here ... */
 
-                	@Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
-                	define stream AlertLongSessions (sessionId string, username string, duration long, avgDuration double);
+                        @Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
+                        define stream AlertLongSessions (meta_tenantId int, tenantDomain string, sessionId string, username string, duration long, avgDuration double);
 
-                	@from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
-                	define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
+                        @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
+                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
 
-                	@from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
-                	define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
+                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
+                        define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
 
-                	define trigger periodicalTriggerStream at every 2 min;
+                        @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
+                        define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
 
-                	from periodicalTriggerStream join SessionStreamInfoTable
-                	select *
-                	insert into SessionStreamInfoSummary;
+                        define trigger periodicalTriggerStream at every 2 min;
 
-                	from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
-                	select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
-                	insert into FilterLongSessions;
+                        @info(name = 'getDataFromSessionStreamInfoTable')
+                        from periodicalTriggerStream join SessionStreamInfoTable
+                        select *
+                        insert into SessionStreamInfoSummary;
 
-                	from FilterLongSessions as s join AverageSessionDurationTable as t
-                	on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain)
-                	select s.sessionId, s.username, s.duration, t.avgDuration
-                	insert into AlertLongSessionsTemp;
+                        @info(name = 'FilterLongSessions')
+                        from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
+                        select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
+                        insert into FilterLongSessions;
 
-                	from AlertLongSessionsTemp[duration > (avgDuration * ($avgPercentageThreshold + 100.0) / 100.0)]
-                	select sessionId, username, duration, avgDuration
-                	insert into AlertLongSessions;
+                        @info(name = 'getDataFromAverageSessionDurationTable')
+                        from FilterLongSessions as s join AverageSessionDurationTable as t
+                        on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain)
+                        select s.meta_tenantId, s.tenantDomain, s.sessionId, s.username, s.duration, t.avgDuration
+                        insert into AlertLongSessionsTemp;
+
+                        @info(name = 'DetectAbnormalLongSessions')
+                        from AlertLongSessionsTemp[duration > (avgDuration * ($avgPercentageThreshold + 100.0) / 100.0)]
+                        select meta_tenantId, tenantDomain, sessionId, username, duration, avgDuration
+                        insert into AlertLongSessions;
+
+                        @info(name = 'SendingAlertsToAllISAlertsStream')
+                        from AlertLongSessions
+                        select meta_tenantId, "AbnormalLongSessionAlert" as type, tenantDomain, str:concat('Abnormal long session session of ', duration, ' milliseconds detected by user: ', username,' on session id: ', sessionId, '.') as msg, 3 as severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
                 	]]>
                 </template>
             </templates>
@@ -179,28 +191,66 @@
                         define stream AuthStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
 
                         @Export('org.wso2.is.analytics.stream.LoginSuccessAfterMultipleFailures:1.0.0')
-                        define stream LoginAlertStream (username string, severity int, msg string, tenantDomain string, _timestamp long);
+                        define stream LoginAlertStream (meta_tenantId int, username string, severity int, msg string, tenantDomain string, _timestamp long);
+
+                        @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
+                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
 
                         /* Query for detecting login attempts with same username*/
+                        @info(name = 'detectEventsForSameUser')
                         from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, e2[last].serviceProvider
                         output first every $timeDuration min
+                        insert into LoginAlertStreamSameUsername;
+
+                        @info(name = 'sendingSameUserEventsToLoginAlertStream')
+                        from LoginAlertStreamSameUsername
+                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
                         insert into LoginAlertStream;
+
+                        @info(name = 'sendingSameUserEventsToAllISAlertsStream')
+                        from LoginAlertStreamSameUsername
+                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
+
 
                         /* Query for detecting login attempts with same contextId*/
+                        @info(name = 'detectEventsForSameContextId')
                         from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.contextId == e2.contextId]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.contextId == e3.contextId]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same context-Id detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same context-Id detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, e2[last].serviceProvider, e2[last].contextId
                         output first every $timeDuration min
+                        insert into LoginAlertStreamSameContextId;
+
+                        @info(name = 'sendingSameContextIdEventsToLoginAlertStream')
+                        from LoginAlertStreamSameContextId
+                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
                         insert into LoginAlertStream;
 
+                        @info(name = 'sendingSameContextIdEventsToAllISAlertsStream')
+                        from LoginAlertStreamSameContextId
+                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same contextId: ', contextId, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
+
+
                         /* Query for detecting login attempts from same IP*/
+                        @info(name = 'detectEventsForSameIP')
                         from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.remoteIp == e2.remoteIp]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.remoteIp == e3.remoteIp]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures from same remote IP detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures from same remote IP detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, isAnalytics:ipToCountry(e2[last].remoteIp) as region, e2[last].serviceProvider, e2[last].remoteIp
                         output first every $timeDuration min
+                        insert into LoginAlertStreamSameIP;
+
+                        @info(name = 'sendingSameIPEventsToLoginAlertStream')
+                        from LoginAlertStreamSameIP
+                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
                         insert into LoginAlertStream;
+
+                        @info(name = 'sendingSameIPEventsToAllISAlertsStream')
+                        from LoginAlertStreamSameIP
+                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same remote IP: ', remoteIp, ' from: ', region, ' region using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
                     ]]>
                 </template>
             </templates>
