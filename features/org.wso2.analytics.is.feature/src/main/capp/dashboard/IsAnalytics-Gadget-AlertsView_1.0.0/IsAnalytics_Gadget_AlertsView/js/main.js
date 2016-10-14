@@ -29,6 +29,7 @@ var ALERTS_CONTEXT = "/portal/apis/isanalytics-alerts";
 $(document).ready(function () {
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
+    var historyAlertType = gadgetUtil.getURLParam("alertType");
 
     if(historyParmExist == null){
         listnedTimeFromValue = gadgetUtil.timeFrom();
@@ -51,6 +52,10 @@ $(document).ready(function () {
         }
     }
 
+
+    if(historyAlertType) {
+        selectedAlertType = historyAlertType;
+    }
     if(!selectedAlertType) {
         selectedAlertType = "All";
     }
@@ -103,7 +108,7 @@ function createDataTable(columns, destroy) {
 function getColumns(alertType) {
     var result;
     switch (alertType) {
-        case "AbnormalTokenRefresh":
+        case "AbnormalRefreshAlert":
             result = [
                 { data: "timestamp", title: "Timestamp",
                     "render": renderDateTime},
@@ -114,7 +119,7 @@ function getColumns(alertType) {
                 { data: "message", title: "Message" }
             ]
             break;
-        case "LongSessions":
+        case "AbnormalLongSessionAlert":
             result = [
                 { data: "timestamp", title: "Timestamp",
                     "render": renderDateTime},
@@ -126,7 +131,7 @@ function getColumns(alertType) {
                     "render": renderDateTime}
             ]
             break;
-        case "LoginSuccessAfterMultipleFailures":
+        case "SuspiciousLoginAlert":
             result = [
                 { data: "timestamp", title: "Timestamp",
                     "render": renderDateTime},
@@ -150,7 +155,6 @@ function getColumns(alertType) {
             ]
             break;
     }
-
     return result;
 }
 
@@ -180,6 +184,7 @@ gadgets.HubSettings.onConnect = function() {
     });
     gadgets.Hub.subscribe(TOPIC_ALERT_TYPE, function(topic, data, subscriberData) {
         selectedAlertType = data.alertType;
+        gadgetUtil.updateURLParam("alertType", selectedAlertType);
         onTypeChanged();
     });
 };
