@@ -4,15 +4,15 @@
         <ColumnDefinition>
             <Name>meta_tenantId</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>false</EnableIndexing>
-            <IsPrimaryKey>true</IsPrimaryKey>
+            <EnableIndexing>true</EnableIndexing>
+            <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>INTEGER</Type>
         </ColumnDefinition>
         <ColumnDefinition>
             <Name>username</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>false</EnableIndexing>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
@@ -20,7 +20,7 @@
         <ColumnDefinition>
             <Name>severity</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>false</EnableIndexing>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>INTEGER</Type>
@@ -36,7 +36,7 @@
         <ColumnDefinition>
             <Name>tenantDomain</Name>
             <IsFacet>false</IsFacet>
-            <EnableIndexing>false</EnableIndexing>
+            <EnableIndexing>true</EnableIndexing>
             <IsPrimaryKey>false</IsPrimaryKey>
             <EnableScoreParam>false</EnableScoreParam>
             <Type>STRING</Type>
