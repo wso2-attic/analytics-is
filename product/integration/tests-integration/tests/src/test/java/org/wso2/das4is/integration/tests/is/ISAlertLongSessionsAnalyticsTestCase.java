@@ -49,8 +49,9 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         super.init();
         String rdbmsConfigArtifactLocation = FrameworkPathUtil.getSystemResourceLocation() + File.separator + "config" +
                 File.separator + "rdbms-config.xml";
-        String rdbmsConfigLocation = FrameworkPathUtil.getCarbonHome() + File.separator + "repository" + File.separator + "conf" + File
-                .separator + "analytics" + File.separator + "rdbms-config.xml";
+        String rdbmsConfigLocation =
+                FrameworkPathUtil.getCarbonHome() + File.separator + "repository" + File.separator + "conf"
+                        + File.separator + "analytics" + File.separator + "rdbms-config.xml";
         String analyticsDataConfigLocation = FrameworkPathUtil.getSystemResourceLocation() + File.separator + "config" +
                 File.separator + "analytics-data-config.xml";
 
@@ -69,11 +70,12 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         initEventProcessorStub();
         int activeExecutionPlanCount = getActiveExecutionPlanCount();
         initTemplateManagerStub();
-        ScenarioConfigurationDTO isAnalyticsExecutionPlan = templateManagerAdminServiceStub.getConfiguration("ISAnalytics", "ConfigureAlertLongSessions");
+        ScenarioConfigurationDTO isAnalyticsExecutionPlan = templateManagerAdminServiceStub
+                .getConfiguration("ISAnalytics", "ConfigureAlertLongSessions");
         ConfigurationParameterDTO[] params = isAnalyticsExecutionPlan.getConfigurationParameterDTOs();
         // set session duration threshold value to 5 mins
-        if ((params[0].getName()).equals("sessionDurationThreshold")) {
-            params[0].setValue("300000");
+        if ((params[2].getName()).equals("sessionDurationThreshold")) {
+            params[2].setValue("300000");
         }
         isAnalyticsExecutionPlan.setConfigurationParameterDTOs(params);
         templateManagerAdminServiceStub.editConfiguration(isAnalyticsExecutionPlan);
@@ -94,7 +96,8 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         String streamId = "org.wso2.is.analytics.stream.OverallSession:1.0.0";
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(sampleDataFilePath + sampleCSVDataFileName), 10 * 1024 * 1024);
+            BufferedReader br = new BufferedReader(new FileReader(sampleDataFilePath + sampleCSVDataFileName),
+                    10 * 1024 * 1024);
             String line = br.readLine();
             while (line != null) {
                 String[] eventObject = line.split(",");
@@ -136,8 +139,10 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
 
     @Test(groups = "wso2.analytics.is", description = "Checking total long session count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
-        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS", Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 2, "========== Total long session count is invalid ==========");
+        long eventCount = analyticsDataAPI
+                .getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS",
+                        Long.MIN_VALUE, Long.MAX_VALUE);
+        Assert.assertEquals(eventCount, 5, "========== Total long session count is invalid ==========");
     }
 
     @AfterTest(alwaysRun = true)

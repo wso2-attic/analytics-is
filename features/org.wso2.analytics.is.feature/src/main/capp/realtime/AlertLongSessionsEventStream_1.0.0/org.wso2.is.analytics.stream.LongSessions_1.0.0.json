@@ -3,7 +3,17 @@
   "version": "1.0.0",
   "nickName": "",
   "description": "",
+  "metaData": [
+    {
+      "name": "tenantId",
+      "type": "INT"
+    }
+  ],
   "payloadData": [
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
     {
       "name": "sessionId",
       "type": "STRING"

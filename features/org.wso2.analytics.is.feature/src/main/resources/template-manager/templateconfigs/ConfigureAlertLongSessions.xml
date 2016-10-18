@@ -6,5 +6,13 @@
             <key>sessionDurationThreshold</key>
             <value>900000</value>
         </entry>
+        <entry>
+            <key>avgPercentageThreshold</key>
+            <value>50.0</value>
+        </entry>
+        <entry>
+            <key>numberOfDays</key>
+            <value>7</value>
+        </entry>
     </parameterMap>
 </scenarioConfiguration>

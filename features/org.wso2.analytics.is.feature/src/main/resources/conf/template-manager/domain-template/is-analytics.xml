@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
   ~
@@ -26,20 +25,19 @@
                     <cron>0 0 12 1/7 * ? *</cron>
 
                     <sparkScript>
-                        <![CDATA[
-                  create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
+                    	<![CDATA[
+                    	create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "meta_tenantId INT, userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
 
-create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "userId, clientId, scopes");
+                    	create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "meta_tenantId INT -i, userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "meta_tenantId, userId, clientId, scopes");
 
-INSERT INTO TABLE accessTokenRefreshAvrgTime
-      SELECT temp.userId, temp.clientId, temp.scopes, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($lowerPercentile as DOUBLE)) as minTimeDifference, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($upperPercentile as DOUBLE)) as maxTimeDifference
-      FROM
-         (SELECT userId, clientId,scopes, timeDifference
-          FROM accessTokenRefreshTime
-            WHERE timestamp >= offsetInDays(-7)) temp
-      GROUP BY userId, clientId, scopes;
-
-                 ]]>
+                    	INSERT INTO TABLE accessTokenRefreshAvrgTime
+                        SELECT temp.meta_tenantId, temp.userId, temp.clientId, temp.scopes, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($lowerPercentile as DOUBLE)) as minTimeDifference, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($upperPercentile as DOUBLE)) as maxTimeDifference
+                    	FROM
+                    	(SELECT meta_tenantId, userId, clientId, scopes, timeDifference
+                    	FROM accessTokenRefreshTime
+                    	WHERE timestamp >= offsetInDays(-$numberOfDays)) temp
+                    	GROUP BY meta_tenantId, userId, clientId, scopes;
+                    	]]>
                     </sparkScript>
 
                     </executionParameters>
@@ -53,23 +51,61 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                     <description>Lower percentile (value between 0 and 1) to calculate minimum time difference</description>
                     <defaultValue>0.10</defaultValue>
                 </parameter>
-
-
                 <parameter name="upperPercentile" type="double">
                     <displayName>Upper percentile</displayName>
                     <description>Upper percentile (value between 0 and 1) to calculate maximum time difference</description>
                     <defaultValue>0.95</defaultValue>
                 </parameter>
+                <parameter name="numberOfDays" type="int">
+                    <displayName>Number of days</displayName>
+                    <description>Number of days to be considered when calculating average</description>
+                    <defaultValue>7</defaultValue>
+                </parameter>
             </parameters>
-
-
     </scenario>
 
         <scenario type="ConfigureAlertLongSessions">
             <description>Configure long session duration detection</description>
+
+            <templates>
+                <template type="batch">
+                    <executionParameters>
+                    <cron>0 0/1 * * * ?</cron>
+
+                    <sparkScript>
+                    	<![CDATA[
+                    	CREATE TEMPORARY TABLE rawSessionsTable USING CarbonAnalytics OPTIONS (tableName
+                    	"ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO", schema "meta_tenantId INT -i -f, sessionId STRING -i -f,
+                    	startTimestamp LONG -i, renewTimestamp LONG -i, terminationTimestamp LONG -i, endTimestamp LONG -i, year INT,
+                    	month INT, day INT, hour INT, minute INT, duration LONG -f -sp, isActive BOOLEAN -i -f, username STRING -i -f,
+                    	userstoreDomain STRING -i -f, remoteIp STRING -i -f, region STRING -i, tenantDomain STRING -i -f,
+                    	serviceProvider STRING -i -f, identityProviders STRING -i -f, rememberMeFlag BOOLEAN -i -f, userAgent STRING -i
+                    	-f, usernameWithTenantDomainAndUserstoreDomain STRING -i -f, _timestamp LONG -i", primaryKeys "meta_tenantId,
+                    	sessionId", mergeSchema "false");
+
+                    	CREATE TEMPORARY TABLE averageSessionDurationTable USING CarbonAnalytics OPTIONS (tableName
+                    	"ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION", schema "meta_tenantId INT -i -f, tenantDomain STRING -i
+                    	-f, username STRING -i -f, userstoreDomain STRING -i -f, avgDuration DOUBLE -i -f", primaryKeys "meta_tenantId,
+                    	tenantDomain, username, userstoreDomain", mergeSchema "false");
+
+                    	INSERT INTO TABLE averageSessionDurationTable 
+                    	SELECT temp.meta_tenantId, temp.tenantDomain, temp.username, temp.userstoreDomain, AVG(duration) as avgDuration
+                    	FROM
+                    	(SELECT meta_tenantId, tenantDomain, username, userstoreDomain, duration
+                    	FROM rawSessionsTable
+                    	WHERE _timestamp >= offsetInDays(-$numberOfDays)) temp
+                    	GROUP BY meta_tenantId, tenantDomain, username, userstoreDomain;
+                    	]]>
+                    </sparkScript>
+
+                    </executionParameters>
+                </template>
+
+            </templates>
+
             <templates>
                 <template type="realtime">
-                    <![CDATA[
+                	<![CDATA[
                         /* Enter a unique ExecutionPlan */
                         @Plan:name('ISAnalytics-RealtimeAlerts-LongSessions')
 
@@ -79,7 +115,10 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         /* define streams/tables and write queries here ... */
 
                         @Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
-                        define stream AlertLongSessions (sessionId string, username string, duration long, avgDuration double);
+                        define stream AlertLongSessions (meta_tenantId int, tenantDomain string, sessionId string, username string, duration long, avgDuration double);
+
+                        @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
+                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
 
                         @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
                         define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
@@ -89,19 +128,32 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
 
                         define trigger periodicalTriggerStream at every 2 min;
 
+                        @info(name = 'getDataFromSessionStreamInfoTable')
                         from periodicalTriggerStream join SessionStreamInfoTable
                         select *
                         insert into SessionStreamInfoSummary;
 
+                        @info(name = 'FilterLongSessions')
                         from SessionStreamInfoSummary [duration > $sessionDurationThreshold and rememberMeFlag == false and isActive == true]
                         select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
                         insert into FilterLongSessions;
 
+                        @info(name = 'getDataFromAverageSessionDurationTable')
                         from FilterLongSessions as s join AverageSessionDurationTable as t
-                        on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain) and s.duration > t.avgDuration
-                        select s.sessionId, s.username, s.duration, t.avgDuration
+                        on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain)
+                        select s.meta_tenantId, s.tenantDomain, s.sessionId, s.username, s.duration, t.avgDuration
+                        insert into AlertLongSessionsTemp;
+
+                        @info(name = 'DetectAbnormalLongSessions')
+                        from AlertLongSessionsTemp[duration > (avgDuration * ($avgPercentageThreshold + 100.0) / 100.0)]
+                        select meta_tenantId, tenantDomain, sessionId, username, duration, avgDuration
                         insert into AlertLongSessions;
-                 ]]>
+
+                        @info(name = 'SendingAlertsToAllISAlertsStream')
+                        from AlertLongSessions
+                        select meta_tenantId, "AbnormalLongSessionAlert" as type, tenantDomain, str:concat('Abnormal long session session of ', duration, ' milliseconds detected by user: ', username,' on session id: ', sessionId, '.') as msg, 3 as severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
+                	]]>
                 </template>
             </templates>
             <parameters>
@@ -109,6 +161,16 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                     <displayName>Session Duration Threshold Value (Milliseconds)</displayName>
                     <description>Threshold value to filter long duration sessions</description>
                     <defaultValue>900000</defaultValue>
+                </parameter>
+                <parameter name="avgPercentageThreshold" type="double">
+                    <displayName>Session Duration Threshold Percentage</displayName>
+                    <description>Threshold value to filter long duration sessions</description>
+                    <defaultValue>50.0</defaultValue>
+                </parameter>
+                <parameter name="numberOfDays" type="int">
+                    <displayName>Number of days</displayName>
+                    <description>Number of days to be considered when calculating average</description>
+                    <defaultValue>7</defaultValue>
                 </parameter>
             </parameters>
         </scenario>
@@ -129,28 +191,66 @@ INSERT INTO TABLE accessTokenRefreshAvrgTime
                         define stream AuthStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
 
                         @Export('org.wso2.is.analytics.stream.LoginSuccessAfterMultipleFailures:1.0.0')
-                        define stream LoginAlertStream (username string, severity int, msg string, tenantDomain string, _timestamp long);
+                        define stream LoginAlertStream (meta_tenantId int, username string, severity int, msg string, tenantDomain string, _timestamp long);
+
+                        @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
+                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
 
                         /* Query for detecting login attempts with same username*/
+                        @info(name = 'detectEventsForSameUser')
                         from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, e2[last].serviceProvider
                         output first every $timeDuration min
+                        insert into LoginAlertStreamSameUsername;
+
+                        @info(name = 'sendingSameUserEventsToLoginAlertStream')
+                        from LoginAlertStreamSameUsername
+                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
                         insert into LoginAlertStream;
+
+                        @info(name = 'sendingSameUserEventsToAllISAlertsStream')
+                        from LoginAlertStreamSameUsername
+                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
+
 
                         /* Query for detecting login attempts with same contextId*/
+                        @info(name = 'detectEventsForSameContextId')
                         from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.contextId == e2.contextId]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.contextId == e3.contextId]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same context-Id detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same context-Id detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, e2[last].serviceProvider, e2[last].contextId
                         output first every $timeDuration min
+                        insert into LoginAlertStreamSameContextId;
+
+                        @info(name = 'sendingSameContextIdEventsToLoginAlertStream')
+                        from LoginAlertStreamSameContextId
+                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
                         insert into LoginAlertStream;
 
+                        @info(name = 'sendingSameContextIdEventsToAllISAlertsStream')
+                        from LoginAlertStreamSameContextId
+                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same contextId: ', contextId, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
+
+
                         /* Query for detecting login attempts from same IP*/
+                        @info(name = 'detectEventsForSameIP')
                         from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.remoteIp == e2.remoteIp]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.remoteIp == e3.remoteIp]
                         within $timeDuration min
-                        select e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures from same remote IP detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp
+                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures from same remote IP detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, isAnalytics:ipToCountry(e2[last].remoteIp) as region, e2[last].serviceProvider, e2[last].remoteIp
                         output first every $timeDuration min
+                        insert into LoginAlertStreamSameIP;
+
+                        @info(name = 'sendingSameIPEventsToLoginAlertStream')
+                        from LoginAlertStreamSameIP
+                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
                         insert into LoginAlertStream;
+
+                        @info(name = 'sendingSameIPEventsToAllISAlertsStream')
+                        from LoginAlertStreamSameIP
+                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same remote IP: ', remoteIp, ' from: ', region, ' region using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        insert into alert_allISAlertsStream;
                     ]]>
                 </template>
             </templates>

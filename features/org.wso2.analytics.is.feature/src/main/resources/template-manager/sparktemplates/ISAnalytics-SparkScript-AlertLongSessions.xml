@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Analytics>
-    <CronExpression>0 0/1 * * * ?</CronExpression>
+    <CronExpression> 0 0/1 * * * ? </CronExpression>
     <Editable>true</Editable>
     <Name>ISAnalytics-SparkScript-AlertLongSessions</Name>
     <Script>
@@ -18,7 +18,12 @@
         -f, username STRING -i -f, userstoreDomain STRING -i -f, avgDuration DOUBLE -i -f", primaryKeys "meta_tenantId,
         tenantDomain, username, userstoreDomain", mergeSchema "false");
 
-        INSERT INTO TABLE averageSessionDurationTable SELECT meta_tenantId, tenantDomain, username, userstoreDomain,
-        AVG(duration) from rawSessionsTable group by meta_tenantId, tenantDomain, username, userstoreDomain;
+        INSERT INTO TABLE averageSessionDurationTable
+        SELECT temp.meta_tenantId, temp.tenantDomain, temp.username, temp.userstoreDomain, AVG(duration) as avgDuration
+        FROM
+        (SELECT meta_tenantId, tenantDomain, username, userstoreDomain, duration
+        FROM rawSessionsTable
+        WHERE _timestamp >= offsetInDays(-7)) temp
+        GROUP BY meta_tenantId, tenantDomain, username, userstoreDomain;
     </Script>
 </Analytics>
