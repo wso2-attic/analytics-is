@@ -66,10 +66,7 @@ $(document).ready(function () {
         'f' +
         '<"dataTables_toolbar">' +
         '>' +
-        'rt' +
-        '<"dataTablesBottom"' +
-        'lip' +
-        '>',
+        'rt',
         "processing": true,
         "serverSide": true,
         "searching": false,
