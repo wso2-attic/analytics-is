@@ -77,6 +77,12 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         if ((params[2].getName()).equals("sessionDurationThreshold")) {
             params[2].setValue("300000");
         }
+        if ((params[1].getName()).equals("avgPercentageThreshold")) {
+            params[1].setValue("10.0");
+        }
+        if ((params[0].getName()).equals("numberOfDays")) {
+            params[0].setValue("7");
+        }
         isAnalyticsExecutionPlan.setConfigurationParameterDTOs(params);
         templateManagerAdminServiceStub.editConfiguration(isAnalyticsExecutionPlan);
         do {
@@ -99,15 +105,16 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
             BufferedReader br = new BufferedReader(new FileReader(sampleDataFilePath + sampleCSVDataFileName),
                     10 * 1024 * 1024);
             String line = br.readLine();
+            long currentTime = System.currentTimeMillis();
+            long timeDifference = 1000000;
             while (line != null) {
                 String[] eventObject = line.split(",");
                 line = br.readLine();
-                long currentTime = System.currentTimeMillis();
                 Object[] payload = new Object[]{
                         eventObject[0] + "",
-                        currentTime - 450000,
-                        currentTime - 450000,
-                        currentTime + 900000,
+                        currentTime - timeDifference,
+                        0L,
+                        0L,
                         Integer.valueOf(eventObject[1]),
                         eventObject[2],
                         eventObject[3],
@@ -122,7 +129,8 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
                 };
                 Event event = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null, payload);
                 dataPublisherClient.publish(event);
-                Thread.sleep(5000);
+                Thread.sleep(1000);
+                timeDifference -= 100000;
             }
             dataPublisherClient.shutdown();
         } catch (Throwable e) {
@@ -134,7 +142,7 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         Thread.sleep(15000);
         analyticsStub.executeScriptInBackground("ISAnalytics-SparkScript-AlertLongSessions");
         //wait until execution plan is triggered
-        Thread.sleep(120000);
+        Thread.sleep(180000);
     }
 
     @Test(groups = "wso2.analytics.is", description = "Checking total long session count", dependsOnMethods = "publishData")
@@ -142,7 +150,7 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         long eventCount = analyticsDataAPI
                 .getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS",
                         Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 5, "========== Total long session count is invalid ==========");
+        Assert.assertEquals(eventCount, 2, "========== Total long session count is invalid ==========");
     }
 
     @AfterTest(alwaysRun = true)
