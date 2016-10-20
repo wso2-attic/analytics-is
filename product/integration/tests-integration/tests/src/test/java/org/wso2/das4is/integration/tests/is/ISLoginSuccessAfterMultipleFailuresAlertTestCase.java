@@ -102,8 +102,7 @@ public class ISLoginSuccessAfterMultipleFailuresAlertTestCase extends DASIntegra
         } while (getActiveExecutionPlanCount() != activeExecutionPlanCount + 1);
     }
 
-    @Test(groups = "wso2.analytics.is", description = "P"
-            + "ublishing sample events for suspicious login alerts")
+    @Test(groups = "wso2.analytics.is", description = "Publishing sample events for suspicious login alerts")
     public void publishData() throws Exception {
 
         serverManager = new ServerConfigurationManager(dasServer);
