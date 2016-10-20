@@ -109,36 +109,53 @@ public class ISLoginSuccessAfterMultipleFailuresAlertTestCase extends DASIntegra
         try {
 
             Event failureEvent1 = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
-                    new Object[]{"1", "1", "step", "False"," admin","admin","PRIMARY","carbon.super","127.0.0.1", "","samlsso","travelocity.com","False","False","False","admin","1","LOCAL","False","BasicAuthenticator","False","LOCAL",System.currentTimeMillis()});
+                    new Object[]{"1", "1", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("False"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
             dataPublisherClient.publish(failureEvent1);
+            Thread.sleep(100);
 
             Event failureEvent2 = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
-                    new Object[]{"1", "2", "step", "False"," admin","admin","PRIMARY","carbon.super","127.0.0.1", "","samlsso","travelocity.com","False","False","False","admin","1","LOCAL","False","BasicAuthenticator","False","LOCAL",System.currentTimeMillis()});
+                    new Object[]{"1", "2", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("False"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
             dataPublisherClient.publish(failureEvent2);
+            Thread.sleep(100);
 
             Event failureEvent3 = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
-                    new Object[]{"1", "3", "step", "False"," admin","admin","PRIMARY","carbon.super","127.0.0.1", "","samlsso","travelocity.com","False","False","False","admin","1","LOCAL","False","BasicAuthenticator","False","LOCAL",System.currentTimeMillis()});
+                    new Object[]{"1", "3", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("False"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
             dataPublisherClient.publish(failureEvent3);
+            Thread.sleep(100);
 
             Event failureEvent4 = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
-                    new Object[]{"1", "4", "step", "False"," admin","admin","PRIMARY","carbon.super","127.0.0.1", "","samlsso","travelocity.com","False","False","False","admin","1","LOCAL","False","BasicAuthenticator","False","LOCAL",System.currentTimeMillis()});
+                    new Object[]{"1", "4", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("False"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
             dataPublisherClient.publish(failureEvent4);
+            Thread.sleep(100);
 
             Event failureEvent5 = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
-                    new Object[]{"1", "5", "step", "False"," admin","admin","PRIMARY","carbon.super","127.0.0.1", "","samlsso","travelocity.com","False","False","False","admin","1","LOCAL","False","BasicAuthenticator","False","LOCAL",System.currentTimeMillis()});
+                    new Object[]{"1", "5", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("False"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
             dataPublisherClient.publish(failureEvent5);
+            Thread.sleep(100);
+
+            Event failureEvent6 = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
+                    new Object[]{"1", "6", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("False"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
+            dataPublisherClient.publish(failureEvent6);
+            Thread.sleep(100);
+
+            Event failureEvent7 = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
+                    new Object[]{"1", "7", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("False"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
+            dataPublisherClient.publish(failureEvent7);
+            Thread.sleep(100);
 
             Event successStepEvent = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
-                    new Object[]{"1", "6", "step", "False"," admin","admin","PRIMARY","carbon.super","127.0.0.1", "","samlsso","travelocity.com","False","False","False","admin","1","LOCAL","True","BasicAuthenticator","False","LOCAL",System.currentTimeMillis()});
+                    new Object[]{"1", "8", "step", Boolean.valueOf("False"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("True"), "BasicAuthenticator", Boolean.valueOf("False"), "LOCAL", System.currentTimeMillis()});
             dataPublisherClient.publish(successStepEvent);
+            Thread.sleep(100);
+
 
             Event successOverallEvent = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null,
-                    new Object[]{"1", "5", "overall", "True"," admin","admin","PRIMARY","carbon.super","127.0.0.1", "","samlsso","travelocity.com","False","False","False","admin","1","LOCAL","True","BasicAuthenticator","True","LOCAL",System.currentTimeMillis()});
+                    new Object[]{"1", "9", "overall", Boolean.valueOf("True"), " admin", "admin", "PRIMARY", "carbon.super", "127.0.0.1", "", "samlsso", "travelocity.com", Boolean.valueOf("False"), Boolean.valueOf("False"), Boolean.valueOf("False"), "admin", "1", "LOCAL", Boolean.valueOf("True"), "BasicAuthenticator", Boolean.valueOf("True"), "LOCAL", System.currentTimeMillis()});
             dataPublisherClient.publish(successOverallEvent);
 
-            Thread.sleep(50000);
+            Thread.sleep(5000);
             dataPublisherClient.shutdown();
-            Thread.sleep(30000);
+            Thread.sleep(100000);
 
         } catch (Throwable e) {
             log.error("Error when publishing sample authentication events for suspicious login alert", e);
@@ -148,7 +165,7 @@ public class ISLoginSuccessAfterMultipleFailuresAlertTestCase extends DASIntegra
     @Test(groups = "wso2.analytics.is", description = "Check Alert Event Count", dependsOnMethods = "publishData")
     public void retrieveAlertEventCountTest() throws AnalyticsServiceException, AnalyticsException {
         long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES", Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 0, "========== Alert event count is invalid ================");
+        Assert.assertEquals(eventCount, 3, "========== Alert event count is invalid ================");
     }
 
     @AfterTest(alwaysRun = true)
