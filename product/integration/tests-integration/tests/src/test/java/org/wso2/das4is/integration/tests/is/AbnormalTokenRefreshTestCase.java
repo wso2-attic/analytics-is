@@ -99,6 +99,7 @@ public class AbnormalTokenRefreshTestCase extends ISAnalyticsBaseTestCase {
         }
         // undeploy the publishers
         undeployPublisher(PUBLISHER_FILE);
+
     }
 
     @Test(groups = "wso2.analytics.is",

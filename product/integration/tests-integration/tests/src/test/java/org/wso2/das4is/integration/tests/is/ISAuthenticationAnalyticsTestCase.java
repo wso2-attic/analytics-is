@@ -125,19 +125,36 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             dataPublisherClient.publish(sampleEventList);
             Thread.sleep(60000);
             dataPublisherClient.shutdown();
-            Thread.sleep(60000);
 
         } catch (Throwable e) {
             log.error("Error when publishing sample authentication events", e);
         }
 
-
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Total Event Count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
-        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION", Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 14549, "========== Total authentication event count is invalid ================");
+
+        final int EXPECTED_COUNT = 14549;
+        final int MAX_WAIT_COUNT = 4;
+        final String PROCESSEDOVERALLAUTHENTICATION_TABLE = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
+        int waitCount = 0;
+
+        while (analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, PROCESSEDOVERALLAUTHENTICATION_TABLE,
+                Long.MIN_VALUE, Long.MAX_VALUE) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT) {
+
+            if (waitCount > 0) {
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+            waitCount++;
+        }
+
+        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, PROCESSEDOVERALLAUTHENTICATION_TABLE, Long.MIN_VALUE, Long.MAX_VALUE);
+        Assert.assertEquals(eventCount, EXPECTED_COUNT, "========== Total authentication event count is invalid ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Min", dependsOnMethods = "retrieveTableCountTest")
@@ -145,7 +162,6 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             throws AnalyticsServiceException, AnalyticsException, InterruptedException, RemoteException,
                    AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException {
 
-        Thread.sleep(25000);
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-AuthenticationData");
         Thread.sleep(25000);
         List<AggregateField> fields = new ArrayList<AggregateField>();
@@ -158,19 +174,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 11175.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount = totalSuccessCount + ((Double) record.getValues().get("total_authSuccessCount"));
-            totalFailureCount = totalFailureCount + ((Double) record.getValues().get("total_authFailureCount"));
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 11175.0, "========== Total auth success and " +
-                "failure event count are invalid in per-minute table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid in per-minute table ================");
     }
 
 
@@ -178,8 +187,6 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
     public void retrieveAuthSuccessFailureCountFromPerHourTest()
             throws AnalyticsServiceException, AnalyticsException, RemoteException,
                    AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
-
-        Thread.sleep(300000);
 
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
@@ -191,19 +198,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND " + "identityProviderType:\"FEDERATED\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 11175.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 11175.0, "========== Total auth success and " +
-                "failure event count are invalid per-hour table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-hour table ================");
     }
 
 
@@ -225,19 +225,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND " +
                         "identityProviderType:\"FEDERATED\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 11175.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 11175.0, "========== Total auth success and " +
-                "failure event count are invalid per-day table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-day table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerDayTest")
@@ -256,19 +249,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND " +
                         "identityProviderType:\"FEDERATED\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 11175.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 11175.0, "========== Total auth success and " +
-                "failure event count are invalid per-month table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-month table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Min for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -286,18 +272,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND username:\"Sarah\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 1290.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0, "========== Total auth success and failure event count are invalid per-min for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-min for user table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Hour for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -315,18 +295,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND username:\"Sarah\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 1290.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0, "========== Total auth success and failure event count are invalid per-hour for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-hour for user table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Day for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -344,18 +318,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND username:\"Sarah\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 1290.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0, "========== Total auth success and failure event count are invalid per-day for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-day for user table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Month for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -373,18 +341,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND username:\"Sarah\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 1290.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 1290.0, "========== Total auth success and failure event count are invalid per-month for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-month for user table ================");
     }
 
 
@@ -640,18 +602,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 2060.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 2060.0, "========== Total auth success and failure event count are invalid per-min for service provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-min for service provider table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Hour for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -669,18 +625,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 2060.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 2060.0, "========== Total auth success and failure event count are invalid per-hour for service provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-hour for service provider table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Day for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -698,18 +648,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 2060.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 2060.0, "========== Total auth success and failure event count are invalid per-day for service provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-day for service provider table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Month for Service Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -727,18 +671,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND serviceProvider:\"Booking\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 2060.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 2060.0, "========== Total auth success and failure event count are invalid per-month for service provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-month for service provider table ================");
     }
 
     //==========================  Overall Auth Success and Failure Count - For Identity Provider ==============================================
@@ -758,19 +696,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND identityProvider:\"Google\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 5010.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 5010.0, "========== Total auth success and " +
-                "failure event count are invalid per-min for identity provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-min for identity provider table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Hour for Identity Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -788,19 +719,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND identityProvider:\"Google\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 5010.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 5010.0, "========== Total auth success and " +
-                "failure event count are invalid per-hour for identity provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-hour for identity provider table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Day for Identity Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -818,19 +742,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND identityProvider:\"Google\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 5010.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 5010.0, "========== Total auth success and " +
-                "failure event count are invalid per-day for identity provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-day for identity provider table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check Auth success and failure count - Per Month for Identity Provider", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -848,19 +765,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"FEDERATED\" AND identityProvider:\"Google\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 5010.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 5010.0, "========== Total auth success and " +
-                "failure event count are invalid per-month for identity provider table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count are invalid per-month for identity provider table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check max succeeded identity providers - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1080,7 +990,6 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             throws AnalyticsServiceException, AnalyticsException, InterruptedException, RemoteException,
             AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException {
 
-        Thread.sleep(50000);
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
         fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
@@ -1091,18 +1000,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount = totalSuccessCount + ((Double) record.getValues().get("total_authSuccessCount"));
-            totalFailureCount = totalFailureCount + ((Double) record.getValues().get("total_authFailureCount"));
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Total auth success and failure event count for resident IDP are invalid in per-minute table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid in per-minute table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Hour", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerMinTest")
@@ -1110,7 +1013,6 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
             throws AnalyticsServiceException, AnalyticsException, RemoteException,
             AnalyticsProcessorAdminServiceAnalyticsProcessorAdminExceptionException, InterruptedException {
 
-        Thread.sleep(300000);
         List<AggregateField> fields = new ArrayList<AggregateField>();
         fields.add(new AggregateField(new String[]{"authSuccessCount"}, "SUM", "total_authSuccessCount"));
         fields.add(new AggregateField(new String[]{"authFailureCount"}, "SUM", "total_authFailureCount"));
@@ -1121,18 +1023,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Total auth success and failure event count for resident IDP are invalid per-hour table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid per-hour table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Day", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1150,18 +1046,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Total auth success and failure event count for resident IDP are invalid per-day table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid per-day table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Month", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerDayTest")
@@ -1179,18 +1069,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Total auth success and failure event count for resident IDP are invalid per-month table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid per-month table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Min for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1208,18 +1092,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND username:\"Rachel\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 632.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 632.0, "========== Total auth success and failure event count for resident IDP are invalid per-min for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid per-min for user table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Hour for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1237,18 +1115,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND username:\"Rachel\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 632.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 632.0, "========== Total auth success and failure event count for resident IDP are invalid per-hour for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid per-hour for user table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Day for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1266,18 +1138,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND username:\"Rachel\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 632.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 632.0, "========== Total auth success and failure event count for resident IDP are invalid per-day for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid per-day for user table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Month for User", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1295,18 +1161,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND username:\"Rachel\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 632.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 632.0, "========== Total auth success and failure event count for resident IDP are invalid per-month for user table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Total auth success and failure event count for resident IDP are invalid per-month for user table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP max succeeded auth users - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1495,18 +1355,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND role:\"Admin\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 681.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-min for role table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP total auth success and failure event count are invalid per-min for role table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Hour for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1524,18 +1378,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND role:\"Admin\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 681.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-hour for role table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP total auth success and failure event count are invalid per-hour for role table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Day for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1553,18 +1401,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND role:\"Admin\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 681.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-day for role table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP total auth success and failure event count are invalid per-day for role table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Month for Role", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -1582,18 +1424,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setGroupByField("facetStartTime");
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" AND role:\"Admin\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_ROLEAUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 681.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 681.0, "========== Resident IDP total auth success and failure event count are invalid per-month for role table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP total auth success and failure event count are invalid per-month for role table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check max succeeded roles - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -2004,18 +1840,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" " +
                 "AND userStoreDomain:\"wso2\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMINUTE");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP - total auth success and failure event count are invalid per-min for userstore table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP - total auth success and failure event count are invalid per-min for userstore table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Hour for Userstore", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -2034,18 +1864,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" " +
                 "AND userStoreDomain:\"wso2\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERHOUR");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP - total auth success and failure event count are invalid per-hour for userstore table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP - total auth success and failure event count are invalid per-hour for userstore table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Day for Userstore", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -2064,18 +1888,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" " +
                 "AND userStoreDomain:\"wso2\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERDAY");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP total auth success and failure event count are invalid per-day for userstore table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP total auth success and failure event count are invalid per-day for userstore table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP Auth success and failure count - Per Month for Userstore", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -2094,18 +1912,12 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         aggregateRequest.setQuery("_timestamp : [1339007400000 TO 1465237800000] AND identityProviderType:\"LOCAL\" " +
                 "AND userStoreDomain:\"wso2\"");
         aggregateRequest.setTableName("ORG_WSO2_IS_ANALYTICS_STREAM_AUTHSTATPERMONTH");
-        AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
 
-        double totalSuccessCount = 0;
-        double totalFailureCount = 0;
+        final double EXPECTED_COUNT = 3373.0;
+        final int MAX_WAIT_COUNT = 4;
+        double totalCount = getAggregatedCount(aggregateRequest, EXPECTED_COUNT, MAX_WAIT_COUNT);
 
-        while (resultItr.hasNext()) {
-            Record record = resultItr.next();
-            totalSuccessCount += (Double) record.getValues().get("total_authSuccessCount");
-            totalFailureCount += (Double) record.getValues().get("total_authFailureCount");
-        }
-
-        Assert.assertEquals((totalSuccessCount + totalFailureCount), 3373.0, "========== Resident IDP total auth success and failure event count are invalid per-month for userstore table ================");
+        Assert.assertEquals(totalCount, EXPECTED_COUNT, "========== Resident IDP total auth success and failure event count are invalid per-month for userstore table ================");
     }
 
     @Test(groups = "wso2.analytics.is", description = "Check resident IDP max succeeded auth userstores - Per Min", dependsOnMethods = "retrieveAuthSuccessFailureCountFromPerHourTest")
@@ -2289,5 +2101,34 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
                            loggedInSessionCookie);
     }
 
+    private double getAggregatedCount(AggregateRequest aggregateRequest, double EXPECTED_COUNT, int MAX_WAIT_COUNT) throws AnalyticsException {
+
+        int waitCount = 0;
+        double totalSuccessCount;
+        double totalFailureCount;
+
+        do {
+            if (waitCount != 0) {
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+            AnalyticsIterator<Record> resultItr = this.analyticsDataAPI.searchWithAggregates(-1234, aggregateRequest);
+            totalSuccessCount = 0;
+            totalFailureCount = 0;
+            waitCount++;
+
+            while (resultItr.hasNext()) {
+                Record record = resultItr.next();
+                totalSuccessCount = totalSuccessCount + ((Double) record.getValues().get("total_authSuccessCount"));
+                totalFailureCount = totalFailureCount + ((Double) record.getValues().get("total_authFailureCount"));
+            }
+
+        } while ((totalSuccessCount + totalFailureCount) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT);
+
+        return totalSuccessCount + totalFailureCount;
+    }
 
 }
