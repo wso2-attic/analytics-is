@@ -69,7 +69,6 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         // configuring ISAnalytics-ConfigureAlertLongSessions template
         initEventProcessorStub();
         int activeExecutionPlanCount = getActiveExecutionPlanCount();
-
         initTemplateManagerStub();
         ScenarioConfigurationDTO isAnalyticsExecutionPlan = templateManagerAdminServiceStub
                 .getConfiguration("ISAnalytics", "ConfigureAlertLongSessions");
