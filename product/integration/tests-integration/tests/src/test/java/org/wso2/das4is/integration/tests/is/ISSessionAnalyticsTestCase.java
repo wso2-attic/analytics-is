@@ -156,10 +156,8 @@ public class ISSessionAnalyticsTestCase extends DASIntegrationTest {
         final int MAX_WAIT_COUNT = 4;
         final String SESSIONINFO_TABLE = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
         int waitCount = 0;
-
         while (analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, SESSIONINFO_TABLE,
                 Long.MIN_VALUE, Long.MAX_VALUE) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT) {
-
             if (waitCount > 0) {
                 try {
                     Thread.sleep(60000);

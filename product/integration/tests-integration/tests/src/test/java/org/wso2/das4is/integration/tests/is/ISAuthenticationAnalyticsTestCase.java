@@ -139,10 +139,8 @@ public class ISAuthenticationAnalyticsTestCase extends DASIntegrationTest {
         final int MAX_WAIT_COUNT = 4;
         final String PROCESSEDOVERALLAUTHENTICATION_TABLE = "ORG_WSO2_IS_ANALYTICS_STREAM_PROCESSEDOVERALLAUTHENTICATION";
         int waitCount = 0;
-
         while (analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, PROCESSEDOVERALLAUTHENTICATION_TABLE,
                 Long.MIN_VALUE, Long.MAX_VALUE) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT) {
-
             if (waitCount > 0) {
                 try {
                     Thread.sleep(60000);
