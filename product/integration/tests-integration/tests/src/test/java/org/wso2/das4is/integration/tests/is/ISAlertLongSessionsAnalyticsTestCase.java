@@ -129,7 +129,7 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
                 };
                 Event event = new Event(streamId, System.currentTimeMillis(), new Object[]{-1234}, null, payload);
                 dataPublisherClient.publish(event);
-                Thread.sleep(1000);
+                Thread.sleep(100);
                 timeDifference -= 100000;
             }
             dataPublisherClient.shutdown();
@@ -139,18 +139,31 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
 
         //run spark scripts for session duration calculations
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-SessionManagement");
-        Thread.sleep(15000);
+        Thread.sleep(30000);
         analyticsStub.executeScriptInBackground("ISAnalytics-SparkScript-AlertLongSessions");
-        //wait until execution plan is triggered
-        Thread.sleep(180000);
     }
 
     @Test(groups = "wso2.analytics.is", description = "Checking total long session count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
-        long eventCount = analyticsDataAPI
-                .getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS",
-                        Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 2, "========== Total long session count is invalid ==========");
+
+        final int EXPECTED_COUNT = 2;
+        final int MAX_WAIT_COUNT = 5;
+        final String LONGSESSIONS_TABLE = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
+        int waitCount = 0;
+        while (analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, LONGSESSIONS_TABLE,
+                Long.MIN_VALUE, Long.MAX_VALUE) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT) {
+            if (waitCount > 0) {
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+            waitCount++;
+        }
+
+        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, LONGSESSIONS_TABLE, Long.MIN_VALUE, Long.MAX_VALUE);
+        Assert.assertEquals(eventCount, EXPECTED_COUNT, "========== Total long session count is invalid ==========");
     }
 
     @AfterTest(alwaysRun = true)

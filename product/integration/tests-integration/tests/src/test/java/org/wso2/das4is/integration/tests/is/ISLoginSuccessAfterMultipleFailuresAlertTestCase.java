@@ -155,7 +155,6 @@ public class ISLoginSuccessAfterMultipleFailuresAlertTestCase extends DASIntegra
 
             Thread.sleep(5000);
             dataPublisherClient.shutdown();
-            Thread.sleep(100000);
 
         } catch (Throwable e) {
             log.error("Error when publishing sample authentication events for suspicious login alert", e);
@@ -164,8 +163,25 @@ public class ISLoginSuccessAfterMultipleFailuresAlertTestCase extends DASIntegra
 
     @Test(groups = "wso2.analytics.is", description = "Check Alert Event Count", dependsOnMethods = "publishData")
     public void retrieveAlertEventCountTest() throws AnalyticsServiceException, AnalyticsException {
-        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES", Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 3, "========== Alert event count is invalid ================");
+
+        final int EXPECTED_COUNT = 3;
+        final int MAX_WAIT_COUNT = 4;
+        final String LOGINSUCCESSAFTERMULTIPLEFAILURES_TABLE = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
+        int waitCount = 0;
+        while (analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, LOGINSUCCESSAFTERMULTIPLEFAILURES_TABLE,
+                Long.MIN_VALUE, Long.MAX_VALUE) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT) {
+            if (waitCount > 0) {
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+            waitCount++;
+        }
+
+        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, LOGINSUCCESSAFTERMULTIPLEFAILURES_TABLE, Long.MIN_VALUE, Long.MAX_VALUE);
+        Assert.assertEquals(eventCount, EXPECTED_COUNT, "========== Alert event count is invalid ================");
     }
 
     @AfterTest(alwaysRun = true)

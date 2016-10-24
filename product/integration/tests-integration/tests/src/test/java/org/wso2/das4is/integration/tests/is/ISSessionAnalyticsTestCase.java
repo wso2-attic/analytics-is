@@ -151,8 +151,25 @@ public class ISSessionAnalyticsTestCase extends DASIntegrationTest {
 
     @Test(groups = "wso2.analytics.is", description = "Check Total session Event Count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
-        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO", Long.MIN_VALUE, Long.MAX_VALUE);
-        Assert.assertEquals(eventCount, 12, "========== Total session event count is invalid ================");
+
+        final int EXPECTED_COUNT = 12;
+        final int MAX_WAIT_COUNT = 4;
+        final String SESSIONINFO_TABLE = "ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO";
+        int waitCount = 0;
+        while (analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, SESSIONINFO_TABLE,
+                Long.MIN_VALUE, Long.MAX_VALUE) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT) {
+            if (waitCount > 0) {
+                try {
+                    Thread.sleep(60000);
+                } catch (InterruptedException e) {
+                    // ignore
+                }
+            }
+            waitCount++;
+        }
+
+        long eventCount = analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, SESSIONINFO_TABLE, Long.MIN_VALUE, Long.MAX_VALUE);
+        Assert.assertEquals(eventCount, EXPECTED_COUNT, "========== Total session event count is invalid ================");
     }
 
 //
