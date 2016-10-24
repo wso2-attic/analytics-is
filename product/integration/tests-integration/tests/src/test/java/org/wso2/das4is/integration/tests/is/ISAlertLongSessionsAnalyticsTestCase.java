@@ -114,7 +114,7 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
                         eventObject[0] + "",
                         currentTime - timeDifference,
                         0L,
-                        0L,
+                        currentTime + 1000000,
                         Integer.valueOf(eventObject[1]),
                         eventObject[2],
                         eventObject[3],
@@ -141,20 +141,21 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-SessionManagement");
         Thread.sleep(30000);
         analyticsStub.executeScriptInBackground("ISAnalytics-SparkScript-AlertLongSessions");
+        Thread.sleep(30000);
     }
 
     @Test(groups = "wso2.analytics.is", description = "Checking total long session count", dependsOnMethods = "publishData")
     public void retrieveTableCountTest() throws AnalyticsServiceException, AnalyticsException {
 
         final int EXPECTED_COUNT = 2;
-        final int MAX_WAIT_COUNT = 5;
+        final int MAX_WAIT_COUNT = 10;
         final String LONGSESSIONS_TABLE = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
         int waitCount = 0;
         while (analyticsDataAPI.getRecordCount(MultitenantConstants.SUPER_TENANT_ID, LONGSESSIONS_TABLE,
                 Long.MIN_VALUE, Long.MAX_VALUE) < EXPECTED_COUNT && waitCount < MAX_WAIT_COUNT) {
             if (waitCount > 0) {
                 try {
-                    Thread.sleep(60000);
+                    Thread.sleep(20000);
                 } catch (InterruptedException e) {
                     // ignore
                 }
