@@ -113,7 +113,7 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
                 Object[] payload = new Object[]{
                         eventObject[0] + "",
                         currentTime - timeDifference,
-                        0L,
+                        currentTime + 500000,
                         currentTime + 1000000,
                         Integer.valueOf(eventObject[1]),
                         eventObject[2],

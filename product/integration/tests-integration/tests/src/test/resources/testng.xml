@@ -16,7 +16,7 @@
         <classes>
             <!--<class name="org.wso2.das4is.integration.tests.is.ISAuthenticationAnalyticsTestCase"/>-->
             <class name="org.wso2.das4is.integration.tests.is.ISSessionAnalyticsTestCase"/>
-            <class name="org.wso2.das4is.integration.tests.is.ISLoginSuccessAfterMultipleFailuresAlertTestCase"/>
+            <!--<class name="org.wso2.das4is.integration.tests.is.ISLoginSuccessAfterMultipleFailuresAlertTestCase"/>-->
             <!--<class name="org.wso2.das4is.integration.tests.is.ISAlertLongSessionsAnalyticsTestCase"/>-->
             <!--<class name="org.wso2.das4is.integration.tests.is.AbnormalTokenRefreshTestCase"/>-->
         </classes>
