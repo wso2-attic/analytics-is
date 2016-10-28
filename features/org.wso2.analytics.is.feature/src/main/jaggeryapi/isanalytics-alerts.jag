@@ -112,13 +112,13 @@
         var data = [];
         var  providerConfig = {};
         switch (alertType) {
-            case "LoginSuccessAfterMultipleFailures":
-                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_LOGINSUCCESSAFTERMULTIPLEFAILURES";
+            case "SuspiciousLoginAlert":
+                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
                 break;
-            case "LongSessions":
-                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_LONGSESSIONS";
+            case "AbnormalLongSessionAlert":
+                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
                 break;
-            case "AbnormalTokenRefresh":
+            case "AbnormalRefreshAlert":
                 providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH";
                 break;
             default:
@@ -144,7 +144,7 @@
     function convertToAlertRecord (item, alertType) {
         var result;
         switch (alertType) {
-            case "LoginSuccessAfterMultipleFailures":
+            case "SuspiciousLoginAlert":
                 result =  {
                              "timestamp": item.values.alertTimestamp,
                              "sessionId": item.values.sessionId,
@@ -155,7 +155,7 @@
                              "severity" : item.values.severity
                           };
                 break;
-            case "LongSessions":
+            case "AbnormalLongSessionAlert":
                 result =  {
                              "timestamp": item.values.alertTimestamp,
                              "sessionId": item.values.sessionId,
@@ -165,7 +165,7 @@
                              "alertType": alertType
                           };
                 break;
-            case "AbnormalTokenRefresh":
+            case "AbnormalRefreshAlert":
                 result =  {
                              "timestamp": item.values.alertTimestamp,
                              "userId" : item.values.userId,
