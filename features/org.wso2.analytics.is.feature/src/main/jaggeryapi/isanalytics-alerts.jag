@@ -89,24 +89,62 @@
         print('{ "status": "Failed", "statusCode": "500", "message": "AnalyticsCachedWebServiceConnector is unavailable" }');
     }
 
+
     function getSummeryResult(timeFrom, timeTo) {
+
         var data = [];
-        var  providerConfig = {};
-        providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
+        // quering four tables to get the count for a specific date range
+        var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES");
+        data.push({"key" : "SuspiciousLoginAlert", "display": "SuspiciousLoginAlert", "count": count});
+
+        var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS");
+        data.push({"key" : "AbnormalLongSessionAlert", "display": "AbnormalLongSessionAlert", "count": count});
+
+        var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH");
+        data.push({"key" : "AbnormalRefreshAlert", "display": "AbnormalRefreshAlert", "count": count});
+
+
+        return data;
+    }
+
+
+    function queryRecordCountIntimeRange(timeFrom, timeTo, tableName) {
+
+        var data = [];
+        var providerConfig = {};
+        providerConfig.tableName = tableName;
+
         providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
         providerConfig.limit = "";
         var timeNow = new Date().getTime();
 
         var data = [];
-        var result = querySummeryResult(providerConfig, 10);
-        var categories = result.categories;
-
-        for(var key in categories){
-            var count = categories[key];
-            data.push({"key" : key, "display": key, "count": count});
-        }
-        return data;
+        var result = querySummeryResultForEachTable(providerConfig, 10);
+        return result;
     }
+
+
+    function querySummeryResultForEachTable(providerConfig, limit) {
+                var tableName = providerConfig.tableName;
+                var query = providerConfig.query;
+                var limit = 100;
+                if (providerConfig.limit) {
+                    limit = providerConfig.limit;
+                }
+
+                var dataQuery = {};
+                dataQuery.tableName = tableName;
+                dataQuery.query = query;
+
+                var result;
+                //if there's a filter present, we should perform a Lucene search instead of reading the table
+                var from = 0;
+                var to = 10;
+
+                result = connector.searchCount(loggedInUser, tableName, stringify(dataQuery)).getMessage();
+                return JSON.parse(result);
+     };
+
 
     function getAlertResult(timeFrom, timeTo, alertType) {
         var data = [];
@@ -130,7 +168,6 @@
         providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
         providerConfig.limit = "";
         var timeNow = new Date().getTime();
-
         var data = [];
         var result = queryAlertListResult(providerConfig, 10);
         for (var i = 0; i < result.length; i++) {
@@ -145,37 +182,9 @@
         var result;
         switch (alertType) {
             case "SuspiciousLoginAlert":
-                result =  {
-                             "timestamp": item.values.alertTimestamp,
-                             "sessionId": item.values.sessionId,
-                             "username": item.values.username,
-                             "message": item.values.msg,
-                             "tenantDomain": item.values.tenantDomain,
-                             "alertType": alertType,
-                             "severity" : item.values.severity
-                          };
-                break;
             case "AbnormalLongSessionAlert":
-                result =  {
-                             "timestamp": item.values.alertTimestamp,
-                             "sessionId": item.values.sessionId,
-                             "username": item.values.username,
-                             "duration": item.values.duration,
-                             "avgDuration": item.values.avgDuration,
-                             "alertType": alertType
-                          };
-                break;
             case "AbnormalRefreshAlert":
-                result =  {
-                             "timestamp": item.values.alertTimestamp,
-                             "userId" : item.values.userId,
-                             "tenantDomain" : item.values.tenantDomain,
-                             "scope" : item.values.scope,
-                             "consumerKey" : hideMiddleChars(item.values.consumerKey),
-                             "message": item.values.msg,
-                             "alertType": item.values.type,
-                             "severity" : item.values.severity
-                          };
+                result =  item.values;
                 break;
             case "All":
                 result =  {
