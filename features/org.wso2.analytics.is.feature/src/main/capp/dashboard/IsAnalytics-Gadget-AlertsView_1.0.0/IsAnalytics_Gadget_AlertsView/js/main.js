@@ -116,7 +116,7 @@ function getColumns(alertType) {
                 { data: "tenantDomain", title: "Tenant Domain" },
                 { data: "scope", title: "Scope" },
                 { data: "consumerKey", title: "Key" },
-                { data: "message", title: "Message" }
+                { data: "msg", title: "Message" }
             ]
             break;
         case "AbnormalLongSessionAlert":
@@ -135,10 +135,11 @@ function getColumns(alertType) {
             result = [
                 { data: "timestamp", title: "Timestamp",
                     "render": renderDateTime},
-                { data: "sessionId", title: "Session ID" },
+                { data: "meta_tenantId", title: "Tenant ID" },
+                { data: "tenantDomain", title: "Tenant Domain" },
                 { data: "username", title: "User" },
-                { data: "message", title: "Message" },
-                { data: "tenantDomain", title: "Tenant Domain" }
+                { data: "severity", title: "Severity" },
+                { data: "msg", title: "Message" }
             ]
             break;
         case "All":
@@ -146,7 +147,7 @@ function getColumns(alertType) {
             result = [
                 { data: "timestamp", title: "Timestamp",
                     "render": renderDateTime},
-                { data: "message", title: "Message" },
+                { data: "msg", title: "Message" },
                 { data: "alertType", title: "Alert Type",
                     "render": function(data, type, row) {
                         return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-'+data+'"></div><span class="col-xs-2">'+data+'</span></div>';
@@ -188,4 +189,5 @@ gadgets.HubSettings.onConnect = function() {
         onTypeChanged();
     });
 };
+
 
