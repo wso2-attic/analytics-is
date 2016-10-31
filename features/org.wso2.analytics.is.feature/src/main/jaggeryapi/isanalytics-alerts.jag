@@ -95,14 +95,19 @@
         var data = [];
         // quering four tables to get the count for a specific date range
         var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES");
-        data.push({"key" : "SuspiciousLoginAlert", "display": "SuspiciousLoginAlert", "count": count});
+        if (count > 0) {
+            data.push({"key": "SuspiciousLoginAlert", "display": "Suspicious_Login_Alerts", "count": count});
+        }
 
         var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS");
-        data.push({"key" : "AbnormalLongSessionAlert", "display": "AbnormalLongSessionAlert", "count": count});
+        if (count > 0) {
+            data.push({"key": "AbnormalLongSessionAlert", "display": "Abnormal_LongSession_Alerts", "count": count});
+        }
 
         var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH");
-        data.push({"key" : "AbnormalRefreshAlert", "display": "AbnormalRefreshAlert", "count": count});
-
+        if (count > 0) {
+            data.push({"key": "AbnormalRefreshAlert", "display": "Abnormal_Refresh_Alerts", "count": count});
+        }
 
         return data;
     }
@@ -184,22 +189,23 @@
             case "SuspiciousLoginAlert":
             case "AbnormalLongSessionAlert":
             case "AbnormalRefreshAlert":
-                result =  item.values;
+                result = item.values;
+                result.timestamp = item.timestamp;
                 break;
             case "All":
-                result =  {
-                             "timestamp": item.values.alertTimestamp,
-                             "message": item.values.msg,
-                             "alertType": item.values.type,
-                             "severity" : item.values.severity
-                          };
+                result = {
+                    "timestamp": item.timestamp,
+                    "msg": item.values.msg,
+                    "alertType": item.values.type,
+                    "severity": item.values.severity
+                };
                 break;
             default:
-                result =  {
-                             "timestamp": item.values.alertTimestamp,
-                             "message": item.values.msg,
-                             "alertType": alertType,
-                          };
+                result = {
+                    "timestamp": item.timestamp,
+                    "message": item.values.msg,
+                    "alertType": alertType,
+                };
                 break;
         }
         return result;
