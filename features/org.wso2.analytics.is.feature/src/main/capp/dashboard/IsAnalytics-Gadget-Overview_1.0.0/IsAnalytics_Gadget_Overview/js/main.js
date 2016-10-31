@@ -114,7 +114,7 @@ function loadStats(response, type){
     $("#failedPercent" + type).html((total > 0 ? "Failure: " + parseFloat(failedPct).toFixed(2) + "%" : ""));
 
     if(total == 0) {
-        $("#donutDiv").empty();
+        $("#donutDiv" + type).empty();
     } else {
         var successColor = function () {
             return parseFloat(successPct) > 0 ? '#5CB85C' : '#353B48';
