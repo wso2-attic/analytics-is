@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
@@ -110,47 +109,53 @@ function getColumns(alertType) {
     switch (alertType) {
         case "AbnormalRefreshAlert":
             result = [
-                { data: "timestamp", title: "Timestamp",
-                    "render": renderDateTime},
-                { data: "userId", title: "User ID" },
-                { data: "tenantDomain", title: "Tenant Domain" },
-                { data: "scope", title: "Scope" },
-                { data: "consumerKey", title: "Key" },
-                { data: "msg", title: "Message" }
+                {
+                    data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime
+                },
+                {data: "tenantDomain", title: "Tenant Domain"},
+                {data: "userId", title: "User ID"},
+                {data: "scope", title: "Scope"},
+                {data: "consumerKey", title: "Consumer Key"},
+                {data: "msg", title: "Message"}
             ]
             break;
         case "AbnormalLongSessionAlert":
             result = [
-                { data: "timestamp", title: "Timestamp",
-                    "render": renderDateTime},
-                { data: "sessionId", title: "Session ID" },
-                { data: "username", title: "User" },
-                { data: "duration", title: "Duration" ,
-                    "render": renderDateTime},
-                { data: "avgDuration", title: "Avg. Duration",
-                    "render": renderDateTime}
+                {
+                    data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime
+                },
+                {data: "tenantDomain", title: "Tenant Domain"},
+                {data: "sessionId", title: "Session ID"},
+                {data: "username", title: "User"},
+                {data: "duration", title: "Duration"},
+                {data: "avgDuration", title: "Avg. Duration"}
             ]
             break;
         case "SuspiciousLoginAlert":
             result = [
-                { data: "timestamp", title: "Timestamp",
-                    "render": renderDateTime},
-                { data: "meta_tenantId", title: "Tenant ID" },
-                { data: "tenantDomain", title: "Tenant Domain" },
-                { data: "username", title: "User" },
-                { data: "severity", title: "Severity" },
-                { data: "msg", title: "Message" }
+                {
+                    data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime
+                },
+                {data: "tenantDomain", title: "Tenant Domain"},
+                {data: "username", title: "User"},
+                {data: "msg", title: "Message"}
             ]
             break;
         case "All":
         default:
             result = [
-                { data: "timestamp", title: "Timestamp",
-                    "render": renderDateTime},
-                { data: "msg", title: "Message" },
-                { data: "alertType", title: "Alert Type",
-                    "render": function(data, type, row) {
-                        return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-'+data+'"></div><span class="col-xs-2">'+data+'</span></div>';
+                {
+                    data: "timestamp", title: "Timestamp",
+                    "render": renderDateTime
+                },
+                {data: "msg", title: "Message"},
+                {
+                    data: "alertType", title: "Alert Type",
+                    "render": function (data, type, row) {
+                        return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-' + data + '"></div><span class="col-xs-2">' + data + '</span></div>';
                     }
                 }
             ]
