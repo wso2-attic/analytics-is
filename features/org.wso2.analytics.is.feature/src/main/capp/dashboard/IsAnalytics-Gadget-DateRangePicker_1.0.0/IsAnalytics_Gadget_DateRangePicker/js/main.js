@@ -28,6 +28,7 @@ $(function() {
     //make the selected time range highlighted
     var timeUnit = qs.timeUnit;
 
+
     if (timeUnit != null) {
         $("#date-select [role=date-update][data-value=" + timeUnit + "]").addClass("active");
     } else {
