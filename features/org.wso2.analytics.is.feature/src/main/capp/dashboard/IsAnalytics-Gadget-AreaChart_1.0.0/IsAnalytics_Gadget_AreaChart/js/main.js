@@ -374,10 +374,6 @@ console.log('data '+JSON.stringify(timeUnit)+JSON.stringify(data));
             maxSuccessCount = Math.max(maxSuccessCount, successCount);
             maxFailureCount = Math.max(maxFailureCount, faultCount);
 
-            alert("Prev.TimeST" + previousTimestamp);
-            alert("raw.TimeST" + row['timestamp']);
-            alert("DIFF" + (row['timestamp'] - previousTimestamp));
-
 
             if((row['timestamp'] - previousTimestamp) > step) { 
               if(timeUnit != "MONTH"){
@@ -389,7 +385,6 @@ console.log('data '+JSON.stringify(timeUnit)+JSON.stringify(data));
                   var timestampBetween = (row['timestamp'] - previousTimestamp);
                   var dateRaw = new Date (row['timestamp']*1 ); 
                   var datePrevious = new Date (previousTimestamp*1);
-                   alert("dateRaw "+dateRaw  + "datePrevious" +datePrevious);
 
                    var x = datePrevious.getMonth();
                    if(datePrevious.getMonth() == 11){  
@@ -398,10 +393,8 @@ console.log('data '+JSON.stringify(timeUnit)+JSON.stringify(data));
 
                   for(var t= x+1; t<dateRaw.getMonth(); t++) {  
 
-                       var d3 = new Date(dateRaw.getFullYear(),t,'1','0','0','0','0');
-                       alert("d3 date"+ d3);
-                       var timeStampBetween = d3.getTime();
-                       alert("d3 timesatmp"+ timeStampBetween);
+                       var firstDateOfTheMonth = new Date(dateRaw.getFullYear(),t,'1','0','0','0','0');
+                       var timeStampBetween = firstDateOfTheMonth.getTime();
                        tableData.push([0, timeStampBetween, "Success"]);   
                        tableData.push([0, timeStampBetween, "Failures"]);
                     }
