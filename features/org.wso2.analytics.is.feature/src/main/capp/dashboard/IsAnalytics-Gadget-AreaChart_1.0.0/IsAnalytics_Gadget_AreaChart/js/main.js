@@ -70,9 +70,6 @@ $(function() {
                 }
             }
         }
-        if(page == TYPE_LOCAL) {
-            publishTimeRange = "true";
-        }
     }
 
     onDataChanged(true);
@@ -113,16 +110,6 @@ function checkMapType() {
 }
 
 gadgets.HubSettings.onConnect = function() {
-
-    if(publishTimeRange == "true") {
-        var message = {
-            timeFrom: listnedTimeFromValue,
-            timeTo: listnedTimeToValue,
-            timeUnit: "Custom"
-        };
-        gadgets.Hub.publish(TOPIC_SLIDER, message);
-        onDataChanged(true);
-    }
 
     gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function(topic, data, subscriberData) {
 

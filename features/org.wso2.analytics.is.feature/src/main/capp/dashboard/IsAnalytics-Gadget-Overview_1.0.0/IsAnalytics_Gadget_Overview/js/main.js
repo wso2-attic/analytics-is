@@ -2,6 +2,7 @@ var TOPIC_DATE_RANGE = "subscriber";
 var listnedTimeFromValue;
 var listnedTimeToValue;
 var seeMoreButtonDateValue;
+var timeUnit="";
 
 $(function(){
     var SHARED_PARAM = "?shared=true";
@@ -12,9 +13,9 @@ $(function(){
         }
 
         if(seeMoreButtonDateValue){
-        parent.window.location = targetUrl+ seeMoreButtonDateValue;
+        parent.window.location = targetUrl+ seeMoreButtonDateValue+timeUnit;
         } else{
-        parent.window.location = targetUrl;
+        parent.window.location = targetUrl+timeUnit;
         }
     });
 
@@ -25,9 +26,9 @@ $(function(){
         }
 
         if(seeMoreButtonDateValue){
-        parent.window.location = targetUrl+ seeMoreButtonDateValue;
+        parent.window.location = targetUrl+ seeMoreButtonDateValue+timeUnit;
         } else{
-        parent.window.location = targetUrl;
+        parent.window.location = targetUrl+timeUnit;
         }
     });
 
@@ -38,9 +39,9 @@ $(function(){
         }
 
         if(seeMoreButtonDateValue){
-        parent.window.location = targetUrl+ seeMoreButtonDateValue;
+        parent.window.location = targetUrl+ seeMoreButtonDateValue+timeUnit;
         } else{
-        parent.window.location = targetUrl;
+        parent.window.location = targetUrl+timeUnit;
         }
     });
 
@@ -193,6 +194,7 @@ gadgets.HubSettings.onConnect = function() {
 
         listnedTimeFromValue = data.timeFrom;
         listnedTimeToValue = data.timeTo;
+        timeUnit = "&timeUnit="+data.timeUnit;
         seeMoreButtonDateValue = "?persistTimeFrom="+ listnedTimeFromValue + "&persistTimeTo=" + listnedTimeToValue;
         onDataChanged();
     });
