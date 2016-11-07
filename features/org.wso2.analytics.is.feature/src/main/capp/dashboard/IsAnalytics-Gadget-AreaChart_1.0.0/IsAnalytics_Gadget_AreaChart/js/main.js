@@ -70,9 +70,6 @@ $(function() {
                 }
             }
         }
-        if(page == TYPE_LOCAL) {
-            publishTimeRange = "true";
-        }
     }
 
     onDataChanged(true);
@@ -113,16 +110,6 @@ function checkMapType() {
 }
 
 gadgets.HubSettings.onConnect = function() {
-
-    if(publishTimeRange == "true") {
-        var message = {
-            timeFrom: listnedTimeFromValue,
-            timeTo: listnedTimeToValue,
-            timeUnit: "Custom"
-        };
-        gadgets.Hub.publish(TOPIC_SLIDER, message);
-        onDataChanged(true);
-    }
 
     gadgets.Hub.subscribe(TOPIC_DATE_RANGE, function(topic, data, subscriberData) {
 
@@ -281,7 +268,9 @@ function onData(response) {
         if(!response.message) {
             parent.window.location = parent.window.location.href;
         }
+	var timeUnit = response.timeUnit;
         var data = response.message;
+	
         /*if (data.length == 0) {
          $('#canvas').html(gadgetUtil.getEmptyRecordsText());
          return;
@@ -293,7 +282,7 @@ function onData(response) {
 
         //perform necessary transformation on input data
 
-        var allData = chart.processData(data);
+        var allData = processData(data,timeUnit);
         var message = {
             success: allData[1],
             failed: allData[2]
@@ -328,6 +317,96 @@ function onData(response) {
         $('#canvas').html(gadgetUtil.getErrorText(e));
     }
 }
+
+
+function processData(data,timeUnit) {
+
+
+console.log('data '+JSON.stringify(timeUnit)+JSON.stringify(data));
+
+        var result = [];
+        var tableData = [];
+        var overallAuthSuccessCount = 0;
+        var overallAuthFailureCount = 0;
+        var maxSuccessCount = 0;
+        var maxFailureCount = 0;
+        var timeUnit;
+        var previousTimestamp;
+
+        if(data.length > 0) {
+            timeUnit = data[0].timeUnit;
+            previousTimestamp = data[0].timestamp;
+        }
+
+        var step;
+        if(timeUnit == "MINUTE") {
+            step = 60000;
+        } else if(timeUnit == "HOUR") {
+            step = 3600000;
+        } else if(timeUnit == "DAY") {
+            step = 86400000;
+        } else if(timeUnit == "MONTH") {
+            step = 2628000000;
+        } else if(timeUnit == "YEAR") {
+            step = 31540000000;
+        }
+
+
+        data.forEach(function(row, i) {
+            var timestamp = row['timestamp'];
+            var successCount = row["successCount"];
+            var faultCount = row["faultsCount"];
+            overallAuthSuccessCount += successCount;
+            overallAuthFailureCount += faultCount;
+            maxSuccessCount = Math.max(maxSuccessCount, successCount);
+            maxFailureCount = Math.max(maxFailureCount, faultCount);
+
+
+            if((row['timestamp'] - previousTimestamp) > step) { 
+              if(timeUnit != "MONTH"){
+                for(var t=(previousTimestamp - previousTimestamp%step + step); t<row.timestamp; t=t+step) {
+                    tableData.push([0, t, "Success"]);
+                    tableData.push([0, t, "Failures"]);
+                }
+                }else {
+                  var timestampBetween = (row['timestamp'] - previousTimestamp);
+                  var dateRaw = new Date (row['timestamp']*1 ); 
+                  var datePrevious = new Date (previousTimestamp*1);
+
+                   var x = datePrevious.getMonth();
+                   if(datePrevious.getMonth() == 11){  
+                   x = -1;
+                   }
+
+                  for(var t= x+1; t<dateRaw.getMonth(); t++) {  
+
+                       var firstDateOfTheMonth = new Date(dateRaw.getFullYear(),t,'1','0','0','0','0');
+                       var timeStampBetween = firstDateOfTheMonth.getTime();
+                       tableData.push([0, timeStampBetween, "Success"]);   
+                       tableData.push([0, timeStampBetween, "Failures"]);
+                    }
+                }
+            }
+
+            previousTimestamp = row.timestamp;
+
+            tableData.push([successCount, timestamp, "Success"]);
+            tableData.push([-faultCount,timestamp , "Failures"]);
+        });
+        result.push(tableData);
+        result.push(overallAuthSuccessCount);
+        result.push(overallAuthFailureCount);
+        result.push(maxSuccessCount);
+        result.push(maxFailureCount);
+
+        return result;
+    }
+
+
+
+
+
+
 
 function onError(msg) {
     $("#canvas").html(gadgetUtil.getErrorText(msg));

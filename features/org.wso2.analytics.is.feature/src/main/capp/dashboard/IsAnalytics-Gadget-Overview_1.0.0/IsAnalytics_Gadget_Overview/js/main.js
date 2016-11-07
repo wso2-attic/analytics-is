@@ -1,6 +1,8 @@
 var TOPIC_DATE_RANGE = "subscriber";
 var listnedTimeFromValue;
 var listnedTimeToValue;
+var seeMoreButtonDateValue;
+var timeUnit="";
 
 $(function(){
     var SHARED_PARAM = "?shared=true";
@@ -9,7 +11,12 @@ $(function(){
         if(gadgetUtil.isSharedDashboard()){
             targetUrl += SHARED_PARAM;
         }
-        parent.window.location = targetUrl;
+
+        if(seeMoreButtonDateValue){
+        parent.window.location = targetUrl+ seeMoreButtonDateValue+timeUnit;
+        } else{
+        parent.window.location = targetUrl+timeUnit;
+        }
     });
 
     $('#local').click(function(){
@@ -17,7 +24,12 @@ $(function(){
         if(gadgetUtil.isSharedDashboard()){
             targetUrl += SHARED_PARAM;
         }
-        parent.window.location = targetUrl;
+
+        if(seeMoreButtonDateValue){
+        parent.window.location = targetUrl+ seeMoreButtonDateValue+timeUnit;
+        } else{
+        parent.window.location = targetUrl+timeUnit;
+        }
     });
 
     $('#federated').click(function(){
@@ -25,7 +37,12 @@ $(function(){
         if(gadgetUtil.isSharedDashboard()){
             targetUrl += SHARED_PARAM;
         }
-        parent.window.location = targetUrl;
+
+        if(seeMoreButtonDateValue){
+        parent.window.location = targetUrl+ seeMoreButtonDateValue+timeUnit;
+        } else{
+        parent.window.location = targetUrl+timeUnit;
+        }
     });
 
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
@@ -177,6 +194,8 @@ gadgets.HubSettings.onConnect = function() {
 
         listnedTimeFromValue = data.timeFrom;
         listnedTimeToValue = data.timeTo;
+        timeUnit = "&timeUnit="+data.timeUnit;
+        seeMoreButtonDateValue = "?persistTimeFrom="+ listnedTimeFromValue + "&persistTimeTo=" + listnedTimeToValue;
         onDataChanged();
     });
 };

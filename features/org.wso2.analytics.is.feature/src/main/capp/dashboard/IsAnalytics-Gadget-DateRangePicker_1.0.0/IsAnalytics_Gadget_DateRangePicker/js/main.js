@@ -28,6 +28,7 @@ $(function() {
     //make the selected time range highlighted
     var timeUnit = qs.timeUnit;
 
+
     if (timeUnit != null) {
         $("#date-select [role=date-update][data-value=" + timeUnit + "]").addClass("active");
     } else {
@@ -90,7 +91,7 @@ $(function() {
                 message = {
                     timeFrom: new Date(moment().subtract(1, 'hours')).getTime(),
                     timeTo: new Date(moment()).getTime(),
-                    timeUnit: "Hour"
+                    timeUnit: "LastHour"
                 };
                 break;
             case 'LastDay':
@@ -98,7 +99,7 @@ $(function() {
                 message = {
                     timeFrom: new Date(moment().subtract(1, 'day')).getTime(),
                     timeTo: new Date(moment()).getTime(),
-                    timeUnit: "Day"
+                    timeUnit: "LastDay"
                 };
                 break;
             case 'LastMonth':
@@ -106,7 +107,7 @@ $(function() {
                 message = {
                     timeFrom: new Date(moment().subtract(29, 'days')).getTime(),
                     timeTo: new Date(moment()).getTime(),
-                    timeUnit: "Month"
+                    timeUnit: "LastMonth"
                 };
                 break;
             case 'LastYear':
@@ -114,7 +115,7 @@ $(function() {
                 message = {
                     timeFrom: new Date(moment().subtract(1, 'year')).getTime(),
                     timeTo: new Date(moment()).getTime(),
-                    timeUnit: "Year"
+                    timeUnit: "LastYear"
                 };
                 break;
             default:
