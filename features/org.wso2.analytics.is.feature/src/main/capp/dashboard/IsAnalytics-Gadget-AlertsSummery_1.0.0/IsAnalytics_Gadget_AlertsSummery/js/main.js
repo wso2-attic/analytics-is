@@ -52,7 +52,7 @@ $(document).ready(function () {
     var columns = [
         { data: "display", title: "Alert Type",
             "render": function(data, type, row) {
-                return '<div class="row"><div class="col-xs-2 alert-type-common alert-type-'+data+'"></div><span class="col-xs-2">'+data+'</span></div>';
+                return '<div class="row"><span class="col-xs-2">' + data + '</span></div>';
             }
         },
         { data: "count", title: "Count" },

@@ -46,24 +46,3 @@
     float: right;
     text-align: right;
 }
-
-.alert-type-AbnormalRefreshAlert {
-    background-size: contain;
-    background-image: url("../../IsAnalytics_Gadget_AlertsSummery/images/icon-AbnormalRefreshAlert.png");
-}
-
-.alert-type-AbnormalLongSessionAlert {
-    background-size: contain;
-    background-image: url("../../IsAnalytics_Gadget_AlertsSummery/images/icon-AbnormalLongSessionAlert.png");
-}
-
-.alert-type-SuspiciousLoginAlert {
-    background-size: contain;
-    background-image: url("../../IsAnalytics_Gadget_AlertsSummery/images/icon-SuspiciousLoginAlert.png");
-}
-
-.alert-type-common {
-    height: 20px;
-    width: 20px;
-    background-color: red;
-}
