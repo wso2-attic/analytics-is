@@ -41,6 +41,9 @@
 
         var timeFrom = request.getParameter("timeFrom");
         var timeTo = request.getParameter("timeTo");
+        var start = request.getParameter("start");
+        var length = request.getParameter("length");
+
         if(timeFrom == null || timeTo == null) {
             var d = new Date();
             if(timeTo == null) {
@@ -63,6 +66,8 @@
             additionalParameters = "";
         }
         var query = request.getParameter("query");
+        var draw = request.getParameter("draw");
+
         switch(query) {
             case 'summery' :
                 result = {};
@@ -71,12 +76,12 @@
                 break;
             default :
                 result = {};
-                var data = getAlertResult(timeFrom, timeTo, alertType);
-                populateResult(result, data, draw);
+                 var alertDetails = getAlertResult(timeFrom, timeTo, alertType,length ,start);
+                  populateResult(result, alertDetails.data, draw);
+                  result.recordsFiltered = alertDetails.recordsFiltered;
+                  result.recordsTotal = alertDetails.recordsTotal;
                 break;
         }
-
-        var draw = request.getParameter("draw");
 
         if (result) {
             if (log.isDebugEnabled()) {
@@ -151,37 +156,48 @@
      };
 
 
-    function getAlertResult(timeFrom, timeTo, alertType) {
-        var data = [];
-        var  providerConfig = {};
-        switch (alertType) {
-            case "SuspiciousLoginAlert":
-                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
-                break;
-            case "AbnormalLongSessionAlert":
-                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
-                break;
-            case "AbnormalRefreshAlert":
-                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH";
-                break;
-            default:
-                alertType = "All";
-                providerConfig.tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
-                break;
-        }
+      function getAlertResult(timeFrom, timeTo, alertType, length ,start) {
+            var data = [];
+            var  providerConfig = {};
+            var tableName;
+            switch (alertType) {
+                case "SuspiciousLoginAlert":
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
+                    break;
+                case "AbnormalLongSessionAlert":
+                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
+                    break;
+                case "AbnormalRefreshAlert":
+                    tableName = "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH";
+                    break;
+                default:
+                    alertType = "All";
+                    tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
+                    break;
+            }
+            providerConfig.tableName = tableName;
 
-        providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
-        providerConfig.limit = "";
-        var timeNow = new Date().getTime();
-        var data = [];
-        var result = queryAlertListResult(providerConfig, 10);
-        for (var i = 0; i < result.length; i++) {
-            var item = result[i];
-            var record = convertToAlertRecord(item, alertType);
-            data.push(record);
-        }
-        return data;
+            providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
+            providerConfig.limit = "";
+            var timeNow = new Date().getTime();
+            var data = [];
+            var count = queryRecordCountIntimeRange(timeFrom, timeTo, tableName);
+
+            var alertsList = queryAlertListResult(providerConfig, length, start);
+
+            for (var i = 0; i < alertsList.length; i++) {
+                var item = alertsList[i];
+                var record = convertToAlertRecord(item, alertType);
+                data.push(record);
+            }
+            var result = {};
+            result.data = data;
+            result.recordsFiltered = count;
+            result.recordsTotal = count;
+
+            return result;
     }
+
 
     function convertToAlertRecord (item, alertType) {
         var result;
@@ -223,10 +239,6 @@
     function populateResult(result, data, draw) {
        result.draw = draw;
        result.data = data;
-
-
-       result.recordsFiltered = data.length;
-       result.recordsTotal = data.length;
     }
 
     /**
@@ -263,19 +275,16 @@
      * @param providerConfig
      * @param limit
      */
-    function queryAlertListResult(providerConfig, limit) {
+    function queryAlertListResult(providerConfig, length , start) {
+
         var tableName = providerConfig.tableName;
         var query = providerConfig.query;
-        var limit = 100;
-        if (providerConfig.limit) {
-            limit = providerConfig.limit;
-        }
 
         var dataQuery = {};
         dataQuery.tableName = tableName;
         dataQuery.query = query;
-        dataQuery.count = limit;
-        dataQuery.start = 0;
+        dataQuery.count = length;
+        dataQuery.start = start;
 
         var result;
         //if there's a filter present, we should perform a Lucene search instead of reading the table
