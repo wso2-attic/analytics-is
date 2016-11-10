@@ -140,7 +140,7 @@ public class ISAlertLongSessionsAnalyticsTestCase extends DASIntegrationTest {
         //run spark scripts for session duration calculations
         analyticsStub.executeScriptInBackground("IsAnalytics-SparkScript-SessionManagement");
         Thread.sleep(30000);
-        analyticsStub.executeScriptInBackground("ISAnalytics-SparkScript-AlertLongSessions");
+        analyticsStub.executeScriptInBackground("ISAnalytics-ConfigureAlertLongSessions-ConfigureAlertLongSessions-batch1");
         Thread.sleep(30000);
     }
 

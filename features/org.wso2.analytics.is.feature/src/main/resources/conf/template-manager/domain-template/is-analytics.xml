@@ -70,7 +70,7 @@
             <templates>
                 <template type="batch">
                     <executionParameters>
-                    <cron>0 0/1 * * * ?</cron>
+                    <cron>0 0/2 * * * ?</cron>
 
                     <sparkScript>
                     	<![CDATA[
@@ -80,7 +80,7 @@
                     	month INT, day INT, hour INT, minute INT, duration LONG -f -sp, isActive BOOLEAN -i -f, username STRING -i -f,
                     	userstoreDomain STRING -i -f, remoteIp STRING -i -f, region STRING -i, tenantDomain STRING -i -f,
                     	serviceProvider STRING -i -f, identityProviders STRING -i -f, rememberMeFlag BOOLEAN -i -f, userAgent STRING -i
-                    	-f, usernameWithTenantDomainAndUserstoreDomain STRING -i -f, _timestamp LONG -i", primaryKeys "meta_tenantId,
+                    	-f, usernameWithTenantDomainAndUserstoreDomain STRING -i -f", primaryKeys "meta_tenantId,
                     	sessionId", mergeSchema "false");
 
                     	CREATE TEMPORARY TABLE averageSessionDurationTable USING CarbonAnalytics OPTIONS (tableName
@@ -89,11 +89,11 @@
                     	tenantDomain, username, userstoreDomain", mergeSchema "false");
 
                     	INSERT INTO TABLE averageSessionDurationTable 
-                    	SELECT temp.meta_tenantId, temp.tenantDomain, temp.username, temp.userstoreDomain, AVG(duration) as avgDuration
+                    	SELECT temp.meta_tenantId, temp.tenantDomain, temp.username, temp.userstoreDomain, AVG(temp.duration) as avgDuration
                     	FROM
                     	(SELECT meta_tenantId, tenantDomain, username, userstoreDomain, duration
                     	FROM rawSessionsTable
-                    	WHERE _timestamp >= offsetInDays(-$numberOfDays)) temp
+                    	WHERE startTimestamp >= offsetInDays(-$numberOfDays)) temp
                     	GROUP BY meta_tenantId, tenantDomain, username, userstoreDomain;
                     	]]>
                     </sparkScript>
@@ -101,9 +101,6 @@
                     </executionParameters>
                 </template>
 
-            </templates>
-
-            <templates>
                 <template type="realtime">
                 	<![CDATA[
                         /* Enter a unique ExecutionPlan */
