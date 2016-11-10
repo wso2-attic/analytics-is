@@ -1,0 +1,47 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('ISAnalytics-ConfigureAlertLongSessions-ConfigureAlertLongSessions-realtime1')
+
+/* Enter a unique description for ExecutionPlan */
+@Plan:description('Detects long session durations and alerts the user')
+
+/* define streams/tables and write queries here ... */
+
+@Export('org.wso2.is.analytics.stream.LongSessions:1.0.0')
+define stream AlertLongSessions (meta_tenantId int, tenantDomain string, sessionId string, username string, duration long, avgDuration double);
+
+@Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
+define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
+
+@from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
+define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
+
+@from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_SESSIONINFO')
+define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
+
+define trigger periodicalTriggerStream at every 2 min;
+
+@info(name = 'getDataFromSessionStreamInfoTable')
+from periodicalTriggerStream join SessionStreamInfoTable
+select *
+insert into SessionStreamInfoSummary;
+
+@info(name = 'FilterLongSessions')
+from SessionStreamInfoSummary [duration > 900000 and rememberMeFlag == false and isActive == true]
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, endTimestamp, duration, username, userstoreDomain, tenantDomain
+insert into FilterLongSessions;
+
+@info(name = 'getDataFromAverageSessionDurationTable')
+from FilterLongSessions as s join AverageSessionDurationTable as t
+on (s.meta_tenantId == t.meta_tenantId and s.tenantDomain == t.tenantDomain and s.username == t.username and s.userstoreDomain == t.userstoreDomain)
+select s.meta_tenantId, s.tenantDomain, s.sessionId, s.username, s.duration, t.avgDuration
+insert into AlertLongSessionsTemp;
+
+@info(name = 'DetectAbnormalLongSessions')
+from AlertLongSessionsTemp[duration > (avgDuration * (50.0 + 100.0) / 100.0)]
+select meta_tenantId, tenantDomain, sessionId, username, duration, avgDuration
+insert into AlertLongSessions;
+
+@info(name = 'SendingAlertsToAllISAlertsStream')
+from AlertLongSessions
+select meta_tenantId, "AbnormalLongSessionAlert" as type, tenantDomain, str:concat('Abnormal long session session of ', duration, ' milliseconds detected by user: ', username,' on session id: ', sessionId, '.') as msg, 3 as severity, (time:timestampInMilliseconds()) as alertTimestamp
+insert into alert_allISAlertsStream;
