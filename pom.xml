@@ -458,6 +458,11 @@
                 <artifactId>org.wso2.carbon.event.processor.stub</artifactId>
                 <version>${carbon.event-processing.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics-common</groupId>
+                <artifactId>org.wso2.carbon.event.receiver.stub</artifactId>
+                <version>${carbon.analytics.common.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
