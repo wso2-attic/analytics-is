@@ -122,7 +122,6 @@ public class ISAnalyticsAlertsTestCase extends DASIntegrationTest {
             }
             dataPublisherClient.publish(sampleEventList);
             Thread.sleep(60000);
-            dataPublisherClient.shutdown();
         } catch (Throwable e) {
             log.error("Error when publishing sample session data", e);
         }
@@ -144,7 +143,7 @@ public class ISAnalyticsAlertsTestCase extends DASIntegrationTest {
         log.info("Response: " + response.getData());
 
         assertNotNull(response + "Response is empty");
-        assertTrue(response.getData().contains("\"username\" : \"user1010\""),
+        assertTrue(response.getData().contains("\"tenantDomain\" : \"carbon.super\""),
                 "username, user1010 event not found");
         assertTrue(response.getData().contains
                         ("Successful login attempt after multiple login failures from same remote IP detected") ,
@@ -152,7 +151,7 @@ public class ISAnalyticsAlertsTestCase extends DASIntegrationTest {
 
     }
 
-    @Test(groups = "wso2.analytics.is", description = "Getting the summery results counts",
+    @Test(groups = "wso2.analytics.is", description = "Getting the summery results counts for SuspiciousLoginAlert",
             dependsOnMethods = "getViewAlertTableResults")
     public void getSummeryResult() throws Exception {
 
