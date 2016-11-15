@@ -306,8 +306,9 @@ function onData(response) {
         if((maxSuccessCount + maxFailureCount) < 10) {
             chart.chartConfig.yTicks = maxSuccessCount + maxFailureCount;
         }
+
         if(allData[0] != "" && allData[0].length < 6) {
-            chart.chartConfig.xTicks = allData[0].length();
+            chart.chartConfig.xTicks = allData[0].length;
         }
 
         var vg = new vizg(chart.schema, chart.chartConfig);
@@ -374,8 +375,8 @@ console.log('data '+JSON.stringify(timeUnit)+JSON.stringify(data));
                   var datePrevious = new Date (previousTimestamp*1);
 
                    var x = datePrevious.getMonth();
-                   if(datePrevious.getMonth() == 11){  
-                   x = -1;
+                   if(dateRaw.getMonth() <= x){
+                        x = 0 - (11 - x) -1 ;
                    }
 
                   for(var t= x+1; t<dateRaw.getMonth(); t++) {  
