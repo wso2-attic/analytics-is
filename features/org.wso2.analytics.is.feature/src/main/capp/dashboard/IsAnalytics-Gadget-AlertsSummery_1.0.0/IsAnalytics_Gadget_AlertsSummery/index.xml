@@ -51,9 +51,9 @@
           <script src="../IsAnalytics_Gadget_Commons/js/dataTables.bootstrap.js"></script>
           <script src="js/gadgetconf.js"></script>
           <script src="js/main.js"></script>
-
+          <script src="js/jspdf.min.js"></script>
+          <script src="js/jspdf.plugin.autotable.src.js"></script>
             </head>
-
             <body>
                 <div class="nano-content">
               <div id="canvas" class="add-padding-1x">

@@ -20,7 +20,7 @@ var TOPIC_DATE_RANGE = "subscriberDateRange";
 var TOPIC_ALERT_TYPE = "publisherAlertType";
 var listnedTimeFromValue;
 var listnedTimeToValue;
-
+var alertType;
 var oTable;
 
 var ALERTS_CONTEXT = "/portal/apis/isanalytics-alerts";
@@ -56,6 +56,10 @@ $(document).ready(function () {
             }
         },
         { data: "count", title: "Count" },
+        { title: "Export to PDF", "fnCreatedCell": function (nTd) {
+                                        $(nTd).html("<a href=javascript:exportToPDF()><i class='fw fw-pdf'></i> Export</a>");
+                                 }
+        }
     ] ;
 
     $.fn.dataTable.ext.errMode = 'none';
@@ -89,6 +93,7 @@ $(document).ready(function () {
         var key = data.key;
         var publishData = {};
         publishData.alertType = key;
+        alertType = key;
         if(key != null) {
             gadgets.Hub.publish(TOPIC_ALERT_TYPE, publishData);
         }
@@ -117,3 +122,71 @@ gadgets.HubSettings.onConnect = function() {
     });
 };
 
+function exportToPDF() {
+
+     $.ajax({
+        "url" : ALERTS_CONTEXT,
+        "data" :{
+            draw : 1,
+            alertType:alertType,
+            timeFrom:parseInt(listnedTimeFromValue),
+            timeTo:parseInt(listnedTimeToValue),
+            start:0,
+            length:200
+
+        },
+        success: function (d) {
+
+            var doc = new jsPDF('p', 'pt');
+            doc.addImage(gadgetConfig.pdfStampImage, 'JPEG', 40, 10, 120, 55);
+            doc.addImage(gadgetConfig.pdfThemeColorImage, 'JPEG', 545, 0, 50, 60);
+            doc.setFontSize(10);
+            doc.setFontType("bold");
+            doc.text(295, 90, "SECURITY ALERT REPORT OF " + getAlertName(alertType), null, null, 'center');
+            doc.setFontSize(8);
+
+            doc.text(40, 110, "Starting Date   : " + renderDateTime(listnedTimeFromValue) + "\n\nEnding Date    : " + renderDateTime(listnedTimeToValue) +
+                        "\n\nTotal Records : "+d.recordsTotal, null, null);
+
+
+            var columns = [
+                     {"title": "Timestamp", "dataKey": "timestamp"},
+                     {"title": "Tenant Domain", "dataKey": "tenantDomain"},
+                     {"title": "User", "dataKey": "username"},
+                     {"title": "Message", "dataKey": "msg"}
+            ];
+
+            var rows = d.data.map(function(obj){
+                var row ={"timestamp":"","tenantDomain":"","username":"","msg":""};
+                row["timestamp"]=renderDateTime(obj.timestamp);
+                row["tenantDomain"]=obj.tenantDomain;
+                row["username"]=obj.username;
+                row["msg"]=obj.msg;
+                return row;
+            });
+
+            doc.autoTable(columns, rows, gadgetConfig.pdfTableStyles);
+            doc.save("Security Alert Report.pdf");
+
+        }
+    });
+}
+
+function getAlertName(alertType){
+    switch (alertType){
+        case "SuspiciousLoginAlert":
+            return "SUSPICIOUS LOGINS";
+
+        case "AbnormalLongSessionAlert":
+            return "ABNORMAL LONG SESSIONS";
+
+        case "AbnormalRefreshAlert":
+            return "ABNORMAL REFRESHES";
+
+    }
+}
+
+function renderDateTime(data, type, row) {
+      var date = new Date(data);
+      return date.toLocaleString("en-US");
+}
