@@ -107,19 +107,6 @@ function createDataTable(columns, destroy) {
 function getColumns(alertType) {
     var result;
     switch (alertType) {
-        case "AbnormalRefreshAlert":
-            result = [
-                {
-                    data: "timestamp", title: "Timestamp",
-                    "render": renderDateTime
-                },
-                {data: "tenantDomain", title: "Tenant Domain"},
-                {data: "userId", title: "User ID"},
-                {data: "scope", title: "Scope"},
-                {data: "consumerKey", title: "Consumer Key"},
-                {data: "msg", title: "Message"}
-            ]
-            break;
         case "AbnormalLongSessionAlert":
             result = [
                 {
