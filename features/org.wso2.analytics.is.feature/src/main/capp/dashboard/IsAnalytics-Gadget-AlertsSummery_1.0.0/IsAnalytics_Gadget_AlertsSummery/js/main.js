@@ -52,7 +52,6 @@ $(document).ready(function () {
         gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
         gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
 
-
     var columns = [
         { data: "display", title: "Alert Type",
             "render": function(data, type, row) {
@@ -108,8 +107,10 @@ $(document).ready(function () {
 
 
 function onDataChanged() {
-        gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
-        gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
+
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
+
     oTable.clear();
     oTable.ajax.reload().draw();
 };

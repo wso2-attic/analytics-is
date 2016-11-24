@@ -121,8 +121,9 @@ $(function() {
             default:
                 return;
         }
-        
+
         gadgets.Hub.publish(TOPIC, message);
+        alert("Event Publish");
         
         $(gadgetWrapper).removeClass('btn-dropdown-menu-open');
         $('#btnDropdown').attr('aria-expanded', 'false');

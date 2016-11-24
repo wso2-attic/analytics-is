@@ -70,18 +70,21 @@
 
         switch(query) {
             case 'summery' :
+
                 result = {};
                 var data = getSummeryResult(timeFrom, timeTo);
                 populateResult(result, data, draw);
                 break;
             default :
                 result = {};
+                 log.info("YYYYYYY "+alertType);
                  var alertDetails = getAlertResult(timeFrom, timeTo, alertType,length ,start);
                   populateResult(result, alertDetails.data, draw);
                   result.recordsFiltered = alertDetails.recordsFiltered;
                   result.recordsTotal = alertDetails.recordsTotal;
                 break;
         }
+
 
         if (result) {
             if (log.isDebugEnabled()) {
@@ -159,7 +162,8 @@
                 case "SuspiciousLoginAlert":
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
                     break;
-                case "AbnormalLongSessionAlert":
+                case "abnormallongsessionalert":
+                    log.info(" ABA 123");
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
                     break;
                 case "AbnormalRefreshAlert":

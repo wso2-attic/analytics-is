@@ -27,12 +27,16 @@ var oTable;
 var ALERTS_CONTEXT = "/portal/apis/isanalytics-alerts";
 $(document).ready(function () {
 
+    var page = gadgetUtil.getCurrentPageName();
+    alert(page);
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
     var historyAlertType = gadgetUtil.getURLParam("alertType");
+
 
     if(historyParmExist == null){
         listnedTimeFromValue = gadgetUtil.timeFrom();
         listnedTimeToValue = gadgetUtil.timeTo();
+        var historyParms = gadgetUtil.getURLParams();
     }else{
         var historyParms = gadgetUtil.getURLParams();
 
@@ -58,7 +62,7 @@ $(document).ready(function () {
         selectedAlertType = historyAlertType;
     }
     if(!selectedAlertType) {
-        selectedAlertType = "All";
+        selectedAlertType = page;
     }
 
     var columns = getColumns(selectedAlertType);
@@ -70,6 +74,7 @@ $(document).ready(function () {
 });
 
 function createDataTable(columns, destroy) {
+
     var dataTable = $('#tblAlerts').DataTable({
         scrollY: 300,
         scrollX: true,
