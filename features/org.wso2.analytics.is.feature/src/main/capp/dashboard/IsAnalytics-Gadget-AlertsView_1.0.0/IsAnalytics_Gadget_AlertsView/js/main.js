@@ -28,7 +28,7 @@ var ALERTS_CONTEXT = "/portal/apis/isanalytics-alerts";
 $(document).ready(function () {
 
     var page = gadgetUtil.getCurrentPageName();
-    alert(page);
+
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
     var historyAlertType = gadgetUtil.getURLParam("alertType");
 
@@ -39,7 +39,6 @@ $(document).ready(function () {
         var historyParms = gadgetUtil.getURLParams();
     }else{
         var historyParms = gadgetUtil.getURLParams();
-
         for (var key in historyParms) {
             if (historyParms.hasOwnProperty(key)) {
 
@@ -50,6 +49,7 @@ $(document).ready(function () {
                 }else if(Object.keys(historyParms).length > 2){
                     var historyParamVal = historyParms[key].toString();
                     addUserPrefsToGlobalArray("Topic",key,historyParamVal.split("_")[0]);
+
                 }
             }
         }
@@ -62,7 +62,13 @@ $(document).ready(function () {
         selectedAlertType = historyAlertType;
     }
     if(!selectedAlertType) {
-        selectedAlertType = page;
+
+      if(page == "suspiciousloginalert"){
+         selectedAlertType = "SuspiciousLoginAlert";
+      } else if(page == "abnormallongsessionalert"){
+         selectedAlertType = "AbnormalLongSessionAlert";
+      }
+
     }
 
     var columns = getColumns(selectedAlertType);

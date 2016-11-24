@@ -77,7 +77,6 @@
                 break;
             default :
                 result = {};
-                 log.info("YYYYYYY "+alertType);
                  var alertDetails = getAlertResult(timeFrom, timeTo, alertType,length ,start);
                   populateResult(result, alertDetails.data, draw);
                   result.recordsFiltered = alertDetails.recordsFiltered;
@@ -104,12 +103,12 @@
         // quering four tables to get the count for a specific date range
         var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES");
         if (count > 0) {
-            data.push({"key": "SuspiciousLoginAlert", "display": "Suspicious_Login_Alerts", "count": count});
+            data.push({"key": "SuspiciousLoginAlert", "display": "Suspicious Login Alerts", "count": count});
         }
 
         var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS");
         if (count > 0) {
-            data.push({"key": "AbnormalLongSessionAlert", "display": "Abnormal_LongSession_Alerts", "count": count});
+            data.push({"key": "AbnormalLongSessionAlert", "display": "Abnormal LongSession Alerts", "count": count});
         }
 
         return data;
@@ -162,12 +161,8 @@
                 case "SuspiciousLoginAlert":
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
                     break;
-                case "abnormallongsessionalert":
-                    log.info(" ABA 123");
+                case "AbnormalLongSessionAlert":
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
-                    break;
-                case "AbnormalRefreshAlert":
-                    tableName = "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH";
                     break;
                 default:
                     alertType = "All";
@@ -203,10 +198,6 @@
         switch (alertType) {
             case "SuspiciousLoginAlert":
             case "AbnormalLongSessionAlert":
-            case "AbnormalRefreshAlert":
-                result = item.values;
-                result.timestamp = item.timestamp;
-                break;
             case "All":
                 result = {
                     "timestamp": item.timestamp,
