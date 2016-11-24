@@ -51,6 +51,8 @@ $(document).ready(function () {
         }
     }
 
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
 
     if(historyAlertType) {
         selectedAlertType = historyAlertType;
@@ -114,7 +116,6 @@ function getColumns(alertType) {
                     "render": renderDateTime
                 },
                 {data: "tenantDomain", title: "Tenant Domain"},
-                {data: "sessionId", title: "Session ID"},
                 {data: "username", title: "User"},
                 {data: "duration", title: "Duration"},
                 {data: "avgDuration", title: "Avg. Duration"}
@@ -165,6 +166,8 @@ function onTypeChanged() {
 };
 
 function onDataChanged() {
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
     oTable.ajax.reload();
 };
 
