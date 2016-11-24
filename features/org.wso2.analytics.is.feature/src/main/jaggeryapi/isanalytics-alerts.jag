@@ -197,7 +197,22 @@
         var result;
         switch (alertType) {
             case "SuspiciousLoginAlert":
+                 result =  {
+                     "timestamp": item.values.alertTimestamp,
+                     "username": item.values.username,
+                     "msg": item.values.msg,
+                     "tenantDomain": item.values.tenantDomain
+                 };
+                 break;
             case "AbnormalLongSessionAlert":
+                 result =  {
+                     "timestamp": item.values.alertTimestamp,
+                     "tenantDomain": item.values.tenantDomain,
+                     "username": item.values.username,
+                     "duration": item.values.duration,
+                     "avgDuration": item.values.avgDuration
+                 };
+                 break;
             case "All":
                 result = {
                     "timestamp": item.timestamp,
