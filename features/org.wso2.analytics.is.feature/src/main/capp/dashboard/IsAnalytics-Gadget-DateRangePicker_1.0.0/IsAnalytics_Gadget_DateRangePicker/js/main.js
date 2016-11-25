@@ -121,7 +121,7 @@ $(function() {
             default:
                 return;
         }
-        
+
         gadgets.Hub.publish(TOPIC, message);
         
         $(gadgetWrapper).removeClass('btn-dropdown-menu-open');

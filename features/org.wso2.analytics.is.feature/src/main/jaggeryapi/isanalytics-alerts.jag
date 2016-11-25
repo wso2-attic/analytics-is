@@ -70,6 +70,7 @@
 
         switch(query) {
             case 'summery' :
+
                 result = {};
                 var data = getSummeryResult(timeFrom, timeTo);
                 populateResult(result, data, draw);
@@ -82,6 +83,7 @@
                   result.recordsTotal = alertDetails.recordsTotal;
                 break;
         }
+
 
         if (result) {
             if (log.isDebugEnabled()) {
@@ -101,12 +103,12 @@
         // quering four tables to get the count for a specific date range
         var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES");
         if (count > 0) {
-            data.push({"key": "SuspiciousLoginAlert", "display": "Suspicious_Login_Alerts", "count": count});
+            data.push({"key": "SuspiciousLoginAlert", "display": "Suspicious Login Alerts", "count": count});
         }
 
         var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS");
         if (count > 0) {
-            data.push({"key": "AbnormalLongSessionAlert", "display": "Abnormal_LongSession_Alerts", "count": count});
+            data.push({"key": "AbnormalLongSessionAlert", "display": "Abnormal LongSession Alerts", "count": count});
         }
 
         return data;
@@ -162,9 +164,6 @@
                 case "AbnormalLongSessionAlert":
                     tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
                     break;
-                case "AbnormalRefreshAlert":
-                    tableName = "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH";
-                    break;
                 default:
                     alertType = "All";
                     tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
@@ -198,11 +197,22 @@
         var result;
         switch (alertType) {
             case "SuspiciousLoginAlert":
+                 result =  {
+                     "timestamp": item.values.alertTimestamp,
+                     "username": item.values.username,
+                     "msg": item.values.msg,
+                     "tenantDomain": item.values.tenantDomain
+                 };
+                 break;
             case "AbnormalLongSessionAlert":
-            case "AbnormalRefreshAlert":
-                result = item.values;
-                result.timestamp = item.timestamp;
-                break;
+                 result =  {
+                     "timestamp": item.values.alertTimestamp,
+                     "tenantDomain": item.values.tenantDomain,
+                     "username": item.values.username,
+                     "duration": item.values.duration,
+                     "avgDuration": item.values.avgDuration
+                 };
+                 break;
             case "All":
                 result = {
                     "timestamp": item.timestamp,
