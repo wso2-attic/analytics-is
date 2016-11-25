@@ -100,7 +100,7 @@
 <body class="dashboard lang_<%=request.getLocale()%> dark">
     
     <!-- .left-sidebar -->
-    <div class="sidebar-wrapper sidebar-nav toggled hidden-xs" id="left-sidebar" data-side="left" data-width="260" style="width:260px">
+    <div class="sidebar-wrapper sidebar-nav toggled hidden-xs" id="left-sidebar" data-side="left" data-width="300" style="width:300px">
         <div class="nano">
             <div class="nano-content">
                     
@@ -147,7 +147,7 @@
     </div>
     
     <!-- #page-content-wrapper -->
-    <div class="page-content-wrapper remove-padding-xs" style="padding-left:260px;">
+    <div class="page-content-wrapper remove-padding-xs" style="padding-left:300px;">
 
         <div class="page-header">
             <div class="container-fluid">
