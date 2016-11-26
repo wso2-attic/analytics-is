@@ -87,22 +87,6 @@ $(document).ready(function () {
             }
         }
     });
-    $('#tblAlerts tbody').on('click', 'tr', function () {
-        var data = oTable.row( this ).data();
-        var key = data.key;
-        var publishData = {};
-        publishData.alertType = key;
-        if(key != null) {
-            gadgets.Hub.publish(TOPIC_ALERT_TYPE, publishData);
-        }
-
-    } );
-    $('#tblAlerts tbody').on( 'click', 'tr', function () {
-        oTable.$('tr.selected').removeClass('selected');
-        if ( !$(this).hasClass('selected') ) {
-            $(this).addClass('selected');
-        }
-    } );
 });
 
 
