@@ -17,6 +17,53 @@
 <domain name="ISAnalytics">
     <description>Real-time and batch IS Analytics.</description>
     <scenarios>
+        <scenario type="ConfigureAccessToken">
+            <description>Configure access token to analyse data</description>
+            <templates>
+                <template type="batch">
+                    <executionParameters>
+                        <cron>0 0 12 1/7 * ? *</cron>
+
+                        <sparkScript>
+                            <![CDATA[
+                            create temporary table accessTokenRefreshTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHTIMEDIFFERENCE", schema "meta_tenantId INT, userId STRING, clientId STRING, scopes STRING, timeDifference LONG, timestamp LONG");
+
+                            create temporary table accessTokenRefreshAvrgTime using CarbonAnalytics options (tableName "ORG_WSO2_IS_ANALYTICS_ACCESSTOKENREFRESHSUMMARYTABLE", schema "meta_tenantId INT -i, userId STRING -i, clientId STRING -i, scopes STRING -i, minTimeDifference DOUBLE -i, maxTimeDifference DOUBLE -i", primaryKeys "meta_tenantId, userId, clientId, scopes");
+
+                            INSERT INTO TABLE accessTokenRefreshAvrgTime
+                            SELECT temp.meta_tenantId, temp.userId, temp.clientId, temp.scopes, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($lowerPercentile as DOUBLE)) as minTimeDifference, getpercentileValue(cast(AVG(timeDifference) as DOUBLE), cast((SQRT(AVG(timeDifference*timeDifference) - AVG(timeDifference)*AVG(timeDifference))) as DOUBLE), cast($upperPercentile as DOUBLE)) as maxTimeDifference
+                            FROM
+                            (SELECT meta_tenantId, userId, clientId, scopes, timeDifference
+                            FROM accessTokenRefreshTime
+                            WHERE timestamp >= offsetInDays(-$numberOfDays)) temp
+                            GROUP BY meta_tenantId, userId, clientId, scopes;
+                            ]]>
+                        </sparkScript>
+
+                    </executionParameters>
+                </template>
+
+            </templates>
+
+            <parameters>
+                <parameter name="lowerPercentile" type="double">
+                    <displayName>Lower percentile</displayName>
+                    <description>Lower percentile (value between 0 and 1) to calculate minimum time difference</description>
+                    <defaultValue>0.10</defaultValue>
+                </parameter>
+                <parameter name="upperPercentile" type="double">
+                    <displayName>Upper percentile</displayName>
+                    <description>Upper percentile (value between 0 and 1) to calculate maximum time difference</description>
+                    <defaultValue>0.95</defaultValue>
+                </parameter>
+                <parameter name="numberOfDays" type="int">
+                    <displayName>Number of days</displayName>
+                    <description>Number of days to be considered when calculating average</description>
+                    <defaultValue>7</defaultValue>
+                </parameter>
+            </parameters>
+        </scenario>
+
         <scenario type="ConfigureAlertLongSessions">
             <description>Configure long session duration detection</description>
 

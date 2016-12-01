@@ -1,0 +1,46 @@
+{
+  "name": "org.wso2.is.analytics.alert.abnormalTokenRefresh",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "metaData": [
+    {
+      "name": "tenantId",
+      "type": "INT"
+    }
+  ],
+  "payloadData": [
+    {
+      "name": "userId",
+      "type": "STRING"
+    },
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "scope",
+      "type": "STRING"
+    },
+    {
+      "name": "timestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "alertTimestamp",
+      "type": "LONG"
+    },
+    {
+      "name": "msg",
+      "type": "STRING"
+    },
+    {
+      "name": "severity",
+      "type": "INT"
+    },
+    {
+      "name": "consumerKey",
+      "type": "STRING"
+    }
+  ]
+}

@@ -19,6 +19,7 @@
             <!--<class name="org.wso2.das4is.integration.tests.jaggeryapi.ISAnalyticsAlertsTestCase"/>-->
             <!--<class name="org.wso2.das4is.integration.tests.is.ISLoginSuccessAfterMultipleFailuresAlertTestCase"/>-->
             <!--<class name="org.wso2.das4is.integration.tests.is.ISAlertLongSessionsAnalyticsTestCase"/>-->
+            <!--<class name="org.wso2.das4is.integration.tests.is.AbnormalTokenRefreshTestCase"/>-->
         </classes>
     </test>
 </suite>
