@@ -109,6 +109,11 @@
             data.push({"key": "AbnormalLongSessionAlert", "display": "Abnormal_LongSession_Alerts", "count": count});
         }
 
+        var count = queryRecordCountIntimeRange(timeFrom, timeTo, "ORG_WSO2_IS_ANALYTICS_ALERT_ABNORMALTOKENREFRESH");
+        if (count > 0) {
+            data.push({"key": "AbnormalRefreshAlert", "display": "Abnormal_Refresh_Alerts", "count": count});
+        }
+
         return data;
     }
 
