@@ -148,7 +148,7 @@
 
                         /* Query for detecting login attempts with same username*/
                         @info(name = 'detectEventsForSameUser')
-                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
+                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
                         within $timeDuration min
                         select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, e2[last].serviceProvider
                         output first every $timeDuration min
@@ -162,44 +162,6 @@
                         @info(name = 'sendingSameUserEventsToAllISAlertsStream')
                         from LoginAlertStreamSameUsername
                         select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
-                        insert into alert_allISAlertsStream;
-
-
-                        /* Query for detecting login attempts with same contextId*/
-                        @info(name = 'detectEventsForSameContextId')
-                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.contextId == e2.contextId]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.contextId == e3.contextId]
-                        within $timeDuration min
-                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same context-Id detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, e2[last].serviceProvider, e2[last].contextId
-                        output first every $timeDuration min
-                        insert into LoginAlertStreamSameContextId;
-
-                        @info(name = 'sendingSameContextIdEventsToLoginAlertStream')
-                        from LoginAlertStreamSameContextId
-                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
-                        insert into LoginAlertStream;
-
-                        @info(name = 'sendingSameContextIdEventsToAllISAlertsStream')
-                        from LoginAlertStreamSameContextId
-                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same contextId: ', contextId, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
-                        insert into alert_allISAlertsStream;
-
-
-                        /* Query for detecting login attempts from same IP*/
-                        @info(name = 'detectEventsForSameIP')
-                        from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.meta_tenantId == e2.meta_tenantId AND e1.remoteIp == e2.remoteIp]<$minLoginFailures:> ->  e3=AuthStream[authStepSuccess == true AND e2.meta_tenantId == e3.meta_tenantId AND e2.remoteIp == e3.remoteIp]
-                        within $timeDuration min
-                        select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures from same remote IP detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, isAnalytics:ipToCountry(e2[last].remoteIp) as region, e2[last].serviceProvider, e2[last].remoteIp
-                        output first every $timeDuration min
-                        insert into LoginAlertStreamSameIP;
-
-                        @info(name = 'sendingSameIPEventsToLoginAlertStream')
-                        from LoginAlertStreamSameIP
-                        select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
-                        insert into LoginAlertStream;
-
-                        @info(name = 'sendingSameIPEventsToAllISAlertsStream')
-                        from LoginAlertStreamSameIP
-                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same remote IP: ', remoteIp, ' from: ', region, ' region using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
                         insert into alert_allISAlertsStream;
                     ]]>
                 </template>
