@@ -49,6 +49,10 @@
           <link rel="stylesheet" type="text/css" href="css/custom.css">
           <script src="../IsAnalytics_Gadget_Commons/js/jquery.dataTables.min.js"></script>
           <script src="../IsAnalytics_Gadget_Commons/js/dataTables.bootstrap.js"></script>
+          <script src="../IsAnalytics_Gadget_Commons/js/pdfConf.js"></script>
+          <script src="../IsAnalytics_Gadget_Commons/js/pdfGeneration.js"></script>
+          <script src="../IsAnalytics_Gadget_Commons/js/jspdf.min.js"></script>
+          <script src="../IsAnalytics_Gadget_Commons/js/jspdf.plugin.autotable.js"></script>
           <script src="js/gadgetconf.js"></script>
           <script src="js/main.js"></script>
 

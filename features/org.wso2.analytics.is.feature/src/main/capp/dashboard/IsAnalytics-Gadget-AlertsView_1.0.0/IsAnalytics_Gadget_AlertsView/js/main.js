@@ -87,7 +87,7 @@ function createDataTable(columns, destroy) {
         dom: '<"dataTablesTop"' +
         'f' +
         '<"dataTables_toolbar">' +
-        '>' +
+        '>P' +
         'rt' +
         '<"dataTablesBottom"' +
         'lip' +
@@ -100,6 +100,10 @@ function createDataTable(columns, destroy) {
             { "bSortable": false, "aTargets": [ "_all" ] }
         ],
         "columns" : columns,
+        "pdfExport": {
+                        pdfColsAndInfo:getPdfTableColsAndInfo,
+                        renderRows:getPdfTableRows
+                },
         "initComplete": function( settings, json ) {
             //$('[data-toggle="tooltip"]').tooltip();
         },
@@ -196,4 +200,55 @@ gadgets.HubSettings.onConnect = function() {
     });
 };
 
+function getPdfTableColsAndInfo(){
+    this.getPdfTableColumns= function(){
+        var columns = getColumns(selectedAlertType);
+        return columns.map(function (column){
+            var newColumn = {};
+            newColumn["title"] = column["title"];
+            newColumn["dataKey"] = column["data"];
+            return newColumn;
+        });
+    }
 
+
+
+
+    this.getPdfTableInfo = function(maxRecords,totalRecords){
+        var pdfInfo = {};
+        switch (selectedAlertType){
+
+            case "SuspiciousLoginAlert":
+                pdfInfo["title"] = "SECURITY ALERT REPORT OF SUSPICIOUS LOGINS";
+                break;
+            case "AbnormalLongSessionAlert":
+                pdfInfo["title"] =  "SECURITY ALERT REPORT OF ABNORMAL LONG SESSIONS";
+                break;
+            default :
+                throw "Error - Alert Type is not defined";
+        }
+
+        pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(listnedTimeFromValue) + "\n\nEnding Date    : " + renderDateTime(listnedTimeToValue) +
+                                          "\n\nTotal Records : "+totalRecords;
+
+        pdfInfo["fileName"]="Security Alert Report";
+        pdfInfo["maxRecords"]= maxRecords;
+        pdfInfo["totalRecords"]= totalRecords;
+        return pdfInfo;
+    }
+}
+function getPdfTableRows(rawData) {
+    return rawData.data.map(function(record){
+        columnData = getColumns(selectedAlertType);
+        var newRecord = {};
+        for(i = 0; i<columnData.length;i++){
+            if(columnData[i].data=="timestamp"){
+                newRecord["timestamp"]=renderDateTime(record["timestamp"]);
+            }
+            else{
+                newRecord[columnData[i].data] = record[columnData[i].data];
+            }
+        }
+        return newRecord;
+    });
+}

@@ -41,50 +41,16 @@ $(function() {
 
     if (page.name == TYPE_OVERALL || page.name == TYPE_LOCAL || page.name == TYPE_FEDERATED) {
         var idpFilter = "";
-        var columns = [];
+
 
         if(page.name == TYPE_OVERALL) {
             idpFilter = "";
-            columns = [
-                { title: "Context ID" },
-                { title: "User Name" },
-                { title: "Service Provider" },
-                { title: "Subject Step" },
-                { title: "Roles" },
-                { title: "Tenant Domain"},
-                { title: "IP" },
-                { title: "Region" },
-                { title: "Overall Authentication" },
-                { title: "Timestamp" }
-            ];
             
         } else if(page.name == TYPE_LOCAL) {
             idpFilter = "LOCAL";
-            columns = [
-                { title: "Context ID" },
-                { title: "User Name" },
-                { title: "Service Provider" },
-                { title: "Userstore" },
-                { title: "Tenant Domain"},
-                { title: "Roles" },
-                { title: "IP" },
-                { title: "Region" },
-                { title: "Local Authentication" },
-                { title: "Timestamp" }
-            ];
+
         } else if(page.name == TYPE_FEDERATED) {
             idpFilter = "FEDERATED";
-            columns = [
-                { title: "Context ID" },
-                { title: "User Name" },
-                { title: "Service Provider" },
-                { title: "Identity Provider" },
-                { title: "IP" },
-                { title: "Region" },
-                { title: "Authentication Step Success" },
-                { title: "Timestamp" }
-            ];
-
         }
 
         $.fn.dataTable.ext.errMode = 'none';
@@ -95,7 +61,7 @@ $(function() {
                 'f' +
                 '<"dataTables_toolbar">' +
                 '>' +
-                'rt' +
+                'rtP' +
                 '<"dataTablesBottom"' +
                 'lip' +
                 '>',
@@ -103,7 +69,10 @@ $(function() {
             "serverSide": true,
             "searching": false,
             aaSorting: [],
-            "columns" : columns,
+            "columns" : getColumns(),
+            "pdfExport": {
+                            pdfColsAndInfo:getPdfTableColsAndInfo
+                         },
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                 if(page.name == TYPE_OVERALL) {
                     if ( aData[8] == true )
@@ -167,7 +136,7 @@ $(function() {
                 'f' +
                 '<"dataTables_toolbar">' +
                 '>' +
-                'rt' +
+                'rtP' +
                 '<"dataTablesBottom"' +
                 'lip' +
                 '>',
@@ -179,21 +148,11 @@ $(function() {
                 "searchPlaceholder": "Search by Username..."
             },
             aaSorting: [],
-            "columns" : [
-                { title: "Session ID", visible: false },
-                { title: "Username" },
-                { title: "Start Time" },
-                { title: "Termination Time" },
-                { title: "End Time" },
-                { title: "Duration (ms)" },
-                { title: "Is Active" },
-                { title: "Userstore Domain" },
-                { title: "Tenant Domain" },
-                { title: "IP" },
-                { title: "Remember Me Flag" },
-                { title: "Timestamp" }
+            "columns" :getColumns(),
+            "pdfExport": {
+                      pdfColsAndInfo:getPdfTableColsAndInfo
 
-            ],
+             },
             "ajax": {
                 "url" : SESSION_CONTEXT,
                 "data" : function (d) {
@@ -342,3 +301,116 @@ function onDataChanged() {
 function onError(msg) {
     $("#canvas").html(gadgetUtil.getErrorText(msg));
 };
+
+function getColumns(){
+    var result;
+    switch (page.name) {
+        case TYPE_OVERALL:
+            result = [
+                    { title: "Context ID" },
+                    { title: "User Name" },
+                    { title: "Service Provider" },
+                    { title: "Subject Step" },
+                    { title: "Roles" },
+                    { title: "Tenant Domain"},
+                    { title: "IP" },
+                    { title: "Region" },
+                    { title: "Overall Authentication" },
+                    { title: "Timestamp" }
+                     ];
+            break;
+        case TYPE_LOCAL:
+            result = [
+
+                     { title: "Context ID" },
+                     { title: "User Name" },
+                     { title: "Service Provider" },
+                     { title: "Userstore" },
+                     { title: "Tenant Domain"},
+                     { title: "Roles" },
+                     { title: "IP" },
+                     { title: "Region" },
+                     { title: "Local Authentication" },
+                     { title: "Timestamp" }
+                      ];
+            break;
+        case TYPE_FEDERATED:
+
+            result = [
+                     { title: "Context ID" },
+                     { title: "User Name" },
+                     { title: "Service Provider" },
+                     { title: "Identity Provider" },
+                     { title: "IP" },
+                     { title: "Region" },
+                     { title: "Authentication Step Success" },
+                     { title: "Timestamp" }
+                       ];
+            break;
+        case TYPE_SESSIONS:
+
+            result =  [
+                     { title: "Session ID", visible: false },
+                     { title: "Username" },
+                     { title: "Start Time" },
+                     { title: "Termination Time" },
+                     { title: "End Time" },
+                     { title: "Duration (ms)" },
+                     { title: "Is Active" },
+                     { title: "Userstore Domain" },
+                     { title: "Tenant Domain" },
+                     { title: "IP" },
+                     { title: "Remember Me Flag" },
+                     { title: "Timestamp" }
+
+                 ];
+            break;
+        }
+    return result;
+
+}
+
+function getPdfTableColsAndInfo(){
+    this.getPdfTableColumns=function(columns) {
+        var i = 0;
+        var columns = getColumns();
+        return columns.map(function (column){
+            column["dataKey"] = i;
+            i++;
+            return column;
+        });
+    }
+    this.getPdfTableInfo= function(maxRecords,totalRecords){
+        var pdfInfo = {};
+
+        switch (page.name) {
+                case TYPE_OVERALL:
+                    pdfInfo["title"] = "OVERALL LOGIN ATTEMPTS";
+                    break;
+                case TYPE_LOCAL:
+                    pdfInfo["title"] = "LOCAL LOGIN ATTEMPTS";
+                    break;
+                case TYPE_FEDERATED:
+                    pdfInfo["title"] = "FEDERATED LOGIN ATTEMPTS";
+
+                    break;
+                case TYPE_SESSIONS:
+                    pdfInfo["title"] = "LOGIN SESSIONS REPORT";
+                    break;
+                }
+
+        pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) +
+                                          "\n\nTotal Records : "+totalRecords;
+
+        pdfInfo["fileName"]="Logins Report";
+        pdfInfo["maxRecords"]= maxRecords;
+        pdfInfo["totalRecords"]= totalRecords;
+        return pdfInfo;
+    }
+
+    function renderDateTime(data, type, row) {
+        var date = new Date(data);
+        return date.toLocaleString("en-US");
+    }
+}
+
