@@ -69,7 +69,8 @@ $(document).ready(function () {
         'f' +
         '<"dataTables_toolbar">' +
         '>' +
-        'rt',
+        'rtP' +
+        '<"dataTablesBottom">',
         "processing": true,
         "serverSide": true,
         "searching": false,
@@ -78,6 +79,9 @@ $(document).ready(function () {
             { "bSortable": false, "aTargets": [ "_all" ] }
         ],
         "columns" : columns,
+        "pdfExport": {
+                pdfColsAndInfo:getPdfTableColsAndInfo
+        },
         "ajax": {
             "url" : ALERTS_CONTEXT,
             "data" : function (d) {
@@ -87,6 +91,32 @@ $(document).ready(function () {
             }
         }
     });
+
+
+    function getPdfTableColsAndInfo(){
+        this.getPdfTableColumns= function(){
+            return columns.map(function (column){
+                var newColumn = {};
+                newColumn["title"] = column["title"];
+                newColumn["dataKey"] = column["data"];
+                return newColumn;
+            });
+        }
+
+        this.getPdfTableInfo = function(){
+            var pdfInfo = {};
+            pdfInfo["title"] = "SECURITY ALERT SUMMERY";
+            pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) +
+                 "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue));
+            pdfInfo["fileName"]="Security Alert Summery Report";
+            return pdfInfo;
+        }
+
+        function renderDateTime(data, type, row) {
+            var date = new Date(data);
+            return date.toLocaleString("en-US");
+        }
+    }
 });
 
 
@@ -107,4 +137,3 @@ gadgets.HubSettings.onConnect = function() {
         onDataChanged();
     });
 };
-
