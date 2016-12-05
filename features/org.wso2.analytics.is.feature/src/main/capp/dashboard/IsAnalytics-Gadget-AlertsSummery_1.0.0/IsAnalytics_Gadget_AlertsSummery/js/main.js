@@ -49,10 +49,13 @@ $(document).ready(function () {
         }
     }
 
+        gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+        gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
+
     var columns = [
         { data: "display", title: "Alert Type",
             "render": function(data, type, row) {
-                return '<div class="row"><span class="col-xs-2">' + data + '</span></div>';
+                return '<div class="row"><span class="col-xs-4">' + data + '</span></div>';
             }
         },
         { data: "count", title: "Count" },
@@ -84,26 +87,14 @@ $(document).ready(function () {
             }
         }
     });
-    $('#tblAlerts tbody').on('click', 'tr', function () {
-        var data = oTable.row( this ).data();
-        var key = data.key;
-        var publishData = {};
-        publishData.alertType = key;
-        if(key != null) {
-            gadgets.Hub.publish(TOPIC_ALERT_TYPE, publishData);
-        }
-
-    } );
-    $('#tblAlerts tbody').on( 'click', 'tr', function () {
-        oTable.$('tr.selected').removeClass('selected');
-        if ( !$(this).hasClass('selected') ) {
-            $(this).addClass('selected');
-        }
-    } );
 });
 
 
 function onDataChanged() {
+
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
+
     oTable.clear();
     oTable.ajax.reload().draw();
 };

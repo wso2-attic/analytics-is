@@ -27,15 +27,18 @@ var oTable;
 var ALERTS_CONTEXT = "/portal/apis/isanalytics-alerts";
 $(document).ready(function () {
 
+    var page = gadgetUtil.getCurrentPageName();
+
     var historyParmExist = gadgetUtil.getURLParam("persistTimeFrom");
     var historyAlertType = gadgetUtil.getURLParam("alertType");
+
 
     if(historyParmExist == null){
         listnedTimeFromValue = gadgetUtil.timeFrom();
         listnedTimeToValue = gadgetUtil.timeTo();
+        var historyParms = gadgetUtil.getURLParams();
     }else{
         var historyParms = gadgetUtil.getURLParams();
-
         for (var key in historyParms) {
             if (historyParms.hasOwnProperty(key)) {
 
@@ -46,17 +49,26 @@ $(document).ready(function () {
                 }else if(Object.keys(historyParms).length > 2){
                     var historyParamVal = historyParms[key].toString();
                     addUserPrefsToGlobalArray("Topic",key,historyParamVal.split("_")[0]);
+
                 }
             }
         }
     }
 
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
 
     if(historyAlertType) {
         selectedAlertType = historyAlertType;
     }
     if(!selectedAlertType) {
-        selectedAlertType = "All";
+
+      if(page == "suspiciousloginalert"){
+         selectedAlertType = "SuspiciousLoginAlert";
+      } else if(page == "abnormallongsessionalert"){
+         selectedAlertType = "AbnormalLongSessionAlert";
+      }
+
     }
 
     var columns = getColumns(selectedAlertType);
@@ -68,6 +80,7 @@ $(document).ready(function () {
 });
 
 function createDataTable(columns, destroy) {
+
     var dataTable = $('#tblAlerts').DataTable({
         scrollY: 300,
         scrollX: true,
@@ -114,7 +127,6 @@ function getColumns(alertType) {
                     "render": renderDateTime
                 },
                 {data: "tenantDomain", title: "Tenant Domain"},
-                {data: "sessionId", title: "Session ID"},
                 {data: "username", title: "User"},
                 {data: "duration", title: "Duration"},
                 {data: "avgDuration", title: "Avg. Duration"}
@@ -165,6 +177,8 @@ function onTypeChanged() {
 };
 
 function onDataChanged() {
+    gadgetUtil.updateURLParam("persistTimeFrom", listnedTimeFromValue.toString());
+    gadgetUtil.updateURLParam("persistTimeTo", listnedTimeToValue.toString());
     oTable.ajax.reload();
 };
 
