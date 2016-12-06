@@ -228,11 +228,11 @@
                 ../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/deployment/server/jaggeryapps/portal
             </directory>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/portal</outputDirectory>
-            <!--excludes>
-                <exclude>**/extensions/themes/basic/css/dashboard.css</exclude>
-                <exclude>**/extensions/themes/basic/css/portal.css</exclude>
-                <exclude>**/extensions/themes/basic/js/*</exclude>
-            </excludes-->
+            <excludes>
+                <exclude>css/custom.css</exclude>
+                <!--<exclude>**/extensions/themes/basic/css/portal.css</exclude>
+                <exclude>**/extensions/themes/basic/js/*</exclude>-->
+            </excludes>
         </fileSet>
 
         <!-- Adding customized analytics theme to themes directory -->
@@ -341,6 +341,11 @@
             <outputDirectory>${pom.artifactId}-${pom.version}/bin/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/components/features/org.wso2.analytics.is_${is.analytics.feature.version}/custom.css</source>
+            <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/portal/css/</outputDirectory>
+            <filtered>true</filtered>
         </file>
         <file>
             <source>src/repository/conf/carbon.xml</source>
