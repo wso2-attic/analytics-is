@@ -5,6 +5,7 @@
     <property name="res-dir" value="src/main/resources"/>
     <property name="target-dir" value="target"/>
     <property name="jaggery-api-dir" value="src/main/jaggeryapi"/>
+    <property name="portal-css-dir" value="src/main/portalcss"/>
 
     <property name="capp_common" value="src/main/capp/common"/>
     <property name="capp_dashboard" value="src/main/capp/dashboard"/>
@@ -28,6 +29,7 @@
         <copy file="${jaggery-api-dir}/issessionanalytics.jag" todir="${res-dir}"/>
         <copy file="${jaggery-api-dir}/isanalytics-common.jag" todir="${res-dir}"/>
         <copy file="${jaggery-api-dir}/isanalytics-alerts.jag" todir="${res-dir}"/>
+        <copy file="${portal-css-dir}/custom.css" todir="${res-dir}"/>
     </target>
 
     <target name="zip" depends="clean,pre-configure">
