@@ -366,6 +366,8 @@ function getColumns(){
 
             ];
             break;
+        default:
+            throw "Error - Unknown page name";
     }
     return result;
 }
@@ -399,6 +401,8 @@ function getPdfTableInfo(maxRecords, totalRecords) {
         case TYPE_SESSIONS:
             pdfInfo["title"] = "LOGIN SESSIONS";
             break;
+        default:
+            throw "Error - Unknown Page name";
     }
 
     pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) + "\n\nTotal Records : " + totalRecords;
