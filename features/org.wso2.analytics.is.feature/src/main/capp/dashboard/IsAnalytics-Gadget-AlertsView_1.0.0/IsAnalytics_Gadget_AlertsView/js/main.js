@@ -101,9 +101,10 @@ function createDataTable(columns, destroy) {
         ],
         "columns" : columns,
         "pdfExport": {
-                        pdfColsAndInfo:getPdfTableColsAndInfo,
-                        renderRows:getPdfTableRows
-                },
+            pdfCols : getPdfTableColumns,
+            pdfHeaderInfo : getPdfTableInfo,
+            renderRows : getPdfTableRows
+        },
         "initComplete": function( settings, json ) {
             //$('[data-toggle="tooltip"]').tooltip();
         },
@@ -132,8 +133,8 @@ function getColumns(alertType) {
                 },
                 {data: "tenantDomain", title: "Tenant Domain"},
                 {data: "username", title: "User"},
-                {data: "duration", title: "Duration"},
-                {data: "avgDuration", title: "Avg. Duration"}
+                {data: "duration", title: "Duration (ms)"},
+                {data: "avgDuration", title: "Avg. Duration (ms)"}
             ]
             break;
         case "SuspiciousLoginAlert":
@@ -169,7 +170,7 @@ function getColumns(alertType) {
 
 function renderDateTime(data, type, row) {
     var date = new Date(data);
-    return date.toLocaleString("en-US");
+    return date.toLocaleString(moment.locale());
 }
 
 function onTypeChanged() {
@@ -198,52 +199,54 @@ gadgets.HubSettings.onConnect = function() {
         gadgetUtil.updateURLParam("alertType", selectedAlertType);
         onTypeChanged();
     });
+
 };
 
-function getPdfTableColsAndInfo(){
-    this.getPdfTableColumns= function(){
-        var columns = getColumns(selectedAlertType);
-        return columns.map(function (column){
-            var newColumn = {};
-            newColumn["title"] = column["title"];
-            newColumn["dataKey"] = column["data"];
-            return newColumn;
-        });
-    }
+function getPdfTableColumns(){
 
+    var columns = getColumns(selectedAlertType);
+    return columns.map(function (column){
 
-
-
-    this.getPdfTableInfo = function(maxRecords,totalRecords){
-        var pdfInfo = {};
-        switch (selectedAlertType){
-
-            case "SuspiciousLoginAlert":
-                pdfInfo["title"] = "SECURITY ALERT REPORT OF SUSPICIOUS LOGINS";
-                break;
-            case "AbnormalLongSessionAlert":
-                pdfInfo["title"] =  "SECURITY ALERT REPORT OF ABNORMAL LONG SESSIONS";
-                break;
-            default :
-                throw "Error - Alert Type is not defined";
-        }
-
-        pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(listnedTimeFromValue) + "\n\nEnding Date    : " + renderDateTime(listnedTimeToValue) +
-                                          "\n\nTotal Records : "+totalRecords;
-
-        pdfInfo["fileName"]="Security Alert Report";
-        pdfInfo["maxRecords"]= maxRecords;
-        pdfInfo["totalRecords"]= totalRecords;
-        return pdfInfo;
-    }
+        var newColumn = {};
+        newColumn["title"] = column["title"];
+        newColumn["dataKey"] = column["data"];
+        return newColumn;
+    });
 }
+
+function getPdfTableInfo(maxRecords,totalRecords){
+
+    var pdfInfo = {};
+    switch (selectedAlertType){
+        case "SuspiciousLoginAlert":
+            pdfInfo["title"] = "SUSPICIOUS LOGIN ALERTS";
+            break;
+        case "AbnormalLongSessionAlert":
+            pdfInfo["title"] =  "ABNORMAL LONG SESSION ALERTS";
+            break;
+        default :
+            throw "Error - Alert Type is not defined";
+    }
+
+    pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) + "\n\nTotal Records : "+totalRecords;
+    pdfInfo["fileName"]=pdfInfo.title.toLowerCase().replace(/ /g,"_");;
+    pdfInfo["maxRecords"]= maxRecords;
+    pdfInfo["totalRecords"]= totalRecords;
+    return pdfInfo;
+}
+
 function getPdfTableRows(rawData) {
-    return rawData.data.map(function(record){
+
+    return rawData.map(function(record){
+
         columnData = getColumns(selectedAlertType);
         var newRecord = {};
         for(i = 0; i<columnData.length;i++){
             if(columnData[i].data=="timestamp"){
                 newRecord["timestamp"]=renderDateTime(record["timestamp"]);
+            }
+            else if(columnData[i].data=="duration" || columnData[i].data=="avgDuration"){
+                newRecord[columnData[i].data] = parseFloat(record[columnData[i].data]).toFixed(2);
             }
             else{
                 newRecord[columnData[i].data] = record[columnData[i].data];

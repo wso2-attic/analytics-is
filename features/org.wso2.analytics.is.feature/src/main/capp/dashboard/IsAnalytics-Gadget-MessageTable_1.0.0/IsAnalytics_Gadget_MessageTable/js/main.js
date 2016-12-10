@@ -71,8 +71,10 @@ $(function() {
             aaSorting: [],
             "columns" : getColumns(),
             "pdfExport": {
-                            pdfColsAndInfo:getPdfTableColsAndInfo
-                         },
+                pdfCols : getPdfTableColumns,
+                pdfHeaderInfo : getPdfTableInfo,
+                renderRows : getPdfTableRows
+            },
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                 if(page.name == TYPE_OVERALL) {
                     if ( aData[8] == true )
@@ -150,9 +152,9 @@ $(function() {
             aaSorting: [],
             "columns" :getColumns(),
             "pdfExport": {
-                      pdfColsAndInfo:getPdfTableColsAndInfo
-
-             },
+                pdfCols : getPdfTableColumns,
+                pdfHeaderInfo : getPdfTableInfo
+            },
             "ajax": {
                 "url" : SESSION_CONTEXT,
                 "data" : function (d) {
@@ -303,6 +305,7 @@ function onError(msg) {
 };
 
 function getColumns(){
+
     var result;
     switch (page.name) {
         case TYPE_OVERALL:
@@ -317,7 +320,7 @@ function getColumns(){
                     { title: "Region" },
                     { title: "Overall Authentication" },
                     { title: "Timestamp" }
-                     ];
+            ];
             break;
         case TYPE_LOCAL:
             result = [
@@ -332,10 +335,9 @@ function getColumns(){
                      { title: "Region" },
                      { title: "Local Authentication" },
                      { title: "Timestamp" }
-                      ];
+            ];
             break;
         case TYPE_FEDERATED:
-
             result = [
                      { title: "Context ID" },
                      { title: "User Name" },
@@ -345,10 +347,9 @@ function getColumns(){
                      { title: "Region" },
                      { title: "Authentication Step Success" },
                      { title: "Timestamp" }
-                       ];
+            ];
             break;
         case TYPE_SESSIONS:
-
             result =  [
                      { title: "Session ID", visible: false },
                      { title: "Username" },
@@ -363,54 +364,90 @@ function getColumns(){
                      { title: "Remember Me Flag" },
                      { title: "Timestamp" }
 
-                 ];
+            ];
             break;
-        }
+    }
     return result;
-
 }
 
-function getPdfTableColsAndInfo(){
-    this.getPdfTableColumns=function(columns) {
-        var i = 0;
-        var columns = getColumns();
-        return columns.map(function (column){
-            column["dataKey"] = i;
-            i++;
-            return column;
-        });
+
+function getPdfTableColumns(columns) {
+
+    var i = 0;
+    var columns = getColumns();
+    return columns.map(function(column) {
+
+        column["dataKey"] = i;
+        i++;
+        return column;
+    });
+}
+
+function getPdfTableInfo(maxRecords, totalRecords) {
+
+    var pdfInfo = {};
+    switch (page.name) {
+        case TYPE_OVERALL:
+            pdfInfo["title"] = "OVERALL LOGIN ATTEMPTS";
+            break;
+        case TYPE_LOCAL:
+            pdfInfo["title"] = "LOCAL LOGIN ATTEMPTS";
+            break;
+        case TYPE_FEDERATED:
+            pdfInfo["title"] = "FEDERATED LOGIN ATTEMPTS";
+            break;
+        case TYPE_SESSIONS:
+            pdfInfo["title"] = "LOGIN SESSIONS";
+            break;
     }
-    this.getPdfTableInfo= function(maxRecords,totalRecords){
-        var pdfInfo = {};
 
-        switch (page.name) {
-                case TYPE_OVERALL:
-                    pdfInfo["title"] = "OVERALL LOGIN ATTEMPTS";
-                    break;
-                case TYPE_LOCAL:
-                    pdfInfo["title"] = "LOCAL LOGIN ATTEMPTS";
-                    break;
-                case TYPE_FEDERATED:
-                    pdfInfo["title"] = "FEDERATED LOGIN ATTEMPTS";
+    pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) + "\n\nTotal Records : " + totalRecords;
+    pdfInfo["fileName"] = pdfInfo.title.toLowerCase().replace(/ /g, "_");
+    pdfInfo["maxRecords"] = maxRecords;
+    pdfInfo["totalRecords"] = totalRecords;
+    return pdfInfo;
+}
 
-                    break;
-                case TYPE_SESSIONS:
-                    pdfInfo["title"] = "LOGIN SESSIONS REPORT";
-                    break;
+function renderDateTime(data, type, row) {
+
+    var date = new Date(data);
+    return date.toLocaleString(moment.locale());
+}
+
+
+function getPdfTableRows(rawData) {
+
+    return rawData.map(function(record) {
+
+        var columnData = getColumns();
+        var newRecord = {};
+        for (i = 0; i < columnData.length; i++) {
+            if (page.name == TYPE_OVERALL && i == 8) {
+                if (record["8"] == true) {
+                    newRecord["8"] = "Success";
+                } else {
+                    newRecord["8"] = "Failure";
                 }
+                continue;
 
-        pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) +
-                                          "\n\nTotal Records : "+totalRecords;
+            } else if (page.name == TYPE_FEDERATED && i == 6) {
+                if (record["6"] == true) {
+                    newRecord["6"] = "Success";
+                } else {
+                    newRecord["6"] = "Failure";
+                }
+                continue;
 
-        pdfInfo["fileName"]="Logins Report";
-        pdfInfo["maxRecords"]= maxRecords;
-        pdfInfo["totalRecords"]= totalRecords;
-        return pdfInfo;
-    }
-
-    function renderDateTime(data, type, row) {
-        var date = new Date(data);
-        return date.toLocaleString("en-US");
-    }
+            } else if (page.name == TYPE_LOCAL && i == 8) {
+                if (record["8"] == true) {
+                    newRecord["8"] = "Success";
+                } else {
+                    newRecord["8"] = "Failure";
+                }
+                continue;
+            }
+            newRecord[i] = record[i];
+        }
+        return newRecord;
+    });
 }
-

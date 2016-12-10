@@ -80,7 +80,9 @@ $(document).ready(function () {
         ],
         "columns" : columns,
         "pdfExport": {
-                pdfColsAndInfo:getPdfTableColsAndInfo
+            pdfCols : getPdfTableColumns,
+            pdfHeaderInfo : getPdfTableInfo
+
         },
         "ajax": {
             "url" : ALERTS_CONTEXT,
@@ -92,33 +94,33 @@ $(document).ready(function () {
         }
     });
 
+    function getPdfTableColumns() {
 
-    function getPdfTableColsAndInfo(){
-        this.getPdfTableColumns= function(){
-            return columns.map(function (column){
-                var newColumn = {};
-                newColumn["title"] = column["title"];
-                newColumn["dataKey"] = column["data"];
-                return newColumn;
-            });
-        }
+        return columns.map(function(column) {
 
-        this.getPdfTableInfo = function(){
-            var pdfInfo = {};
-            pdfInfo["title"] = "SECURITY ALERT SUMMERY";
-            pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) +
-                 "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue));
-            pdfInfo["fileName"]="Security Alert Summery Report";
-            return pdfInfo;
-        }
-
-        function renderDateTime(data, type, row) {
-            var date = new Date(data);
-            return date.toLocaleString("en-US");
-        }
+            var newColumn = {};
+            newColumn["title"] = column["title"];
+            newColumn["dataKey"] = column["data"];
+            return newColumn;
+        });
     }
-});
 
+    function getPdfTableInfo() {
+
+        var pdfInfo = {};
+        pdfInfo["title"] = "SECURITY ALERTS SUMMERY";
+        pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue));
+        pdfInfo["fileName"] = pdfInfo.title.toLowerCase().replace(/ /g, "_");
+        return pdfInfo;
+    }
+
+    function renderDateTime(data, type, row) {
+
+        var date = new Date(data);
+        return date.toLocaleString(moment.locale());
+    }
+
+});
 
 function onDataChanged() {
 
