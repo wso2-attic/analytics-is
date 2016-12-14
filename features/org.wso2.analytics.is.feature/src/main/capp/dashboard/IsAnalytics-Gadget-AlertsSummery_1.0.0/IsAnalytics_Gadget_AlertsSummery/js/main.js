@@ -108,7 +108,7 @@ $(document).ready(function () {
     function getPdfTableInfo() {
 
         var pdfInfo = {};
-        pdfInfo["title"] = "SECURITY ALERTS SUMMERY";
+        pdfInfo["title"] = "SECURITY ALERTS SUMMARY";
         pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue));
         pdfInfo["fileName"] = pdfInfo.title.toLowerCase().replace(/ /g, "_");
         return pdfInfo;
