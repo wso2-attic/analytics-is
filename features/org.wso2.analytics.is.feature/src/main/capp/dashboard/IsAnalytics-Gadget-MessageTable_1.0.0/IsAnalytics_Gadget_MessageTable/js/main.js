@@ -76,46 +76,18 @@ $(function() {
                 renderRows : getPdfTableRows
             },
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                if(page.name == TYPE_OVERALL) {
-                    if ( aData[8] == true )
+                if ( aData[getAuthenticationColumn()] == true )
                     {
-                        $('td', nRow).eq(8).html(
+                        $('td', nRow).eq(getAuthenticationColumn()).html(
                             '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
                         );
                     }
                     else
                     {
-                        $('td', nRow).eq(8).html(
+                        $('td', nRow).eq(getAuthenticationColumn()).html(
                             '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
                         );
                     }
-                } else if(page.name == TYPE_FEDERATED) {
-                    if ( aData[6] == true )
-                    {
-                        $('td', nRow).eq(6).html(
-                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
-                        );
-                    }
-                    else
-                    {
-                        $('td', nRow).eq(6).html(
-                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
-                        );
-                    }
-                } else if(page.name == TYPE_LOCAL){
-                    if ( aData[8] == true )
-                    {
-                        $('td', nRow).eq(8).html(
-                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
-                        );
-                    }
-                    else
-                    {
-                        $('td', nRow).eq(8).html(
-                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
-                        );
-                    }
-                }
             },
             "ajax": {
                 "url" : AUTHENTICATION_CONTEXT,
@@ -304,6 +276,25 @@ function onError(msg) {
     $("#canvas").html(gadgetUtil.getErrorText(msg));
 };
 
+function getAuthenticationColumn(){
+
+    var result;
+    switch (page.name) {
+        case TYPE_OVERALL:
+            result = 8;
+            break;
+        case TYPE_LOCAL:
+            result = 8;
+            break;
+        case TYPE_FEDERATED:
+            result = 6;
+            break;
+        default:
+            throw "Error - Unknown page name";
+    }
+    return result;
+}
+
 function getColumns(){
 
     var result;
@@ -426,27 +417,27 @@ function getPdfTableRows(rawData) {
         var columnData = getColumns();
         var newRecord = {};
         for (i = 0; i < columnData.length; i++) {
-            if (page.name == TYPE_OVERALL && i == 8) {
-                if (record["8"] == true) {
-                    newRecord["8"] = "Success";
+            if (page.name == TYPE_OVERALL && i == getAuthenticationColumn()) {
+                if (record[getAuthenticationColumn()] == true) {
+                    newRecord[getAuthenticationColumn()] = "Success";
                 } else {
-                    newRecord["8"] = "Failure";
+                    newRecord[getAuthenticationColumn()] = "Failure";
                 }
                 continue;
 
-            } else if (page.name == TYPE_FEDERATED && i == 6) {
-                if (record["6"] == true) {
-                    newRecord["6"] = "Success";
+            } else if (page.name == TYPE_FEDERATED && i == getAuthenticationColumn()) {
+                if (record[getAuthenticationColumn()] == true) {
+                    newRecord[getAuthenticationColumn()] = "Success";
                 } else {
-                    newRecord["6"] = "Failure";
+                    newRecord[getAuthenticationColumn()] = "Failure";
                 }
                 continue;
 
-            } else if (page.name == TYPE_LOCAL && i == 8) {
-                if (record["8"] == true) {
-                    newRecord["8"] = "Success";
+            } else if (page.name == TYPE_LOCAL && i == getAuthenticationColumn()) {
+                if (record[getAuthenticationColumn()] == true) {
+                    newRecord[getAuthenticationColumn()] = "Success";
                 } else {
-                    newRecord["8"] = "Failure";
+                    newRecord[getAuthenticationColumn()] = "Failure";
                 }
                 continue;
             }

@@ -1,4 +1,4 @@
-var pdfConfig ={"stampImage" :{"coordinates":{"x":40,"y":10},"size":{"x":140,"y":55}},"themeColorImage":{"coordinates":{"x":540,"y":0},"size":{"x":50,"y":60}},"title":{"size":10,"coordinates":{"x":295,"y":90}},"text":{"size":8,"coordinates":{"x":40,"y":110}},
+var pdfConfig ={"stampImage" :{"coordinates":{"x":40,"y":10},"size":{"x":140,"y":45}},"themeColorImage":{"coordinates":{"x":540,"y":0},"size":{"x":50,"y":60}},"title":{"size":10,"coordinates":{"x":295,"y":90}},"text":{"size":8,"coordinates":{"x":40,"y":110}},
 
 
 "pdfTableStyles": {"startY":180,"styles": {"fontSize": 6,"rowHeight": 15,"lineColor": [255, 255, 255],"lineWidth": 1,"overflow":'linebreak'},"columnStyles": {"1": {"columnWidth": 'auto'}},"headerStyles": {"fillColor": [201, 202, 197],"textColor": [0, 0, 0],},"alternateRowStyles": {"fillColor": [240, 236, 224]},"bodyStyles": {"fillColor": [255, 255, 255]}},
