@@ -417,7 +417,7 @@ function getPdfTableRows(rawData) {
         var columnData = getColumns();
         var newRecord = {};
         for (i = 0; i < columnData.length; i++) {
-            if (page.name == TYPE_OVERALL && i == getAuthenticationColumn()) {
+            if (i == getAuthenticationColumn()) {
                 if (record[getAuthenticationColumn()] == true) {
                     newRecord[getAuthenticationColumn()] = "Success";
                 } else {
@@ -425,21 +425,6 @@ function getPdfTableRows(rawData) {
                 }
                 continue;
 
-            } else if (page.name == TYPE_FEDERATED && i == getAuthenticationColumn()) {
-                if (record[getAuthenticationColumn()] == true) {
-                    newRecord[getAuthenticationColumn()] = "Success";
-                } else {
-                    newRecord[getAuthenticationColumn()] = "Failure";
-                }
-                continue;
-
-            } else if (page.name == TYPE_LOCAL && i == getAuthenticationColumn()) {
-                if (record[getAuthenticationColumn()] == true) {
-                    newRecord[getAuthenticationColumn()] = "Success";
-                } else {
-                    newRecord[getAuthenticationColumn()] = "Failure";
-                }
-                continue;
             }
             newRecord[i] = record[i];
         }
