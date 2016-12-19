@@ -71,49 +71,23 @@ $(function() {
             aaSorting: [],
             "columns" : getColumns(),
             "pdfExport": {
-                            pdfColsAndInfo:getPdfTableColsAndInfo
-                         },
+                pdfCols : getPdfTableColumns,
+                pdfHeaderInfo : getPdfTableInfo,
+                renderRows : getPdfTableRows
+            },
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                if(page.name == TYPE_OVERALL) {
-                    if ( aData[8] == true )
+                if ( aData[getAuthenticationColumn()] == true )
                     {
-                        $('td', nRow).eq(8).html(
+                        $('td', nRow).eq(getAuthenticationColumn()).html(
                             '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
                         );
                     }
                     else
                     {
-                        $('td', nRow).eq(8).html(
+                        $('td', nRow).eq(getAuthenticationColumn()).html(
                             '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
                         );
                     }
-                } else if(page.name == TYPE_FEDERATED) {
-                    if ( aData[6] == true )
-                    {
-                        $('td', nRow).eq(6).html(
-                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
-                        );
-                    }
-                    else
-                    {
-                        $('td', nRow).eq(6).html(
-                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
-                        );
-                    }
-                } else if(page.name == TYPE_LOCAL){
-                    if ( aData[8] == true )
-                    {
-                        $('td', nRow).eq(8).html(
-                            '<div style="text-align: center;"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#5CB85C;"></div><div style="width: 92%;float:right; padding-left:8px;">Success</div></div>'
-                        );
-                    }
-                    else
-                    {
-                        $('td', nRow).eq(8).html(
-                            '<div style="text-align: center"><div style="width:8%;margin:-8px;height:38px;float:left;background-color:#D9534F;"></div><div style="width: 92%;float:right;padding-left:8px;">Failure</div></div>'
-                        );
-                    }
-                }
             },
             "ajax": {
                 "url" : AUTHENTICATION_CONTEXT,
@@ -150,9 +124,9 @@ $(function() {
             aaSorting: [],
             "columns" :getColumns(),
             "pdfExport": {
-                      pdfColsAndInfo:getPdfTableColsAndInfo
-
-             },
+                pdfCols : getPdfTableColumns,
+                pdfHeaderInfo : getPdfTableInfo
+            },
             "ajax": {
                 "url" : SESSION_CONTEXT,
                 "data" : function (d) {
@@ -302,7 +276,27 @@ function onError(msg) {
     $("#canvas").html(gadgetUtil.getErrorText(msg));
 };
 
+function getAuthenticationColumn(){
+
+    var result;
+    switch (page.name) {
+        case TYPE_OVERALL:
+            result = 8;
+            break;
+        case TYPE_LOCAL:
+            result = 8;
+            break;
+        case TYPE_FEDERATED:
+            result = 6;
+            break;
+        default:
+            throw "Error - Unknown page name";
+    }
+    return result;
+}
+
 function getColumns(){
+
     var result;
     switch (page.name) {
         case TYPE_OVERALL:
@@ -317,7 +311,7 @@ function getColumns(){
                     { title: "Region" },
                     { title: "Overall Authentication" },
                     { title: "Timestamp" }
-                     ];
+            ];
             break;
         case TYPE_LOCAL:
             result = [
@@ -332,10 +326,9 @@ function getColumns(){
                      { title: "Region" },
                      { title: "Local Authentication" },
                      { title: "Timestamp" }
-                      ];
+            ];
             break;
         case TYPE_FEDERATED:
-
             result = [
                      { title: "Context ID" },
                      { title: "User Name" },
@@ -345,10 +338,9 @@ function getColumns(){
                      { title: "Region" },
                      { title: "Authentication Step Success" },
                      { title: "Timestamp" }
-                       ];
+            ];
             break;
         case TYPE_SESSIONS:
-
             result =  [
                      { title: "Session ID", visible: false },
                      { title: "Username" },
@@ -363,54 +355,79 @@ function getColumns(){
                      { title: "Remember Me Flag" },
                      { title: "Timestamp" }
 
-                 ];
+            ];
             break;
-        }
+        default:
+            throw "Error - Unknown page name";
+    }
     return result;
-
 }
 
-function getPdfTableColsAndInfo(){
-    this.getPdfTableColumns=function(columns) {
-        var i = 0;
-        var columns = getColumns();
-        return columns.map(function (column){
-            column["dataKey"] = i;
-            i++;
-            return column;
-        });
+
+function getPdfTableColumns(columns) {
+
+    var i = 0;
+    var columns = getColumns();
+    return columns.map(function(column) {
+
+        column["dataKey"] = i;
+        i++;
+        return column;
+    });
+}
+
+function getPdfTableInfo(maxRecords, totalRecords) {
+
+    var pdfInfo = {};
+    switch (page.name) {
+        case TYPE_OVERALL:
+            pdfInfo["title"] = "OVERALL LOGIN ATTEMPTS";
+            break;
+        case TYPE_LOCAL:
+            pdfInfo["title"] = "LOCAL LOGIN ATTEMPTS";
+            break;
+        case TYPE_FEDERATED:
+            pdfInfo["title"] = "FEDERATED LOGIN ATTEMPTS";
+            break;
+        case TYPE_SESSIONS:
+            pdfInfo["title"] = "LOGIN SESSIONS";
+            break;
+        default:
+            throw "Error - Unknown Page name";
     }
-    this.getPdfTableInfo= function(maxRecords,totalRecords){
-        var pdfInfo = {};
 
-        switch (page.name) {
-                case TYPE_OVERALL:
-                    pdfInfo["title"] = "OVERALL LOGIN ATTEMPTS";
-                    break;
-                case TYPE_LOCAL:
-                    pdfInfo["title"] = "LOCAL LOGIN ATTEMPTS";
-                    break;
-                case TYPE_FEDERATED:
-                    pdfInfo["title"] = "FEDERATED LOGIN ATTEMPTS";
+    pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) + "\n\nTotal Records : " + totalRecords;
+    pdfInfo["fileName"] = pdfInfo.title.toLowerCase().replace(/ /g, "_");
+    pdfInfo["maxRecords"] = maxRecords;
+    pdfInfo["totalRecords"] = totalRecords;
+    return pdfInfo;
+}
 
-                    break;
-                case TYPE_SESSIONS:
-                    pdfInfo["title"] = "LOGIN SESSIONS REPORT";
-                    break;
+function renderDateTime(data, type, row) {
+
+    var date = new Date(data);
+    return date.toLocaleString(moment.locale());
+}
+
+
+function getPdfTableRows(rawData) {
+
+    return rawData.map(function(record) {
+
+        var columnData = getColumns();
+        var newRecord = {};
+        for (i = 0; i < columnData.length; i++) {
+            if (i == getAuthenticationColumn()) {
+                if (record[getAuthenticationColumn()] == true) {
+                    newRecord[getAuthenticationColumn()] = "Success";
+                } else {
+                    newRecord[getAuthenticationColumn()] = "Failure";
                 }
+                continue;
 
-        pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) +
-                                          "\n\nTotal Records : "+totalRecords;
-
-        pdfInfo["fileName"]="Logins Report";
-        pdfInfo["maxRecords"]= maxRecords;
-        pdfInfo["totalRecords"]= totalRecords;
-        return pdfInfo;
-    }
-
-    function renderDateTime(data, type, row) {
-        var date = new Date(data);
-        return date.toLocaleString("en-US");
-    }
+            }
+            newRecord[i] = record[i];
+        }
+        return newRecord;
+    });
 }
-

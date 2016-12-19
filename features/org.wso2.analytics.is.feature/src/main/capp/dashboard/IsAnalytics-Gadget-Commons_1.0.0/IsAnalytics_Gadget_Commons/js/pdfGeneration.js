@@ -18,32 +18,43 @@
 
 (function($, window, document) {
 
-    var pdfGenButton = function ( settings ){
+    var pdfGenButton = function(settings) {
 
-        settings.aoInitComplete.push( {
-            "fn": function ( settings ) {
+        settings.aoDrawCallback.push({
+            "fn": function() {
+                var dt = new $.fn.dataTable.Api(settings);
+                if (dt.ajax.json().data.length == 0) {
+                    $(dt.table().container()).find(".pdfDownload-button").prop("disabled", true);
+                } else {
+                    $(dt.table().container()).find(".pdfDownload-button").prop("disabled", false);
+                }
+            }
+        });
+
+        settings.aoInitComplete.push({
+            "fn": function(settings) {
 
                 var dt = new $.fn.dataTable.Api(settings);
-
                 var sTableWrap = settings.nTableWrapper;
-                var visibility="";
-                if(dt.ajax.json().data.length==0){
-                    visibility="hidden"
+                var disabled = "";
+
+                if (dt.ajax.json().data.length == 0) {
+                    disabled = "disabled";
                 }
-                $(sTableWrap).find("div.dataTablesTop").append('<button style="float:right;visibility:' +visibility +
-                                        '" data-view="grid" class="btn btn-primary pdfDownload-button"><i class="fw fw-pdf add-margin-right-1x"></i>Export</button>');
+                $(sTableWrap).find("div.dataTables_toolbar").append('<button ' + disabled +
+                    ' style="float:right;" data-view="grid" class="btn btn-primary pdfDownload-button"><i class="fw fw-pdf add-margin-right-1x"></i>Export</button>');
 
-                $('.pdfDownload-button').unbind().click(function(){
-                    generatePdf(dt, settings.oInit.pdfExport );
+                $('.pdfDownload-button').unbind().click(function() {
+                    generatePdf(dt, settings.oInit.pdfExport);
                 });
-
             }
-        } );
+        });
     };
 
-    $.fn.dataTableExt.aoFeatures.push( {
-        "fnInit": function( settings ) {
-             new pdfGenButton( settings );
+    $.fn.dataTableExt.aoFeatures.push({
+        "fnInit": function(settings) {
+
+            new pdfGenButton(settings);
         },
         "cFeature": "P",
         "sFeature": "pdfExport"
@@ -51,42 +62,47 @@
 
 })(jQuery, window, document);
 
-function generatePdf( table, pdfDataProvider ) {
+/**
+ * Generate PDF
+ * @param {Object} table
+ * @param {Object} pdfDataProvider
+ */
+function generatePdf(table, pdfDataProvider) {
+
     var length = 5000;
     var param = table.ajax.params();
+
     param.start = 0;
     param.length = length;
+
     $.ajax({
-        "url" : table.ajax.url(),
-        "data" :param,
-        success: function (d) {
-            if(d.data.length==0){
+        "url": table.ajax.url(),
+        "data": param,
+        success: function(d) {
+
+            if (d.data.length == 0) {
                 throw "Error - No data to download";
             }
             var doc = new jsPDF('p', 'pt');
-            doc.addImage(pdfConfig["pdfStampImage"], 'JPEG', 40, 10, 120, 55);
-            doc.addImage(pdfConfig["pdfThemeColorImage"], 'JPEG', 545, 0, 50, 60);
-            doc.setFontSize(10);
-            doc.setFontType("bold");
-
-            var pdfColsAndInfo = new pdfDataProvider.pdfColsAndInfo();
-            var pdfInfo = pdfColsAndInfo.getPdfTableInfo(length,d.recordsTotal);
-
-            doc.text(295, 90, pdfInfo.title , null, null, 'center');
-            doc.setFontSize(8);
-
-            doc.text(40, 110, pdfInfo.headerInfo , null, null);
-
+            var pdfInfo = pdfDataProvider.pdfHeaderInfo(length, d.recordsTotal);
             var pdfRows = d.data;
 
-            if(pdfColsAndInfo.renderRows != undefined )
-                pdfRows=pdfColsAndInfo.renderRows(d.data);
-
-
-            doc.autoTable(pdfColsAndInfo.getPdfTableColumns(), pdfRows, pdfConfig.pdfTableStyles);
-
-            if(pdfInfo.totalRecords > length){
-                doc.text("Showing only " + length+ " records out of " + pdfInfo.totalRecords +"records", 40, doc.autoTableEndPosY() + 30);
+            if (param.listnedAdditionalUserPrefs != "" && param.listnedAdditionalUserPrefs != undefined) {
+                pdfInfo.headerInfo = pdfInfo.headerInfo + "\n\nFiltered by       :" + (param.listnedAdditionalUserPrefs).replace("AND", "");
+            }
+            if (pdfDataProvider.renderRows != undefined) {
+                pdfRows = pdfDataProvider.renderRows(d.data);
+            }
+            doc.addImage(pdfConfig.pdfStampImage, 'JPEG', pdfConfig.stampImage.coordinates.x, pdfConfig.stampImage.coordinates.y, pdfConfig.stampImage.size.x, pdfConfig.stampImage.size.y);
+            doc.addImage(pdfConfig.pdfThemeColorImage, 'JPEG', pdfConfig.themeColorImage.coordinates.x, pdfConfig.themeColorImage.coordinates.y, pdfConfig.themeColorImage.size.x, pdfConfig.themeColorImage.size.y);
+            doc.setFontSize(pdfConfig.title.size);
+            doc.setFontType("bold");
+            doc.text(pdfConfig.title.coordinates.x, pdfConfig.title.coordinates.y, pdfInfo.title , null, null, 'center');
+            doc.setFontSize(pdfConfig.text.size);
+            doc.text(pdfInfo.headerInfo, pdfConfig.text.coordinates.x, pdfConfig.text.coordinates.y);
+            doc.autoTable(pdfDataProvider.pdfCols(), pdfRows, pdfConfig.pdfTableStyles);
+            if (pdfInfo.totalRecords > length) {
+                doc.text("Showing only " + length + " records out of " + pdfInfo.totalRecords + "records", pdfConfig.text.coordinates.x, doc.autoTableEndPosY() + 30);
             }
             doc.save(pdfInfo.fileName + ".pdf");
         }

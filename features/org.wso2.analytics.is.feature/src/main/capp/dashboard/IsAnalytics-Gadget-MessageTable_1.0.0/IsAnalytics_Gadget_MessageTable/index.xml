@@ -30,6 +30,7 @@
           <script src="../IsAnalytics_Gadget_Commons/js/pdfGeneration.js"></script>
           <script src="../IsAnalytics_Gadget_Commons/js/jspdf.min.js"></script>
           <script src="../IsAnalytics_Gadget_Commons/js/jspdf.plugin.autotable.js"></script>
+          <script src="../IsAnalytics_Gadget_Commons/js/moment.min.js"></script>
           <script src="js/gadgetconf.js"></script>
           <script src="js/main.js"></script>
 
