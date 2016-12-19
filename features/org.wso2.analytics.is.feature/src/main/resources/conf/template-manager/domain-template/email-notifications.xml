@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<domain name="EmailNotifications">
+    <description>email Notifications on Security Alerts Is Analytics.</description>
+    <scenarios>
+        <scenario type="ConfigureSecurityAlertEmailNotifications">
+            <description>Configure email Notification on security Alerts</description>
+            <templates>
+                <template type="eventpublisher">
+
+                    <![CDATA[<eventPublisher name="org.wso2.is.analytics.allISAlertsStream.publisher"
+                                    statistics="disable" trace="disable" xmlns="http://wso2.org/carbon/eventpublisher">
+                        <from streamName="org.wso2.is.analytics.allISAlertsStream" version="1.0.0"/>
+                        <mapping customMapping="disable" type="text"/>
+                        <to eventAdapterType="email">
+                            <property name="email.subject">WSO2 IS Security Alerts</property>
+                            <property name="email.address">$emailAddress</property>
+                            <property name="email.type">text/plain</property>
+                        </to>
+                    </eventPublisher>]]>
+                </template>
+            </templates>
+            <parameters>
+                <parameter name="emailAddress" type="string">
+                    <displayName>Email Address</displayName>
+                    <description>email address to send the security alert Notifications.</description>
+                    <defaultValue></defaultValue>
+                </parameter>
+            </parameters>
+        </scenario>
+    </scenarios>
+</domain>
