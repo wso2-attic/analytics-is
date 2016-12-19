@@ -24,6 +24,7 @@ org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../featur
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/template-manager/templateconfigs/,target:${installFolder}/../../resources/template-manager/templateconfigs/,overwrite:true);\
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/template-manager/executionplans/,target:${installFolder}/../../deployment/server/executionplans/,overwrite:true);\
 org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/conf/template-manager/domain-template/is-analytics.xml,target:${installFolder}/../../conf/template-manager/domain-template/is-analytics.xml,overwrite:true);\
+org.eclipse.equinox.p2.touchpoint.natives.copy(source:${installFolder}/../features/org.wso2.analytics.is_${feature.version}/conf/template-manager/domain-template/email-notifications.xml,target:${installFolder}/../../conf/template-manager/domain-template/email-notifications.xml,overwrite:true);\
 
 instructions.uninstall = \
 org.eclipse.equinox.p2.touchpoint.natives.remove(path:${installFolder}/../../deployment/server/carbonapps/org_wso2_analytics_is-1.0.0.car,overwrite:true);\
