@@ -49,6 +49,14 @@
 			<EnableScoreParam>false</EnableScoreParam>
 			<Type>LONG</Type>
 		</ColumnDefinition>
+		<ColumnDefinition>
+			<Name>userReadableTime</Name>
+			<IsFacet>false</IsFacet>
+			<EnableIndexing>true</EnableIndexing>
+			<IsPrimaryKey>false</IsPrimaryKey>
+			<EnableScoreParam>false</EnableScoreParam>
+			<Type>STRING</Type>
+		</ColumnDefinition>
 	</TableSchema>
 	<Source>
 		<StreamId>org.wso2.is.analytics.allISAlertsStream:1.0.0</StreamId>
