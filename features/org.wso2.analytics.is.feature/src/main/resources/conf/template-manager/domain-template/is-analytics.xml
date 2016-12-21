@@ -68,7 +68,7 @@
                         define stream AlertLongSessions (meta_tenantId int, tenantDomain string, sessionId string, username string, duration long, avgDuration double);
 
                         @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
-                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
+                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long, userReadableTime string);
 
                         @from(eventtable = 'analytics.table' , table.name = 'ORG_WSO2_IS_ANALYTICS_STREAM_AVERAGESESSIONDURATION', primary.keys = 'meta_tenantId, tenantDomain, username, userstoreDomain', indices = 'meta_tenantId, tenantDomain, username, userstoreDomain, avgDuration', wait.for.indexing = 'true', merge.schema = 'false')
                         define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
@@ -101,7 +101,7 @@
 
                         @info(name = 'SendingAlertsToAllISAlertsStream')
                         from AlertLongSessions
-                        select meta_tenantId, "AbnormalLongSessionAlert" as type, tenantDomain, str:concat('Abnormal long session session of ', duration, ' milliseconds detected by user: ', username,' on session id: ', sessionId, '.') as msg, 3 as severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        select meta_tenantId, "AbnormalLongSessionAlert" as type, tenantDomain, str:concat('Abnormal long session session of ', duration, ' milliseconds detected by user: ', username,' on session id: ', sessionId, '.') as msg, 3 as severity, (time:timestampInMilliseconds()) as alertTimestamp, time:dateFormat((time:timestampInMilliseconds()),'yyyy-MM-dd HH:mm:ss') as userReadableTime
                         insert into alert_allISAlertsStream;
                 	]]>
                 </template>
@@ -144,7 +144,7 @@
                         define stream LoginAlertStream (meta_tenantId int, username string, severity int, msg string, tenantDomain string, _timestamp long);
 
                         @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
-                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
+                        define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long, userReadableTime string);
 
                         /* Query for detecting login attempts with same username*/
                         @info(name = 'detectEventsForSameUser')
@@ -161,7 +161,7 @@
 
                         @info(name = 'sendingSameUserEventsToAllISAlertsStream')
                         from LoginAlertStreamSameUsername
-                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+                        select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' using ', serviceProvider, ' serviceProvider detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp, (time:dateFormat((time:timestampInMilliseconds()),'yyyy-MM-dd HH:mm:ss')) as userReadableTime
                         insert into alert_allISAlertsStream;
                     ]]>
                 </template>
