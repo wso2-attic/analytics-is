@@ -12,7 +12,7 @@ define stream AuthStream (meta_tenantId int, contextId string, eventId string, e
 define stream LoginAlertStream (meta_tenantId int, username string, severity int, msg string, tenantDomain string, _timestamp long);
 
 @Export('org.wso2.is.analytics.allISAlertsStream:1.0.0')
-define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long);
+define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long, userReadableTime string);
 
 /* Query for detecting login attempts with same username*/
 @info(name = 'detectEventsForSameUser')
@@ -29,5 +29,5 @@ insert into LoginAlertStream;
 
 @info(name = 'sendingSameUserEventsToAllISAlertsStream')
 from LoginAlertStreamSameUsername
-select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp
+select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp, time:dateFormat((time:timestampInMilliseconds()),'yyyy-MM-dd HH:mm:ss') as userReadableTime
 insert into alert_allISAlertsStream;
