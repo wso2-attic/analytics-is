@@ -29,6 +29,10 @@
     {
       "name": "alertTimestamp",
       "type": "LONG"
+    },
+    {
+      "name": "userReadableTime",
+      "type": "STRING"
     }
   ]
 }

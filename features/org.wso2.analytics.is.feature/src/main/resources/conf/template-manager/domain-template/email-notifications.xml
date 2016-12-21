@@ -22,14 +22,31 @@
             <templates>
                 <template type="eventpublisher">
 
-                    <![CDATA[<eventPublisher name="org.wso2.is.analytics.allISAlertsStream.publisher"
-                                    statistics="disable" trace="disable" xmlns="http://wso2.org/carbon/eventpublisher">
+                    <![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                    <eventPublisher name="org.wso2.is.analytics.allISAlertsStream.publisher" processing="enable" statistics="disable" trace="disable" xmlns="http://wso2.org/carbon/eventpublisher">
                         <from streamName="org.wso2.is.analytics.allISAlertsStream" version="1.0.0"/>
-                        <mapping customMapping="disable" type="text"/>
+                        <mapping customMapping="enable" type="text">
+                            <inline>
+                    Hi,
+
+                    We detected a {{msg}}.
+
+                    Type : {{type}}
+                    Tenant Domain : {{tenantDomain}}
+                    Severity : {{severity}}
+                    Time : {{userReadableTime}}
+
+
+                    Best Regards,
+                    WSO2 Identity Server Team
+                    http://www.wso2.com
+                            </inline>
+                        </mapping>
                         <to eventAdapterType="email">
-                            <property name="email.subject">WSO2 IS Security Alerts</property>
+                            <property name="email.subject">WSO2 IS security Alerts</property>
                             <property name="email.address">$emailAddress</property>
                             <property name="email.type">text/plain</property>
+                            <property name="email.body">text/plain</property>
                         </to>
                     </eventPublisher>]]>
                 </template>
