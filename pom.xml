@@ -507,7 +507,7 @@
         <junit.version>4.10</junit.version>
         <is.analytics.version>5.3.0-SNAPSHOT</is.analytics.version>
         <is.analytics.feature.version>5.3.0.SNAPSHOT</is.analytics.feature.version>
-        <carbon.kernel.version>4.4.9</carbon.kernel.version>
+        <carbon.kernel.version>4.4.11</carbon.kernel.version>
         <carbon.analytics.version>1.2.8</carbon.analytics.version>
         <carbon.analytics.common.version>5.1.5</carbon.analytics.common.version>
         <carbon.automationutils.version>4.4.1</carbon.automationutils.version>
