@@ -26,6 +26,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>org.wso2.analytics.is</module>
+        <module>org.wso2.analytics.is.common.pdf</module>
+
     </modules>
 
 

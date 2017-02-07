@@ -71,40 +71,17 @@ function generatePdf(table, pdfDataProvider) {
 
     var length = 5000;
     var param = table.ajax.params();
-
     param.start = 0;
     param.length = length;
-
-    $.ajax({
-        "url": table.ajax.url(),
-        "data": param,
-        success: function(d) {
-
-            if (d.data.length == 0) {
-                throw "Error - No data to download";
-            }
-            var doc = new jsPDF('p', 'pt');
-            var pdfInfo = pdfDataProvider.pdfHeaderInfo(length, d.recordsTotal);
-            var pdfRows = d.data;
-
-            if (param.listnedAdditionalUserPrefs != "" && param.listnedAdditionalUserPrefs != undefined) {
-                pdfInfo.headerInfo = pdfInfo.headerInfo + "\n\nFiltered by       :" + (param.listnedAdditionalUserPrefs).replace("AND", "");
-            }
-            if (pdfDataProvider.renderRows != undefined) {
-                pdfRows = pdfDataProvider.renderRows(d.data);
-            }
-            doc.addImage(pdfConfig.pdfStampImage, 'JPEG', pdfConfig.stampImage.coordinates.x, pdfConfig.stampImage.coordinates.y, pdfConfig.stampImage.size.x, pdfConfig.stampImage.size.y);
-            doc.addImage(pdfConfig.pdfThemeColorImage, 'JPEG', pdfConfig.themeColorImage.coordinates.x, pdfConfig.themeColorImage.coordinates.y, pdfConfig.themeColorImage.size.x, pdfConfig.themeColorImage.size.y);
-            doc.setFontSize(pdfConfig.title.size);
-            doc.setFontType("bold");
-            doc.text(pdfConfig.title.coordinates.x, pdfConfig.title.coordinates.y, pdfInfo.title , null, null, 'center');
-            doc.setFontSize(pdfConfig.text.size);
-            doc.text(pdfInfo.headerInfo, pdfConfig.text.coordinates.x, pdfConfig.text.coordinates.y);
-            doc.autoTable(pdfDataProvider.pdfCols(), pdfRows, pdfConfig.pdfTableStyles);
-            if (pdfInfo.totalRecords > length) {
-                doc.text("Showing only " + length + " records out of " + pdfInfo.totalRecords + "records", pdfConfig.text.coordinates.x, doc.autoTableEndPosY() + 30);
-            }
-            doc.save(pdfInfo.fileName + ".pdf");
-        }
-    });
-};
+    var req = new XMLHttpRequest();
+    req.open("GET", table.ajax.url()+"?"+$.param(param) +"&drawPDF=True&"+ pdfDataProvider.pdfInfo().columnArray.join('&') + "&pdfTitle=" + pdfDataProvider.pdfInfo().title, true);
+    req.responseType = "blob";
+    req.onload = function (event) {
+        var blob = req.response;
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = pdfDataProvider.pdfInfo().title.toLowerCase().replace(/ /g,"_") + ".pdf";
+        link.click();
+    };
+    req.send();
+}
