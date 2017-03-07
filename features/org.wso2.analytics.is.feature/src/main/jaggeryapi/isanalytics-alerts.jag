@@ -84,8 +84,12 @@
                 break;
         }
 
+        var IsExport = request.getParameter("drawPDF");
+        if (IsExport) {
+            drawPDF();
+        }
 
-        if (result) {
+        if (result && IsExport == null) {
             if (log.isDebugEnabled()) {
                 log.debug("value of result: " + result);
             }
@@ -114,6 +118,70 @@
         return data;
     }
 
+    function drawPDF() {
+
+        var title = request.getParameter("pdfTitle");
+        var columnSizes = [];
+        var headerInfo = [];
+        var dateFrom = new Date(Number(timeFrom));
+        var dateTo = new Date(Number(timeTo));
+        switch(query) {
+            case 'summery' :
+                columnSizes = [250, 250];
+                headerInfo = ["Starting Date : " + dateFrom.toLocaleString(), "Ending Date  : " + dateTo.toLocaleString()];
+                break;
+            default :
+                switch(alertType){
+                    case "AbnormalLongSessionAlert" :
+                        columnSizes = [150, 100, 100, 100, 100];
+                        headerInfo = ["Starting Date : " + dateFrom.toLocaleString(), "Ending Date  : " + dateTo.toLocaleString(), "Total Records : " + result.recordsTotal];
+                        break;
+                    default :
+                        columnSizes = [90, 60, 40, 300];
+                        headerInfo = ["Starting Date : " + dateFrom.toLocaleString(), "Ending Date  : " + dateTo.toLocaleString(), "Total Records : " + result.recordsTotal];
+                        break;
+                }
+                break;
+        }
+
+        var pdfTableTitles = [];
+        pdfTableTitles = request.getParameter("columnTitle");
+        var rows = result.data.map(function(row) {
+            return getPDFRowsArray(row);
+        });
+        var belowTableContent = null;
+        if(length < result.recordsTotal) {
+            belowTableContent = "Showing only " + length + " records out of " + result.recordsTotal + " records";
+        }
+        common.createPDF(pdfTableTitles, rows, columnSizes, title, headerInfo, belowTableContent);
+    }
+
+    function getPDFRowsArray(row) {
+        var record = [];
+        switch(query) {
+            case 'summery' :
+                record.push(row["display"]);
+                record.push(row["count"]);
+                break;
+            default :
+                var date = new Date(row["timestamp"]);
+                record.push(date.toLocaleString());
+                record.push(row["tenantDomain"]);
+                switch(alertType) {
+                    case "AbnormalLongSessionAlert" :
+                        record.push(parseFloat(row["user"]));
+                        record.push(parseFloat(row["duration"]).toFixed(2));
+                        record.push(parseFloat(row["avgDuration"]).toFixed(2));
+                        break;
+                    default :
+                        record.push(row["username"]);
+                        record.push(row["msg"]);
+                        break;
+                }
+                break;
+        }
+        return record;
+    }
 
     function queryRecordCountIntimeRange(timeFrom, timeTo, tableName) {
 
@@ -152,46 +220,44 @@
                 return JSON.parse(result);
      };
 
+    function getAlertResult(timeFrom, timeTo, alertType, length ,start) {
+        var data = [];
+        var  providerConfig = {};
+        var tableName;
+        switch (alertType) {
+            case "SuspiciousLoginAlert":
+                tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
+                break;
+            case "AbnormalLongSessionAlert":
+                tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
+                break;
+            default:
+                alertType = "All";
+                tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
+                break;
+        }
+        providerConfig.tableName = tableName;
 
-      function getAlertResult(timeFrom, timeTo, alertType, length ,start) {
-            var data = [];
-            var  providerConfig = {};
-            var tableName;
-            switch (alertType) {
-                case "SuspiciousLoginAlert":
-                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LOGINSUCCESSAFTERMULTIPLEFAILURES";
-                    break;
-                case "AbnormalLongSessionAlert":
-                    tableName = "ORG_WSO2_IS_ANALYTICS_STREAM_LONGSESSIONS";
-                    break;
-                default:
-                    alertType = "All";
-                    tableName = "ORG_WSO2_IS_ANALYTICS_ALLISALERTSSTREAM";
-                    break;
-            }
-            providerConfig.tableName = tableName;
+        providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
+        providerConfig.limit = "";
+        var timeNow = new Date().getTime();
+        var data = [];
+        var count = queryRecordCountIntimeRange(timeFrom, timeTo, tableName);
 
-            providerConfig.query = "_timestamp : [" + timeFrom + " TO " + timeTo + "]";
-            providerConfig.limit = "";
-            var timeNow = new Date().getTime();
-            var data = [];
-            var count = queryRecordCountIntimeRange(timeFrom, timeTo, tableName);
+        var alertsList = queryAlertListResult(providerConfig, length, start);
 
-            var alertsList = queryAlertListResult(providerConfig, length, start);
+        for (var i = 0; i < alertsList.length; i++) {
+            var item = alertsList[i];
+            var record = convertToAlertRecord(item, alertType);
+            data.push(record);
+        }
+        var result = {};
+        result.data = data;
+        result.recordsFiltered = count;
+        result.recordsTotal = count;
 
-            for (var i = 0; i < alertsList.length; i++) {
-                var item = alertsList[i];
-                var record = convertToAlertRecord(item, alertType);
-                data.push(record);
-            }
-            var result = {};
-            result.data = data;
-            result.recordsFiltered = count;
-            result.recordsTotal = count;
-
-            return result;
+        return result;
     }
-
 
     function convertToAlertRecord (item, alertType) {
         var result;

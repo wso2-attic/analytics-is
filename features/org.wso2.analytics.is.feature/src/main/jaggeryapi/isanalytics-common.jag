@@ -117,5 +117,63 @@
         }
         return endTimestampDataAvailable;
     }
-    
+
+    function createPDF(pdfTableTitles, rows, columnSizes, title, headerInfo, belowTableContent) {
+
+        var fileLocation = "repository/deployment/server/jaggeryapps/portal/controllers/apis/is-analytics.pdf";
+        var pdfGenerator = new org.wso2.analytics.is.common.pdf.PDFGenerator();
+        pdfGenerator.generatePDF(createPDFPageInfo(), createTable(pdfTableTitles, rows, columnSizes, headerInfo.length),
+                            createHeader(title, headerInfo), createFooter(title, belowTableContent), fileLocation);
+        var file = new File("is-analytics.pdf");
+        file.open("r");
+        response.addHeader('Content-Type', "application/pdf");
+        response.addHeader('Content-Length', "" + file.getLength());
+        print(file.getStream());
+        file.close();
+        file.del();
+    };
+
+    function createPDFPageInfo() {
+        return new org.wso2.analytics.is.common.pdf.PDFPageInfo();
+    }
+
+    function createTable(columns, rows, columnSizes, headerInfoSize) {
+
+        var tableColumn = [];
+        for(i = 0; i < columns.length; i++) {
+            tableColumn.push(new org.wso2.analytics.is.common.pdf.Column(columns[i], columnSizes[i]));
+        }
+        var table = new org.wso2.analytics.is.common.pdf.Table();
+        table.setColumns(tableColumn);
+        table.setContent(rows);
+        var defaultTableTop = org.wso2.analytics.is.common.pdf.DefaultConstants.DEFAULT_TABLE_TOP_Y;
+        for(i = 2; i < headerInfoSize; i++) {
+            defaultTableTop -= 20;
+        }
+        table.setTableTopY(defaultTableTop);
+        return table;
+    }
+
+    function createHeader(title, headerInfo) {
+
+        var header = new org.wso2.analytics.is.common.pdf.Header();
+        header.setTitle(title);
+        header.setHeaderInfo(headerInfo);
+        var titleCoordinateX = (org.wso2.analytics.is.common.pdf.DefaultConstants.DEFAULT_PAGE_SIZE.getWidth() -
+                (org.wso2.analytics.is.common.pdf.DefaultConstants.DEFAULT_TITLE_FONT.getStringWidth(title) /
+                1000 * org.wso2.analytics.is.common.pdf.DefaultConstants.DEFAULT_TITLE_FONT_SIZE )) / 2;
+        var titleCoordinate = new org.wso2.analytics.is.common.pdf.Point(titleCoordinateX, org.wso2.analytics.is.common.pdf.DefaultConstants.DEFAULT_TITLE_COORDINATES.y);
+        header.setTitleCoordinates(titleCoordinate);
+        return header;
+    }
+
+    function createFooter(title, belowTableContent) {
+
+        var footer = new org.wso2.analytics.is.common.pdf.Footer();
+        footer.setFooterContent(title);
+        if(belowTableContent != null){
+            footer.setAfterTableContent(belowTableContent);
+        }
+        return footer;
+    }
  %>

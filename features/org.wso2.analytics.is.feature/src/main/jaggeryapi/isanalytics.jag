@@ -1062,7 +1062,12 @@
             }
         }
 
-        if (result != null) {
+        var IsExport = request.getParameter("drawPDF");
+        if (IsExport) {
+            drawPDF();
+        }
+
+        if (result != null && IsExport == null) {
             if (log.isDebugEnabled()) {
                 log.debug("value of result: " + result);
             }
@@ -1080,6 +1085,79 @@
     }
     else {
         print('{ "status": "Failed", "statusCode": "500", "message": "AnalyticsCachedWebServiceConnector is unavailable" }');
+    }
+
+    function drawPDF() {
+
+        var title = request.getParameter("pdfTitle");
+        var dateFrom = new Date(Number(timeFrom));
+        var dateTo = new Date(Number(timeTo));
+        var headerInfo;
+        var headerInfo;
+        if(additionalParameters != "") {
+            var splitAdditionalParameters = additionalParameters.split('AND');
+            headerInfo = ["Starting Date : " + dateFrom.toLocaleString(), "Ending Date  : " + dateTo.toLocaleString(), "Total Records : "
+            + result.recordsTotal, "Filters :" + splitAdditionalParameters[1] ];
+            if(splitAdditionalParameters[2] != null){
+               headerInfo[3]=headerInfo[3] + splitAdditionalParameters[2];
+            }
+            if(splitAdditionalParameters[3] != null){
+               headerInfo[3]= headerInfo[3] + splitAdditionalParameters[3];
+            }
+            if(splitAdditionalParameters[4] != null){
+               headerInfo.push(splitAdditionalParameters[4].split(" ").join(""));
+            }
+        }
+        else {
+            headerInfo = ["Starting Date : " + dateFrom.toLocaleString(), "Ending Date  : " + dateTo.toLocaleString(), "Total Records : " + result.recordsTotal];
+        }
+        var length = request.getParameter("length");
+        var belowTableContent = null;
+        if(length < result.recordsTotal) {
+            belowTableContent = "Showing only " + length + " records out of " + result.recordsTotal + " records";
+        }
+        var columnSizes;
+        if(idpType == "LOCAL") {
+            columnSizes = [110, 35, 35, 45, 50, 50, 30, 30, 60, 90];
+        }
+        else if(idpType == "FEDERATED") {
+            columnSizes = [110, 60, 70, 50, 40, 40, 60, 115];
+        }
+        else {
+            columnSizes = [110, 50, 50, 30, 50, 50, 30, 30, 60, 90];
+        }
+        var pdfTableTitles = [];
+        pdfTableTitles = request.getParameter("columnTitle");
+        var rows = result.data.map(function(row) {
+           return getPDFRowsArray(row);
+        });
+        common.createPDF(pdfTableTitles, rows, columnSizes, title, headerInfo, belowTableContent);
+    }
+
+    function getPDFRowsArray(row) {
+        var keyChange;
+        switch (idpType) {
+            case "LOCAL" :
+                keyChange = 8;
+                break;
+            case "FEDERATED" :
+                keyChange = 6;
+                break;
+            default:
+                keyChange = 8;
+        }
+        var record = [];
+        for (var key in row) {
+            if(key == keyChange) {
+                if (row[key] == true) {
+                    row[key] = "Success";
+                } else {
+                    row[key] = "Failure";
+                }
+            }
+            record.push(row[key]);
+        }
+        return record;
     }
 }());
 

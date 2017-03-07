@@ -80,9 +80,7 @@ $(document).ready(function () {
         ],
         "columns" : columns,
         "pdfExport": {
-            pdfCols : getPdfTableColumns,
-            pdfHeaderInfo : getPdfTableInfo
-
+            pdfInfo : getPdfInfo,
         },
         "ajax": {
             "url" : ALERTS_CONTEXT,
@@ -94,32 +92,15 @@ $(document).ready(function () {
         }
     });
 
-    function getPdfTableColumns() {
-
-        return columns.map(function(column) {
-
-            var newColumn = {};
-            newColumn["title"] = column["title"];
-            newColumn["dataKey"] = column["data"];
-            return newColumn;
-        });
-    }
-
-    function getPdfTableInfo() {
+    function getPdfInfo() {
 
         var pdfInfo = {};
-        pdfInfo["title"] = "SECURITY ALERTS SUMMARY";
-        pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue));
-        pdfInfo["fileName"] = pdfInfo.title.toLowerCase().replace(/ /g, "_");
+        pdfInfo["title"] =  "Security Alerts Summery";
+        pdfInfo["columnArray"] = columns.map(function (column) {
+            return "columnTitle=" + column["title"];
+        });
         return pdfInfo;
     }
-
-    function renderDateTime(data, type, row) {
-
-        var date = new Date(data);
-        return date.toLocaleString(moment.locale());
-    }
-
 });
 
 function onDataChanged() {

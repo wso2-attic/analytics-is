@@ -71,9 +71,7 @@ $(function() {
             aaSorting: [],
             "columns" : getColumns(),
             "pdfExport": {
-                pdfCols : getPdfTableColumns,
-                pdfHeaderInfo : getPdfTableInfo,
-                renderRows : getPdfTableRows
+                pdfInfo : getPdfInfo,
             },
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                 if ( aData[getAuthenticationColumn()] == true )
@@ -124,8 +122,7 @@ $(function() {
             aaSorting: [],
             "columns" :getColumns(),
             "pdfExport": {
-                pdfCols : getPdfTableColumns,
-                pdfHeaderInfo : getPdfTableInfo
+                pdfInfo : getPdfInfo,
             },
             "ajax": {
                 "url" : SESSION_CONTEXT,
@@ -363,20 +360,7 @@ function getColumns(){
     return result;
 }
 
-
-function getPdfTableColumns(columns) {
-
-    var i = 0;
-    var columns = getColumns();
-    return columns.map(function(column) {
-
-        column["dataKey"] = i;
-        i++;
-        return column;
-    });
-}
-
-function getPdfTableInfo(maxRecords, totalRecords) {
+function getPdfInfo() {
 
     var pdfInfo = {};
     switch (page.name) {
@@ -396,38 +380,9 @@ function getPdfTableInfo(maxRecords, totalRecords) {
             throw "Error - Unknown Page name";
     }
 
-    pdfInfo["headerInfo"] = "Starting Date   : " + renderDateTime(parseInt(listnedTimeFromValue)) + "\n\nEnding Date    : " + renderDateTime(parseInt(listnedTimeToValue)) + "\n\nTotal Records : " + totalRecords;
-    pdfInfo["fileName"] = pdfInfo.title.toLowerCase().replace(/ /g, "_");
-    pdfInfo["maxRecords"] = maxRecords;
-    pdfInfo["totalRecords"] = totalRecords;
+     var columns = getColumns();
+     pdfInfo["columnArray"] = columns.map(function (column){
+        return "columnTitle=" + column["title"];
+     });
     return pdfInfo;
-}
-
-function renderDateTime(data, type, row) {
-
-    var date = new Date(data);
-    return date.toLocaleString(moment.locale());
-}
-
-
-function getPdfTableRows(rawData) {
-
-    return rawData.map(function(record) {
-
-        var columnData = getColumns();
-        var newRecord = {};
-        for (i = 0; i < columnData.length; i++) {
-            if (i == getAuthenticationColumn()) {
-                if (record[getAuthenticationColumn()] == true) {
-                    newRecord[getAuthenticationColumn()] = "Success";
-                } else {
-                    newRecord[getAuthenticationColumn()] = "Failure";
-                }
-                continue;
-
-            }
-            newRecord[i] = record[i];
-        }
-        return newRecord;
-    });
 }

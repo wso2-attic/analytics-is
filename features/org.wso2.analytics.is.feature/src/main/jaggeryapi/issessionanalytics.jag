@@ -530,7 +530,12 @@
             }
         }
 
-        if (result != null) {
+        var IsExport = request.getParameter("drawPDF");
+        if (IsExport) {
+            drawPDF();
+        }
+
+        if (result != null && IsExport == null) {
             if (log.isDebugEnabled()) {
                 log.debug("value of result: " + result);
             }
@@ -548,6 +553,48 @@
     }
     else {
         print('{ "status": "Failed", "statusCode": "500", "message": "AnalyticsCachedWebServiceConnector is unavailable" }');
+    }
+
+    function drawPDF() {
+
+        var title = request.getParameter("pdfTitle");
+        var dateFrom = new Date(Number(timeFrom));
+        var dateTo = new Date(Number(timeTo));
+        var headerInfo;
+        var additionalParameters = request.getParameter("search[value]");
+        if(additionalParameters != "") {
+            headerInfo = ["Starting Date : " + dateFrom.toLocaleString(), "Ending Date  : " + dateTo.toLocaleString(), "Total Records : " + result.recordsTotal, "Filtered by : " + additionalParameters];
+        }
+        else {
+            headerInfo = ["Starting Date : " + dateFrom.toLocaleString(), "Ending Date  : " + dateTo.toLocaleString(), "Total Records : " + result.recordsTotal];
+        }
+        var columnSizes = [40, 60, 60, 60, 30, 35, 45, 35, 30, 40, 90];
+        var pdfTableTitles = [];
+        pdfTableTitles = request.getParameter("columnTitle");
+        var newTitles = [];
+        for(i = 0; i < pdfTableTitles.length; i++){
+            if(i == 0){
+                continue;
+            }
+            newTitles.push(pdfTableTitles[i]) ;
+        };
+        var length = request.getParameter("length");
+        var belowTableContent = null;
+        if(length < result.recordsTotal) {
+            belowTableContent = "Showing only " + length + " records out of " + result.recordsTotal + " records";
+        }
+
+        var rows = result.data.map(function(row) {
+            var record = [];
+            for (var key in row) {
+                if(key==0) {
+                    continue;
+                }
+                record.push(row[key]);
+            }
+            return record;
+        });
+        common.createPDF(newTitles, rows, columnSizes, title, headerInfo, belowTableContent);
     }
 }());
 
