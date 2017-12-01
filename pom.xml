@@ -449,7 +449,7 @@
                 <version>${carbon.analytics.common.version}</version>
             </dependency>
 
-            <!--- Below dependencies are added so that maven versions plugin can update their version properties
+            <!-- Below dependencies are added so that maven versions plugin can update their version properties
             automatically -->
             <dependency>
                 <groupId>org.wso2.carbon.identity.carbon.auth.saml2</groupId>
