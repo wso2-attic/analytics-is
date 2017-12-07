@@ -22,7 +22,7 @@ overall success and failure login attempts and authentication attempts views for
 
 1. Memory   - 2 GB minimum
 2. Disk     - 1 GB minimum for unpacking the distribution
-3. Java(TM) - Oracle Java SE Development Kit 1.7 or later
+3. Java(TM) - Oracle Java SE Development Kit 1.8 or later
 
 
 #How to Contribute
