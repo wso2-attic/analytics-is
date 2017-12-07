@@ -112,22 +112,22 @@
             <dependency>
                 <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.styles</artifactId>
-                <version>${is.analytics.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.multitenancy.styles</artifactId>
-                <version>${is.analytics.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.multitenancy.dashboard.ui</artifactId>
-                <version>${is.analytics.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.analytics.is</artifactId>
-                <version>${is.analytics.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <!-- ************************ END - Vanilla carbon server + DAS style ************* -->
 
@@ -135,12 +135,12 @@
             <dependency>
                 <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.integration.common.utils</artifactId>
-                <version>${is.analytics.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.analytics.is</groupId>
                 <artifactId>org.wso2.das4is.integration.common.clients</artifactId>
-                <version>${is.analytics.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.wso2.carbon.commons</groupId>
@@ -526,7 +526,6 @@
         <carbon.identity.auth.saml2.version>5.2.3</carbon.identity.auth.saml2.version>
         <carbon.analytics.shared.version>1.0.2</carbon.analytics.shared.version>
         <junit.version>4.10</junit.version>
-        <is.analytics.version>5.4.0-SNAPSHOT</is.analytics.version>
         <carbon.kernel.version>4.4.20</carbon.kernel.version>
         <carbon.analytics.version>1.2.8</carbon.analytics.version>
         <carbon.analytics.common.version>5.1.21</carbon.analytics.common.version>
@@ -535,7 +534,7 @@
         <carbon.registry.version>4.6.25</carbon.registry.version>
         <carbon.multitenancy.version>4.6.0</carbon.multitenancy.version>
         <carbon.deployment.version>4.7.0</carbon.deployment.version>
-        <carbon.identity.framework.version>5.10.80</carbon.identity.framework.version>
+        <carbon.identity.framework.version>5.10.85</carbon.identity.framework.version>
         <carbon.commons.version>4.5.4</carbon.commons.version>
         <carbon.data.version>4.3.6</carbon.data.version>
         <carbon.event-processing.version>2.1.10</carbon.event-processing.version>

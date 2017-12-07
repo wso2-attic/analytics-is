@@ -125,7 +125,7 @@
                                 <!-- END - Analytics features -->
 
                                 <featureArtifactDef>
-                                    org.wso2.analytics.is:org.wso2.analytics.is.feature:${is.analytics.version}
+                                    org.wso2.analytics.is:org.wso2.analytics.is.feature:${project.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.analytics:org.wso2.carbon.analytics.dashboard.ui.feature:${carbon.analytics.version}
@@ -155,7 +155,7 @@
                                     org.wso2.carbon:org.wso2.carbon.core.ui.feature:${carbon.kernel.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.analytics.is:org.wso2.das4is.styles.feature:${is.analytics.version}
+                                    org.wso2.analytics.is:org.wso2.das4is.styles.feature:${project.version}
                                 </featureArtifactDef>
 
                                 <!-- ********* START - Registry related  *********** -->
@@ -250,7 +250,7 @@
                                     org.wso2.carbon.identity.framework:org.wso2.carbon.security.mgt.feature:${carbon.identity.framework.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
-                                    org.wso2.analytics.is:org.wso2.das4is.multitenancy.dashboard.ui.feature:${is.analytics.version}
+                                    org.wso2.analytics.is:org.wso2.das4is.multitenancy.dashboard.ui.feature:${project.version}
                                 </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon.commons:org.wso2.carbon.tenant.mgt.common.feature:${carbon.commons.version}
@@ -452,7 +452,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.analytics.is.feature.group</id>
-                                    <version>${is.analytics.version}</version>
+                                    <version>${project.version}</version>
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.analytics.messageconsole.feature.group</id>
@@ -485,7 +485,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.das4is.styles.feature.group</id>
-                                    <version>${is.analytics.version}</version>
+                                    <version>${project.version}</version>
                                 </feature>
 
                                 <!-- ********* START - Registry related  *********** -->
@@ -605,7 +605,7 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.das4is.multitenancy.dashboard.ui.feature.group</id>
-                                    <version>${is.analytics.version}</version>
+                                    <version>${project.version}</version>
                                 </feature>
                                 <!-- END - Multitenancy related -->
 
