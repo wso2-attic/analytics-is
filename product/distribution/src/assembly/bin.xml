@@ -343,7 +343,7 @@
             <fileMode>644</fileMode>
         </file>
         <file>
-            <source>../p2-profile-gen/target/wso2carbon-core-${carbon.kernel.version}/repository/components/features/org.wso2.analytics.is_${is.analytics.feature.version}/custom.css</source>
+            <source>../../features/org.wso2.analytics.is.feature/src/main/portalcss/custom.css</source>
             <outputDirectory>${pom.artifactId}-${pom.version}/repository/deployment/server/jaggeryapps/portal/css/</outputDirectory>
             <filtered>true</filtered>
         </file>
