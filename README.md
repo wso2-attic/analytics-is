@@ -2,7 +2,7 @@
 
 |  Branch | Build Status |
 | :------------ |:-------------
-| master      | [![Build Status](https://wso2.org/jenkins/job/analytics-is/badge/icon)](https://wso2.org/jenkins/job/analytics-is) |
+| master      | [![Build Status](https://wso2.org/jenkins/view/analytics/job/analytics-products/job/analytics-is/badge/icon)](https://wso2.org/jenkins/view/analytics/job/analytics-products/job/analytics-is) |
 
 
 WSO2 Identity Server Analytics can be used to monitor authentication related analytics for residence and federated authentication scenarios of [WSO2 Identity Server](http://wso2.com/products/identity-server/).
