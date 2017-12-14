@@ -22,7 +22,7 @@ package org.wso2.analytics.is.siddhi.extension;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.analytics.shared.geolocation.exception.GeoLocationResolverException;
-import org.wso2.carbon.analytics.shared.geolocation.impl.GeoLocationResolverUDFWithImprovedCache;
+import org.wso2.carbon.analytics.shared.geolocation.holders.GeoResolverInitializer;
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.executor.function.FunctionExecutor;
@@ -31,7 +31,6 @@ import org.wso2.siddhi.query.api.definition.Attribute;
 public class IpToCityExtension extends FunctionExecutor {
 
     private static final Log log = LogFactory.getLog(IpToCityExtension.class);
-    private GeoLocationResolverUDFWithImprovedCache geoLocationResolverUDF = new GeoLocationResolverUDFWithImprovedCache();
 
     @Override
     protected void init(ExpressionExecutor[] expressionExecutors, ExecutionPlanContext executionPlanContext) {
@@ -45,7 +44,7 @@ public class IpToCityExtension extends FunctionExecutor {
     @Override
     protected Object execute(Object o) {
         try {
-            return geoLocationResolverUDF.getCity(o.toString());
+            return GeoResolverInitializer.getInstance().getLocationResolver().getLocation((o.toString()));
         } catch (GeoLocationResolverException e) {
             log.error("Exception when resolving the city for given IP : " + o.toString(), e);
             return "";
