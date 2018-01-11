@@ -18,7 +18,7 @@
     <parent>
         <artifactId>wso2analytics-is-parent</artifactId>
         <groupId>org.wso2.analytics.is</groupId>
-        <version>5.4.1-SNAPSHOT</version>
+        <version>5.4.0-update4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
