@@ -44,7 +44,7 @@ public class IpToCityExtension extends FunctionExecutor {
     @Override
     protected Object execute(Object o) {
         try {
-            return GeoResolverInitializer.getInstance().getLocationResolver().getLocation((o.toString()));
+            return GeoResolverInitializer.getInstance().getLocationResolver().getLocation((o.toString())).getCity();
         } catch (GeoLocationResolverException e) {
             log.error("Exception when resolving the city for given IP : " + o.toString(), e);
             return "";

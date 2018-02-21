@@ -44,7 +44,7 @@ public class IpToCountryExtension extends FunctionExecutor {
     @Override
     protected Object execute(Object o) {
         try {
-            return GeoResolverInitializer.getInstance().getLocationResolver().getLocation(o.toString());
+            return GeoResolverInitializer.getInstance().getLocationResolver().getLocation(o.toString()).getCountry();
         } catch (GeoLocationResolverException e) {
             log.error("Exception when resolving the country for given IP : " + o.toString(), e);
             return "";
