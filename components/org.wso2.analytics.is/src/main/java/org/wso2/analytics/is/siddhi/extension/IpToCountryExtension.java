@@ -21,6 +21,7 @@ package org.wso2.analytics.is.siddhi.extension;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.analytics.shared.geolocation.api.Location;
 import org.wso2.carbon.analytics.shared.geolocation.exception.GeoLocationResolverException;
 import org.wso2.carbon.analytics.shared.geolocation.holders.GeoResolverInitializer;
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
@@ -43,12 +44,16 @@ public class IpToCountryExtension extends FunctionExecutor {
 
     @Override
     protected Object execute(Object o) {
+        String country = "";
         try {
-            return GeoResolverInitializer.getInstance().getLocationResolver().getLocation(o.toString());
+            Location location =  GeoResolverInitializer.getInstance().getLocationResolver().getLocation(o.toString());
+            if (location != null){
+                country = location.getCountry();
+            }
         } catch (GeoLocationResolverException e) {
             log.error("Exception when resolving the country for given IP : " + o.toString(), e);
-            return "";
         }
+        return country;
     }
 
     @Override
