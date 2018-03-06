@@ -1,4 +1,4 @@
-#WSO2 Identiy Server Analytics
+# WSO2 Identiy Server Analytics
 
 |  Branch | Build Status |
 | :------------ |:-------------
@@ -10,14 +10,14 @@ WSO2 Identity Server Analytics can be used to monitor authentication related ana
 WSO2 IS Analytics is powered by [WSO2 DAS](http://wso2.com/products/data-analytics-server/), the SOA middleware component platform. An open source product, WSO2 Carbon is available under the [Apache Software License (v2.0)](http://www.apache.org/licenses/LICENSE-2.0.html).
 
 
-#Capabilities 
+# Capabilities 
 
 - View Authentication analytics for Federated Identity scenarios which includes viewing overall success and failure login attempts and authentication attempts views for multiple dimensions of Service Provider, Identity Providers,Users and also first time login of service Providers.
 
 - View Authentication analytics for Federated scenarios which includes viewing 
 overall success and failure login attempts and authentication attempts views for multiple dimensions of service provider, roles , user and user-stores
 
-#System Requirements
+# System Requirements
 
 
 1. Memory   - 2 GB minimum
@@ -25,12 +25,12 @@ overall success and failure login attempts and authentication attempts views for
 3. Java(TM) - Oracle Java SE Development Kit 1.8 or later
 
 
-#How to Contribute
+# How to Contribute
   
- Please report issues to our [IS Analytics JIRA](https://wso2.org/jira/browse/ANLYIS)
- Send your pull requests to the [analytics-IS](https://github.com/wso2/analytics-is) repository
+ Please report issues to [analytics-is github issues](https://github.com/wso2/analytics-is/issues)
+ Send your pull requests to the [analytics-is](https://github.com/wso2/analytics-is) repository
   
-#Contact us
+# Contact us
   
 You can talk to us via the following mailing lists:
   
