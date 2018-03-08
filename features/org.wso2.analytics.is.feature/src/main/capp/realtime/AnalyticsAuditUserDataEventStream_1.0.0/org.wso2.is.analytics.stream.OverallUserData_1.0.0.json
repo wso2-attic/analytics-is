@@ -1,0 +1,54 @@
+{
+  "name": "org.wso2.is.analytics.stream.OverallUserData",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "metaData": [
+    {
+      "name": "tenantId",
+      "type": "INT"
+    }
+  ],
+  "payloadData": [
+    {
+      "name": "action",
+      "type": "STRING"
+    },
+    {
+      "name": "username",
+      "type": "STRING"
+    },
+    {
+      "name": "userStoreDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "newRoleList",
+      "type": "STRING"
+    },
+    {
+      "name": "deletedRoleList",
+      "type": "STRING"
+    },
+    {
+      "name": "claims",
+      "type": "STRING"
+    },
+    {
+      "name": "profile",
+      "type": "STRING"
+    },
+    {
+      "name": "actionHolder",
+      "type": "STRING"
+    },
+    {
+      "name": "actionTimestamp",
+      "type": "LONG"
+    }
+  ]
+}

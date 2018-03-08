@@ -1,0 +1,30 @@
+/* Enter a unique ExecutionPlan */
+@Plan:name('IsAnalytics-ExecutionPlan-UserData')
+
+/* Enter a unique description for ExecutionPlan */
+-- @Plan:description('ExecutionPlan')
+
+/* define streams/tables and write queries here ... */
+
+@Import('org.wso2.is.analytics.stream.OverallUserData:1.0.0')
+define stream UserDataStream (meta_tenantId int, action string, username string, userStoreDomain string, tenantDomain string, newRoleList string, deletedRoleList string, claims string, profile string, actionHolder string, actionTimestamp long);
+
+@Export('org.wso2.is.analytics.stream.LatestClaims:1.0.0')
+define stream LatestClaimsStream (username string, userStoreDomain string, tenantDomain string, claimURI string, claimValue string);
+
+@IndexBy('username', 'userStoreDomain', 'tenantDomain', 'claimURI')
+@From(eventtable='analytics.table', table.name='ORG_WSO2_IS_ANALYTICS_STREAM_LATESTCLAIMS')
+define table latestClaimsEventTable (username string, userStoreDomain string, tenantDomain string, claimURI string, claimValue string);
+
+from UserDataStream#isAnalytics:jsonFlatMapDuplicator(claims)       -- Claims JSON map will be present only when claims are updated
+select username, userStoreDomain, tenantDomain, key as claimURI, value as claimValue
+having not(claimURI is null)
+insert into LatestClaimsStream;
+
+/* Delete user related queries */
+
+from UserDataStream[action == 'POST_DELETE_USER']
+delete latestClaimsEventTable
+	on latestClaimsEventTable.username == username
+		and latestClaimsEventTable.userStoreDomain == userStoreDomain
+		and latestClaimsEventTable.tenantDomain == tenantDomain;
