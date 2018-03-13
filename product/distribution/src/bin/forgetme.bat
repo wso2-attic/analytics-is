@@ -26,4 +26,4 @@ SET wsasDrive=%CARBON_HOME:~0,1%
 if not "%curDrive%" == "%wsasDrive%" %wsasDrive%:
 
 cd %CARBON_HOME%
-call %CARBON_HOME%\repository\components\tools\forget-me\bin\forgetme.bat -d %CARBON_HOME%\repository\components\tools\forget-me\conf %*
+call %CARBON_HOME%\repository\components\tools\forget-me\bin\forgetme.bat -d %CARBON_HOME%\repository\components\tools\forget-me\conf -carbon %CARBON_HOME% %*
