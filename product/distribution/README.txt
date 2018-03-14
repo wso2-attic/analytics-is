@@ -1,96 +1,30 @@
-WSO2 Data Analytics Server, v3.0.0
-==================================
+==========================
+${product.name} ${product.version}
+==========================
 
 @buildNumber@
 
-Welcome to the WSO2 Data Analytics Server, v3.0.0 release.
+Welcome to the @product.name@, @product.version@ release.
 
-The WSO2 DAS version 3.0.0 is the first version of WSO2 DAS, which is complete rewrite of the analytics solution based on the latest technologies. It contains the following new features and enhancements.
+@product.name@ @product.version@ combines real-time, batch, interactive, and predictive (via machine learning) analysis of data into one integrated platform to support the multiple demands of comprehensive WSO2 IS use cases.
 
-WSO2 DAS is powered by WSO2 Carbon, the SOA middleware component platform. 
-
-New Features
-============
-
-	- Data abstraction layer for analytics
-
-	- Apache Spark SQL-based analytics query execution
-
-	- Data publisher rewrite
-
-	- RDBMS datasource support
-
-	- REST APIs for analytics data service
-
-	- CLI like user interface for Spark integration
-
-
-Also, WSO2 DAS contains the following major new technological changes/substitutions when compared to its predecessor, which is WSO2 BAM. 
-
-	- Introduction of a generic data store that can mount RDBMS, HBase, Cassandra or any other data store, instead of supporting Cassandra as the one and only event store.
-
-	- Replaced Hadoop by Apache Spark, and Hive by Spark SQL.
-
-	- Introduced indexing on stream persistence using Apache Solr, instead of the Casandra secondary and custom index based indexing.
-
-	- Replaced the Gadget Server and Gadget generating tool with WSO2 UES-based dashboards and its new gadget generating tool.
-
-	- Integration of WSO2 CEP 4.0.0 based features, instead of WSO2 CEP 3.x.
-
-	- Introduced CAR file-based artifact deployment for WSO2 BAM toolbox support.
-
-	- Removed WSO2 BAM report generation.
-
+@product.name@ is based on WSO2 Data Analytics Server, and is powered by WSO2 Carbon, the SOA middleware component platform.
 
 Features
 ========
 
-*Data aggregation	
-    Receives data from event sources through Java agents (Thrift, Kafka, JMS), JavaScript clients (Web Sockets, REST), to IoT (MQTT), and also from WSO2 Enterprise Service Bus Connectors.
-    Publishes events to one API for real-time, batch or interactive processing.
-    Ability to access the analytics service via comprehensive REST API.
-
-*Integrated, real-time, and batch analytics
-    Analyses both persisted and realtime data using a single product.
-    Executes batch programs faster than Hadoop MapReduce in memory using Apache Spark.
-    Detects patterns (fraud detection) by correlating events from multiple data sources in real time using the high performing, open source WSO2 CEP engine powered by WSO2 Siddhi.
-
-*Interactive analytics and edge analytics
-    Searches for full text, complex query lookup, distributed indexing support using Apache Lucene for interactive analytics.
-    Correlates/filters events at the edge for edge analytics.
-
-*High level language and data storage
-    Use of a structured easy to learn SQL-like query language.
-    Develops complex real-time queries using SQL-like Siddhi query language.
-    Scalable analytic querying using Spark SQL.
-    Support for RDBMS (MSSQL, Oracle, MySQL) as data storages for low to medium scale enterprise deployments.
-    Support for HBase and Cassandra as NoSQL storage for Big Data enterprise deployments.
-
-*Extensibility using C-Apps
-    Industry/domain-specific toolboxes to extend the product for business use cases such as fraud detection, GIS data monitoring, activity monitoring etc.
-    Ability to install C-Apps for each WSO2 middleware product, including the analytics functionality available with WSO2 API Manager.
-
-*Communication
-    Customizable dashboards that provide an at-a-glance view as well as an detail view.
-    Detects conditions and generate realtime alerts and notifications (email, SMS, push notifications, physical sensor alarms etc.)
-    Exposes event tables as an API via WSO2 API Manager and WSO2 Data Services Server.
-
-
-Issues Fixed in This Release
-============================
-* WSO2 Data Analytics Server related components of the WSO2 Carbon Platform - https://wso2.org/jira/issues/?filter=12425
-
-Known Issues in This Release
-============================
-
-* All known issues have been recorded at https://wso2.org/jira/issues/?filter=12426
+* Monitoring Login Operations and User Sessions
+* Analysing Authentication Events
+* Managing Alerts for Abnormal User Behaviours
+* Terminating User Sessions
 
 Installation & Running
 ======================
+
 1. Extract the downloaded zip file
 2. Run the wso2server.sh or wso2server.bat file in the bin directory
 3. Once the server starts, point your Web browser to
-   https://localhost:9443/carbon/
+   https://localhost:9444/carbon/
 
 For more details, see the Installation Guide
 
@@ -98,18 +32,20 @@ System Requirements
 ===================
 
 1. Minimum memory - 2 GB
-2. The Management Console requires full Javascript enablement of the Web browser
+2. The Management Console requires full Javascript enablement of the web browser
 
 For more details see the Installation guide or,
-https://docs.wso2.com/display/DAS300/Installation+Prerequisites
+https://docs.wso2.com/display/DAS310/Installation+Prerequisites
 
 Including External Dependencies
 ===============================
-For a complete guide on adding external dependencies to WSO2 Data Analytics Server & other carbon related products refer to the article:
+
+For a complete guide on adding external dependencies to @product.name@ & other carbon related products refer to the article:
 http://wso2.org/library/knowledgebase/add-external-jar-libraries-wso2-carbon-based-products
 
-WSO2 Data Analytics Server Binary Distribution Directory Structure
+@product.name@ Binary Distribution Directory Structure
 ======================================================
+
      CARBON_HOME
         |-- bin <directory>
         |-- dbscripts <directory>
@@ -128,7 +64,6 @@ WSO2 Data Analytics Server Binary Distribution Directory Structure
         |   |   `-- security <directory>
         |   `-- tenants <directory>
         |-- tmp <directory>
-	    |-- webapp-mode <directory>
         |-- LICENSE.txt <file>
         |-- README.txt <file>
         |-- INSTALL.txt <file>
@@ -142,7 +77,7 @@ WSO2 Data Analytics Server Binary Distribution Directory Structure
       various supported databases.
 
     - lib
-      Contains the basic set of libraries required to startup Application Server
+      Contains the basic set of libraries required to startup @product.name@
       in standalone mode
 
     - repository
@@ -180,20 +115,9 @@ WSO2 Data Analytics Server Binary Distribution Directory Structure
 	  Directory will contain relevant tenant artifacts
 	  in the case of a multitenant deployment.
 
-	- samples
-          Contains the samples which describes the usage and fetures of 
-	  WSO2 Data Analytics Server. This includes four samples: 
-
-		- toolboxes
-		  Complete toolboxes containing artifacts for the use cases of DAS
-
     - tmp
       Used for storing temporary files, and is pointed to by the
       java.io.tmpdir System property.
-
-    - webapp-mode
-      The user has the option of running WSO2 Carbon in webapp mode (hosted as a web-app in an application server).
-      This directory contains files required to run Carbon in webapp mode.
 
     - LICENSE.txt
       Apache License 2.0 under which WSO2 Carbon is distributed.
@@ -202,12 +126,12 @@ WSO2 Data Analytics Server Binary Distribution Directory Structure
       This document.
 
     - INSTALL.txt
-      This document contains information on installing WSO2 Application Server.
+      This document contains information on installing @product.name@
 
     - release-notes.html
-      Release information for WSO2 Data Analytics Server 2.5.0
+      Release information for @product.name@, @product.version@
 
-Secure sensitive information in carbon configuration files
+Secure Sensitive Information in Carbon Configuration Files
 ==========================================================
 
 There are sensitive information such as passwords in the carbon configuration.
@@ -241,14 +165,14 @@ By default mode, it would ask you to enter the master password
 > ciphertool -Dchange  (in UNIX)
 
 For more details see
-http://docs.wso2.org/display/Carbon420/WSO2+Carbon+Secure+Vault
+https://docs.wso2.com/display/ADMIN44x/Carbon+Secure+Vault+Implementation
 
 
 Training
 ========
 
 WSO2 Inc. offers a variety of professional Training Programs, including
-training on general Web services as well as WSO2 Data Analytics Server and number of 
+training on general Web services as well as WSO2 Identity Server and number of
 other products.
 
 For additional support information please refer to
@@ -297,8 +221,7 @@ Crypto Notice
    Bouncycastle     : http://www.bouncycastle.org/
 
 For further details, see the WSO2 Carbon documentation at
-http://docs.wso2.org/display/Carbon420/WSO2+Carbon+Documentation
+https://docs.wso2.com/display/Carbon4411/WSO2+Carbon+Documentation
 
 ---------------------------------------------------------------------------
-(c)  @copyright.year@2014, WSO2 Inc.
-
+(c) Copyright 2018 WSO2 Inc.
