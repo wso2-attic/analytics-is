@@ -82,11 +82,11 @@ System Requirements
 -------------------
 1. Minimum memory - 2GB
 
-2. Java SE Development Kit 1.6.0_24 or higher
+2. Java SE Development Kit 1.8
 
 3. To build @product.name@ from the Source distribution, it is also necessary that you
    have Maven 3.0.3 or later.
 
 For more details see
-    https://docs.wso2.com/display/DAS300/Installing+the+Product
+    https://docs.wso2.com/display/DAS310/Installing+the+Product
 
