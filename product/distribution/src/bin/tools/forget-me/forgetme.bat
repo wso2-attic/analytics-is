@@ -79,6 +79,10 @@ if NOT "%ENDORSED_DIR%" == "" set CLASSPATH="%BASEDIR%"\%ENDORSED_DIR%\*;%CLASSP
 
 if NOT "%CLASSPATH_PREFIX%" == "" set CLASSPATH=%CLASSPATH_PREFIX%;%CLASSPATH%
 
+FOR %%C in ("%BASEDIR%\..\..\plugins\*.jar") DO set CLASSPATH=!CLASSPATH!;"%BASEDIR%\..\..\plugins\%%~nC%%~xC"
+
+FOR %%C in ("%BASEDIR%\..\..\..\..\lib\*.jar") DO set CLASSPATH=!CLASSPATH!;"%BASEDIR%\..\..\..\..\lib\%%~nC%%~xC"
+
 @REM Reaching here means variables are defined and arguments have been captured
 :endInit
 
