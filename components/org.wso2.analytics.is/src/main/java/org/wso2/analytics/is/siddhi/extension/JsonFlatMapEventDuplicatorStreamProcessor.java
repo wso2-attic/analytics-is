@@ -19,6 +19,7 @@ package org.wso2.analytics.is.siddhi.extension;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
 import org.wso2.siddhi.core.event.ComplexEventChunk;
 import org.wso2.siddhi.core.event.stream.StreamEvent;
@@ -46,6 +47,7 @@ public class JsonFlatMapEventDuplicatorStreamProcessor extends StreamProcessor {
     protected List<Attribute> init(AbstractDefinition inputDefinition,
                                    ExpressionExecutor[] attributeExpressionExecutors,
                                    ExecutionPlanContext executionPlanContext) {
+
         this.executionPlanContext = executionPlanContext;
 
         if (attributeExpressionExecutors.length == 1) {
@@ -76,12 +78,13 @@ public class JsonFlatMapEventDuplicatorStreamProcessor extends StreamProcessor {
     @Override
     protected void process(ComplexEventChunk<StreamEvent> streamEventChunk, Processor nextProcessor,
                            StreamEventCloner streamEventCloner, ComplexEventPopulater complexEventPopulater) {
+
         ComplexEventChunk<StreamEvent> newStreamEventChunk = new ComplexEventChunk<>(false);
         synchronized (this) {
             while (streamEventChunk.hasNext()) {
                 StreamEvent streamEvent = streamEventChunk.next();
                 String jsonString = (String) expressionExecutor.execute(streamEvent);
-                if (jsonString != null) {
+                if (StringUtils.isNotBlank(jsonString)) {
                     Map<String, String> map =
                             new Gson().fromJson(jsonString, new TypeToken<Map<String, String>>() {
                             }.getType());
@@ -93,8 +96,9 @@ public class JsonFlatMapEventDuplicatorStreamProcessor extends StreamProcessor {
                         newStreamEventChunk.add(clonedEvent);
                     }
                 } else {
-                    log.debug("Json Flat Map Event Duplicator stream processor " +
-                            "ignored request to duplicate null object");
+                    if (log.isDebugEnabled()) {
+                        log.debug("Ignored creating events from empty JSON string");
+                    }
                 }
             }
         }
@@ -116,12 +120,11 @@ public class JsonFlatMapEventDuplicatorStreamProcessor extends StreamProcessor {
 
     @Override
     public Object[] currentState() {
-        return null;
+        return null;    // Not required
     }
 
     @Override
     public void restoreState(Object[] state) {
         // Not required
     }
-
 }

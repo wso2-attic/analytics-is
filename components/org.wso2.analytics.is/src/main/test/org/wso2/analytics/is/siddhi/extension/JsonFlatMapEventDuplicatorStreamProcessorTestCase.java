@@ -17,7 +17,7 @@
  */
 package org.wso2.analytics.is.siddhi.extension;
 
-import junit.framework.Assert;
+import static junit.framework.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
@@ -40,7 +40,8 @@ public class JsonFlatMapEventDuplicatorStreamProcessorTestCase {
     }
 
     @Test
-    public void eventDuplicatorDefaultDelimiterTest1() throws InterruptedException {
+    public void jsonMapToMultipleEventsTest() throws InterruptedException {
+
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String cseEventStream = "define stream claimsStream " +
@@ -56,12 +57,13 @@ public class JsonFlatMapEventDuplicatorStreamProcessorTestCase {
         executionPlanRuntime.addCallback("query1", new QueryCallback() {
             @Override
             public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
+
                 EventPrinter.print(timeStamp, inEvents, removeEvents);
                 if (inEvents != null) {
                     inEventCount += inEvents.length;
                 }
                 if (removeEvents != null) {
-                    Assert.assertTrue("InEvents should arrive before RemoveEvents",
+                    assertTrue("InEvents should arrive before RemoveEvents",
                             inEventCount > removeEventCount);
                     removeEventCount += removeEvents.length;
                 }
@@ -69,53 +71,53 @@ public class JsonFlatMapEventDuplicatorStreamProcessorTestCase {
 
                 if (inEvents != null) {
                     if (inEventCount == 2) {
-                        Assert.assertEquals(inEvents.length, 2);
-                        Assert.assertEquals("nadund", inEvents[0].getData(0));
-                        Assert.assertEquals("PRIMARY", inEvents[0].getData(1));
-                        Assert.assertEquals("carbon.super", inEvents[0].getData(2));
-                        Assert.assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"nadund\"," +
+                        assertEquals(inEvents.length, 2);
+                        assertEquals("nadund", inEvents[0].getData(0));
+                        assertEquals("PRIMARY", inEvents[0].getData(1));
+                        assertEquals("carbon.super", inEvents[0].getData(2));
+                        assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"nadund\"," +
                                         "\"http://wso2.org/claims/organization\":\"WSO2\"}", inEvents[0].getData(3));
-                        Assert.assertEquals("urn:scim:schemas:core:1.0:userName", inEvents[0].getData(4));
-                        Assert.assertEquals("nadund", inEvents[0].getData(5));
+                        assertEquals("urn:scim:schemas:core:1.0:userName", inEvents[0].getData(4));
+                        assertEquals("nadund", inEvents[0].getData(5));
 
-                        Assert.assertEquals("nadund", inEvents[1].getData(0));
-                        Assert.assertEquals("PRIMARY", inEvents[1].getData(1));
-                        Assert.assertEquals("carbon.super", inEvents[1].getData(2));
-                        Assert.assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"nadund\"," +
+                        assertEquals("nadund", inEvents[1].getData(0));
+                        assertEquals("PRIMARY", inEvents[1].getData(1));
+                        assertEquals("carbon.super", inEvents[1].getData(2));
+                        assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"nadund\"," +
                                         "\"http://wso2.org/claims/organization\":\"WSO2\"}", inEvents[1].getData(3));
-                        Assert.assertEquals("http://wso2.org/claims/organization", inEvents[1].getData(4));
-                        Assert.assertEquals("WSO2", inEvents[1].getData(5));
+                        assertEquals("http://wso2.org/claims/organization", inEvents[1].getData(4));
+                        assertEquals("WSO2", inEvents[1].getData(5));
                     } else if (inEventCount == 5) {
-                        Assert.assertEquals(3, inEvents.length);
-                        Assert.assertEquals("john", inEvents[0].getData(0));
-                        Assert.assertEquals("LEGACY", inEvents[0].getData(1));
-                        Assert.assertEquals("tester.com", inEvents[0].getData(2));
-                        Assert.assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"john\"," +
+                        assertEquals(3, inEvents.length);
+                        assertEquals("john", inEvents[0].getData(0));
+                        assertEquals("LEGACY", inEvents[0].getData(1));
+                        assertEquals("tester.com", inEvents[0].getData(2));
+                        assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"john\"," +
                                         "\"http://wso2.org/claims/organization\":\"IBM\"," +
                                         "\"http://wso2.org/claims/emailaddress\":\"john@gmail.com\"}",
                                 inEvents[0].getData(3));
-                        Assert.assertEquals("urn:scim:schemas:core:1.0:userName", inEvents[0].getData(4));
-                        Assert.assertEquals("john", inEvents[0].getData(5));
+                        assertEquals("urn:scim:schemas:core:1.0:userName", inEvents[0].getData(4));
+                        assertEquals("john", inEvents[0].getData(5));
 
-                        Assert.assertEquals("john", inEvents[1].getData(0));
-                        Assert.assertEquals("LEGACY", inEvents[1].getData(1));
-                        Assert.assertEquals("tester.com", inEvents[1].getData(2));
-                        Assert.assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"john\"," +
+                        assertEquals("john", inEvents[1].getData(0));
+                        assertEquals("LEGACY", inEvents[1].getData(1));
+                        assertEquals("tester.com", inEvents[1].getData(2));
+                        assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"john\"," +
                                         "\"http://wso2.org/claims/organization\":\"IBM\"," +
                                         "\"http://wso2.org/claims/emailaddress\":\"john@gmail.com\"}",
                                 inEvents[1].getData(3));
-                        Assert.assertEquals("http://wso2.org/claims/organization", inEvents[1].getData(4));
-                        Assert.assertEquals("IBM", inEvents[1].getData(5));
+                        assertEquals("http://wso2.org/claims/organization", inEvents[1].getData(4));
+                        assertEquals("IBM", inEvents[1].getData(5));
 
-                        Assert.assertEquals("john", inEvents[2].getData(0));
-                        Assert.assertEquals("LEGACY", inEvents[2].getData(1));
-                        Assert.assertEquals("tester.com", inEvents[2].getData(2));
-                        Assert.assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"john\"," +
+                        assertEquals("john", inEvents[2].getData(0));
+                        assertEquals("LEGACY", inEvents[2].getData(1));
+                        assertEquals("tester.com", inEvents[2].getData(2));
+                        assertEquals("{\"urn:scim:schemas:core:1.0:userName\":\"john\"," +
                                         "\"http://wso2.org/claims/organization\":\"IBM\"," +
                                         "\"http://wso2.org/claims/emailaddress\":\"john@gmail.com\"}",
                                 inEvents[2].getData(3));
-                        Assert.assertEquals("http://wso2.org/claims/emailaddress", inEvents[2].getData(4));
-                        Assert.assertEquals("john@gmail.com", inEvents[2].getData(5));
+                        assertEquals("http://wso2.org/claims/emailaddress", inEvents[2].getData(4));
+                        assertEquals("john@gmail.com", inEvents[2].getData(5));
                     }
                 }
             }
@@ -131,9 +133,9 @@ public class JsonFlatMapEventDuplicatorStreamProcessorTestCase {
                         "\"http://wso2.org/claims/organization\":\"IBM\"," +
                         "\"http://wso2.org/claims/emailaddress\":\"john@gmail.com\"}"});
         Thread.sleep(4000);
-        Assert.assertEquals(5, inEventCount);
-        Assert.assertEquals(0, removeEventCount);
-        Assert.assertTrue(eventArrived);
+        assertEquals(5, inEventCount);
+        assertEquals(0, removeEventCount);
+        assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
 }

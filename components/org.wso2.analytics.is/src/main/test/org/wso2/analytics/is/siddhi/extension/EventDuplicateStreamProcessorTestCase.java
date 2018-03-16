@@ -43,6 +43,7 @@ public class EventDuplicateStreamProcessorTestCase {
 
     @Test
     public void eventDuplicatorDefaultDelimiterTest1() throws InterruptedException {
+
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String cseEventStream = "" +
@@ -84,6 +85,7 @@ public class EventDuplicateStreamProcessorTestCase {
 
     @Test
     public void eventDuplicatorSpecificDelimiterTest2() throws InterruptedException {
+
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String cseEventStream = "" +
