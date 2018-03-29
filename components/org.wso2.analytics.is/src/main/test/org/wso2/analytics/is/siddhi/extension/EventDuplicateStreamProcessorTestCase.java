@@ -81,7 +81,6 @@ public class EventDuplicateStreamProcessorTestCase {
         Assert.assertEquals(0, removeEventCount);
         Assert.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
-
     }
 
     @Test
@@ -124,6 +123,5 @@ public class EventDuplicateStreamProcessorTestCase {
         Assert.assertEquals(0, removeEventCount);
         Assert.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
-
     }
 }

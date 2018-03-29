@@ -1,0 +1,24 @@
+{
+  "name": "org.wso2.is.analytics.stream.LatestIdPProperties",
+  "version": "1.0.0",
+  "nickName": "",
+  "description": "",
+  "payloadData": [
+    {
+      "name": "idPName",
+      "type": "STRING"
+    },
+    {
+      "name": "tenantDomain",
+      "type": "STRING"
+    },
+    {
+      "name": "propertyName",
+      "type": "STRING"
+    },
+    {
+      "name": "propertyValue",
+      "type": "STRING"
+    }
+  ]
+}

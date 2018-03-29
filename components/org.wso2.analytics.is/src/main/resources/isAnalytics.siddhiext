@@ -20,6 +20,7 @@
 ipToCountry=org.wso2.analytics.is.siddhi.extension.IpToCountryExtension
 ipToCity=org.wso2.analytics.is.siddhi.extension.IpToCityExtension
 duplicator=org.wso2.analytics.is.siddhi.extension.EventDuplicateStreamProcessor
+jsonFlatMapDuplicator=org.wso2.analytics.is.siddhi.extension.JsonFlatMapEventDuplicatorStreamProcessor
 getMinuteStartingTime=org.wso2.analytics.is.siddhi.extension.MinuteStartingTimeFunctionExtension
 batch=org.wso2.analytics.is.siddhi.extension.BatchWindowProcessor
 getSecondStartingTime=org.wso2.analytics.is.siddhi.extension.SecondStartingTimeFunctionExtension
