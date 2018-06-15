@@ -35,7 +35,7 @@ System Requirements
 2. The Management Console requires full Javascript enablement of the web browser
 
 For more details see the Installation guide or,
-https://docs.wso2.com/display/DAS310/Installation+Prerequisites
+https://docs.wso2.com/display/IS560/Prerequisites+to+Publish+Statistics
 
 Including External Dependencies
 ===============================
