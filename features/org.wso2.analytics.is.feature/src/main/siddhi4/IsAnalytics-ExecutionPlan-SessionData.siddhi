@@ -83,7 +83,3 @@ from SessionStatPerMinute#window.length(1)
 select meta_tenantId, 'count' as id, activeSessionCount as activeCount
 update or insert into activeSessionCountTable
 on activeSessionCountTable.meta_tenantId==meta_tenantId AND activeSessionCountTable.id==id;
-
-
-
-
