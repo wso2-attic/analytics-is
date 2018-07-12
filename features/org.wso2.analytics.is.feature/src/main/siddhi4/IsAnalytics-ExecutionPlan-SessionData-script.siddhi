@@ -1,0 +1,72 @@
+@App:name("IsAnalytics-ExecutionPlan-SessionData-script")
+@App:description("Implementing spark scripts of Session Management")
+
+-- Please refer to https://docs.wso2.com/display/SP400/Quick+Start+Guide on getting started with SP editor. 
+
+-- Definition of streams
+@source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallSession:1.0.0", @map(type = 'wso2event'))
+
+define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
+
+define stream TriggerStream (triggered_time long);
+
+@sink(type='log', prefix='SessionStreamInfotable')
+define stream SessionStreamInfotable (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string, _timestamp long);
+
+@sink(type='log', prefix='Meta details')
+define stream sessionManagementMetaDuplicatestream(triggered_time long,id string, current long, previous long);
+
+--@sink(type='log', prefix='a details')
+--define stream astream(triggered_time long,meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, id string, current long, previous long);
+
+define trigger TriggerStream at every 1 sec;
+
+-- Initialising Datasources
+
+@primaryKey('meta_tenantId', 'sessionId') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table activeSessionsTable (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, year int, month int, day int, hour int, minute int, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
+@primaryKey('meta_tenantId', 'sessionId') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table sessionInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string, _timestamp long);
+
+@primaryKey('meta_tenantId', 'sessionId') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table rawSessionsTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string, _timestamp long);
+
+@primaryKey('id') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table sessionManagementMeta(id string, current long, previous long);
+
+@primaryKey('id') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table sessionManagementMetaDuplicate(id string, current long, previous long);
+
+@primaryKey('meta_tenantId', 'sessionId') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table sesssionEventsNotificationTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
+
+-- Queries
+
+from TriggerStream#rdbms:query("Session1DB", "SELECT 'id', (UNIX_TIMESTAMP(now(0))*1000), (CASE WHEN A.isExist=0 then 0 ELSE B.previous END) from (SELECT 'id' as id,  count(*) as isExist from sessionManagementMetaDuplicate where id='id') A LEFT OUTER JOIN (SELECT 'id' as id, previous from sessionManagementMetaDuplicate where id='id') B ON A.id = B.id","id string, current long, previous long") 
+select * 
+insert into sessionManagementMetaDuplicatestream;
+
+from sessionManagementMetaDuplicatestream
+select id, current, previous
+update or insert into sessionManagementMeta
+on sessionManagementMeta.id==id;
+
+from TriggerStream join activeSessionsTable
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, convert(-1, 'long') as endTimestamp, year, month, day, hour, minute, (currentTimeMillis() - startTimestamp) as duration, true as isActive, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, usernameWithTenantDomainAndUserstoreDomain, convert(-1, 'long') as _timestamp
+update or insert into rawSessionsTable
+on rawSessionsTable.meta_tenantId==meta_tenantId and rawSessionsTable.sessionId==sessionId;
+
+--from TriggerStream#rdbms:query("Session1DB","select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, 0, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, (UNIX_TIMESTAMP(now(0))*1000) from (SELECT 'id' as id, meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, 0, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, (UNIX_TIMESTAMP(now(0))*1000) from activeSessionsTable) A LEFT OUTER JOIN (SELECT id, current, previous from sessionManagementMeta where id='id') B on A.id = B.id where A.terminationTimestamp < B.current AND A.terminationTimestamp >= B.previous","meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, id string, current long, previous long")
+--select *
+--insert into astream;
+
+--from astream
+--select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, 0 as action, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, currentTimeMillis() as _timestamp
+--update or insert into sesssionEventsNotificationTable 
+--on sesssionEventsNotificationTable.meta_tenantId==meta_tenantId and sesssionEventsNotificationTable.sessionId==sessionId;
