@@ -91,7 +91,7 @@ geronimo-jta_1.1_spec-1.1.jar                                                   
 geronimo-saaj_1.3_spec_1.0.1.wso2v2.jar                                         bundle         apache2   16051
 gson-2.8.2.jar                                                                  bundle         apache2   2894
 h2-1.3.175.jar                                                                  jarinbundle    epl1      1999
-h2-1.2.140-wso2v3.jar                                                          	       		   apache2
+h2-1.2.140-wso2v3.jar                                                          	       		apache2
 h2-database-engine-1.2.140.wso2v3.jar                                           bundle         epl1      16076
 h2_1.3.175.wso2v1.jar                                                           bundle         apache2   9731
 hadoop-client_2.7.2.wso2v1.jar                                                  bundle         apache2   8738
@@ -225,10 +225,8 @@ org.eclipse.equinox.simpleconfigurator.manipulator_2.0.0.v20130327-2119.jar     
 org.eclipse.equinox.simpleconfigurator_1.0.400.v20130327-2119.jar               bundle         epl1      1095
 org.eclipse.equinox.util_1.0.500.v20130404-1337.jar                             bundle         epl1      1094
 org.eclipse.jdt.core.compiler.batch_3.10.2.v20150120-1634.jar                   bundle         epl1      1141
-org.eclipse.osgi.services-3.4.0.v20140312-2051.jar                            		           epl1
 org.eclipse.osgi.services_3.3.100.v20130513-1956.jar                            bundle         epl1      1093
 org.eclipse.osgi_3.9.1.v20130814-1242.jar                                       bundle         epl1      1092
-org.eclipse.osgi-3.10.2.v20150203-1939.jar                                      		       epl1
 org.eclipse.wst.jsdt.debug.rhino.debugger_1.0.300.v201109150503.jar             bundle         epl1      558
 org.eclipse.wst.jsdt.debug.transport_1.0.100.v201109150330.jar                  bundle         epl1      557
 org.fusesource.leveldbjni_1.8.0.jar                                             bundle         bsd3      2006
@@ -262,7 +260,7 @@ org.sat4j.pb_2.3.5.v201308161310.jar                                            
 org.scala-lang.scala-library_2.10.5.v20150226-164155-VFINAL-88c5407613.jar      bundle         bsd       2004
 org.scala-lang.scala-reflect_2.10.5.v20150226-164155-VFINAL-88c5407613.jar      bundle         bsd       2003
 org.wso2.analytics.apim.spark_2.0.0.jar                                         bundle         apache2   10699
-org.wso2.analytics.is_5.6.0.jar                                                 bundle         apache2   16275
+org.wso2.analytics.is_5.7.0.m3.jar                                              bundle         apache2   17017
 org.wso2.analytics.shared.util_1.0.4.jar                                        bundle         apache2   16274
 org.wso2.carbon.addressing_4.4.32.jar                                           bundle         apache2   16018
 org.wso2.carbon.analytics.activitydashboard.admin_1.3.31.jar                    bundle         apache2   16017
@@ -333,9 +331,9 @@ org.wso2.carbon.databridge.receiver.binary_5.1.42.jar                           
 org.wso2.carbon.databridge.receiver.thrift_5.1.42.jar                           bundle         apache2   15904
 org.wso2.carbon.databridge.streamdefn.filesystem_5.1.42.jar                     bundle         apache2   15903
 org.wso2.carbon.datasource.core-1.0.2.jar                                       bundle         apache2   16073
-org.wso2.carbon.datasource.reader.cassandra_4.4.66.jar                          bundle         apache2   16271
-org.wso2.carbon.datasource.reader.hadoop_4.4.66.jar                             bundle         apache2   16270
-org.wso2.carbon.datasource.reader.mongo_4.4.66.jar                              bundle         apache2   16269
+org.wso2.carbon.datasource.reader.cassandra_4.4.67.jar                          bundle         apache2   16569
+org.wso2.carbon.datasource.reader.hadoop_4.4.67.jar                             bundle         apache2   16568
+org.wso2.carbon.datasource.reader.mongo_4.4.67.jar                              bundle         apache2   16567
 org.wso2.carbon.deployment.synchronizer.subversion_4.6.40.jar                   bundle         apache2   15887
 org.wso2.carbon.deployment.synchronizer_4.6.40.jar                              bundle         apache2   15886
 org.wso2.carbon.discovery.cxf_4.7.19.jar                                        bundle         apache2   15884
@@ -418,25 +416,25 @@ org.wso2.carbon.feature.mgt.stub_4.4.32.jar                                     
 org.wso2.carbon.feature.mgt.ui_4.4.32.jar                                       bundle         apache2   16224
 org.wso2.carbon.framework.exporter_4.4.32.jar                                   bundle         apache2   15800
 org.wso2.carbon.i18n_4.4.32.jar                                                 bundle         apache2   15792
-org.wso2.carbon.identity.application.common_5.11.256.jar                        bundle         apache2   15791
+org.wso2.carbon.identity.application.common_5.12.27.jar                         bundle         apache2   17016
 org.wso2.carbon.identity.authentication_4.6.19.jar                              bundle         apache2   15790
 org.wso2.carbon.identity.authentication_4.6.21.jar                              bundle         apache2   15789
 org.wso2.carbon.identity.authenticator.saml2.sso.common_5.2.9.jar               bundle         apache2   16207
 org.wso2.carbon.identity.authenticator.saml2.sso.stub_5.2.9.jar                 bundle         apache2   16206
 org.wso2.carbon.identity.authenticator.saml2.sso.ui_5.2.9.jar                   bundle         apache2   16205
 org.wso2.carbon.identity.authenticator.saml2.sso_5.2.9.jar                      bundle         apache2   16204
-org.wso2.carbon.identity.base_5.11.256.jar                                      bundle         apache2   15784
-org.wso2.carbon.identity.core.ui_5.11.256.jar                                   bundle         apache2   15783
-org.wso2.carbon.identity.core_5.11.256.jar                                      bundle         apache2   15782
-org.wso2.carbon.identity.governance.stub_5.11.256.jar                           bundle         apache2   15777
+org.wso2.carbon.identity.base_5.12.27.jar                                       bundle         apache2   17015
+org.wso2.carbon.identity.core.ui_5.12.27.jar                                    bundle         apache2   17014
+org.wso2.carbon.identity.core_5.12.27.jar                                       bundle         apache2   17013
+org.wso2.carbon.identity.governance.stub_5.12.27.jar                            bundle         apache2   17012
 org.wso2.carbon.identity.sso.agent_5.1.0.jar                                    bundle         apache2   8353
 org.wso2.carbon.identity.sso.saml.stub_5.1.3.jar                                bundle         apache2   10490
-org.wso2.carbon.identity.user.store.configuration.deployer_5.11.256.jar         bundle         apache2   15770
-org.wso2.carbon.identity.user.store.configuration.stub_5.11.256.jar             bundle         apache2   15769
-org.wso2.carbon.identity.user.store.configuration.ui_5.11.256.jar               bundle         apache2   15768
-org.wso2.carbon.identity.user.store.configuration_5.11.256.jar                  bundle         apache2   15767
-org.wso2.carbon.identity.user.store.count.stub_5.11.256.jar                     bundle         apache2   15766
-org.wso2.carbon.identity.user.store.count_5.11.256.jar                          bundle         apache2   15765
+org.wso2.carbon.identity.user.store.configuration.deployer_5.12.27.jar          bundle         apache2   17011
+org.wso2.carbon.identity.user.store.configuration.stub_5.12.27.jar              bundle         apache2   17010
+org.wso2.carbon.identity.user.store.configuration.ui_5.12.27.jar                bundle         apache2   17009
+org.wso2.carbon.identity.user.store.configuration_5.12.27.jar                   bundle         apache2   17008
+org.wso2.carbon.identity.user.store.count.stub_5.12.27.jar                      bundle         apache2   17007
+org.wso2.carbon.identity.user.store.count_5.12.27.jar                           bundle         apache2   17006
 org.wso2.carbon.jndi-1.0.0-alpha.jar                                            bundle         apache2   16072
 org.wso2.carbon.logging-4.4.32.jar                                              bundle         apache2   15487
 org.wso2.carbon.logging.admin.stub_4.6.40.jar                                   bundle         apache2   15752
@@ -493,9 +491,9 @@ org.wso2.carbon.roles.mgt.stub_4.4.32.jar                                       
 org.wso2.carbon.roles.mgt.ui_4.4.32.jar                                         bundle         apache2   15589
 org.wso2.carbon.roles.mgt_4.4.32.jar                                            bundle         apache2   15588
 org.wso2.carbon.securevault_4.4.32.jar                                          bundle         apache2   15583
-org.wso2.carbon.security.mgt.stub_5.11.256.jar                                  bundle         apache2   15582
-org.wso2.carbon.security.mgt.ui_5.11.256.jar                                    bundle         apache2   15581
-org.wso2.carbon.security.mgt_5.11.256.jar                                       bundle         apache2   15580
+org.wso2.carbon.security.mgt.stub_5.12.27.jar                                   bundle         apache2   17005
+org.wso2.carbon.security.mgt.ui_5.12.27.jar                                     bundle         apache2   17004
+org.wso2.carbon.security.mgt_5.12.27.jar                                        bundle         apache2   17003
 org.wso2.carbon.server-4.4.32.jar                                               bundle         apache2   16065
 org.wso2.carbon.server.admin.common_4.4.32.jar                                  bundle         apache2   15575
 org.wso2.carbon.server.admin.stub_4.4.32.jar                                    bundle         apache2   15574
@@ -528,18 +526,18 @@ org.wso2.carbon.ui.menu.tools_4.4.31.jar                                        
 org.wso2.carbon.ui_4.4.32.jar                                                   bundle         apache2   15531
 org.wso2.carbon.user.api_4.4.32.jar                                             bundle         apache2   15529
 org.wso2.carbon.user.core_4.4.32.jar                                            bundle         apache2   15528
-org.wso2.carbon.user.mgt.common_5.11.256.jar                                    bundle         apache2   15527
-org.wso2.carbon.user.mgt.stub_5.11.256.jar                                      bundle         apache2   15526
-org.wso2.carbon.user.mgt.ui_5.11.256.jar                                        bundle         apache2   15525
-org.wso2.carbon.user.mgt.workflow.stub_5.11.256.jar                             bundle         apache2   15524
-org.wso2.carbon.user.mgt_5.11.256.jar                                           bundle         apache2   15523
+org.wso2.carbon.user.mgt.common_5.12.27.jar                                     bundle         apache2   17002
+org.wso2.carbon.user.mgt.stub_5.12.27.jar                                       bundle         apache2   17001
+org.wso2.carbon.user.mgt.ui_5.12.27.jar                                         bundle         apache2   17000
+org.wso2.carbon.user.mgt.workflow.stub_5.12.27.jar                              bundle         apache2   16999
+org.wso2.carbon.user.mgt_5.12.27.jar                                            bundle         apache2   16998
 org.wso2.carbon.utils_4.4.32.jar                                                bundle         apache2   15522
 org.wso2.carbon.webapp.deployer_4.7.19.jar                                      bundle         apache2   15521
 org.wso2.carbon.webapp.mgt_4.7.19.jar                                           bundle         apache2   15520
 org.wso2.carbon.wsdl2form-4.6.40.jar                                            bundle         apache2   15536
 org.wso2.ciphertool-1.0.0-wso2v3.jar                                            bundle         apache2   4038
-org.wso2.das4is.multitenancy.dashboard.ui_5.6.0.jar                             bundle         apache2   16266
-org.wso2.das4is.styles_5.6.0.jar                                                bundle         apache2   16265
+org.wso2.das4is.multitenancy.dashboard.ui_5.7.0.m3.jar                          bundle         apache2   16997
+org.wso2.das4is.styles_5.7.0.m3.jar                                             bundle         apache2   16996
 org.wso2.securevault_1.0.0.wso2v2.jar                                           bundle         apache2   768
 org.xerial.snappy.snappy-java_1.1.2.1.jar                                       bundle         apache2   2002
 org.yaml.snakeyaml_1.11.0.jar                                                   bundle         apache2   1222
