@@ -5,7 +5,7 @@ To deploy The To deploy the siddhi4 execution files refer link https://docs.wso2
 
 **For authentication Data Analytics:**
 - Download WSO2 stream Processor (This will be referred as <SP_HOME>)
-- Open the file "<SP_Home>/conf/worker/deployment.yaml" and add following datasource:
+- Open the file _<SP_Home>/conf/worker/deployment.yaml_ and add following datasource:
     ```
     - name: IS_ANALYTICS_DB
       description: The datasource used for dashboard feature
@@ -23,12 +23,12 @@ To deploy The To deploy the siddhi4 execution files refer link https://docs.wso2
           validationTimeout: 30000
           isAutoCommit: false
               
-- Copy all the `.siddhi` files to `<SP_HOME>/wso2/worker/deployment/siddhi-files/` directory.
+- Copy all the `.siddhi` files to _<SP_HOME>/wso2/worker/deployment/siddhi-files/_ directory.
 
 - Setup geo database as described in the following:
     - [Download and configure Geolocation Database](https://docs.wso2.com/display/AM210/Configuring+Geolocation+Based+Statistics).    
 
-- Then add following configuration to the `<SP_Home>/conf/worker/deployment.yaml` file.
+- Then add following configuration to the _<SP_Home>/conf/worker/deployment.yaml_ file.
 
     ```
     siddhi:
@@ -54,7 +54,7 @@ To deploy The To deploy the siddhi4 execution files refer link https://docs.wso2
               isPersistInDatabase: true
               datasource: IS_ANALYTICS_DB
 
-- Copy all the widgets to `<SP_HOME>/wso2/dashboard/deployment/web-ui-apps/portal/extensions/widgets` directory. (Make sure to copy everything under `<Widget Root>/dist/` to the widgets directory.
+- Copy all the widgets to _<SP_HOME>/wso2/dashboard/deployment/web-ui-apps/portal/extensions/widgets_ directory. (Make sure to copy everything under _<Widget Root>/dist/_ to the widgets directory).
   
-- Now run the worker (`<SP_HOME>/bin/worker.sh` or `<SP_HOME>/bin/worker.bat`) and the dashboard (`<SP_HOME>/bin/dashboard.sh` or `<SP_HOME>/bin/dashboard.bat`)
+- Now run the worker (_<SP_HOME>/bin/worker.sh_ or _<SP_HOME>/bin/worker.bat_) and the dashboard (_<SP_HOME>/bin/dashboard.sh_ or _<SP_HOME>/bin/dashboard.bat_)
 - Access the dashboard using the given url from the dashboard console.
