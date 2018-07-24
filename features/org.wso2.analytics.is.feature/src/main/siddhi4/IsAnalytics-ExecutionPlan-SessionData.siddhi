@@ -1,0 +1,85 @@
+@App:name("IsAnalytics-ExecutionPlan-SessionData")
+@App:description("Description of the plan")
+
+-- Please refer to https://docs.wso2.com/display/SP400/Quick+Start+Guide on getting started with SP editor. 
+
+@source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallSession:1.0.0", @map(type = 'wso2event'))
+
+
+define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
+
+@source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytis.stream.OverallAuthentication:1.0.0", @map(type = 'wso2event'))
+
+define stream InStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+
+
+@sink(type='log', prefix='IntermediateSession Data')
+
+define stream IntermediateSessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
+@sink(type='log', prefix='SessionStream Data')
+define stream SessionStreamInfo (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
+@sink(type= 'log', prefix='Bucket Stream')
+define stream BucketStream ( meta_tenantId int, bucketId long, newSessionCount long, terminatedSessionCount long, net long, id string);
+
+@sink(type='log', prefix='Session Stat per minute Data')
+
+define stream SessionStatPerMinute (meta_tenantId int, bucketId long, bucketStart long, bucketEnd long, year int, month int, day int, hour int, minute int, activeSessionCount long, newSessionCount long, terminatedSessionCount long);
+
+
+@primaryKey('meta_tenantId', 'sessionId') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table activeSessionsTable (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, year int, month int, day int, hour int, minute int, duration long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
+
+@primaryKey('meta_tenantId', 'id') 
+@store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
+define table activeSessionCountTable(meta_tenantId int, id string, activeCount long);
+
+@store( type="rdbms",
+        jdbc.url="jdbc:mysql://localhost:3306/Session1DB?useSSL=false",
+        username="root",
+        password="Analytics",
+        jdbc.driver.name="com.mysql.jdbc.Driver")
+define aggregation stockAggregation
+from SessionStatPerMinute
+select meta_tenantId, bucketId, bucketStart, bucketEnd, activeSessionCount, newSessionCount, terminatedSessionCount
+group by meta_tenantId
+aggregate every sec...year;
+--from SessionStream#log()
+--insert into ignore;
+
+from SessionStream 
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, action, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, time:timestampInMilliseconds() as _timestamp
+insert into IntermediateSessionStream;
+
+from IntermediateSessionStream [action == 1 OR action == 2]#window.timeBatch(1 sec)
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (_timestamp - startTimestamp) as duration, action, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, ifThenElse(userstoreDomain is null OR userstoreDomain == "" OR userstoreDomain == "NOT_AVAILABLE" OR tenantDomain is null OR tenantDomain == "" OR tenantDomain == "NOT_AVAILABLE", username, str:concat(userstoreDomain, '/', username, '@', tenantDomain)) as usernameWithTenantDomainAndUserstoreDomain
+update or insert  into activeSessionsTable
+on activeSessionsTable.meta_tenantId==meta_tenantId AND activeSessionsTable.sessionId==sessionId;
+
+from IntermediateSessionStream [action == 1 OR action == 2]
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, convert(-1, 'long') as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (_timestamp - startTimestamp) as duration, true as isActive, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, ifThenElse(userstoreDomain is null OR userstoreDomain == "" OR userstoreDomain == "NOT_AVAILABLE" OR tenantDomain is null OR tenantDomain == "" OR tenantDomain == "NOT_AVAILABLE", username, str:concat(userstoreDomain, '/', username, '@', tenantDomain)) as usernameWithTenantDomainAndUserstoreDomain
+insert into SessionStreamInfo;
+
+from IntermediateSessionStream [action == 0]
+select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, terminationTimestamp as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (terminationTimestamp - startTimestamp) as duration,  false as isActive, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, ifThenElse(userstoreDomain is null OR userstoreDomain == "" OR userstoreDomain == "NOT_AVAILABLE" OR tenantDomain is null OR tenantDomain == "" OR tenantDomain == "NOT_AVAILABLE", username, str:concat(userstoreDomain, '/', username, '@', tenantDomain)) as usernameWithTenantDomainAndUserstoreDomain
+insert into SessionStreamInfo;
+
+from SessionStreamInfo[isActive == false]#window.timeBatch(1 sec)
+delete activeSessionsTable
+on activeSessionsTable.sessionId == sessionId AND activeSessionsTable.meta_tenantId == meta_tenantId;
+
+from IntermediateSessionStream[action == 1 OR action == 0]#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
+select meta_tenantId, (_timestamp - _timestamp%60000) as bucketId, sum(action) as newSessionCount, sum(1 - action) as terminatedSessionCount, (2*sum(action)-count()) as net, 'count' as id
+group by meta_tenantId
+insert into BucketStream;
+
+from BucketStream#window.length(1) as s left outer join activeSessionCountTable as t
+on s.id == t.id AND s.meta_tenantId == t.meta_tenantId
+select s.meta_tenantId, s.bucketId, s.bucketId as bucketStart, (s.bucketId + 60000) as bucketEnd, time:extract(bucketId, 'year') as year, time:extract(bucketId, 'month') as month, time:extract(bucketId, 'day') as day, time:extract(bucketId, 'hour') as hour, time:extract(bucketId, 'minute') as minute,  (s.net  + ifThenElse(t.activeCount is null, convert(0, 'long'), t.activeCount) ) as activeSessionCount, s.newSessionCount, s.terminatedSessionCount
+group by s.meta_tenantId
+insert into SessionStatPerMinute;
+
+from SessionStatPerMinute#window.length(1)
+select meta_tenantId, 'count' as id, activeSessionCount as activeCount
+update or insert into activeSessionCountTable
+on activeSessionCountTable.meta_tenantId==meta_tenantId AND activeSessionCountTable.id==id;

@@ -1,0 +1,44 @@
+@App:name("ISAnalytics-ConfigureSuspiciousLoginDetection-ConfigureSuspiciousLoginDetection-realtime1")
+@App:description("Description of the plan")
+
+-- Please refer to https://docs.wso2.com/display/SP400/Quick+Start+Guide on getting started with SP editor. 
+
+@source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallAuthentication:1.0.0", @map(type = 'wso2event'))
+
+define stream AuthStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+
+@source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallSession:1.0.0", @map(type = 'wso2event'))
+
+
+define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
+
+
+@sink(type='log', prefix='Login Alert Stream Same Username')
+
+define stream LoginAlertStreamSameUsername (meta_tenantId int, username string, severity int, msg string, tenantDomain string, _timestamp long, serviceProvider string);
+@sink(type='log', prefix='Login Alert Stream')
+
+define stream LoginAlertStream (meta_tenantId int, username string, severity int, msg string, tenantDomain string, _timestamp long);
+@sink(type='log', prefix='Login2 Data')
+define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long, userReadableTime string);
+
+--from AuthStream#log()
+--insert into ignore;
+
+@info(name = 'detectEventsForSameUser')
+from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<5:> ->  e3=AuthStream[authStepSuccess == true AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
+within 1 min
+select e2[last].meta_tenantId, e2[last].username, 1 as severity, str:concat('Successful login attempt after multiple login failures with same username detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, e2[last].tenantDomain, e3[last]._timestamp, e2[last].serviceProvider
+output first every 1 min
+insert into LoginAlertStreamSameUsername;
+
+--from LoginAlertStreamSameUsername#log()
+--insert into ignore;
+@info(name = 'sendingSameUserEventsToLoginAlertStream')
+from LoginAlertStreamSameUsername
+select meta_tenantId, username, severity, msg, tenantDomain, _timestamp
+insert into LoginAlertStream;
+
+from LoginAlertStreamSameUsername
+select meta_tenantId, "SuspiciousLoginAlert" as type, tenantDomain, str:concat('Successful login attempt after multiple login failures from same username: ', username, ' detected at: ', time:dateFormat(e3[last]._timestamp,'yyyy-MM-dd HH:mm:ss'), '.') as msg, severity, (time:timestampInMilliseconds()) as alertTimestamp, time:dateFormat((time:timestampInMilliseconds()),'yyyy-MM-dd HH:mm:ss') as userReadableTime
+insert into alert_allISAlertsStream;
