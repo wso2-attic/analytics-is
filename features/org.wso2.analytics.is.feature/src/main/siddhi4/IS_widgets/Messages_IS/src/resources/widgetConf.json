@@ -1,0 +1,27 @@
+{
+  "name": "Messages_IS",
+  "id": "Messages_IS",
+  "thumbnailURL": "",
+  "configs": {
+    "pubsub": {
+      "types": [
+        "subscriber"
+      ]
+    },
+    "providerConfig": {
+      "configs": {
+        "type": "RDBMSBatchDataProvider",
+        "config": {
+          "datasourceName": "Session1DB",
+          "queryData": {
+            "query": "select username, startTimestamp, terminationTimestamp, endTimestamp, duration, if (isActive=0 ,'False','True') as isActive, userstoreDomain, tenantDomain, remoteIp, if (rememberMeFlag=0 ,'False','True') as  rememberMeFlag, timeStamp from sessionInfoTable WHERE timeStamp >= 'begin' AND timeStamp <= 'finish'"
+          },
+          "incrementalColumn": "meta_tenantId",
+          "publishingInterval": 60
+
+        }
+      }
+    }
+  }
+}
+

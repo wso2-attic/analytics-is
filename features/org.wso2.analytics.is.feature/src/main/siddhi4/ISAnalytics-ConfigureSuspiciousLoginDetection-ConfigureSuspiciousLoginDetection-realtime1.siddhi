@@ -2,6 +2,7 @@
 @App:description("Description of the plan")
 
 -- Please refer to https://docs.wso2.com/display/SP400/Quick+Start+Guide on getting started with SP editor. 
+-- Stream definition
 
 @source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallAuthentication:1.0.0", @map(type = 'wso2event'))
 
@@ -9,9 +10,7 @@ define stream AuthStream (meta_tenantId int, contextId string, eventId string, e
 
 @source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallSession:1.0.0", @map(type = 'wso2event'))
 
-
 define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
-
 
 @sink(type='log', prefix='Login Alert Stream Same Username')
 
@@ -24,6 +23,8 @@ define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDom
 
 --from AuthStream#log()
 --insert into ignore;
+
+-- Queries 
 
 @info(name = 'detectEventsForSameUser')
 from every(e1=AuthStream) -> e2=AuthStream[authStepSuccess == false AND e1.username == e2.username AND e1.userStoreDomain == e2.userStoreDomain AND e1.tenantDomain == e2.tenantDomain]<5:> ->  e3=AuthStream[authStepSuccess == true AND e2.username == e3.username AND e2.userStoreDomain == e3.userStoreDomain AND e2.tenantDomain == e3.tenantDomain]
