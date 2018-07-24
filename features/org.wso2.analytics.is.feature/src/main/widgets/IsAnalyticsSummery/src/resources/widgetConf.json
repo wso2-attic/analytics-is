@@ -1,0 +1,39 @@
+{
+  "name": "IS Analytics Summery",
+  "id": "IsAnalyticsSummery",
+  "thumbnailURL": "",
+  "configs": {
+    "pubsub": {
+      "types": [
+        "subscriber"
+      ]
+    },
+    "options": [
+      {
+        "id": "authType",
+        "title": "Authentication Type",
+        "type": {
+          "name": "ENUM",
+          "possibleValues": [
+            "Overall",
+            "Local",
+            "Federated"
+          ]
+        },
+        "defaultValue": "Overall"
+      }
+    ],
+    "providerConfig": {
+      "configs": {
+        "type": "SiddhiStoreDataProvider",
+        "config": {
+          "siddhiApp":"@App:name(\"IS_Analytics_AuthStat\") @App:description(\"Receive analytics data from IS and store store them in a database\") define stream InStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string); define stream countStream (meta_tenantId int, eventId string, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, successValue int, failureValue int, stepSuccessValue int, firstLoginValue int, identityProviderType string); @store(type='rdbms', datasource='IS_ANALYTICS_DB') define stream OverallAuthenticationProcessedStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string);  @store(type='rdbms', datasource='IS_ANALYTICS_DB') define aggregation AuthenticationStatAggregation from countStream select meta_tenantId, username, localUsername, rolesCommaSeparated, serviceProvider, identityProvider, remoteIp, region, userStoreDomain, sum(successValue) as authSuccessCount, sum(failureValue) as authFailureCount, sum(stepSuccessValue) as authStepSuccessCount, sum(firstLoginValue) as  authFirstSuccessCount, identityProviderType  group by meta_tenantId, username, localUsername  aggregate every second ... year;  from InStream  select meta_tenantId, contextId, eventId, eventType, authenticationSuccess, username, localUsername, userStoreDomain, tenantDomain, remoteIp, \"Sri Lanka\" as region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeparated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin, identityProviderType insert into OverallAuthenticationProcessedStream;  from OverallAuthenticationProcessedStream select meta_tenantId, eventId, username, localUsername, userStoreDomain, tenantDomain, remoteIp, region, inboundAuthType, serviceProvider, rememberMeEnabled, forceAuthEnabled, passiveAuthEnabled, rolesCommaSeparated, authenticationStep, identityProvider, authStepSuccess, stepAuthenticator, isFirstLogin,ifThenElse(authenticationSuccess == true, 1, 0) as successValue,ifThenElse((authStepSuccess == false and eventType == 'step'), 1, 0) as failureValue,ifThenElse((authStepSuccess == true and eventType == 'step'), 1, 0) as stepSuccessValue, ifThenElse(authenticationSuccess == true AND isFirstLogin == true, 1, 0) as firstLoginValue,identityProviderType insert into countStream;",
+          "queryData": {
+            "query": "from AuthenticationStatAggregation {{filterCondition}} within {{from}}L, {{to}}L per \"{{per}}s\" select sum(authFailureCount) as authFailureCount, sum({{authType}}) as authSuccessCount, identityProviderType "
+          },
+          "publishingInterval": 60
+        }
+      }
+    }
+  }
+}
