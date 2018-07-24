@@ -1,0 +1,26 @@
+{
+  "name": "IS Analytics Messages",
+  "id": "IsAnalyticsMessages",
+  "thumbnailURL": "",
+  "configs": {
+    "pubsub": {
+      "types": [
+        "subscriber"
+      ]
+    },
+    "providerConfig": {
+      "configs": {
+        "type": "RDBMSBatchDataProvider",
+        "config": {
+          "datasourceName": "IS_DATA_DUMP_DB",
+          "queryData": {
+            "query": "select contextId, username, serviceProvider, userStoreDomain, tenantDomain, rolesCommaSeparated, remoteIp, region, if(authStepSuccess=1, 'True', 'False') as authStepSuccess from OverallAuthenticationTable"
+          },
+          "incrementalColumn": "contextId",
+          "publishingInterval": 60
+
+        }
+      }
+    }
+  }
+}
