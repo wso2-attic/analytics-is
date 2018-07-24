@@ -54,7 +54,7 @@ To deploy The To deploy the siddhi4 execution files refer link https://docs.wso2
               isPersistInDatabase: true
               datasource: IS_ANALYTICS_DB
 
-- Copy all the widgets to _<SP_HOME>/wso2/dashboard/deployment/web-ui-apps/portal/extensions/widgets_ directory. (Make sure to copy everything under _<Widget Root>/dist/_ to the widgets directory).
+- Copy all the widgets to _<SP_HOME>/wso2/dashboard/deployment/web-ui-apps/portal/extensions/widgets_ directory. (Make sure to copy everything under _<Widget_Root>/dist/_ to the widgets directory).
   
 - Now run the worker (_<SP_HOME>/bin/worker.sh_ or _<SP_HOME>/bin/worker.bat_) and the dashboard (_<SP_HOME>/bin/dashboard.sh_ or _<SP_HOME>/bin/dashboard.bat_)
 - Access the dashboard using the given url from the dashboard console.
