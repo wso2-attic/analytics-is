@@ -1,15 +1,18 @@
 @App:name("ISAnalytics-ConfigureAlertLongSessions-ConfigureAlertLongSessions-realtime1")
-@App:description("Description of the plan")
+@App:description("Description of the long session detection plan")
+
+-- Stream definitions
 
 @source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallSession:1.0.0", @map(type = 'wso2event'))
 
-
 define stream SessionStream (meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, action int, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, _timestamp long);
+
 define stream periodicalTriggerStream (triggered_time long);
 
 @source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallAuthentication:1.0.0", @map(type = 'wso2event'))
 
 define stream InStream (meta_tenantId int, contextId string, eventId string, eventType string, authenticationSuccess bool, username string, localUsername string, userStoreDomain string, tenantDomain string, remoteIp string, region string, inboundAuthType string, serviceProvider string, rememberMeEnabled bool, forceAuthEnabled bool, passiveAuthEnabled bool, rolesCommaSeparated string, authenticationStep string, identityProvider string, authStepSuccess bool, stepAuthenticator string, isFirstLogin bool, identityProviderType string, _timestamp long);
+
 define trigger periodicalTriggerStream at every 2 min;
 
 @sink(type='log', prefix='Session Stream Info Summary')
@@ -29,6 +32,8 @@ define stream AlertLongSessions (meta_tenantId int, tenantDomain string, session
 @sink(type='log', prefix='alert_all ISAlerts Stream')
 define stream alert_allISAlertsStream (meta_tenantId int, type string, tenantDomain string, msg string, severity int, alertTimestamp long, userReadableTime string);
 
+-- Initialising datasources
+
 @primaryKey('meta_tenantId', 'sessionId') 
 @store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/longSessionDB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
 define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTimestamp long, renewTimestamp long, terminationTimestamp long, endTimestamp long, year int, month int, day int, hour int, minute int, duration long, isActive bool, username string, userstoreDomain string, remoteIp string, region string, tenantDomain string, serviceProvider string, identityProviders string, rememberMeFlag bool, userAgent string, usernameWithTenantDomainAndUserstoreDomain string);
@@ -37,6 +42,7 @@ define table SessionStreamInfoTable(meta_tenantId int, sessionId string, startTi
 @store(type='rdbms', jdbc.url="jdbc:mysql://localhost:3306/longSessionDB?useSSL=false", username="root", password="Analytics" , jdbc.driver.name="com.mysql.jdbc.Driver")
 define table AverageSessionDurationTable(meta_tenantId int, tenantDomain string, username string, userstoreDomain string, avgDuration double);
 
+-- Queries
 
 from SessionStream
 select meta_tenantId, sessionId, startTimestamp, renewTimestamp, terminationTimestamp, convert(-1, 'long') as endTimestamp, time:extract(startTimestamp, 'year') as year, time:extract(startTimestamp, 'month') as month, time:extract(startTimestamp, 'day') as day, time:extract(startTimestamp, 'hour') as hour, time:extract(startTimestamp, 'minute') as minute, (_timestamp - startTimestamp) as duration, true as isActive, username, userstoreDomain, remoteIp, region, tenantDomain, serviceProvider, identityProviders, rememberMeFlag, userAgent, ifThenElse(userstoreDomain is null OR userstoreDomain == "" OR userstoreDomain == "NOT_AVAILABLE" OR tenantDomain is null OR tenantDomain == "" OR tenantDomain == "NOT_AVAILABLE", username, str:concat(userstoreDomain, '/', username, '@', tenantDomain)) as usernameWithTenantDomainAndUserstoreDomain
@@ -66,7 +72,6 @@ insert into AlertLongSessionsTemp;
 from AlertLongSessionsTemp[duration > (avgDuration * (50.0 + 100.0) / 100.0)]
 select meta_tenantId, tenantDomain, sessionId, username, duration, avgDuration
 insert into AlertLongSessions;
-
 
 @info(name = 'SendingAlertsToAllISAlertsStream')
 from AlertLongSessions
