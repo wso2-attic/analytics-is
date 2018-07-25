@@ -120,15 +120,15 @@ class Messages_IS extends Widget{
 
           case 1:
                 number[1]=moment(number[1]).format('MMMM Do YYYY, h:mm:ss a');
-                //break;
+                break;
 
           case 2:
                 number[2]=moment(number[2]).format('MMMM Do YYYY, h:mm:ss a');
-                //break;
+                break;
 
           case 3:
                 number[3]=moment(number[3]).format('MMMM Do YYYY, h:mm:ss a');
-                //break;
+                break;
 
           case 4:
                 number[10]=moment(number[10]).format('MMMM Do YYYY, h:mm:ss a');
@@ -139,6 +139,7 @@ class Messages_IS extends Widget{
          }
 )
         this.setState({
+            //lineConfig: tableConfig,
             metadata: message.metadata,
             data: message.data
         });
@@ -146,18 +147,23 @@ class Messages_IS extends Widget{
     setReceivedMsg(receivedMsg){
     console.log("Received data successfully\n", receivedMsg);
         this.setState({
+        //   per: receivedMsg.granularity,
             fromDate: receivedMsg.from,
             toDate: receivedMsg.to
         }, this.assembleQuery);
+    console.log("done setReceieve");
     }
     assembleQuery(){
     console.log("assemble");
         super.getWidgetChannelManager().unsubscribeWidget(this.props.id);
         console.log("getting channel");
         let dataProviderConfigs = _.cloneDeep(this.state.providerConfig);
+       // console.log("done clonning/n",providerConfig );
+        //console.log('this.state.providerConfig');
         let query = dataProviderConfigs.configs.config.queryData.query;
                 console.log("querying");
         query = query
+           // .replace("{{per}}", this.state.per)
             .replace('begin', this.state.fromDate)
             .replace('finish', this.state.toDate);
         dataProviderConfigs.configs.config.queryData.query = query;

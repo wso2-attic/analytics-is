@@ -1,0 +1,25 @@
+{
+  "name": "LineChart_IS",
+  "id": "LineChart_IS",
+  "thumbnailURL": "",
+  "configs": {
+    "pubsub": {
+      "types": [
+        "subscriber"
+      ]
+    },
+    "providerConfig": {
+      "configs":{
+        "type":"SiddhiStoreDataProvider",
+        "config":{
+          "siddhiApp":"@App:name('IsAnalytics_SessionData') @App:description('Receiving Streams from IS and executing and analyzing statistics for session') define stream ActiveSessionStatisticsStream (meta_tenantId int, activeSessionCount long, newSessionCount long, terminatedSessionCount long); @Store(type=\"rdbms\",datasource=\"IS_ANALYTICS_DB\") define aggregation SessionCountAggregation from ActiveSessionStatisticsStream select meta_tenantId, activeSessionCount, newSessionCount, terminatedSessionCount group by meta_tenantId aggregate every sec...year;",
+          "queryData":{
+            "query":"from SessionCountAggregation within {{from}}L, {{to}}L per \"{{per}}s\" select AGG_TIMESTAMP, activeSessionCount, newSessionCount, terminatedSessionCount"
+          },
+          "publishingInterval": 60
+        }
+      }
+    }
+  }
+}
+

@@ -140,6 +140,3 @@ from SecurityAlertTypeStream
 select *
 update or insert into SecurityAlertTypeTable
 on SecurityAlertTypeTable.meta_tenantId==meta_tenantId and SecurityAlertTypeTable.type==type and SecurityAlertTypeTable.tenantDomain==tenantDomain and SecurityAlertTypeTable.msg==msg;
-
-
-
