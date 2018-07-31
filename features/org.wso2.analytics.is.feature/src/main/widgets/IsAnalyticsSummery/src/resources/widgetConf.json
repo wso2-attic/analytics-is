@@ -10,8 +10,8 @@
     },
     "options": [
       {
-        "id": "authType",
-        "title": "Authentication Type",
+        "id": "widgetType",
+        "title": "Widget Type",
         "type": {
           "name": "ENUM",
           "possibleValues": [

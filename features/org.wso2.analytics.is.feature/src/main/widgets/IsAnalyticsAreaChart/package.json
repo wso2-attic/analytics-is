@@ -1,12 +1,11 @@
 {
-  "name": "IsAnalyticsMessages",
+  "name": "IsAnalyticsAreaChart",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@wso2-dashboards/widget": "^1.2.2",
     "css-loader": "^0.28.11",
-    "material-ui": "^0.20.1",
-    "moment": "^2.22.2",
+    "@material-ui/core": "^1.4.0",
     "react": "^16.4.1",
     "react-custom-scrollbars": "^4.2.1",
     "react-vizgrammar": "^0.7.17",

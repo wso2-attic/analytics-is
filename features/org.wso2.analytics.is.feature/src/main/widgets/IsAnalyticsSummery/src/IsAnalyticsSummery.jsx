@@ -6,19 +6,41 @@ import {MuiThemeProvider, darkBaseTheme, getMuiTheme} from 'material-ui/styles';
 import _ from 'lodash';
 
 let heading = "{{authType}} Login Attempts";
-let bodyText = "Analyze overall login attempts made via WSO2 Identity Server.\n" +
+
+let bodyTextOverall = "Analyze overall login attempts made via WSO2 Identity Server.\n" +
     "This includes information about overall flows of authentication took place through Identity Server.\n" +
     "A collection of authentication steps is considered as an overall attempt";
-let values = "        Success: {{successCount}}\n" +
-    "        Failure: {{failureCount}}\n";
-let seeMoreLink = "overall";
 
-let colorGreen = "#6ED460";
-let colorRed = "#EC5D40";
+let bodyTextLocal = "Analyze local login attempts made via WSO2 Identity Server.\n" +
+    "Local login attempts include all login attempts which are done through resident IDP." +
+    "These statistics will give an idea on the involvement of resident IDP in an authentication flow.";
+
+let bodyTextFederated = "Analyze federated login attempts made via WSO2 Identity Server.\n" +
+    "This will give an idea about the authentication steps took place via federated identity providers.";
 
 let totalAttempts = 0;
 let successCount = 0;
 let failureCount = 0;
+
+let successPercentage = "Success: {{successPercentage}}%";
+let failurePercentage = "Failure: {{failurePercentage}}%";
+
+let seeMoreLink = "overall";
+
+let widgetConfigs = {
+    totalAttempts: totalAttempts,
+    successCount: successCount,
+    failureCount: failureCount,
+};
+
+let widgetTexts = {
+    heading: heading,
+    bodyText: "",
+    seeMoreLink: seeMoreLink,
+};
+
+let colorGreen = "#6ED460";
+let colorRed = "#EC5D40";
 
 let pieChartMetadata = {
     names: ['attemptType', 'attemptCount'],
@@ -82,13 +104,9 @@ class IsAnalyticsSummery extends Widget {
             numChartData: numChartData,
             numChartMetadata: numChartMetadata,
             faultyProviderConf: false,
-            totalAttempts: totalAttempts,
-            successCount: successCount,
-            failureCount: failureCount,
-            values: values,
-            heading: "",
-            seeMoreLink: "overall",
-            options: this.props.configs.options
+            options: this.props.configs.options,
+            widgetConfigs: widgetConfigs,
+            widgetTexts: widgetTexts,
         };
 
         this._handleDataReceived = this._handleDataReceived.bind(this);
@@ -118,31 +136,40 @@ class IsAnalyticsSummery extends Widget {
                 });
             });
 
-        let newHeading = _.clone(heading);
-        let newSeeMoreLink = _.clone(seeMoreLink);
-        switch (this.state.options.authType) {
+        let widgetTextsClone = _.cloneDeep(widgetTexts);
+        switch (this.state.options.widgetType) {
             case ("Local"):
-                newHeading = heading.replace("{{authType}}", "Local");
-                newSeeMoreLink = window.location.href + "/../local";
+                widgetTextsClone.heading = heading.replace("{{authType}}", "Local");
+                widgetTextsClone.seeMoreLink = window.location.href + "/../local";
+                widgetTextsClone.bodyText = bodyTextLocal;
                 break;
             case ("Federated"):
-                newHeading = heading.replace("{{authType}}", "Federated");
-                newSeeMoreLink = window.location.href + "/../federated";
+                widgetTextsClone.heading = heading.replace("{{authType}}", "Federated");
+                widgetTextsClone.seeMoreLink = window.location.href + "/../federated";
+                widgetTextsClone.bodyText = bodyTextFederated;
                 break;
             case ("Overall"):
-                newHeading = heading.replace("{{authType}}", "Overall");
-                newSeeMoreLink = window.location.href + "/../overall";
+                widgetTextsClone.heading = heading.replace("{{authType}}", "Overall");
+                widgetTextsClone.seeMoreLink = window.location.href + "/../overall";
+                widgetTextsClone.bodyText = bodyTextOverall;
                 break;
         }
-        let newValues = _.clone(values);
-        newValues = newValues
-            .replace("{{failureCount}}", this.state.failureCount)
-            .replace("{{successCount}}", this.state.successCount);
+
+        let widgetConfigClone = _.cloneDeep(widgetConfigs);
+        widgetConfigClone.failureCount = this.state.widgetConfigs.failureCount;
+        widgetConfigClone.successCount = this.state.widgetConfigs.successCount;
+
+        let successPercentageValue = widgetConfigClone.successCount * 100 / widgetConfigClone.totalAttempts;
+        let failurePercentageValue = widgetConfigClone.failureCount * 100 / widgetConfigClone.totalAttempts;
+
+        widgetConfigClone.successPercentage = successPercentage
+            .replace("{{successPercentage}}", successPercentageValue);
+        widgetConfigClone.failurePercentage = failurePercentage
+            .replace("{{failurePercentage}}", failurePercentageValue);
 
         this.setState ({
-            heading: newHeading,
-            seeMoreLink: newSeeMoreLink,
-            values: newValues
+            widgetConfigs: widgetConfigClone,
+            widgetTexts: widgetTextsClone,
         });
     }
 
@@ -151,12 +178,24 @@ class IsAnalyticsSummery extends Widget {
     }
 
     _handleDataReceived(message) {
-        let newValues = _.clone(values);
-        newValues = newValues
-            .replace("{{failureCount}}", message.data[0][0])
-            .replace("{{successCount}}", message.data[0][1]);
+        let widgetConfigClone = _.cloneDeep(widgetConfigs);
+
+        widgetConfigClone.totalAttempts = message.data[0][0] + message.data[0][1];
+        widgetConfigClone.failureCount = message.data[0][0];
+        widgetConfigClone.successCount = message.data[0][1];
+
+        let successPercentageValue = parseFloat(widgetConfigClone.successCount * 100 / widgetConfigClone.totalAttempts)
+            .toFixed(2);
+        let failurePercentageValue = parseFloat(widgetConfigClone.failureCount * 100 / widgetConfigClone.totalAttempts)
+            .toFixed(2);
+
+        widgetConfigClone.successPercentage = successPercentage
+            .replace("{{successPercentage}}", successPercentageValue);
+        widgetConfigClone.failurePercentage = failurePercentage
+            .replace("{{failurePercentage}}", failurePercentageValue);
 
         this.setState({
+            widgetConfigs: widgetConfigClone,
             pieChartMetadata: pieChartMetadata,
             numChartMetadata: numChartMetadata,
             pieChartData: [
@@ -177,24 +216,21 @@ class IsAnalyticsSummery extends Widget {
                     message.data[0][0] + message.data[0][1]
                 ]
             ],
-            totalAttempts: message.data[0][0] + message.data[0][1],
-            failureCount: message.data[0][0],
-            successCount: message.data[0][1],
-            values: newValues
+
         });
         window.dispatchEvent(new Event('resize'));
     }
 
     setReceivedMsg(receivedMsg) {
+        let widgetConfigClone = _.cloneDeep(widgetConfigs);
+
         this.setState({
             per: receivedMsg.granularity,
             fromDate: receivedMsg.from,
             toDate: receivedMsg.to,
             pieChartData: [],
             numChartData: numChartData,
-            totalAttempts: 0,
-            failureCount: 0,
-            successCount: 0
+            widgetConfigs: widgetConfigClone,
         }, this.assembleQuery);
     }
 
@@ -202,7 +238,7 @@ class IsAnalyticsSummery extends Widget {
         super.getWidgetChannelManager().unsubscribeWidget(this.props.id);
         let dataProviderConfigs = _.cloneDeep(this.state.dataProviderConf);
         let query = dataProviderConfigs.configs.config.queryData.query;
-        let authType = this.state.options.authType;
+        let widgetType = this.state.options.widgetType;
         let filterCondition = " on identityProviderType=='{{idpType}}' ";
         let doFilter = false;
 
@@ -211,7 +247,7 @@ class IsAnalyticsSummery extends Widget {
             .replace("{{from}}", this.state.fromDate)
             .replace("{{to}}", this.state.toDate);
 
-        if (authType == "Local") {
+        if (widgetType == "Local") {
             updatedQuery = updatedQuery.replace("{{authType}}", "authSuccessCount");
             filterCondition = filterCondition.replace("{{idpType}}", "LOCAL");
             this.state.seeMoreLink = "local";
@@ -220,7 +256,7 @@ class IsAnalyticsSummery extends Widget {
         else {
             updatedQuery = updatedQuery.replace("{{authType}}", "authStepSuccessCount");
             this.state.seeMoreLink = "overall";
-            if (authType == "Federated") {
+            if (widgetType == "Federated") {
                 filterCondition = filterCondition.replace("{{idpType}}", "FEDERATED");
                 this.state.seeMoreLink = "federated";
                 doFilter = true;
@@ -238,6 +274,13 @@ class IsAnalyticsSummery extends Widget {
     }
 
     render() {
+        const successStyle = {
+            color: colorGreen,
+        };
+
+        const  failureStyle = {
+            color: colorRed,
+        };
         if (this.state.faultyProviderConf) {
             return (
                 <div style={{padding: 24}}>
@@ -246,14 +289,14 @@ class IsAnalyticsSummery extends Widget {
                 </div>
             );
         }
-        else if (this.state.totalAttempts === 0) {
+        else if (this.state.widgetConfigs.totalAttempts === 0) {
             return (
                 <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                     <Scrollbars style={{height: this.state.height}}>
                         <div style={{padding: 24}}>
-                            <h2>{this.state.heading}</h2>
+                            <h2>{this.state.widgetTexts.heading}</h2>
                             <h4>
-                                {bodyText.split("\n").map((i, key) => {
+                                {this.state.widgetTexts.bodyText.split("\n").map((i, key) => {
                                     return <div key={key}>{i}</div>;
                                 })}
                             </h4>
@@ -265,11 +308,6 @@ class IsAnalyticsSummery extends Widget {
                                   height={this.state.height * 0.2}
                                   theme={this.props.muiTheme.name}
                             />
-                            <h6>
-                                {this.state.values.split("\n").map((i, key) => {
-                                    return <div key={key}>{i}</div>;
-                                })}
-                            </h6>
                         </div>
                         <div>
                             <a href={this.state.seeMoreLink}>
@@ -284,9 +322,9 @@ class IsAnalyticsSummery extends Widget {
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <Scrollbars style={{height: this.state.height}}>
                     <div style={{padding: 24}}>
-                        <h2>{this.state.heading}</h2>
+                        <h2>{this.state.widgetTexts.heading}</h2>
                         <h4>
-                            {bodyText.split("\n").map((i, key) => {
+                            {this.state.widgetTexts.bodyText.split("\n").map((i, key) => {
                                 return <div key={key}>{i}</div>;
                             })}
                         </h4>
@@ -298,11 +336,8 @@ class IsAnalyticsSummery extends Widget {
                               theme={this.props.muiTheme.name}
                         />
 
-                        <h6>
-                            {this.state.values.split("\n").map((i, key) => {
-                                return <div key={key}>{i}</div>;
-                            })}
-                        </h6>
+                        <h6 style={successStyle}>{this.state.widgetConfigs.successPercentage}</h6>
+                        <h6 style={failureStyle}>{this.state.widgetConfigs.failurePercentage}</h6>
 
                         <VizG config={this.state.pieChartConfig}
                               metadata={this.state.pieChartMetadata}

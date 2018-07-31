@@ -5,60 +5,157 @@ import {Scrollbars} from 'react-custom-scrollbars';
 import {MuiThemeProvider, darkBaseTheme, getMuiTheme} from 'material-ui/styles';
 import _ from 'lodash';
 
-let metadata = {
-    names: ['contextId', 'username', 'serviceProvider', 'userStoreDomain', 'tenantDomain', 'rolesCommaSeparated', 'remoteIp', 'region', 'authSuccess', 'timeStamp'],
-    types: ['ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'time']
+let colorGreen = "#6ED460";
+let colorRed = "#EC5D40";
+
+let metadataOverall = {
+    names: ['contextId', 'username', 'serviceProvider', 'authenticationStep', 'rolesCommaSeparated','tenantDomain', 'remoteIp', 'region', 'authSuccess', 'utcTime'],
+    types: ['ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal']
 };
+
+let metadataLocal = {
+    names: ['contextId', 'username', 'serviceProvider', 'userStoreDomain', 'tenantDomain', 'rolesCommaSeparated', 'remoteIp', 'region', 'authSuccess', 'utcTime'],
+    types: ['ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal']
+};
+
+let metadataFederated = {
+    names: ['contextId', 'username', 'serviceProvider', 'identityProvider', 'remoteIp', 'region', 'authSuccess', 'utcTime'],
+    types: ['ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal', 'ordinal']
+};
+
+let columnsOverall = [
+    {
+        name: "contextId",
+        title: "Context ID"
+    },
+    {
+        name: "username",
+        title: "User Name"
+    },
+    {
+        name: "serviceProvider",
+        title: "Service Provider"
+    },
+    {
+        name: "authenticationStep",
+        title: "Subject Step"
+    },
+    {
+        name: "rolesCommaSeparated",
+        title: "Roles"
+    },
+    {
+        name: "tenantDomain",
+        title: "Tenant Domain"
+    },
+    {
+        name: "remoteIp",
+        title: "IP"
+    },
+    {
+        name: "region",
+        title: "Region"
+    },
+    {
+        name: "authSuccess",
+        title: "Overall Authentication",
+        colorBasedStyle: true,
+        colorScale: [colorGreen, colorRed],
+    },
+    {
+        name: "utcTime",
+        title: "Timestamp"
+    }
+];
+
+let columnsLocal = [
+    {
+        name: "contextId",
+        title: "Context ID"
+    },
+    {
+        name: "username",
+        title: "User Name"
+    },
+    {
+        name: "serviceProvider",
+        title: "Service Provider"
+    },
+    {
+        name: "userStoreDomain",
+        title: "User Store"
+    },
+    {
+        name: "tenantDomain",
+        title: "Tenant Domain"
+    },
+    {
+        name: "rolesCommaSeparated",
+        title: "Roles"
+    },
+    {
+        name: "remoteIp",
+        title: "IP"
+    },
+    {
+        name: "region",
+        title: "Region"
+    },
+    {
+        name: "authSuccess",
+        title: "Local Authentication",
+        colorBasedStyle: true,
+        colorScale: [colorGreen, colorRed],
+    },
+    {
+        name: "utcTime",
+        title: "Timestamp"
+    }
+];
+
+let columnsFederated = [
+    {
+        name: "contextId",
+        title: "Context ID"
+    },
+    {
+        name: "username",
+        title: "User Name"
+    },
+    {
+        name: "serviceProvider",
+        title: "Service Provider"
+    },
+    {
+        name: "identityProvider",
+        title: "identityProvider"
+    },
+    {
+        name: "remoteIp",
+        title: "IP"
+    },
+    {
+        name: "region",
+        title: "Region"
+    },
+    {
+        name: "authSuccess",
+        title: "Authentication Step Success",
+        colorBasedStyle:true,
+        colorScale: [colorGreen, colorRed],
+    },
+    {
+        name: "utcTime",
+        title: "Timestamp"
+    }
+];
 
 let tableConfig = {
     charts: [
         {
             type: "table",
-            columns: [
-                {
-                    "name": "contextId",
-                    "title": "Context ID"
-                },
-                {
-                    "name": "username",
-                    "title": "User Name"
-                },
-                {
-                    "name": "serviceProvider",
-                    "title": "Service Provider"
-                },
-                {
-                    "name": "userStoreDomain",
-                    "title": "User Store"
-                },
-                {
-                    "name": "tenantDomain",
-                    "title": "Tenant Domain"
-                },
-                {
-                    "name": "rolesCommaSeparated",
-                    "title": "Roles"
-                },
-                {
-                    "name": "remoteIp",
-                    "title": "IP"
-                },
-                {
-                    "name": "region",
-                    "title": "Region"
-                },
-                {
-                    "name": "authSuccess",
-                    "title": "Authentication" // Change this
-                },
-                {
-                    "name": "timeStamp",
-                    "title": "Timestamp"
-                }
-            ]
         }
     ],
-    maxLength: 100,
     pagination: true,
     filterable: true,
     append: false
@@ -71,7 +168,6 @@ class IsAnalyticsMessages extends Widget {
         this.state = {
             tableConfig: tableConfig,
             data: [],
-            metadata: metadata,
             faultyProviderConf: false,
             options: this.props.configs.options,
             width: this.props.glContainer.width,
@@ -106,19 +202,24 @@ class IsAnalyticsMessages extends Widget {
             });
 
         let tableConfigClone = _.cloneDeep(tableConfig);
+        let metadata = [];
         switch (this.state.options.authType) {
             case ("Local"):
-                tableConfigClone.charts[0].columns[8].title = "Local Authentication";
+                tableConfigClone.charts[0].columns = columnsLocal;
+                metadata = metadataLocal;
                 break;
             case ("Federated"):
-                tableConfigClone.charts[0].columns[8].title = "Authentication Step Success";
+                tableConfigClone.charts[0].columns = columnsFederated;
+                metadata = metadataFederated;
                 break;
             case ("Overall"):
-                tableConfigClone.charts[0].columns[8].title = "Overall Authentication";
+                tableConfigClone.charts[0].columns = columnsOverall;
+                metadata = metadataOverall;
                 break;
         }
         this.setState({
-            tableConfig: tableConfigClone
+            tableConfig: tableConfigClone,
+            metadata: metadata,
         })
     }
 
@@ -127,8 +228,6 @@ class IsAnalyticsMessages extends Widget {
     }
 
     _handleDataReceived(message) {
-        console.log("Handling Data\n");
-        console.log("Data:", message.data);
         this.setState({
             metadata: message.metadata,
             data: message.data
@@ -149,36 +248,34 @@ class IsAnalyticsMessages extends Widget {
         let dataProviderConfigs = _.cloneDeep(this.state.dataProviderConf);
         let updatedQuery = dataProviderConfigs.configs.config.queryData.query;
         let authType = this.state.options.authType;
-        let idpFilter = "";
+        let filterCondition = " on _timestamp > {{from}}L and _timestamp < {{to}}L ";
+        let idpFilter = " and identityProviderType=='{{idpType}}'";
         let doIdpFilter = false;
 
-        updatedQuery = updatedQuery
+        filterCondition = filterCondition
             .replace("{{per}}", this.state.per)
             .replace("{{from}}", this.state.fromDate)
             .replace("{{to}}", this.state.toDate);
 
         if (authType == "Local") {
             updatedQuery = updatedQuery.replace("{{authType}}", "authenticationSuccess");
-            idpFilter = " on identityProviderType=='LOCAL' ";
+            idpFilter = idpFilter.replace("{{idpType}}", "LOCAL");
             doIdpFilter = true;
         }
         else {
             updatedQuery = updatedQuery.replace("{{authType}}", "authStepSuccess");
+
             if (authType == "Federated") {
-                idpFilter = " on identityProviderType=='FEDERATED' ";
+                idpFilter = idpFilter.replace("{{idpType}}", "FEDERATED");
                 doIdpFilter = true;
-            } else {
-                idpFilter = "";
             }
         }
 
         if (doIdpFilter) {
-            updatedQuery = updatedQuery.replace("{{filterCondition}}", idpFilter);
-        } else {
-            updatedQuery = updatedQuery.replace("{{filterCondition}}", "");
+            filterCondition = filterCondition + idpFilter;
         }
 
-        console.log(this.state.tableConfig.charts[0].columns[8].title, " Query: ", updatedQuery);
+        updatedQuery = updatedQuery.replace("{{filterCondition}}", filterCondition);
         dataProviderConfigs.configs.config.queryData.query = updatedQuery;
 
         super.getWidgetChannelManager().subscribeWidget(this.props.id, this._handleDataReceived, dataProviderConfigs);
