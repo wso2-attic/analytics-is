@@ -3,43 +3,39 @@ import Widget from "@wso2-dashboards/widget";
 import VizG from 'react-vizgrammar';
 import {MuiThemeProvider, darkBaseTheme, getMuiTheme} from '@material-ui/core';
 import {Scrollbars} from 'react-custom-scrollbars';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import _ from 'lodash';
 
-let colorWhite = "#FFFFFF";
 let colorGreen = "#6ED460";
 let colorRed = "#EC5D40";
 
-let colorScaleSuccess = [
-    colorWhite,
-    colorGreen,
-];
-
-let colorScaleFailure = [
-    colorWhite,
-    colorRed,
-];
-
 let metadata = {
-    names: ['region', 'authSuccessCount', 'authFailureCount'],
-    types: ['ordinal', 'linear', 'linear'],
+    names: ['timestamp', 'authSuccessCount', 'authFailureCount'],
+    types: ['time', 'linear', 'linear'],
 };
 
 let chartConfig = {
-    "type": "map",
-    "x": "region",
-    "charts": [
+    x: "timestamp",
+    charts: [
         {
-            "type": "map",
-            "y": "authSuccessCount",
-            "mapType": "world",
-            "colorScale": colorScaleSuccess,
+            type: "area",
+            y: "authSuccessCount",
+            fill: colorGreen
+        },
+        {
+            type: "area",
+            y: "authFailureCount",
+            fill: colorRed
         }
-    ]
+    ],
+    yAxisLabel: "Authentication Attempts",
+    xAxisLabel: "Time",
+    tipTimeFormat: "%Y %B %d",
+    maxLength: 6,
+    legend: false,
+    append: false,
 };
 
-class IsAnalyticsAreaChart extends Widget {
+class IsAnalyticsAttemptsOverTime extends Widget {
     constructor(props) {
         super(props);
 
@@ -52,14 +48,11 @@ class IsAnalyticsAreaChart extends Widget {
             metadata: metadata,
             faultyProviderConf: false,
             options: this.props.configs.options,
-            isFailureMap: false,
-            switchLabel: "Success",
         };
 
         this._handleDataReceived = this._handleDataReceived.bind(this);
         this.setReceivedMsg = this.setReceivedMsg.bind(this);
         this.assembleQuery = this.assembleQuery.bind(this);
-        this.changeMapType = this.changeMapType.bind(this);
 
         this.props.glContainer.on('resize', () =>
             this.setState({
@@ -138,60 +131,38 @@ class IsAnalyticsAreaChart extends Widget {
     }
 
     _handleDataReceived(message) {
-        // Adding 0,0 value inorder to set the scale lower bound to 0 in area chart
-        let dataCopy = message.data;
-        dataCopy[message.data.length] = ["N/A", 0, 0];
+        {message.data.map((dataSet) => {
+            dataSet[0] = parseInt(dataSet[0]) * 1000; // JS use Milliseconds for timestamp values.
+            dataSet[1] = parseInt(dataSet[1]);
+            dataSet[2] = parseInt(dataSet[2]) * -1;
+        })}
+
         this.setState({
-            metadata: message.metadata,
-            data: dataCopy,
+            data: message.data,
         });
         window.dispatchEvent(new Event('resize'));
     }
 
-    changeMapType(event) {
-        let chartConfigClone = _.cloneDeep(chartConfig);
-        let switchLabel = _.clone(this.state.switchLabel);
-
-        if (switchLabel === "Failure") {
-            chartConfigClone.charts[0].colorScale = colorScaleSuccess;
-            chartConfigClone.charts[0].y = "authSuccessCount";
-            switchLabel = "Success";
-        } else if (switchLabel === "Success") {
-            chartConfigClone.charts[0].colorScale = colorScaleFailure;
-            chartConfigClone.charts[0].y = "authFailureCount";
-            switchLabel = "Failure";
-        }
-
-        console.log("Chart Config: ", chartConfigClone, "\nLabel: ", switchLabel);
-        this.setState({
-            chartConfig: chartConfigClone,
-            isFailureMap: event.target.checked,
-            switchLabel: switchLabel,
-        });
-    };
-
     render() {
+        if (this.state.data.length === 0) {
+            return (
+                <Scrollbars style={{height: this.state.height}}>
+                    <h3> Login Attempts Over Time </h3>
+                </Scrollbars>
+            )
+        }
         return (
             <Scrollbars style={{height: this.state.height}}>
-                <h3> Area Chart </h3>
+                <h3> Login Attempts Over Time </h3>
                 <VizG
                     config={this.state.chartConfig}
                     metadata={this.state.metadata}
                     data={this.state.data}
-                    height={this.state.height * 0.3}
-                />
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={this.state.isFailureMap}
-                            onChange={this.changeMapType}
-                        />
-                    }
-                    label={this.state.switchLabel}
+                    height={this.state.height * 0.45}
                 />
             </Scrollbars>
         );
     }
 }
 
-global.dashboard.registerWidget('IsAnalyticsAreaChart', IsAnalyticsAreaChart);
+global.dashboard.registerWidget('IsAnalyticsAttemptsOverTime', IsAnalyticsAttemptsOverTime);

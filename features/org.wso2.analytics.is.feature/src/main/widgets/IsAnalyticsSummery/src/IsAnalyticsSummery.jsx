@@ -2,8 +2,9 @@ import React, {Component} from "react";
 import Widget from "@wso2-dashboards/widget";
 import VizG from 'react-vizgrammar';
 import {Scrollbars} from 'react-custom-scrollbars';
-import {MuiThemeProvider, darkBaseTheme, getMuiTheme} from 'material-ui/styles';
+import {darkBaseTheme, getMuiTheme} from '@material-ui/core/styles';
 import _ from 'lodash';
+import Button from '@material-ui/core/Button';
 
 let heading = "{{authType}} Login Attempts";
 
@@ -167,7 +168,7 @@ class IsAnalyticsSummery extends Widget {
         widgetConfigClone.failurePercentage = failurePercentage
             .replace("{{failurePercentage}}", failurePercentageValue);
 
-        this.setState ({
+        this.setState({
             widgetConfigs: widgetConfigClone,
             widgetTexts: widgetTextsClone,
         });
@@ -278,7 +279,7 @@ class IsAnalyticsSummery extends Widget {
             color: colorGreen,
         };
 
-        const  failureStyle = {
+        const failureStyle = {
             color: colorRed,
         };
         if (this.state.faultyProviderConf) {
@@ -291,35 +292,6 @@ class IsAnalyticsSummery extends Widget {
         }
         else if (this.state.widgetConfigs.totalAttempts === 0) {
             return (
-                <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                    <Scrollbars style={{height: this.state.height}}>
-                        <div style={{padding: 24}}>
-                            <h2>{this.state.widgetTexts.heading}</h2>
-                            <h4>
-                                {this.state.widgetTexts.bodyText.split("\n").map((i, key) => {
-                                    return <div key={key}>{i}</div>;
-                                })}
-                            </h4>
-
-                            <VizG config={numChartConfig}
-                                  metadata={this.state.numChartMetadata}
-                                  data={this.state.numChartData}
-                                  width={this.state.width}
-                                  height={this.state.height * 0.2}
-                                  theme={this.props.muiTheme.name}
-                            />
-                        </div>
-                        <div>
-                            <a href={this.state.seeMoreLink}>
-                                <h5>See More >></h5>
-                            </a>
-                        </div>
-                    </Scrollbars>
-                </MuiThemeProvider>
-            )
-        }
-        return (
-            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <Scrollbars style={{height: this.state.height}}>
                     <div style={{padding: 24}}>
                         <h2>{this.state.widgetTexts.heading}</h2>
@@ -328,6 +300,7 @@ class IsAnalyticsSummery extends Widget {
                                 return <div key={key}>{i}</div>;
                             })}
                         </h4>
+
                         <VizG config={numChartConfig}
                               metadata={this.state.numChartMetadata}
                               data={this.state.numChartData}
@@ -335,25 +308,53 @@ class IsAnalyticsSummery extends Widget {
                               height={this.state.height * 0.2}
                               theme={this.props.muiTheme.name}
                         />
-
-                        <h6 style={successStyle}>{this.state.widgetConfigs.successPercentage}</h6>
-                        <h6 style={failureStyle}>{this.state.widgetConfigs.failurePercentage}</h6>
-
-                        <VizG config={this.state.pieChartConfig}
-                              metadata={this.state.pieChartMetadata}
-                              data={this.state.pieChartData}
-                              width={this.state.width}
-                              height={this.state.height * 0.55}
-                              theme={this.props.muiTheme.name}
-                        />
                     </div>
                     <div>
-                        <a href={this.state.seeMoreLink}>
-                            <h5>See More >></h5>
+                        <a href={this.state.widgetTexts.seeMoreLink}>
+                            <Button color="primary" variant="contained" component="span" href="http://www.google.com">
+                                See More >>
+                            </Button>
                         </a>
                     </div>
                 </Scrollbars>
-            </MuiThemeProvider>
+            )
+        }
+        return (
+            <Scrollbars style={{height: this.state.height}}>
+                <div style={{padding: 24}}>
+                    <h2>{this.state.widgetTexts.heading}</h2>
+                    <h4>
+                        {this.state.widgetTexts.bodyText.split("\n").map((i, key) => {
+                            return <div key={key}>{i}</div>;
+                        })}
+                    </h4>
+                    <VizG config={numChartConfig}
+                          metadata={this.state.numChartMetadata}
+                          data={this.state.numChartData}
+                          width={this.state.width}
+                          height={this.state.height * 0.2}
+                          theme={this.props.muiTheme.name}
+                    />
+
+                    <h6 style={successStyle}>{this.state.widgetConfigs.successPercentage}</h6>
+                    <h6 style={failureStyle}>{this.state.widgetConfigs.failurePercentage}</h6>
+
+                    <VizG config={this.state.pieChartConfig}
+                          metadata={this.state.pieChartMetadata}
+                          data={this.state.pieChartData}
+                          width={this.state.width}
+                          height={this.state.height * 0.55}
+                          theme={this.props.muiTheme.name}
+                    />
+                </div>
+                <div>
+                    <a href={this.state.widgetTexts.seeMoreLink}>
+                        <Button color="primary" variant="contained" component="span">
+                            See More >>
+                        </Button>
+                    </a>
+                </div>
+            </Scrollbars>
         )
     }
 }

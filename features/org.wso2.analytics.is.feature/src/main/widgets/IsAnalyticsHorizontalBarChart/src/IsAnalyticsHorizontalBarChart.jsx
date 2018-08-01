@@ -38,7 +38,6 @@ let chartConfigSuccess = {
     yAxisLabel: "Successful Attempts",
     xAxisLabel: "Username",
     yAxisTickCount: 6,
-    //yAxisNumberType: "Int",
     linearSeriesStep: 1,
     append: false,
 };
@@ -56,7 +55,6 @@ let chartConfigFailure = {
     yAxisLabel: "Failure Attempts",
     xAxisLabel: "Username",
     yAxisTickCount: 6,
-    //yAxisNumberType: "Int",
     linearSeriesStep: 1,
     append: false,
 };
@@ -192,8 +190,8 @@ class IsAnalyticsHorizontalBarChart extends Widget {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        let failureResult = (this.state.currentFailureDataSet === nextState.currentFailureDataSet);
-        let successResult = (this.state.currentSuccessPageNumber === nextState.currentSuccessPageNumber);
+        let failureResult = (this.state.currentFailureDataSet != nextState.currentFailureDataSet);
+        let successResult = (this.state.currentSuccessPageNumber != nextState.currentSuccessPageNumber);
 
         return (failureResult || successResult);
     }
@@ -259,7 +257,6 @@ class IsAnalyticsHorizontalBarChart extends Widget {
     }
 
     setReceivedMsg(receivedMsg) {
-        console.log("Set Received Message: ", receivedMsg);
         this.setState({
             per: receivedMsg.granularity,
             fromDate: receivedMsg.from,
@@ -268,7 +265,9 @@ class IsAnalyticsHorizontalBarChart extends Widget {
             failureData: [],
             currentSuccessDataSet: [],
             currentFailureDataSet: [],
-        }, this.assembleQuery(false));
+        }, () => {
+            this.assembleQuery(false)
+        });
     }
 
     assembleQuery(isFirstLoginNeeded) {
@@ -341,8 +340,6 @@ class IsAnalyticsHorizontalBarChart extends Widget {
             .replace(/{{yAxisValue}}/g, countType);
         dataProviderConfigsSuccess.configs.config.queryData.query = querySuccess;
 
-        console.log("Success Query: ", querySuccess);
-
         super.getWidgetChannelManager().subscribeWidget(this.props.id,
             this._handleSuccessDataReceived, dataProviderConfigsSuccess);
 
@@ -352,15 +349,14 @@ class IsAnalyticsHorizontalBarChart extends Widget {
         let queryFailure = query
             .replace()
             .replace(/{{yAxisValue}}/g, "authFailureCount");
-        console.log("Failure Query: ", queryFailure);
         dataProviderConfigsFailure.configs.config.queryData.query = queryFailure;
 
         super.getWidgetChannelManager().subscribeWidget(this.state.widgetPseudoId,
             this._handleFailureDataReceived, dataProviderConfigsFailure);
     }
 
+    // This is only used for create tabs (In service provider vs. succes/failure count in Overall page
     processFirstLogins(event, value) {
-        console.log("Processing First Logins");
         if (value === 0) {
             this.assembleQuery(false);
         } else if (value === 1) {
@@ -369,7 +365,7 @@ class IsAnalyticsHorizontalBarChart extends Widget {
     }
 
     render() {
-        console.log("[STATE]:\nPer => ", this.state.per, "\nFrom => ", this.state.fromDate, "\nTo =>", this.state.toDate);
+        console.log("rending");
         if (this.state.faultyProviderConf) {
             return (
                 <div style={{padding: 24}}>
@@ -403,6 +399,12 @@ class IsAnalyticsHorizontalBarChart extends Widget {
                                       width={this.state.width}
                                       theme={this.props.muiTheme.name}
                                 />
+                                <Pagination
+                                    total={this.state.failurePageCount}
+                                    current={this.state.currentFailurePageNumber}
+                                    display={3}
+                                    onChange={number => this.updateTable(this.state.failureData, number, false)}
+                                />
                             </div>
                         </Scrollbars>
                     </MuiThemeProvider>
@@ -419,6 +421,12 @@ class IsAnalyticsHorizontalBarChart extends Widget {
                                   height={this.state.height * 0.45}
                                   width={this.state.width}
                                   theme={this.props.muiTheme.name}
+                            />
+                            <Pagination
+                                total={this.state.failurePageCount}
+                                current={this.state.currentFailurePageNumber}
+                                display={3}
+                                onChange={number => this.updateTable(this.state.failureData, number, false)}
                             />
                         </div>
                     </Scrollbars>
@@ -443,6 +451,12 @@ class IsAnalyticsHorizontalBarChart extends Widget {
                                       height={this.state.height * 0.45}
                                       theme={this.props.muiTheme.name}
                                 />
+                                <Pagination
+                                    total={this.state.successPageCount}
+                                    current={this.state.currentSuccessPageNumber}
+                                    display={3}
+                                    onChange={number => this.updateTable(this.state.successData, number, true)}
+                                />
                             </div>
                         </Scrollbars>
                     </MuiThemeProvider>
@@ -459,6 +473,12 @@ class IsAnalyticsHorizontalBarChart extends Widget {
                                   width={this.state.width}
                                   height={this.state.height * 0.45}
                                   theme={this.props.muiTheme.name}
+                            />
+                            <Pagination
+                                total={this.state.successPageCount}
+                                current={this.state.currentSuccessPageNumber}
+                                display={3}
+                                onChange={number => this.updateTable(this.state.successData, number, true)}
                             />
                         </div>
                     </Scrollbars>
