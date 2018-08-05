@@ -1,0 +1,247 @@
+@App:name("IsAnalytics_SessionData")
+@App:description("Receiving Streams from IS and executing and analyzing statistics for session")
+
+-- Receving streams from IS
+--Defining Input Stream for receving streams from IS
+@source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallSession:1.0.0", @map(type = 'wso2event'))
+define stream SourceStreamToReceiveStreamFromIdentityServer (
+meta_tenantId int, 
+sessionId string, 
+startTimestamp long, 
+renewTimestamp long, 
+terminationTimestamp long, 
+action int, username string, 
+userstoreDomain string, 
+remoteIp string, 
+region string, 
+tenantDomain string, 
+serviceProvider string, 
+identityProviders string, 
+rememberMeFlag bool, 
+userAgent string, 
+_timestamp long);
+
+@source(type = "wso2event", wso2.stream.id = "org.wso2.is.analytics.stream.OverallAuthentication:1.0.0", @map(type = 'wso2event'))
+define stream SourceStreamToAuthenticateFromIdentityServer (
+meta_tenantId int, 
+contextId string, 
+eventId string, 
+eventType string, 
+authenticationSuccess bool, 
+username string, 
+localUsername string, 
+userStoreDomain string, 
+tenantDomain string, 
+remoteIp string, 
+region string, 
+inboundAuthType string, 
+serviceProvider string, 
+rememberMeEnabled bool, 
+forceAuthEnabled bool, 
+passiveAuthEnabled bool, 
+rolesCommaSeparated string, 
+authenticationStep string, 
+identityProvider string, 
+authStepSuccess bool, 
+stepAuthenticator string, 
+isFirstLogin bool, 
+identityProviderType string,
+_timestamp long);
+
+-- Defining streams to handle session data
+@sink(type='log', prefix='Handling Session Information')
+define stream HandleSessionInformation (
+meta_tenantId int, 
+sessionId string, 
+startTimestamp long, 
+renewTimestamp long, 
+terminationTimestamp long, 
+endTimestamp long, 
+duration long, 
+isActive bool, 
+username string, 
+userstoreDomain string, 
+remoteIp string, 
+region string, 
+tenantDomain string, 
+serviceProvider string, 
+identityProviders string, 
+rememberMeFlag bool, 
+timeStamp long);
+
+@sink(type= 'log', prefix='Counting new and terminated sessions')
+define stream CountingNewTerminatedSessionsStream ( 
+meta_tenantId int,  
+newSessionCount long, 
+terminatedSessionCount long, 
+net long, 
+id string);
+
+@sink(type='log', prefix='Getting active session counts')
+define stream ActiveSessionStatisticsStream (
+meta_tenantId int, 
+activeSessionCount long, 
+newSessionCount long, 
+terminatedSessionCount long);
+
+--Defining Databases
+
+@primaryKey('meta_tenantId', 'sessionId') 
+@store(type='rdbms', datasource='IS_ANALYTICS_DB')
+define table ActiveSessionsTable (
+meta_tenantId int, 
+sessionId string, 
+startTimestamp long, 
+renewTimestamp long, 
+terminationTimestamp long, 
+action int, 
+username string, 
+userstoreDomain string, 
+remoteIp string, 
+region string, 
+tenantDomain string, 
+serviceProvider string, 
+identityProviders string, 
+rememberMeFlag bool,  
+timeStamp long);
+
+@primaryKey('meta_tenantId', 'sessionId') 
+@store(type='rdbms', datasource='IS_ANALYTICS_DB')
+define table SessionInformationTable(
+meta_tenantId int, 
+sessionId string, 
+startTimestamp long, 
+renewTimestamp long, 
+terminationTimestamp long, 
+endTimestamp long, 
+duration long, 
+isActive bool, 
+username string, 
+userstoreDomain string, 
+remoteIp string, 
+region string, 
+tenantDomain string, 
+serviceProvider string, 
+identityProviders string, 
+rememberMeFlag bool,
+timeStamp long);
+
+@primaryKey('meta_tenantId', 'id') 
+@store(type='rdbms', datasource='IS_ANALYTICS_DB')
+define table ActiveSessionCountTable(
+meta_tenantId int, 
+id string, 
+activeCount long);
+
+-- Aggregating active, new, terminated session counts for sec-year
+
+@store(type='rdbms', datasource='IS_ANALYTICS_DB')
+define aggregation SessionCountAggregation
+from ActiveSessionStatisticsStream
+select meta_tenantId, activeSessionCount, newSessionCount, terminatedSessionCount
+group by meta_tenantId
+aggregate every sec...year;
+
+--Queries
+-- Storing active and new sessions in ActiveSessionsTable
+from SourceStreamToReceiveStreamFromIdentityServer [action == 1 OR action == 2]#window.timeBatch(1 sec)
+select  meta_tenantId, 
+        sessionId, 
+        startTimestamp, 
+        renewTimestamp, 
+        terminationTimestamp, 
+        action, 
+        username, 
+        userstoreDomain, 
+        remoteIp, 
+        region, 
+        tenantDomain, 
+        serviceProvider, 
+        identityProviders, 
+        rememberMeFlag, 
+        _timestamp as timeStamp
+update or insert into ActiveSessionsTable
+on ActiveSessionsTable.meta_tenantId==meta_tenantId and  ActiveSessionsTable.sessionId==sessionId;
+
+-- capturing active and new sessions in a stream 'HandleSessionInformation'
+from SourceStreamToReceiveStreamFromIdentityServer [action == 1 OR action == 2]
+select  meta_tenantId, 
+        sessionId, 
+        startTimestamp, 
+        renewTimestamp, 
+        terminationTimestamp, 
+        convert(-1, 'long') as endTimestamp, 
+        (_timestamp - startTimestamp) as duration, 
+        true as isActive, 
+        username, 
+        userstoreDomain, 
+        remoteIp, 
+        region, 
+        tenantDomain, 
+        serviceProvider, 
+        identityProviders, 
+        rememberMeFlag, 
+        _timestamp as timeStamp
+insert into HandleSessionInformation;
+
+from SourceStreamToReceiveStreamFromIdentityServer [action == 0]
+select  meta_tenantId, 
+        sessionId, 
+        startTimestamp, 
+        renewTimestamp, 
+        terminationTimestamp, 
+        terminationTimestamp as endTimestamp, 
+        (terminationTimestamp - startTimestamp) as duration,  
+        false as isActive, 
+        username, 
+        userstoreDomain, 
+        remoteIp, 
+        region, 
+        tenantDomain, 
+        serviceProvider, 
+        identityProviders, 
+        rememberMeFlag, 
+        _timestamp as timeStamp
+insert into HandleSessionInformation;
+
+-- Storing streams in 'HandleSessionInformation' in a table 'SessionInformationTable'
+
+from HandleSessionInformation
+select * 
+update or insert into SessionInformationTable
+on SessionInformationTable.meta_tenantId==meta_tenantId and  SessionInformationTable.sessionId==sessionId;
+
+-- Removing inactive sessions from 'ActiveSessionsTable'
+from HandleSessionInformation[isActive == false]#window.timeBatch(1 sec)
+delete ActiveSessionsTable
+on ActiveSessionsTable.sessionId == sessionId AND ActiveSessionsTable.meta_tenantId == meta_tenantId;
+
+-- Counting new and termnated sessions every 1 minute for each meta_tenantId
+
+from SourceStreamToReceiveStreamFromIdentityServer[action == 1 OR action == 0]#window.externalTimeBatch(_timestamp, 1 min, 0, 2 min)
+select  meta_tenantId, 
+        sum(action) as newSessionCount, 
+        sum(1 - action) as terminatedSessionCount, 
+        (2*sum(action)-count()) as net, 
+        'count' as id
+group by meta_tenantId
+insert into CountingNewTerminatedSessionsStream;
+
+-- Getting active session counts using ActiveSessionCountTable
+
+from CountingNewTerminatedSessionsStream as s left outer join ActiveSessionCountTable as t
+on s.id == t.id AND s.meta_tenantId == t.meta_tenantId
+select s.meta_tenantId,  
+(s.net  + ifThenElse(t.activeCount is null, convert(0, 'long'), t.activeCount) ) as activeSessionCount, 
+s.newSessionCount, 
+s.terminatedSessionCount
+group by s.meta_tenantId
+insert into ActiveSessionStatisticsStream;
+
+-- Storing active session counts in a table 'ActiveSessionCountTable'
+from ActiveSessionStatisticsStream
+select  meta_tenantId, 
+        'count' as id, 
+        activeSessionCount as activeCount
+update or insert into ActiveSessionCountTable
+on ActiveSessionCountTable.meta_tenantId==meta_tenantId and ActiveSessionCountTable.id==id;

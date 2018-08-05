@@ -5,11 +5,11 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     context: path.resolve(__dirname, './src'),
     entry: {
-        index: './ISLineChart.jsx'
+        index: './LineChart_IS.jsx'
     },
     output: {
-        path: path.resolve(__dirname, './dist/ISLineChart/'),
-        filename: 'ISLineChart.js'
+        path: path.resolve(__dirname, './dist/LineChart_IS/'),
+        filename: 'LineChart_IS.js'
     },
     module: {
         loaders: [
