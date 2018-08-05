@@ -30,7 +30,7 @@ define stream OverallAuthenticationProcessedStream (
     _timestamp long
 );
 
-@store(type='rdbms', datasource='IS_DATA_DUMP_DB')
+@store(type='rdbms', datasource='IS_ANALYTICS_DB')
 @primaryKey('meta_tenantId', 'contextId', 'eventId', 'eventType', 'region') 
 define table OverallAuthenticationTable (
     meta_tenantId int, 

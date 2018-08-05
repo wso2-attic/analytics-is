@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^1.4.2",
     "@wso2-dashboards/widget": "^1.2.2",
     "css-loader": "^0.28.11",
     "material-ui": "^0.20.1",
+    "material-ui-pagination": "^1.1.6",
     "react": "^16.4.1",
     "react-custom-scrollbars": "^4.2.1",
-    "react-vizgrammar": "^0.7.14",
+    "react-vizgrammar": "^0.7.17",
     "style-loader": "^0.21.0"
   },
   "scripts": {

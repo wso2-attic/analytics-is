@@ -58,7 +58,7 @@ define stream PerUserRolesDuplicateEventStream (
     token string
 );
 
-@store(type='rdbms', datasource='IS_DATA_DUMP_DB')
+@store(type='rdbms', datasource='IS_ANALYTICS_DB')
 define aggregation RoleAggregation
 from PerUserRolesDuplicateEventStream
 select 
