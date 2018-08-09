@@ -18,7 +18,7 @@
     <parent>
         <artifactId>analytics-is-components</artifactId>
         <groupId>org.wso2.analytics.is</groupId>
-        <version>5.7.0-alpha2-SNAPSHOT</version>
+        <version>5.7.0-alpha2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>bundle</packaging>
