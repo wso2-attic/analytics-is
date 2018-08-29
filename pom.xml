@@ -28,7 +28,7 @@
     <groupId>org.wso2.analytics.is</groupId>
     <artifactId>org.wso2.carbon.analytics.is.parent</artifactId>
     <packaging>pom</packaging>
-    <version>4.3.1-SNAPSHOT</version>
+    <version>5.7.0-SNAPSHOT</version>
     <name>WSO2 Analytics Identity Server - Parent</name>
 
     <url>http://wso2.org</url>
@@ -1067,7 +1067,7 @@
         <siddhi.version>4.2.7</siddhi.version>
 
         <carbon.analytics-common.version>6.0.66</carbon.analytics-common.version>
-        <analytics.solutions.version>1.0.2-SNAPSHOT</analytics.solutions.version>
+        <analytics.solutions.version>1.0.3</analytics.solutions.version>
         <!-- Maven plugins -->
         <!--Bundle Plugin - Overridden from parent due to a bug in latest version related to capability providers-->
         <maven.bundle.plugin.version>2.5.4</maven.bundle.plugin.version>
