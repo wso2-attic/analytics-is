@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<artifact name="AnalyticsConfigEventReceiver" version="1.0.0" type="event/receiver" serverRole="DataAnalyticsServer">
-    <file>IsAnalytics-Receiver-wso2event-AuthenticationData.xml</file>
-</artifact>
