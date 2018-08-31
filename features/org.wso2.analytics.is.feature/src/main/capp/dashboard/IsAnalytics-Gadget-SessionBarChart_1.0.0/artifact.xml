@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<artifact name="IsAnalytics-Gadget-SessionBarChart" version="1.0.0" type="dashboards/gadget" serverRole="DataAnalyticsServer">
-    <file>IsAnalytics_Gadget_SessionBarChart</file>
-</artifact>
-
