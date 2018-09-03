@@ -56,8 +56,8 @@ databridge.config:
       type: Thrift
         # Data receiver properties
       properties:
-        tcpPort: '7611'
-        sslPort: '7711'
+        tcpPort: '7612'
+        sslPort: '7712'
 
   -
       # Data receiver configuration
