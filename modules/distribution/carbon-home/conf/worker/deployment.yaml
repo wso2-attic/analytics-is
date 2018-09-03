@@ -45,7 +45,7 @@ wso2.transport.http:
     -
       id: "msf4j-https"
       host: "0.0.0.0"
-      port: 9443
+      port: 9091
       scheme: https
       keyStoreFile: "${carbon.home}/resources/security/wso2carbon.jks"
       keyStorePassword: wso2carbon
@@ -86,8 +86,8 @@ databridge.config:
       type: Thrift
         # Data receiver properties
       properties:
-        tcpPort: '7611'
-        sslPort: '7711'
+        tcpPort: '7612'
+        sslPort: '7712'
 
   -
       # Data receiver configuration
