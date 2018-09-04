@@ -1111,7 +1111,7 @@
 
         <siddhi.map.wso2event.version>4.0.14</siddhi.map.wso2event.version>
 
-        <siddhi.store.rdbms.version>4.0.27</siddhi.store.rdbms.version>
+        <siddhi.store.rdbms.version>4.0.30</siddhi.store.rdbms.version>
 
         <carbon.coordination.version>2.0.18</carbon.coordination.version>
 
