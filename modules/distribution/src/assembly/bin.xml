@@ -320,6 +320,24 @@
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>
+        <file>
+            <source>carbon-home/conf/dashboard/osgi/launch.properties</source>
+            <outputDirectory>conf/dashboard/osgi/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>carbon-home/conf/manager/osgi/launch.properties</source>
+            <outputDirectory>conf/manager/osgi/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
+            <source>carbon-home/conf/worker/osgi/launch.properties</source>
+            <outputDirectory>conf/worker/osgi/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
 
         <!--Forget me tool-->
         <file>
