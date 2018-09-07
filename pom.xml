@@ -981,10 +981,10 @@
     <properties>
 
         <carbon.analytics.version>2.0.404</carbon.analytics.version>
-        <siddhi.version>4.2.7</siddhi.version>
+        <siddhi.version>4.2.11</siddhi.version>
 
-        <carbon.analytics-common.version>6.0.66</carbon.analytics-common.version>
-        <analytics.solutions.version>1.0.4</analytics.solutions.version>
+        <carbon.analytics-common.version>6.0.67</carbon.analytics-common.version>
+        <analytics.solutions.version>1.0.5</analytics.solutions.version>
         <!-- Maven plugins -->
         <!--Bundle Plugin - Overridden from parent due to a bug in latest version related to capability providers-->
         <maven.bundle.plugin.version>2.5.4</maven.bundle.plugin.version>
@@ -1006,9 +1006,9 @@
 
         <!-- Dependencies -->
         <open.tracing.version>0.31.0</open.tracing.version>
-        <carbon.kernel.version>5.2.7</carbon.kernel.version>
+        <carbon.kernel.version>5.2.8</carbon.kernel.version>
         <carbon.kernel.package.import.version.range>[5.2.0, 6.0.0)</carbon.kernel.package.import.version.range>
-        <carbon.kernel.pax.version>5.2.7</carbon.kernel.pax.version>
+        <carbon.kernel.pax.version>5.2.8</carbon.kernel.pax.version>
 
         <carbon.deployment.version>5.2.0</carbon.deployment.version>
 
@@ -1021,7 +1021,7 @@
         <carbon.utils.version>2.0.7</carbon.utils.version>
         <carbon.config.version>2.1.5</carbon.config.version>
         <carbon.config.version.range>[2.1.0, 3.0.0)</carbon.config.version.range>
-        <carbon.securevault.version>5.0.10</carbon.securevault.version>
+        <carbon.securevault.version>5.0.11</carbon.securevault.version>
 
         <slf4j.version>1.7.5</slf4j.version>
         <slf4j.logging.package.import.version.range>[1.7.1, 2.0.0)
@@ -1029,7 +1029,7 @@
 
         <antlr4.runtime.version>4.5.1.wso2v1</antlr4.runtime.version>
         <!--Dashboard-->
-        <carbon.dashboards.version>4.0.29</carbon.dashboards.version>
+        <carbon.dashboards.version>4.0.34</carbon.dashboards.version>
         <carbon.uis.version>0.19.5</carbon.uis.version>
         <maven.exec.plugin.version>1.5.0</maven.exec.plugin.version>
 
@@ -1075,7 +1075,7 @@
         <common.collections4.version>4.0</common.collections4.version>
 
         <!--MSF4J related-->
-        <msf4j.version>2.6.2</msf4j.version>
+        <msf4j.version>2.6.3</msf4j.version>
         <com.fasterxml.jackson.core.version>2.8.9</com.fasterxml.jackson.core.version>
         <io.swagger.version>1.5.16</io.swagger.version>
         <javax.ws.rs-api.version>2.0</javax.ws.rs-api.version>
@@ -1096,22 +1096,22 @@
         <project.scm.id>scm-server</project.scm.id>
 
         <!--Siddhi Extension Versions-->
-        <siddhi.execution.math.version>4.0.17</siddhi.execution.math.version>
-        <siddhi.execution.unitconversion.version>1.0.13</siddhi.execution.unitconversion.version>
-        <siddhi.execution.regex.version>4.0.12</siddhi.execution.regex.version>
-        <siddhi.execution.string.version>4.0.20</siddhi.execution.string.version>
-        <siddhi.execution.time.version>4.0.14</siddhi.execution.time.version>
-        <siddhi.execution.unique.version>4.0.24</siddhi.execution.unique.version>
-        <siddhi.execution.geo.version>4.0.14</siddhi.execution.geo.version>
-        <siddhi.execution.map.version>4.0.13</siddhi.execution.map.version>
+        <siddhi.execution.math.version>4.0.19</siddhi.execution.math.version>
+        <siddhi.execution.unitconversion.version>1.0.14</siddhi.execution.unitconversion.version>
+        <siddhi.execution.regex.version>4.0.13</siddhi.execution.regex.version>
+        <siddhi.execution.string.version>4.0.23</siddhi.execution.string.version>
+        <siddhi.execution.time.version>4.0.15</siddhi.execution.time.version>
+        <siddhi.execution.unique.version>4.0.25</siddhi.execution.unique.version>
+        <siddhi.execution.geo.version>4.0.15</siddhi.execution.geo.version>
+        <siddhi.execution.map.version>4.0.14</siddhi.execution.map.version>
 
         <siddhi.io.tcp.version>2.0.19</siddhi.io.tcp.version>
 
-        <siddhi.io.wso2event.version>4.0.15</siddhi.io.wso2event.version>
+        <siddhi.io.wso2event.version>4.0.16</siddhi.io.wso2event.version>
 
-        <siddhi.map.wso2event.version>4.0.14</siddhi.map.wso2event.version>
+        <siddhi.map.wso2event.version>4.0.15</siddhi.map.wso2event.version>
 
-        <siddhi.store.rdbms.version>4.0.30</siddhi.store.rdbms.version>
+        <siddhi.store.rdbms.version>4.0.31</siddhi.store.rdbms.version>
 
         <carbon.coordination.version>2.0.18</carbon.coordination.version>
 
