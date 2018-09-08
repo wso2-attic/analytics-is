@@ -1,4 +1,4 @@
-# WSO2 Identiy Server Analytics
+# WSO2 Identity Server Analytics
 
 |  Branch | Build Status |
 | :------------ |:-------------
