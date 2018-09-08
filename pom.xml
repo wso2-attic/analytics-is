@@ -292,6 +292,33 @@
                 <type>zip</type>
             </dependency>
 
+            <!-- Siddhi Editor related -->
+            <dependency>
+                <groupId>org.wso2.carbon.analytics</groupId>
+                <artifactId>org.wso2.carbon.siddhi.editor.core</artifactId>
+                <version>${carbon.analytics.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics</groupId>
+                <artifactId>org.wso2.carbon.siddhi.editor.core.feature</artifactId>
+                <version>${carbon.analytics.version}</version>
+                <type>zip</type>
+            </dependency>
+
+            <!-- Business Rules Templates Editor related -->
+            <dependency>
+                <groupId>org.wso2.carbon.analytics</groupId>
+                <artifactId>org.wso2.carbon.business.rules.templates.editor.core</artifactId>
+                <version>${carbon.analytics.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wso2.carbon.analytics</groupId>
+                <artifactId>org.wso2.carbon.business.rules.templates.editor.core.feature</artifactId>
+                <version>${carbon.analytics.version}</version>
+                <type>zip</type>
+            </dependency>
+
+
             <dependency>
                 <groupId>org.wso2.carbon.analytics</groupId>
                 <artifactId>org.wso2.carbon.stream.processor.common.feature</artifactId>
@@ -980,7 +1007,7 @@
 
     <properties>
 
-        <carbon.analytics.version>2.0.404</carbon.analytics.version>
+        <carbon.analytics.version>2.0.409</carbon.analytics.version>
         <siddhi.version>4.2.11</siddhi.version>
 
         <carbon.analytics-common.version>6.0.67</carbon.analytics-common.version>
