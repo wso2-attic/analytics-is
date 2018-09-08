@@ -284,3 +284,4 @@ cluster.config:
 auth.configs:
   restAPIAuthConfigs:
     authEnable: false
+
