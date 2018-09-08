@@ -19,6 +19,7 @@ wso2.carbon:
     # value to uniquely identify a server
   id: wso2-analytics-is
     # server name
+  type: wso2-is-analytics
   name: WSO2 Analytics Identity Server
     # ports used by this server
   ports:
