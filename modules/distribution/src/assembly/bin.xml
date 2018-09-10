@@ -331,6 +331,12 @@
             <fileMode>644</fileMode>
         </file>
         <file>
+            <source>carbon-home/conf/editor/log4j2.xml</source>
+            <outputDirectory>conf/editor/</outputDirectory>
+            <filtered>true</filtered>
+            <fileMode>644</fileMode>
+        </file>
+        <file>
             <source>carbon-home/conf/manager/log4j2.xml</source>
             <outputDirectory>conf/manager/</outputDirectory>
             <filtered>true</filtered>
@@ -339,12 +345,6 @@
         <file>
             <source>carbon-home/conf/worker/log4j2.xml</source>
             <outputDirectory>conf/worker/</outputDirectory>
-            <filtered>true</filtered>
-            <fileMode>644</fileMode>
-        </file>
-        <file>
-            <source>carbon-home/conf/editor/log4j2.xml</source>
-            <outputDirectory>conf/editor/</outputDirectory>
             <filtered>true</filtered>
             <fileMode>644</fileMode>
         </file>

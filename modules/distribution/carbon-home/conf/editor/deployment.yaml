@@ -1,5 +1,5 @@
 ################################################################################
-#   Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved
+#   Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved
 #
 #   Licensed under the Apache License, Version 2.0 (the \"License\");
 #   you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@
   # Carbon Configuration Parameters
 wso2.carbon:
     # value to uniquely identify a server
-  id: wso2-sp
+  id: wso2-analytics-is
     # server name
-  name: WSO2 Stream Processor
+  name: WSO2 Analytics Identity Server
     # ports used by this server
   ports:
       # port offset
@@ -272,7 +272,7 @@ wso2.datasources:
   # Cluster Configuration
 cluster.config:
   enabled: false
-  groupId:  sp
+  groupId:  is.analytics
   coordinationStrategyClass: org.wso2.carbon.cluster.coordinator.rdbms.RDBMSCoordinationStrategy
   strategyConfig:
     datasource: WSO2_CARBON_DB

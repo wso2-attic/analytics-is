@@ -19,7 +19,7 @@
 
 <FindBugsFilter>
     <Match>
-        <!--Class name="org.wso2.sp.test"/>
+        <!--Class name="org.wso2.is.analytics.test"/>
         <Bug pattern="Some input files use unchecked or unsafe operations."/-->
     </Match>
 </FindBugsFilter>

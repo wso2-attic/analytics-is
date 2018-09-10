@@ -28,14 +28,14 @@ MAINTAINER dasintegrationtest
 # Define commonly used JAVA_HOME variable
 #ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
-RUN mkdir -p /opt/distribution/wso2is-analytics
+RUN mkdir -p /opt/distribution/wso2sp
 RUN mkdir /opt/distribution/msf4j
-ADD tmp/dist/wso2is-analytics-4.0.0* /opt/distribution/wso2is-analytics/
+ADD tmp/dist/wso2sp-4.0.0* /opt/distribution/wso2sp/
 ADD tmp/msf4j /opt/distribution/msf4j/
 
-ADD deployment-ha-node-1.yaml /opt/distribution/wso2is-analytics
-ADD deployment-ha-node-2.yaml /opt/distribution/wso2is-analytics
-ADD log4j2.xml /opt/distribution/wso2is-analytics
+ADD deployment-ha-node-1.yaml /opt/distribution/wso2sp
+ADD deployment-ha-node-2.yaml /opt/distribution/wso2sp
+ADD log4j2.xml /opt/distribution/wso2sp
 
 COPY init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
