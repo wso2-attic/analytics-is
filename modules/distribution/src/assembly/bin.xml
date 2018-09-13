@@ -412,6 +412,5 @@
             <destName>config.json</destName>
             <fileMode>644</fileMode>
         </file>
-
     </files>
 </assembly>
