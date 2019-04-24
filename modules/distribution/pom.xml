@@ -157,10 +157,16 @@
             <artifactId>org.wso2.carbon.event.simulator.core.feature</artifactId>
             <type>zip</type>
         </dependency>
-
         <dependency>
             <groupId>org.wso2.carbon.analytics</groupId>
             <artifactId>org.wso2.carbon.siddhi.store.api.rest.feature</artifactId>
+            <type>zip</type>
+        </dependency>
+
+        <!-- Health Check API related -->
+        <dependency>
+            <groupId>org.wso2.carbon.analytics</groupId>
+            <artifactId>org.wso2.carbon.health.check.core.feature</artifactId>
             <type>zip</type>
         </dependency>
 
@@ -852,6 +858,12 @@
                                     <version>${carbon.analytics.version}</version>
                                 </feature>
 
+                                <!-- Health Check API feature -->
+                                <feature>
+                                    <id>org.wso2.carbon.health.check.core.feature</id>
+                                    <version>${carbon.analytics.version}</version>
+                                </feature>
+
                                 <!-- Distributed Resource/Manager features -->
                                 <feature>
                                     <id>org.wso2.carbon.sp.jobmanager.core.feature</id>
@@ -1147,6 +1159,12 @@
                                     <version>${carbon.analytics.version}</version>
                                 </feature>
 
+                                <!-- Health Check API feature -->
+                                <feature>
+                                    <id>org.wso2.carbon.health.check.core.feature</id>
+                                    <version>${carbon.analytics.version}</version>
+                                </feature>
+
                                 <!-- Authentication feature -->
                                 <feature>
                                     <id>org.wso2.carbon.analytics.msf4j.interceptor.common.feature</id>
@@ -1276,6 +1294,12 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.siddhi.feature.group</id>
+                                    <version>${carbon.analytics.version}</version>
+                                </feature>
+
+                                <!-- Health Check API feature -->
+                                <feature>
+                                    <id>org.wso2.carbon.health.check.core.feature</id>
                                     <version>${carbon.analytics.version}</version>
                                 </feature>
 
@@ -1697,6 +1721,12 @@
                                 </feature>
                                 <feature>
                                     <id>org.wso2.carbon.business.rules.web.feature.group</id>
+                                    <version>${carbon.analytics.version}</version>
+                                </feature>
+
+                                <!-- Health Check API feature -->
+                                <feature>
+                                    <id>org.wso2.carbon.health.check.core.feature</id>
                                     <version>${carbon.analytics.version}</version>
                                 </feature>
 

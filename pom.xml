@@ -292,6 +292,14 @@
                 <type>zip</type>
             </dependency>
 
+            <!-- Health Check API related -->
+            <dependency>
+                <groupId>org.wso2.carbon.analytics</groupId>
+                <artifactId>org.wso2.carbon.health.check.core.feature</artifactId>
+                <version>${carbon.analytics.version}</version>
+                <type>zip</type>
+            </dependency>
+
             <!-- Siddhi Editor related -->
             <dependency>
                 <groupId>org.wso2.carbon.analytics</groupId>
