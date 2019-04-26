@@ -1206,6 +1206,10 @@
                                     <id>org.wso2.carbon.cluster.coordinator.rdbms.feature.group</id>
                                     <version>${carbon.coordination.version}</version>
                                 </feature>
+                                <feature>
+                                    <id>org.wso2.carbon.sp.coordination.listener.feature.group</id>
+                                    <version>${carbon.analytics.version}</version>
+                                </feature>
 
                                 <!-- Distributed Resource feature -->
                                 <feature>
@@ -1744,10 +1748,6 @@
                                 <feature>
                                     <id>org.wso2.analytics.solutions.is.analytics.feature</id>
                                     <version>${analytics.solutions.version}</version>
-                                </feature>
-                                <feature>
-                                    <id>org.wso2.carbon.sp.coordination.listener.feature.group</id>
-                                    <version>${carbon.analytics.version}</version>
                                 </feature>
                             </features>
                         </configuration>
