@@ -28,7 +28,7 @@
     <groupId>org.wso2.analytics.is</groupId>
     <artifactId>org.wso2.carbon.analytics.is.parent</artifactId>
     <packaging>pom</packaging>
-    <version>5.8.0-beta6-SNAPSHOT</version>
+    <version>5.8.0</version>
     <name>WSO2 Analytics Identity Server - Parent</name>
 
     <url>http://wso2.org</url>
@@ -37,7 +37,7 @@
         <url>https://github.com/wso2/analytics-is.git</url>
         <developerConnection>scm:git:https://github.com/wso2/analytics-is.git</developerConnection>
         <connection>scm:git:https://github.com/wso2/analytics-is.git</connection>
-        <tag>HEAD</tag>
+        <tag>v5.8.0-rc1</tag>
     </scm>
 
     <dependencyManagement>
