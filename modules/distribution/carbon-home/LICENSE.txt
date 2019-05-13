@@ -14,6 +14,7 @@ below is and where the actual text of the license can be found.
 Name                                                                            Type           License   
 ---------------------------------------------------------------------------------------------------------
 antlr4-runtime_4.5.1.wso2v1.jar                                                 bundle         bsd       8803      
+axiom-1.2.11.wso2v11.jar                                                        	       apache2       
 com.fasterxml.jackson.core.jackson-annotations_2.9.8.jar                        bundle         apache2   3572      
 com.fasterxml.jackson.core.jackson-core_2.9.8.jar                               bundle         apache2   3573      
 com.fasterxml.jackson.core.jackson-databind_2.9.8.jar                           bundle         apache2   3587      
@@ -32,6 +33,7 @@ commons-io_2.4.0.wso2v1.jar                                                     
 commons-lang-2.6.jar                                                            bundle         apache2   506       
 commons-lang3-3.3.2.jar                                                         bundle         apache2   1940      
 commons-lang3-3.5.jar                                                           bundle         apache2   2105      
+commons-logging-1.2.jar                                                         bundle         apache2   1702      
 commons-pool_1.5.6.wso2v1.jar                                                   bundle         apache2   1009      
 commons-text-1.0.jar                                                            bundle         apache2   2895      
 disruptor_3.3.2.wso2v2.jar                                                      bundle         apache2   4377      
@@ -40,7 +42,7 @@ encoder_1.2.0.wso2v2.jar                                                        
 fabricator_2.10_2.1.4.wso2v1.jar                                                bundle         apache2   14646     
 generex_1.0.0.wso2v1.jar                                                        bundle         apache2   14645     
 gson-2.8.2.jar                                                                  bundle         apache2   2894      
-h2-1.2.140-wso2v3.jar                                                          	       		apache2        
+h2-1.2.140-wso2v3.jar									       epl1	
 h2-database-engine-1.2.140.wso2v3.jar                                           bundle         epl1      16076     
 h2-database-engine_1.2.140.wso2v3.jar                                           bundle         epl1      697       
 handlebars_4.0.3.wso2v1.jar                                                     bundle         apache2   14644     
@@ -64,11 +66,11 @@ io.swagger.core_1.5.16.jar                                                      
 io.swagger.jaxrs_1.5.16.jar                                                     bundle         apache2   2521      
 io.swagger.models_1.5.16.jar                                                    bundle         apache2   2520      
 javassist_3.19.0.GA.jar                                                         bundle         apache2+lgpl2+mpl12178      
-javax.ws.rs-api_2.0.0.jar									cddl+gpl
 javax.validation.api_1.1.0.Final.jar                                            bundle         apache2   1840      
 javax.websocket-api_1.1.0.jar                                                   bundle         cddl+gpl  2368      
 javax.ws.rs-api_2.0.0.jar                                                       bundle         cddl+gpl  1538      
 jaxen_1.1.6.jar   										apache2
+javax.servlet-api_3.1.0.jar.                                                    	       cddl+gpl  
 jaxb-api-2.2.12.jar                                                             bundle         cddl1     2892      
 jaxb-impl-2.2.2.jar                                                             jar            cddl1     2891      
 jaxrs-delegates_2.7.3.jar                                                       bundle         apache2   3747      
@@ -114,10 +116,9 @@ org.eclipse.equinox.simpleconfigurator.manipulator_2.0.200.v20160504-1450.jar   
 org.eclipse.equinox.simpleconfigurator_1.1.200.v20160504-1450.jar               bundle         epl1      2031      
 org.eclipse.equinox.util_1.0.500.v20130404-1337.jar                             bundle         epl1      1094      
 org.eclipse.osgi.compatibility.state_1.0.200.v20160504-1419.jar                 bundle         epl1      2030      
-org.eclipse.osgi.services_3.4.0.v20140312-2051.jar                              bundle         epl1      1412      
-org.eclipse.osgi-3.10.2.v20150203-1939.jar							epl1
-org.eclipse.osgi.services_3.5.100.v20160504-1419.jar                            bundle         epl1      2029      
 org.eclipse.osgi.services-3.4.0.v20140312-2051.jar						epl1
+org.eclipse.osgi.services_3.4.0.v20140312-2051.jar                              bundle         epl1      1412      
+org.eclipse.osgi.services_3.5.100.v20160504-1419.jar                            bundle         epl1      2029      
 org.eclipse.osgi_3.11.0.v20160603-1336.jar                                      bundle         epl1      2028      
 org.h2_1.4.196.jar                                                              bundle         apache2   2362      
 org.hdrhistogram.HdrHistogram_2.1.10.jar                                        bundle         apache2   2361      
@@ -125,11 +126,16 @@ org.ops4j.pax.logging.pax-logging-api_1.10.0.jar                                
 org.ops4j.pax.logging.pax-logging-log4j2_1.10.0.jar                             bundle         apache2   2208      
 org.osgi.core-6.0.0.jar                                                         bundle         apache2   1407      
 org.wso2.carbon.analytics.auth.rest.api_2.1.18.jar                              bundle         apache2   19489     
+org.wso2.carbon.analytics.auth.rest.api_2.1.19.jar                              bundle         apache2   19888     
 org.wso2.carbon.analytics.idp.client_6.1.26.jar                                 bundle         apache2   19486     
 org.wso2.carbon.analytics.msf4j.interceptor.common_2.1.18.jar                   bundle         apache2   19498     
+org.wso2.carbon.analytics.msf4j.interceptor.common_2.1.19.jar                   bundle         apache2   19897     
 org.wso2.carbon.analytics.permissions_6.1.26.jar                                bundle         apache2   19505     
+org.wso2.carbon.base-4.4.21.jar                                                 bundle         apache2   19094     
 org.wso2.carbon.business.rules.core_2.1.18.jar                                  bundle         apache2   19481     
+org.wso2.carbon.business.rules.core_2.1.19.jar                                  bundle         apache2   19886     
 org.wso2.carbon.business.rules.templates.editor.core_2.1.18.jar                 bundle         apache2   19495     
+org.wso2.carbon.business.rules.templates.editor.core_2.1.19.jar                 bundle         apache2   20147     
 org.wso2.carbon.caching_1.1.3.jar                                               bundle         apache2   14020     
 org.wso2.carbon.cluster.coordinator.commons_2.1.1.jar                           bundle         apache2   19007     
 org.wso2.carbon.cluster.coordinator.rdbms_2.1.1.jar                             bundle         apache2   18983     
@@ -141,6 +147,7 @@ org.wso2.carbon.dashboards.api_4.0.65.jar                                       
 org.wso2.carbon.dashboards.core_4.0.65.jar                                      bundle         apache2   19511     
 org.wso2.carbon.dashboards.siddhi.apps.api_4.0.65.jar                           bundle         apache2   19509     
 org.wso2.carbon.data.provider_2.1.18.jar                                        bundle         apache2   19508     
+org.wso2.carbon.data.provider_2.1.19.jar                                        bundle         apache2   19900     
 org.wso2.carbon.database.query.manager_6.1.26.jar                               bundle         apache2   19500     
 org.wso2.carbon.databridge.agent_6.1.26.jar                                     bundle         apache2   19504     
 org.wso2.carbon.databridge.commons.binary_6.1.26.jar                            bundle         apache2   19482     
@@ -154,12 +161,16 @@ org.wso2.carbon.datasource.core_1.1.4.jar                                       
 org.wso2.carbon.deployment.engine_5.2.0.jar                                     bundle         apache2   14797     
 org.wso2.carbon.deployment.notifier_5.2.0.jar                                   bundle         apache2   14796     
 org.wso2.carbon.editor.log.appender_2.1.18.jar                                  bundle         apache2   19507     
+org.wso2.carbon.editor.log.appender_2.1.19.jar                                  bundle         apache2   20149     
 org.wso2.carbon.event.simulator.core_2.1.18.jar                                 bundle         apache2   19476     
+org.wso2.carbon.event.simulator.core_2.1.19.jar                                 bundle         apache2   19884     
 org.wso2.carbon.extensions.touchpoint_1.1.1.jar                                 bundle         apache2   14616     
 org.wso2.carbon.health.check.core_2.1.18.jar                                    bundle         apache2   19479     
+org.wso2.carbon.health.check.core_2.1.19.jar                                    bundle         apache2   20145     
 org.wso2.carbon.jndi-1.0.0-alpha.jar                                            bundle         apache2   16072     
 org.wso2.carbon.jndi_1.0.5.jar                                                  bundle         apache2   14012     
 org.wso2.carbon.launcher-5.2.8.jar                                              bundle         apache2   18121     
+org.wso2.carbon.logging-4.4.21.jar                                              bundle         apache2   19098     
 org.wso2.carbon.messaging_3.0.2.jar                                             bundle         apache2   14011     
 org.wso2.carbon.metrics.core_2.3.8.jar                                          bundle         apache2   19015     
 org.wso2.carbon.metrics.das.core_2.3.8.jar                                      bundle         apache2   18987     
@@ -167,26 +178,47 @@ org.wso2.carbon.metrics.das.reporter_2.3.8.jar                                  
 org.wso2.carbon.metrics.jdbc.core_2.3.8.jar                                     bundle         apache2   19009     
 org.wso2.carbon.metrics.jdbc.reporter_2.3.8.jar                                 bundle         apache2   19011     
 org.wso2.carbon.permissions.rest.api_2.1.18.jar                                 bundle         apache2   19485     
+org.wso2.carbon.permissions.rest.api_2.1.19.jar                                 bundle         apache2   19889     
 org.wso2.carbon.privacy.forgetme.analytics.streams-1.1.21.jar                   bundle         apache2   17914     
+org.wso2.carbon.privacy.forgetme.analytics.streams-1.1.23.jar                   bundle         apache2   19101     
 org.wso2.carbon.privacy.forgetme.api-1.1.21.jar                                 bundle         apache2   17913     
+org.wso2.carbon.privacy.forgetme.api-1.1.23.jar                                 bundle         apache2   19102     
 org.wso2.carbon.privacy.forgetme.logs-1.1.21.jar                                bundle         apache2   17912     
+org.wso2.carbon.privacy.forgetme.logs-1.1.23.jar                                bundle         apache2   19097     
 org.wso2.carbon.privacy.forgetme.sql-1.1.21.jar                                 bundle         apache2   17911     
+org.wso2.carbon.privacy.forgetme.sql-1.1.23.jar                                 bundle         apache2   19095     
 org.wso2.carbon.privacy.forgetme.tool-1.1.21.jar                                bundle         apache2   17910     
+org.wso2.carbon.privacy.forgetme.tool-1.1.23.jar                                bundle         apache2   19096     
+org.wso2.carbon.privacy.forgetme.userstore-1.1.23.jar                           bundle         apache2   19099     
 org.wso2.carbon.secvault.ciphertool.5.0.13.jar                                  bundle         apache2   19024     
 org.wso2.carbon.secvault_5.0.13.jar                                             bundle         apache2   18995     
 org.wso2.carbon.siddhi.editor.core_2.1.18.jar                                   bundle         apache2   19483     
+org.wso2.carbon.siddhi.editor.core_2.1.19.jar                                   bundle         apache2   20146     
 org.wso2.carbon.siddhi.store.api.rest_2.1.18.jar                                bundle         apache2   19503     
+org.wso2.carbon.siddhi.store.api.rest_2.1.19.jar                                bundle         apache2   19898     
 org.wso2.carbon.sp.coordination.listener_2.1.18.jar                             bundle         apache2   19502     
+org.wso2.carbon.sp.coordination.listener_2.1.19.jar                             bundle         apache2   20148     
 org.wso2.carbon.sp.distributed.resource.core_2.1.18.jar                         bundle         apache2   19506     
+org.wso2.carbon.sp.distributed.resource.core_2.1.19.jar                         bundle         apache2   19901     
 org.wso2.carbon.sp.jobmanager.core_2.1.18.jar                                   bundle         apache2   19492     
+org.wso2.carbon.sp.jobmanager.core_2.1.19.jar                                   bundle         apache2   19891     
 org.wso2.carbon.sp.metrics.core_2.1.18.jar                                      bundle         apache2   19484     
+org.wso2.carbon.sp.metrics.core_2.1.19.jar                                      bundle         apache2   19887     
 org.wso2.carbon.status.dashboard.core_2.1.18.jar                                bundle         apache2   19494     
+org.wso2.carbon.status.dashboard.core_2.1.19.jar                                bundle         apache2   19892     
 org.wso2.carbon.stream.processor.common_2.1.18.jar                              bundle         apache2   19497     
+org.wso2.carbon.stream.processor.common_2.1.19.jar                              bundle         apache2   19895     
 org.wso2.carbon.stream.processor.core_2.1.18.jar                                bundle         apache2   19496     
+org.wso2.carbon.stream.processor.core_2.1.19.jar                                bundle         apache2   19893     
 org.wso2.carbon.stream.processor.statistics_2.1.18.jar                          bundle         apache2   19499     
+org.wso2.carbon.stream.processor.statistics_2.1.19.jar                          bundle         apache2   19896     
 org.wso2.carbon.tools.core-5.2.8.jar                                            bundle         apache2   18122     
 org.wso2.carbon.uiserver_1.0.2.jar                                              bundle         apache2   19480     
+org.wso2.carbon.user.api-4.4.21.jar                                             bundle         apache2   19093     
+org.wso2.carbon.user.core-4.4.21.jar                                            bundle         apache2   19103     
+org.wso2.carbon.utils-4.4.21.jar                                                bundle         apache2   19092     
 org.wso2.carbon.utils_2.0.8.jar                                                 bundle         apache2   18126     
+org.wso2.securevault-1.0.0-wso2v2.jar                                           bundle         apache2   3537      
 org.wso2.transport.http.netty_6.0.289.jar                                       bundle         apache2   19490     
 org.yaml.snakeyaml_1.19.0.jar                                                   bundle         apache2   2503      
 org.yaml.snakeyaml_1.23.0.jar                                                   bundle         apache2   3590      
@@ -257,6 +289,7 @@ slf4j.api_1.7.12.jar                                                            
 slf4j.log4j12_1.7.12.jar                                                        bundle         mit       1288      
 snakeyaml_1.16.0.wso2v1.jar                                                     bundle         apache2   6274      
 tapestry-json_5.4.1.wso2v1.jar                                                  bundle         apache2   14597     
+xercesImpl-2.8.1.wso2v2.jar                                                     bundle         apache2   663       
 xml-resolver-1.2.jar                                                            jarinbundle    apache2   431       
 
 
