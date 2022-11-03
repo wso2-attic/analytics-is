@@ -1335,7 +1335,7 @@
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-collections4.version>4.0</commons-collections4.version>
         <kafka-2.10.version>0.8.1.1</kafka-2.10.version>
-        <common.collections4.version>4.0</common.collections4.version>
+        <common.collections4.version>4.1</common.collections4.version>
 
         <!--MSF4J related-->
         <msf4j.version>2.7.3</msf4j.version>
