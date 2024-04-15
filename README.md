@@ -1,9 +1,10 @@
+# This repository is no longer maintained.
+
+Issue reports and pull requests will not be attended.
+
+Visit [identity-elk-integration](https://github.com/wso2-extensions/identity-elk-integration) for latest analytics solution with ELK.
+
 # WSO2 Identity Server Analytics
-
-|  Branch | Build Status |
-| :------------ |:-------------
-| master      | [![Build Status](https://wso2.org/jenkins/view/analytics/job/analytics-products/job/analytics-is/badge/icon)](https://wso2.org/jenkins/view/analytics/job/analytics-products/job/analytics-is) |
-
 
 WSO2 Identity Server Analytics can be used to monitor authentication related analytics for residence and federated authentication scenarios of [WSO2 Identity Server](http://wso2.com/products/identity-server/).
 
@@ -19,17 +20,10 @@ overall success and failure login attempts and authentication attempts views for
 
 # System Requirements
 
-
 1. Memory   - 2 GB minimum
 2. Disk     - 1 GB minimum for unpacking the distribution
 3. Java(TM) - Oracle Java SE Development Kit 1.8 or later
 
-
-# How to Contribute
-  
- Please report issues to [analytics-is github issues](https://github.com/wso2/analytics-is/issues)
- Send your pull requests to the [analytics-is](https://github.com/wso2/analytics-is) repository
-  
 # Contact us
   
 You can talk to us via the following mailing lists:
